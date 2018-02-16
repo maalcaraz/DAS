@@ -1,0 +1,42 @@
+package ar.edu.ubp.das.ws;
+
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import ar.edu.ubp.das.mvc.action.DynaActionForm;
+import ar.edu.ubp.das.mvc.db.DaoFactory;
+import ar.edu.ubp.das.src.estados.daos.MSEstadosClientesDao;
+
+public class EstadosClientesWS {
+
+	public String getEstados(){
+		
+		List<DynaActionForm> estadosCuentas = new LinkedList<DynaActionForm>();
+		
+		try {
+			MSEstadosClientesDao dao = (MSEstadosClientesDao)DaoFactory.getDao( "EstadosClientes", "ar.edu.ubp.das.src.estados" );
+			DynaActionForm daf = new DynaActionForm();
+		
+			estadosCuentas = dao.select(daf);
+			
+			LinkedList<Map<String,Object>> estadosForJson = new LinkedList<Map<String,Object>>();
+			
+			for( DynaActionForm c : estadosCuentas ) {
+				estadosForJson.add(c.getItems());
+			}
+			
+			Gson gson = new GsonBuilder().create();
+			
+			return gson.toJson(estadosForJson);
+			
+		} 
+		catch ( SQLException error ) {
+    	    return error.toString();
+		}
+	}
+}

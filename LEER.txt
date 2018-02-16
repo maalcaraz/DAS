@@ -1,0 +1,2 @@
+Proyecto rest creado como lo haciamos en un principio, pero obteniendo
+los valores de la base de datos usando el patron DAOS.

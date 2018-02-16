@@ -1,0 +1,17 @@
+<xs:schema xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.das.ubp.edu.ar/" version="1.0">
+
+  <xs:element name="getEstados" type="tns:getEstados"/>
+
+  <xs:element name="getEstadosResponse" type="tns:getEstadosResponse"/>
+
+  <xs:complexType name="getEstados">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getEstadosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
