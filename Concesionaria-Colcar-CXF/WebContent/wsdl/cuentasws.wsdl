@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CuentasWSService" targetNamespace="http://ws.das.ubp.edu.ar/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://ws.das.ubp.edu.ar/" schemaLocation="cuentasws_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getCuentasClientes">
+    <wsdl:part name="parameters" element="tns:getCuentasClientes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part name="Exception" element="tns:Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCuentasClientesResponse">
+    <wsdl:part name="parameters" element="tns:getCuentasClientesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CuentasWS">
+    <wsdl:operation name="getCuentasClientes">
+      <wsdl:input name="getCuentasClientes" message="tns:getCuentasClientes">
+    </wsdl:input>
+      <wsdl:output name="getCuentasClientesResponse" message="tns:getCuentasClientesResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="tns:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CuentasWSServiceSoapBinding" type="tns:CuentasWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCuentasClientes">
+      <soap:operation soapAction="urn:GetCuentasClientes" style="document"/>
+      <wsdl:input name="getCuentasClientes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCuentasClientesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CuentasWSService">
+    <wsdl:port name="CuentasWSPort" binding="tns:CuentasWSServiceSoapBinding">
+      <soap:address location="http://localhost:8080/Concesionaria-Colcar-CXF/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
