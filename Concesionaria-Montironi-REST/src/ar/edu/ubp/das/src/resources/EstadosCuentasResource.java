@@ -13,7 +13,7 @@ import ar.edu.ubp.das.daos.MSEstadosCuentasDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 
-@Path("/autohaus")
+@Path("/montironi")
 @Produces(MediaType.APPLICATION_JSON) 
 public class EstadosCuentasResource {
 	 @Path("/ejemplo")
@@ -27,13 +27,17 @@ public class EstadosCuentasResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getEstadosClientes() {
+
 			List<Bean> estadosCuentas = new LinkedList<Bean>();
+			
 			try {
 				MSEstadosCuentasDao dao = (MSEstadosCuentasDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
 				estadosCuentas = dao.select();
 				return Response.status( Response.Status.OK ).entity(estadosCuentas).build();
+				
 			} 
 			catch ( SQLException error ) {
+
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
 			}
 		}}

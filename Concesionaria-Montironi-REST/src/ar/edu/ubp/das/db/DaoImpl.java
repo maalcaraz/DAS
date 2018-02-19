@@ -1,5 +1,6 @@
-package ar.edu.ubp.das.mvc.db;
+package ar.edu.ubp.das.db;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,10 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import ar.edu.ubp.das.mvc.action.DynaActionForm;
-import ar.edu.ubp.das.mvc.config.DatasourceConfig;
 
 public abstract class DaoImpl implements Dao {
 
@@ -45,20 +42,15 @@ public abstract class DaoImpl implements Dao {
 
     public void connect() throws SQLException {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-            
-            ResourceBundle rb = ResourceBundle.getBundle("database");
-            
-            this.connection = DriverManager.getConnection(rb.getString("url"),
-										            	  rb.getString("usuario"),
-										            	  rb.getString("password"));
+            Class.forName(DaoProp.getProperty("Driver")).newInstance();
+            this.connection = DriverManager.getConnection(DaoProp.getProperty("StringConnection"));
             this.connection.setAutoCommit(true);
         }
-        catch(InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+        catch(InstantiationException | IllegalAccessException | ClassNotFoundException | IOException ex) {
             throw new SQLException(ex.getMessage());
         }
         catch(SQLException ex) {
-            throw new SQLException(ex.getMessage());
+            throw new SQLException("Datos del login nulos");
         }
     }
     
@@ -84,19 +76,13 @@ public abstract class DaoImpl implements Dao {
         return rows;
     }
 
-    public List<DynaActionForm> executeQuery() throws SQLException {
-    	
-        List<DynaActionForm> list   = new LinkedList<DynaActionForm>();
+    public List<Bean> executeQuery() throws SQLException {
+        List<Bean> list   = new LinkedList<Bean>();
         ResultSet            result = this.statement.executeQuery();
-        
         while(result.next()) {
-        	
             list.add(this.make(result));
         }
         return list;
-    }
-	
-    public void setDatasource(DatasourceConfig datasource) {
     }
 
     public void setProcedure(String procedure) throws SQLException {
