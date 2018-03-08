@@ -1,4 +1,4 @@
-use das
+use maipu
 
 drop table adquiridos
 drop table planes_modelos
@@ -17,7 +17,6 @@ drop table colores
 drop table tipos_vehiculos
 drop table nacionalidades
 go
-
 
 create table nacionalidades
 (
@@ -391,7 +390,7 @@ go
 create table cuotas
 (
 	id_cuota				smallint		not null,
-	dni_cliente			char(8)			not null,
+	dni_cliente				char(8)			not null,
 	id_plan					integer			not null,
 	importe					decimal(10,2)	null, -- por defecto
 	fecha_vencimiento		date			null,
@@ -461,3 +460,35 @@ end;
 go
 
 execute dbo.get_estados_cuentas
+go
+
+--Trigger 
+
+--1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
+
+CREATE TRIGGER tu_ri_patentes
+ON adquiridos
+FOR update
+AS
+	BEGIN
+		IF EXISTS (
+					select * from 
+					adquiridos a join vehiculos v
+					on a.nro_chasis = v.nro_chasis
+					where a.nro_chasis <> null
+					and a.fecha_entrega > getDate()
+					)
+		BEGIN
+				UPDATE v
+				SET v.nro_patente = 'AA-aaa-aa' -- actualizar. Agregamos una tabla 'patentes'?
+				FROM vehiculos v
+				where exists (
+								select * from 
+								adquiridos a join vehiculos v
+								on a.nro_chasis = v.nro_chasis
+								where a.nro_chasis <> null
+								and a.fecha_entrega > getDate()
+							)
+		END
+	END
+go
