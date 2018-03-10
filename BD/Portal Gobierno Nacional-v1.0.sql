@@ -1,7 +1,9 @@
 use portalgob
 
 
+drop procedure dbo.validar_usuarios
 
+go
 drop table usuarios
 drop table participantes_sorteos
 drop table sorteos
@@ -137,13 +139,12 @@ insert into usuarios(id_usuario, pass)
 values ('admin', 'intel123')
 go
 
-drop procedure dbo.validar_usuarios
-go
+
 
 create procedure dbo.validar_usuarios
 (
-	@username		varchar(20) = null,
-	@password		varchar(30) = null
+	@username		varchar(max) = null,
+	@password		varchar(max) = null
 )
 AS
 BEGIN
@@ -154,13 +155,25 @@ BEGIN
 					and u.pass = @password
 				   )
 			begin
-				select 1
+				select existe = 1
 			end
 		else
 			begin
-				select 0
+				select existe = 0
 			end
 END
 go
 --execute dbo.validar_usuarios 'Pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
+
+
+
+create procedure dbo.validar_usuario
+AS
+BEGIN
+		select * from usuarios u
+			where u.id_usuario = 'admin'
+			and u.pass = 'intel123'
+		
+END
+go

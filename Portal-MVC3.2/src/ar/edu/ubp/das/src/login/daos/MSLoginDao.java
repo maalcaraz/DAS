@@ -38,13 +38,13 @@ public class MSLoginDao extends DaoImpl{
 		
 		this.connect();
 		
-		this.setProcedure("dbo.validar_usuarios(?,?)",ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		this.setProcedure("dbo.validar_usuarios(?,?)");
 		
-		this.setParameter(1, form.getItem("user"));
-		this.setParameter(2, form.getItem("pass"));
+		 this.setParameter(1, "holaa");// form.getItem("user"));
+		 this.setParameter(2, "mundo");// form.getItem("pass"));
 		
-		
-		this.executeValidateQuery(); 
+		// this.getStatement().executeQuery();
+		this.executeQuery(); 
 		
 		
 		this.disconnect();
