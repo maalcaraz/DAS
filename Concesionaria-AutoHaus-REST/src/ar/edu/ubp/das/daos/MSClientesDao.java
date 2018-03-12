@@ -7,9 +7,9 @@ import java.util.List;
 
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
-import ar.edu.ubp.das.src.beans.EstadoCuentaBean;
+import ar.edu.ubp.das.src.beans.ClienteBean;
 
-public class MSEstadosCuentasDao extends DaoImpl {
+public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
@@ -27,7 +27,7 @@ public class MSEstadosCuentasDao extends DaoImpl {
 	public void update(Bean form) throws SQLException {
 		this.connect();
 		
-		EstadoCuentaBean f = (EstadoCuentaBean) form;
+		ClienteBean f = (ClienteBean) form;
 		//Procesamiento para notificar los nuevos ganadores
 		this.setProcedure("dbo.cancelar_ganador(?,?)");
 		this.setParameter(1, f.getDniCliente());
@@ -48,8 +48,8 @@ public class MSEstadosCuentasDao extends DaoImpl {
 	public List<Bean> select() throws SQLException {
 		
 		// Estructuras iniciales
-		List<Bean> 	estadosCuentas = new LinkedList<Bean>();
-		EstadoCuentaBean 	estadoRecuperado;
+		List<Bean> 	clientes = new LinkedList<Bean>();
+		ClienteBean clienteRecuperado;
 		
 		// Operaciones en BD
 		this.connect();
@@ -61,17 +61,17 @@ public class MSEstadosCuentasDao extends DaoImpl {
 
         // Almacenamiento en la estructura a retornar en el servicio
         while (result.next()){
-        	estadoRecuperado = new EstadoCuentaBean();
-        	estadoRecuperado.setDniCliente(result.getString("dni_cliente"));
-        	estadoRecuperado.setNomCliente(result.getString("apellido_nombre"));
-        	estadoRecuperado.setEmailCliente(result.getString("email"));
-    		estadosCuentas.add(estadoRecuperado);
+        	clienteRecuperado = new ClienteBean();
+        	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
+        	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
+        	clienteRecuperado.setEmailCliente(result.getString("email"));
+        	clientes.add(clienteRecuperado);
         	result.next();
         }
     	
 		this.disconnect();
 		
-		return estadosCuentas;
+		return clientes;
 	}
 
 	@Override

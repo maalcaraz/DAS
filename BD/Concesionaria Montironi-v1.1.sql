@@ -1,4 +1,4 @@
-use das
+use montironi
 
 drop table ganadores
 drop table plan_comprador
@@ -456,3 +456,17 @@ begin
 end;
 go
 
+
+create procedure dbo.get_estados_cuentas
+as
+begin
+  select c.dni_cliente,
+         c.apellido_nombre,
+		 c.email
+	from clientes c (nolock)
+   order by c.apellido_nombre
+end;
+go
+
+execute dbo.get_estados_cuentas
+go
