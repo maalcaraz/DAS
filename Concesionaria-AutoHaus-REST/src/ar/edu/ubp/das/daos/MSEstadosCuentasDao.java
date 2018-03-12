@@ -25,7 +25,10 @@ public class MSEstadosCuentasDao extends DaoImpl {
 
 	@Override
 	public void update(Bean form) throws SQLException {
-		// TODO Auto-generated method stub
+
+
+		
+		
 
 	}
 

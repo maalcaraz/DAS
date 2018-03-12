@@ -22,20 +22,20 @@ public class ValidateLoginAction implements Action{
 		String user = request.getParameter("user") == null ? "NO TRAJO NADA" : request.getParameter("user");
 		String pass = request.getParameter("pwd") == null ? "NO TRAJO NADA" : request.getParameter("pwd");
 		
-		System.out.println(user);
-		
 		MSLoginDao dao = (MSLoginDao)DaoFactory.getDao("Login", "login");
 		
 		DynaActionForm daf = new DynaActionForm();
 		
-		daf.setItem("user", "admin");
-		daf.setItem("pass", "intel123");
-		
-		dao.select(daf);
-		
-		
-		
-		return mapping.getForwardByName("success");
+		daf.setItem("user", user);
+		daf.setItem("pass", pass);
+		boolean res = dao.valid(daf);
+		if (res) {
+			System.out.println(res);
+			return mapping.getForwardByName("success");
+		}
+		else {
+			System.out.println(res);
+			return mapping.getForwardByName("failure");
+		}
 	}
-
 }
