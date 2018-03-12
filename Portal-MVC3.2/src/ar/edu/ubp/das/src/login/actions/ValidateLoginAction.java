@@ -28,14 +28,17 @@ public class ValidateLoginAction implements Action{
 		
 		DynaActionForm daf = new DynaActionForm();
 		
-		daf.setItem("user", "admin");
-		daf.setItem("pass", "intel123");
+		daf.setItem("user", user);
+		daf.setItem("pass", pass);
 		
-		dao.select(daf);
+		boolean res = dao.valid(daf);
 		
-		
-		
-		return mapping.getForwardByName("success");
+		//
+		if (res){
+			return mapping.getForwardByName("success");
+		}
+		else {
+			throw new RuntimeException("Error de validacion de usuario"); 
+		}
 	}
-
 }
