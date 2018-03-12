@@ -492,3 +492,33 @@ AS
 		END
 	END
 go
+
+drop procedure dbo.cancelar_ganador
+go 
+
+CREATE PROCEDURE dbo.cancelar_ganador
+(
+	@dniCliente		char(8),
+	@fechaSorteo	varchar(10)
+)
+AS
+BEGIN
+
+	if exists (
+				Select * from clientes c
+				where c.dni_cliente = @dniCliente
+				)
+	UPDATE a
+		SET a.fecha_sorteado = convert(varchar(8), @fechaSorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
+			a.ganador_sorteo = 'S'
+		FROM adquiridos a
+		where a.dni_cliente = @dniCliente
+END
+go
+
+-- execute dbo.cancelar_ganador '25555555', '02-02-18' 
+
+-- lo probamos con 
+
+select * from adquiridos a
+where a.ganador_sorteo = 'S'
