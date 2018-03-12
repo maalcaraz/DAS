@@ -36,26 +36,22 @@ public class MSLoginDao extends DaoImpl{
 	@Override
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
 		
-		this.connect();
-		
-		this.setProcedure("dbo.validar_usuarios(?,?)");
-		
-		 this.setParameter(1, "holaa");// form.getItem("user"));
-		 this.setParameter(2, "mundo");// form.getItem("pass"));
-		
-		// this.getStatement().executeQuery();
-		this.executeQuery(); 
-		
-		
-		this.disconnect();
 		return null;
 	}
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
 		
+		boolean result;
+		this.connect();
+		this.setProcedure("dbo.validar_usuarios(?,?)");
+		this.setParameter(1, form.getItem("user"));
+		this.setParameter(2, form.getItem("pass"));
+		result = this.executeValidateQuery(); 
+		this.disconnect();
 		
-		return false;
+		
+		return result;
 	}
 
 }

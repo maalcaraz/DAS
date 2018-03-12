@@ -13,8 +13,8 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		                /*jUtils.showing("result", html);*/
-		            	window.location.replace("./cuentas/Default.do");
+		                jUtils.showing("result", html);
+		            	/* window.location.replace("./cuentas/Default.do");*/
 		            }
 		        });		
 			

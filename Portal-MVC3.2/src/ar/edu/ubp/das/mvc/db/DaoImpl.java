@@ -90,11 +90,10 @@ public abstract class DaoImpl implements Dao {
     
     public boolean executeValidateQuery() throws SQLException {
     	boolean response = false;
-        ResultSet            result = this.statement.executeQuery();
+        ResultSet result = this.statement.executeQuery();
         if(result.next()) {
-            response = (boolean)result.getBoolean(0);
+            response = result.getBoolean("existe");
         }
-        System.out.println(response);
         return response;
     }
 	
