@@ -11,14 +11,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ar.edu.ubp.das.daos.MSEstadosCuentasDao;
+import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
-import ar.edu.ubp.das.src.beans.EstadoCuentaBean;
+import ar.edu.ubp.das.src.beans.ClienteBean;
 
 @Path("/autohaus")
 @Produces(MediaType.APPLICATION_JSON) 
-public class EstadosCuentasResource {
+public class ClientesResource {
 	 @Path("/ejemplo")
 	 @POST  
 	 public Response funcionEjemplo( ) {
@@ -26,15 +26,15 @@ public class EstadosCuentasResource {
 		 return Response.status( Response.Status.OK ).entity( ret ).build();
 	 }
 	 
-	@Path("/estadosClientes")
+	@Path("/datosClientes")
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response getEstadosClientes() {
-			List<Bean> estadosCuentas = new LinkedList<Bean>();
+	public Response getClientes() {
+			List<Bean> clientes = new LinkedList<Bean>();
 			try {
-				MSEstadosCuentasDao dao = (MSEstadosCuentasDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
-				estadosCuentas = dao.select();
-				return Response.status( Response.Status.OK ).entity(estadosCuentas).build();
+				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+				clientes = dao.select();
+				return Response.status( Response.Status.OK ).entity(clientes).build();
 			} 
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
@@ -49,9 +49,9 @@ public class EstadosCuentasResource {
 			                  @FormParam("fecha_sorteo") String fechaSorteo) {
         try {
         	
-        	MSEstadosCuentasDao dao = (MSEstadosCuentasDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
         	
-        	EstadoCuentaBean e = new EstadoCuentaBean();
+        	ClienteBean e = new ClienteBean();
         	e.setDniCliente(dniCliente);
         	e.setNomCliente(nombreApellido);
         	e.setFechaSorteo(fechaSorteo);

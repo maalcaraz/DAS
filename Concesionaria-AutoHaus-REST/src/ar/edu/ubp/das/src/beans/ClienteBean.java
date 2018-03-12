@@ -2,7 +2,7 @@ package ar.edu.ubp.das.src.beans;
 
 import ar.edu.ubp.das.db.Bean;
 
-public class EstadoCuentaBean implements Bean{
+public class ClienteBean implements Bean{
 
 	//Atributos
 	private String dniCliente;
@@ -11,7 +11,7 @@ public class EstadoCuentaBean implements Bean{
 	private String fechaSorteo;
 
 	//Constructor publico
-	public EstadoCuentaBean(){}
+	public ClienteBean(){}
 	
 	//Metodos
 	public String getDniCliente() {
