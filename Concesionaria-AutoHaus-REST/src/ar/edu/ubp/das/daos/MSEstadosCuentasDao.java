@@ -25,14 +25,23 @@ public class MSEstadosCuentasDao extends DaoImpl {
 
 	@Override
 	public void update(Bean form) throws SQLException {
-		// TODO Auto-generated method stub
+		this.connect();
+		
+		EstadoCuentaBean f = (EstadoCuentaBean) form;
+		//Procesamiento para notificar los nuevos ganadores
+		this.setProcedure("dbo.cancelar_ganador(?,?)");
+		this.setParameter(1, f.getDniCliente());
+		this.setParameter(2, f.getFechaSorteo());
+		
+		this.executeUpdate();
+		
+		this.disconnect();
 
 	}
 
 	@Override
 	public void delete(Bean form) throws SQLException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -8,7 +8,8 @@ public class EstadoCuentaBean implements Bean{
 	private String dniCliente;
 	private String nomCliente;
 	private String emailCliente;
-	
+	private String fechaSorteo;
+
 	//Constructor publico
 	public EstadoCuentaBean(){}
 	
@@ -30,5 +31,12 @@ public class EstadoCuentaBean implements Bean{
 	}
 	public void setEmailCliente(String emailCliente) {
 		this.emailCliente = emailCliente;
+	}
+	public String getFechaSorteo() {
+		return fechaSorteo;
+	}
+
+	public void setFechaSorteo(String fechaSorteo) {
+		this.fechaSorteo = fechaSorteo;
 	}
 }

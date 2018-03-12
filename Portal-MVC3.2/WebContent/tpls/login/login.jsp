@@ -37,6 +37,7 @@ class="close" title="Close Modal">&times;</span>
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
+    <div id="message"> </div>
     </form>
     </div>
   
