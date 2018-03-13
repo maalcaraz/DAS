@@ -9,6 +9,13 @@ public class ClienteBean implements Bean{
 	private String nomCliente;
 	private String emailCliente;
 	private String fechaSorteo;
+	public String toString;
+
+	@Override
+	public String toString() {
+		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente
+				+ ", fechaSorteo=" + fechaSorteo + ", toString=" + toString + "]";
+	}
 
 	//Constructor publico
 	public ClienteBean(){}

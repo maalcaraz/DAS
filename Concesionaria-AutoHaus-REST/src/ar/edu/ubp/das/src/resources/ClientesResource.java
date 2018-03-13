@@ -34,7 +34,7 @@ public class ClientesResource {
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				clientes = dao.select();
-				return Response.status( Response.Status.OK ).entity(clientes).build();
+				return Response.status( Response.Status.OK ).entity(clientes.toString()).build();
 			} 
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
@@ -44,19 +44,30 @@ public class ClientesResource {
 	@Path("/notificarGanador")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response getVideos(@FormParam("dni_cliente") String dniCliente, 
-			                  @FormParam("nombre_apellido") String nombreApellido,
-			                  @FormParam("fecha_sorteo") String fechaSorteo) {
+	public Response notificarGanador(@FormParam("id_concesionaria") String idConcesionaria,
+									@FormParam("dni_cliente") String dniCliente, 
+									@FormParam("nombre_apellido") String nombreApellido,
+									@FormParam("email_cliente") String emailCliente,
+									@FormParam("fecha_sorteo") String fechaSorteo) {
         try {
         	
-        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	
         	ClienteBean e = new ClienteBean();
         	e.setDniCliente(dniCliente);
         	e.setNomCliente(nombreApellido);
         	e.setFechaSorteo(fechaSorteo);
         	
-        	dao.update(e);        	
+        	/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
+        	if (idConcesionaria.equals("Montironi")){
+        		dao.update(e);
+        		System.out.println("Entrando a concesionaria");
+        	}
+        	else{ /*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
+        		//dao.insert(e);
+        		// Hay que programarlo todavia.
+        	}
+        	
         	String mensajeRespuesta = "Notificacion exitosa";
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
