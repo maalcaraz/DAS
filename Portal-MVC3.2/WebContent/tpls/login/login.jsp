@@ -10,11 +10,8 @@
 <body>
 
  
- 
- 
  <div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" 
-class="close" title="Close Modal">&times;</span>
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 
   <div class="modal-content animate" >
   <form class="form-group" id="form">
@@ -23,9 +20,10 @@ class="close" title="Close Modal">&times;</span>
 		      <label for="user">User:</label>
 		      <input type="text" class="form-control" id="user" name="user" placeholder="Enter username" autofocus required>
 		    </div>
+		    
 		    <div class="form-group">
 		      <label for="pwd">Password:</label>
-		      <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password" required>
+		      <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password" required >
 		    </div>
 		    <div class="checkbox">
 		      <label><input type="checkbox"> Remember me</label>

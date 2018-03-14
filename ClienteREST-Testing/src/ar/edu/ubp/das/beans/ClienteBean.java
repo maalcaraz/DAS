@@ -1,8 +1,6 @@
-package ar.edu.ubp.das.src.beans;
+package ar.edu.ubp.das.beans;
 
-import ar.edu.ubp.das.db.Bean;
-
-public class ClienteBean implements Bean{
+public class ClienteBean {
 
 	//Atributos
 	private String dniCliente;
@@ -11,7 +9,6 @@ public class ClienteBean implements Bean{
 	private String fechaSorteo;
 	public String toString;
 
-	@Override
 	public String toString() {
 		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente
 				+ ", fechaSorteo=" + fechaSorteo + ", toString=" + toString + "]";
