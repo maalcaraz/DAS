@@ -13,8 +13,8 @@ public class ClienteBean implements Bean{
 
 	@Override
 	public String toString() {
-		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente
-				+ ", fechaSorteo=" + fechaSorteo + ", toString=" + toString + "]";
+		return "ClienteBean = { dniCliente : " + dniCliente + ", nomCliente : " + nomCliente + ", emailCliente : " + emailCliente
+				+ ", fechaSorteo : " + fechaSorteo + ", toString : " + toString + "]";
 	}
 
 	//Constructor publico
