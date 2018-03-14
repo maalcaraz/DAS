@@ -36,8 +36,8 @@ go
 
 create table provincias
 (
-	cod_provincia		char(2)		not null,
-	nombre_provincia	varchar(30) not null,
+	cod_provincia		char(2)			not null,
+	nombre_provincia	varchar(30)		not null,
 	CONSTRAINT PK__provincias__END primary key(cod_provincia),
 	CONSTRAINT UK__provincias__END unique(nombre_provincia)
 )
@@ -100,17 +100,18 @@ go
 
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
-		(2, 'BMW', 'GER'),
+	--	(2, 'BMW', 'GER'),
 		(3, 'Chevrolet', 'USA'),
-		(4, 'Mazda', 'JAP'),
-		(5, 'Mercedes Benz', 'GER' ),
-		(6, 'Mitsubishi', 'JAP'),
-		(7, 'Nissan', 'JAP'),
-		(8, 'Peugeot', 'FRA'),
-		(9, 'Chrysler/Jeep/Dodge', 'USA'),
-		(10, 'Citroen', 'FRA'),
-		(11, 'Fiat', 'ITA'),
-		(12, 'Ford', 'USA')
+	--	(4, 'Mazda', 'JAP'),
+	--	(5, 'Mercedes Benz', 'GER' ),
+	--	(6, 'Mitsubishi', 'JAP'),
+	--	(7, 'Nissan', 'JAP'),
+	--	(8, 'Peugeot', 'FRA'),
+	--	(9, 'Chrysler/Jeep/Dodge', 'USA'),
+	--	(10, 'Citroen', 'FRA'),
+	--	(11, 'Fiat', 'ITA'),
+		(12, 'Ford', 'USA'),
+		(13, 'Volkswagen', 'GER')
 go
 
 create table modelos
@@ -129,12 +130,12 @@ values  (1, 1, 'A1'),
 		(1, 2, 'A3'),
 		(1, 3, 'A4'),
 		(1, 4, 'Q5'),
-		(2, 1, '118i'),
+	/*	(2, 1, '118i'),
 		(2, 2, '320D'),
 		(2, 3, '325i'),
 		(2, 4, '335i'),
 		(2, 5, 'X1D'),
-		(3, 1, 'Agile'),
+	*/	(3, 1, 'Agile'),
 		(3, 2, 'Astra'),
 		(3, 3, 'Aveo'),
 		(3, 4, 'Captiva'),
@@ -154,7 +155,7 @@ values  (1, 1, 'A1'),
 		(3, 18, 'Tracker'),
 		(3, 19, 'Vectra'),
 		(3, 20, 'Zafira'),
-		(4, 1, 'B2500'),
+	/*	(4, 1, 'B2500'),
 		(4, 2, 'C200'),
 		(5, 1, 'Sprinter'),
 		(6, 1, 'L200'),
@@ -200,7 +201,14 @@ values  (1, 1, 'A1'),
 		(11, 5, 'Fiorino'),
 		(11, 6, 'Palio'),
 		(11, 7, 'Grand Siena'),
-		(11, 8, 'Strada')
+		(11, 8, 'Strada'),
+	*/	(12, 1, 'Fiesta'),
+		(12, 2, 'Focus'),
+		(12, 3, 'Ecosport'),
+		(12, 4, 'Ka'),
+		(12, 5, 'Ranger'),
+		(12, 6, 'Mondeo'),
+		(12, 7, 'Transit')
 go
 
 create table versiones
@@ -243,7 +251,19 @@ create table modelos_versiones
 go
 
 insert into modelos_versiones (id_marca, id_modelo, id_version)
-values(11, 1, 1), -- 11=Fiat
+values(1, 1, 1), -- = Audi
+	  (1, 2, 1), -- Verificar versiones (puse todo 1).
+	  (1, 3, 1),
+	  (1, 4, 1),
+	  (3, 1, 1), -- = Chevrolet
+	  (3, 5, 1),
+	  (3, 10, 1),
+	  (3, 20, 1),
+	  (12, 1, 1),
+	  (12, 2, 1),
+	  (12, 5, 1),
+	  (12, 7, 1)
+	  /*(11, 1, 1), -- 11=Fiat
 	  (11, 1, 2),
 	  (11, 2, 3),
 	  (11, 2, 4),
@@ -260,7 +280,7 @@ values(11, 1, 1), -- 11=Fiat
 	  (11, 6, 1),
 	  (11, 6, 6),
 	  (11, 7, 1),
-	  (11, 7, 6)
+	  (11, 7, 6)*/
 go
 
 create table colores
@@ -361,9 +381,9 @@ create table vehiculos
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
-values(1234, 11, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
-	  (1235, 11, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
-	  (1236, 11, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
+values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
+	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
+	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
 go
 
 create table planes

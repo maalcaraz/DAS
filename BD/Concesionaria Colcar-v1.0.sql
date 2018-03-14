@@ -1,10 +1,4 @@
-use montironi
-
-drop procedure dbo.cancelar_ganador
-go 
-
-drop procedure dbo.get_estados_cuentas
-go
+use COLCAR
 
 drop table adquiridos
 drop table planes_modelos
@@ -106,16 +100,16 @@ go
 
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
-		(2, 'BMW', 'GER'),
+	--	(2, 'BMW', 'GER'),
 		(3, 'Chevrolet', 'USA'),
-		(4, 'Mazda', 'JAP'),
-		(5, 'Mercedes Benz', 'GER' ),
-		(6, 'Mitsubishi', 'JAP'),
-		(7, 'Nissan', 'JAP'),
-		(8, 'Peugeot', 'FRA'),
-		(9, 'Chrysler/Jeep/Dodge', 'USA'),
-		(10, 'Citroen', 'FRA'),
-		(11, 'Fiat', 'ITA'),
+	--	(4, 'Mazda', 'JAP'),
+	--	(5, 'Mercedes Benz', 'GER' ),
+	--	(6, 'Mitsubishi', 'JAP'),
+	--	(7, 'Nissan', 'JAP'),
+	--	(8, 'Peugeot', 'FRA'),
+	--	(9, 'Chrysler/Jeep/Dodge', 'USA'),
+	--	(10, 'Citroen', 'FRA'),
+	--	(11, 'Fiat', 'ITA'),
 		(12, 'Ford', 'USA'),
 		(13, 'Volkswagen', 'GER')
 go
@@ -136,12 +130,12 @@ values  (1, 1, 'A1'),
 		(1, 2, 'A3'),
 		(1, 3, 'A4'),
 		(1, 4, 'Q5'),
-		(2, 1, '118i'),
+	/*	(2, 1, '118i'),
 		(2, 2, '320D'),
 		(2, 3, '325i'),
 		(2, 4, '335i'),
 		(2, 5, 'X1D'),
-		(3, 1, 'Agile'),
+	*/	(3, 1, 'Agile'),
 		(3, 2, 'Astra'),
 		(3, 3, 'Aveo'),
 		(3, 4, 'Captiva'),
@@ -161,7 +155,7 @@ values  (1, 1, 'A1'),
 		(3, 18, 'Tracker'),
 		(3, 19, 'Vectra'),
 		(3, 20, 'Zafira'),
-		(4, 1, 'B2500'),
+	/*	(4, 1, 'B2500'),
 		(4, 2, 'C200'),
 		(5, 1, 'Sprinter'),
 		(6, 1, 'L200'),
@@ -208,7 +202,7 @@ values  (1, 1, 'A1'),
 		(11, 6, 'Palio'),
 		(11, 7, 'Grand Siena'),
 		(11, 8, 'Strada'),
-		(12, 1, 'Fiesta'),
+	*/	(12, 1, 'Fiesta'),
 		(12, 2, 'Focus'),
 		(12, 3, 'Ecosport'),
 		(12, 4, 'Ka'),
@@ -341,8 +335,7 @@ go
 insert into sucursales(id_sucursal, cod_provincia, id_localidad, nom_sucursal)
 values (1, 'CB', 1, 'Sucursal Rio IV'),
 	   (2, 'CB', 2, 'Centro'),
-	   (3, 'CB', 5, 'Oncativo'),
-	   (4, 'CB', 4, 'Jesus Maria')
+	   (3, 'CB', 5, 'Oncativo')
 go
 
 create table clientes
@@ -470,6 +463,9 @@ create table planes_modelos
 	CONSTRAINT PK__planes_modelos__END primary key(id_plan, id_marca, id_modelo),
 	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
 )
+
+
+drop procedure dbo.get_estados_cuentas
 go
 
 create procedure dbo.get_estados_cuentas
@@ -516,6 +512,9 @@ AS
 		END
 	END
 go
+
+drop procedure dbo.cancelar_ganador
+go 
 
 CREATE PROCEDURE dbo.cancelar_ganador
 (
