@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
@@ -34,7 +36,12 @@ public class ClientesResource {
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				clientes = dao.select();
-				return Response.status( Response.Status.OK ).entity(clientes.toString()).build();
+				
+				Gson gson = new Gson();
+				String json = gson.toJson(clientes);
+				
+				System.out.println(json);
+				return Response.status( Response.Status.OK ).entity(json).build();
 			}
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
@@ -71,6 +78,26 @@ public class ClientesResource {
         	}
         	
         	String mensajeRespuesta = "Notificacion exitosa";
+        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+        }
+        catch(SQLException ex) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+	}
+	@Path("/verificarCancelado")
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente) {
+        try {
+        	
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	
+        	ClienteBean e = new ClienteBean();
+        	e.setDniCliente(dniCliente);        	
+        	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+        	
+        	
+        	
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
