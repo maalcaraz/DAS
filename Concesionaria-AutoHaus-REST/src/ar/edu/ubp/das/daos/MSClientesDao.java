@@ -19,15 +19,26 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public void insert(Bean form) throws SQLException {
-		// TODO Auto-generated method stub
 
 	}
+	
+	public void insert(String textoNovedad) throws SQLException {
+		this.connect();
+		System.out.println(textoNovedad);
+		this.setProcedure("dbo.insertar_novedad(?)");
+	
+		this.setParameter(1, textoNovedad);
+		
+		this.executeUpdate();
+		this.disconnect();
 
+	}
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
 		
 		ClienteBean f = (ClienteBean) form;
+		System.out.println(f.getDniCliente());
 		//Procesamiento para notificar los nuevos ganadores
 		this.setProcedure("dbo.cancelar_ganador(?,?)");
 		this.setParameter(1, f.getDniCliente());

@@ -1,4 +1,4 @@
-use maipu
+use TAGLE
 
 drop table adquiridos
 drop table planes_modelos

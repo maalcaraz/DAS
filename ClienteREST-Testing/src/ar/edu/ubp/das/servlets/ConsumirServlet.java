@@ -48,10 +48,10 @@ public class ConsumirServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		String dniCliente = "23.432.255";
+		String dniCliente = "23432255";
 		String nomCliente = "Pablo Alcaraz";
 		String emailCliente = "pabloalcaraz@gmail.com";
-		String fechaSorteo = "13-03-2018";
+		String fechaSorteo = "03-03-18";
 	
 	try {
       	List <NameValuePair> nvps = new ArrayList <NameValuePair>();

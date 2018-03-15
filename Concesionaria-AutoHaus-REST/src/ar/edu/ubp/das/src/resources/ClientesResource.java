@@ -35,7 +35,7 @@ public class ClientesResource {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				clientes = dao.select();
 				return Response.status( Response.Status.OK ).entity(clientes.toString()).build();
-			} 
+			}
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
 			}
@@ -64,7 +64,9 @@ public class ClientesResource {
         		System.out.println("Entrando a concesionaria");
         	}
         	else{ /*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
-        		//dao.insert(e);
+        		
+        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
+        		dao.insert(novedad);
         		// Hay que programarlo todavia.
         	}
         	

@@ -1,4 +1,4 @@
-use COLCAR
+use ROSSO
 
 drop table novedades
 drop table adquiridos
