@@ -87,8 +87,18 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public boolean valid(Bean form) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		this.connect();		
+		ClienteBean f = (ClienteBean) form;
+		this.setProcedure("dbo.verificar_cancelado(?)"); // falta agregar al PA el nro plan
+		
+		this.setParameter(1, f.getDniCliente());
+		 
+		
+		boolean res = this.executeValidateQuery("cancelado"); 
+		
+		
+		this.disconnect();
+		
+		return res;
 	}
-
 }
