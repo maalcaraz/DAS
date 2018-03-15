@@ -8,6 +8,7 @@ public interface Dao {
 
     public Bean make(ResultSet result) throws SQLException;
     public void insert(Bean bean) throws SQLException;
+    public void insert(String textoNovedad) throws SQLException;
     public void update(Bean bean) throws SQLException;
     public void delete(Bean bean) throws SQLException;
     public List<Bean> select() throws SQLException;

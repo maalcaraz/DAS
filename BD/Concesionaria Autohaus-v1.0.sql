@@ -357,7 +357,8 @@ go
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
 values(25555555, 'Juan Perez', 43, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
 	  (26666666, 'Marcos Juarez', 40, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
-	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777')
+	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
+	  (23432255, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3517473350')
 go
 
 create table vehiculos	
@@ -449,9 +450,10 @@ create table adquiridos
 go
 
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion)
-values(0303456, 25555555, 'N', 'N', null, null, null, 1),
-	  (0303457, 26666666, 'N', 'N', null, null, null, 1),
-	  (0303458, 27777777, 'N', 'N', null, null, null, 1)
+values(303456, 25555555, 'N', 'N', null, null, null, 1),
+	  (303457, 26666666, 'N', 'N', null, null, null, 1),
+	  (303458, 27777777, 'N', 'N', null, null, null, 1),
+	  (303455, 23432255, 'N', 'N', null, null, null, 1)
 go
 
 create table planes_modelos
@@ -464,6 +466,13 @@ create table planes_modelos
 	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
 )
 
+create table novedades
+(
+	id_novedad				integer			not null identity(1,1),
+	textoNovedad			varchar(max)	not null,
+	CONSTRAINT PK__novedades__END primary key(id_novedad)
+)
+go
 
 drop procedure dbo.get_estados_cuentas
 go
@@ -518,21 +527,21 @@ go
 
 CREATE PROCEDURE dbo.cancelar_ganador
 (
-	@dniCliente		char(8),
-	@fechaSorteo	varchar(10)
+	@dni_cliente		char(8),
+	@fecha_sorteo	varchar(10)
 )
 AS
 BEGIN
 
 	if exists (
 				Select * from clientes c
-				where c.dni_cliente = @dniCliente
+				where c.dni_cliente = @dni_cliente
 				)
 	UPDATE a
-		SET a.fecha_sorteado = convert(varchar(8), @fechaSorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
+		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
 			a.ganador_sorteo = 'S'
 		FROM adquiridos a
-		where a.dni_cliente = @dniCliente
+		where a.dni_cliente = @dni_cliente
 END
 go
 
@@ -542,3 +551,23 @@ go
 
 select * from adquiridos a
 where a.ganador_sorteo = 'S'
+
+
+
+drop procedure dbo.insertar_novedad
+go
+
+create procedure dbo.insertar_novedad
+(
+	@texto_novedad			varchar(max)
+)
+AS
+	BEGIN
+			insert into novedades(textoNovedad)
+			values(@texto_novedad)
+	END
+go
+
+--execute dbo.insertar_novedad 'Hola mundo'
+
+select * from novedades
