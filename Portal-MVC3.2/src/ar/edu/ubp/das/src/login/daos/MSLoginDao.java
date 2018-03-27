@@ -48,7 +48,7 @@ public class MSLoginDao extends DaoImpl{
 		 this.setParameter(1, form.getItem("user"));
 		 this.setParameter(2, form.getItem("pass"));
 		
-		boolean res = this.executeValidateQuery(); 
+		boolean res = this.executeValidateQuery("existe"); 
 		
 		
 		this.disconnect();
