@@ -87,16 +87,18 @@ public class ClientesResource {
 	@Path("/verificarCancelado")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente) {
+	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente,
+										@FormParam("id_plan") String idPlan) {
         try {
         	
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	
         	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);        	
+        	e.setDniCliente(dniCliente);
+        	//chequear por que un cliente puede tener mas de un plan
+        	e.setIdPlan(idPlan);
+        	
         	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
-        	
         	
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }

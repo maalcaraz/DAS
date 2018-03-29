@@ -2,6 +2,7 @@ package ar.edu.ubp.das.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,12 +88,13 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public boolean valid(Bean form) throws SQLException {
+		
 		this.connect();		
 		ClienteBean f = (ClienteBean) form;
-		this.setProcedure("dbo.verificar_cancelado(?)"); // falta agregar al PA el nro plan
+		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
 		this.setParameter(1, f.getDniCliente());
-		 
+		this.setParameter(2, f.getIdPlan());
 		
 		boolean res = this.executeValidateQuery("cancelado"); 
 		
