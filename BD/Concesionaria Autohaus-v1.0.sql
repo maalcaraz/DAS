@@ -579,7 +579,7 @@ go
 create procedure dbo.verificar_cancelado
 (
 	@dni_cliente			char(12),
-	@id_plan				integer
+	@id_plan				char(12)
 )
 AS
 	BEGIN
