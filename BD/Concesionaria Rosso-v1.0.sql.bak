@@ -1,4 +1,4 @@
-use TAGLE
+use ROSSO
 
 drop table novedades
 drop table adquiridos
@@ -572,34 +572,3 @@ go
 --execute dbo.insertar_novedad 'Hola mundo'
 
 select * from novedades
-
-
-drop procedure dbo.verificar_cancelado
-go
-
-create procedure dbo.verificar_cancelado
-(
-	@dni_cliente			char(12)
-)
-AS
-	BEGIN
-			if exists (
-				Select * from clientes c
-				join adquiridos ad
-				on c.dni_cliente = ad.dni_cliente
-				where c.dni_cliente = @dni_cliente
-				)
-				begin
-					select cancelado = 1
-				end
-			else
-				begin
-					select cancelado = 0
-				end
-			
-	END
-go
-
---execute dbo.verificar_cancelado '27777777'
-
-select * from clientes

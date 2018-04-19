@@ -1,11 +1,6 @@
 use montironi
 
-drop procedure dbo.cancelar_ganador
-go 
-
-drop procedure dbo.get_estados_cuentas
-go
-
+drop table novedades
 drop table adquiridos
 drop table planes_modelos
 drop table cuotas
@@ -106,16 +101,16 @@ go
 
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
-		(2, 'BMW', 'GER'),
+	--	(2, 'BMW', 'GER'),
 		(3, 'Chevrolet', 'USA'),
-		(4, 'Mazda', 'JAP'),
-		(5, 'Mercedes Benz', 'GER' ),
-		(6, 'Mitsubishi', 'JAP'),
-		(7, 'Nissan', 'JAP'),
-		(8, 'Peugeot', 'FRA'),
-		(9, 'Chrysler/Jeep/Dodge', 'USA'),
-		(10, 'Citroen', 'FRA'),
-		(11, 'Fiat', 'ITA'),
+	--	(4, 'Mazda', 'JAP'),
+	--	(5, 'Mercedes Benz', 'GER' ),
+	--	(6, 'Mitsubishi', 'JAP'),
+	--	(7, 'Nissan', 'JAP'),
+	--	(8, 'Peugeot', 'FRA'),
+	--	(9, 'Chrysler/Jeep/Dodge', 'USA'),
+	--	(10, 'Citroen', 'FRA'),
+	--	(11, 'Fiat', 'ITA'),
 		(12, 'Ford', 'USA'),
 		(13, 'Volkswagen', 'GER')
 go
@@ -136,12 +131,12 @@ values  (1, 1, 'A1'),
 		(1, 2, 'A3'),
 		(1, 3, 'A4'),
 		(1, 4, 'Q5'),
-		(2, 1, '118i'),
+	/*	(2, 1, '118i'),
 		(2, 2, '320D'),
 		(2, 3, '325i'),
 		(2, 4, '335i'),
 		(2, 5, 'X1D'),
-		(3, 1, 'Agile'),
+	*/	(3, 1, 'Agile'),
 		(3, 2, 'Astra'),
 		(3, 3, 'Aveo'),
 		(3, 4, 'Captiva'),
@@ -161,7 +156,7 @@ values  (1, 1, 'A1'),
 		(3, 18, 'Tracker'),
 		(3, 19, 'Vectra'),
 		(3, 20, 'Zafira'),
-		(4, 1, 'B2500'),
+	/*	(4, 1, 'B2500'),
 		(4, 2, 'C200'),
 		(5, 1, 'Sprinter'),
 		(6, 1, 'L200'),
@@ -208,7 +203,7 @@ values  (1, 1, 'A1'),
 		(11, 6, 'Palio'),
 		(11, 7, 'Grand Siena'),
 		(11, 8, 'Strada'),
-		(12, 1, 'Fiesta'),
+	*/	(12, 1, 'Fiesta'),
 		(12, 2, 'Focus'),
 		(12, 3, 'Ecosport'),
 		(12, 4, 'Ka'),
@@ -364,7 +359,8 @@ go
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
 values(25555555, 'Juan Perez', 43, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
 	  (26666666, 'Marcos Juarez', 40, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
-	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777')
+	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
+	  (23432255, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3517473350')
 go
 
 create table vehiculos	
@@ -456,9 +452,10 @@ create table adquiridos
 go
 
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion)
-values(0303456, 25555555, 'N', 'N', null, null, null, 1),
-	  (0303457, 26666666, 'N', 'N', null, null, null, 1),
-	  (0303458, 27777777, 'N', 'N', null, null, null, 1)
+values(303456, 25555555, 'N', 'N', null, null, null, 1),
+	  (303457, 26666666, 'N', 'N', null, null, null, 1),
+	  (303458, 27777777, 'N', 'N', null, null, null, 1),
+	  (303455, 23432255, 'N', 'N', null, null, null, 1)
 go
 
 create table planes_modelos
@@ -470,6 +467,16 @@ create table planes_modelos
 	CONSTRAINT PK__planes_modelos__END primary key(id_plan, id_marca, id_modelo),
 	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
 )
+
+create table novedades
+(
+	id_novedad				integer			not null identity(1,1),
+	textoNovedad			varchar(max)	not null,
+	CONSTRAINT PK__novedades__END primary key(id_novedad)
+)
+go
+
+drop procedure dbo.get_estados_cuentas
 go
 
 create procedure dbo.get_estados_cuentas
@@ -517,23 +524,26 @@ AS
 	END
 go
 
+drop procedure dbo.cancelar_ganador
+go 
+
 CREATE PROCEDURE dbo.cancelar_ganador
 (
-	@dniCliente		char(8),
-	@fechaSorteo	varchar(10)
+	@dni_cliente		char(8),
+	@fecha_sorteo	varchar(10)
 )
 AS
 BEGIN
 
 	if exists (
 				Select * from clientes c
-				where c.dni_cliente = @dniCliente
+				where c.dni_cliente = @dni_cliente
 				)
 	UPDATE a
-		SET a.fecha_sorteado = convert(varchar(8), @fechaSorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
+		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
 			a.ganador_sorteo = 'S'
 		FROM adquiridos a
-		where a.dni_cliente = @dniCliente
+		where a.dni_cliente = @dni_cliente
 END
 go
 
@@ -543,3 +553,54 @@ go
 
 select * from adquiridos a
 where a.ganador_sorteo = 'S'
+
+
+
+drop procedure dbo.insertar_novedad
+go
+
+create procedure dbo.insertar_novedad
+(
+	@texto_novedad			varchar(max)
+)
+AS
+	BEGIN
+			insert into novedades(textoNovedad)
+			values(@texto_novedad)
+	END
+go
+
+--execute dbo.insertar_novedad 'Hola mundo'
+
+select * from novedades
+
+
+drop procedure dbo.verificar_cancelado
+go
+
+create procedure dbo.verificar_cancelado
+(
+	@dni_cliente			char(12)
+)
+AS
+	BEGIN
+			if exists (
+				Select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				where c.dni_cliente = @dni_cliente
+				)
+				begin
+					select cancelado = 1
+				end
+			else
+				begin
+					select cancelado = 0
+				end
+			
+	END
+go
+
+--execute dbo.verificar_cancelado '27777777'
+
+select * from clientes

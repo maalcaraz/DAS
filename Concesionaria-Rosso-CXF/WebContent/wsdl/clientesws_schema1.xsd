@@ -1,0 +1,25 @@
+<xs:schema xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.das.ubp.edu.ar/">
+  <xs:element name="getCuentasClientes" type="tns:getCuentasClientes"/>
+  <xs:element name="getCuentasClientesResponse" type="tns:getCuentasClientesResponse"/>
+  <xs:complexType name="getCuentasClientes">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCuentasClientesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:clienteBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="clienteBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dniCliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="emailCliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="nomCliente" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

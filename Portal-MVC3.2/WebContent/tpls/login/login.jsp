@@ -18,7 +18,7 @@
   
    <div class="imgcontainer">
    <h3>Bienvenido al Portal del Gobierno Nacional</h3>
-      <img src="./logo.jpg" alt="Avatar" class="avatar">
+      <img src="./img/logo.jpg" alt="Avatar" class="avatar">
     </div>
     <div class="container">
 		<label for="user">Username:</label>
@@ -34,7 +34,7 @@
     </div>
 	<div class="container" style="background-color:#f1f1f1">
       <button type="button" name="cancelbtn" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw" name="recoverPsw">Forgot <a href="#">password?</a></span>
+      <span class="psw" >Forgot <a href="#">password?</a></span>
     </div>
     
     <div id="message"> </div>
