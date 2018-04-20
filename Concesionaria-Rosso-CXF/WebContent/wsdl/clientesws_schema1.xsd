@@ -1,6 +1,10 @@
 <xs:schema xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.das.ubp.edu.ar/">
   <xs:element name="getCuentasClientes" type="tns:getCuentasClientes"/>
   <xs:element name="getCuentasClientesResponse" type="tns:getCuentasClientesResponse"/>
+  <xs:element name="notificarGanador" type="tns:notificarGanador"/>
+  <xs:element name="notificarGanadorResponse" type="tns:notificarGanadorResponse"/>
+  <xs:element name="verificarCancelado" type="tns:verificarCancelado"/>
+  <xs:element name="verificarCanceladoResponse" type="tns:verificarCanceladoResponse"/>
   <xs:complexType name="getCuentasClientes">
     <xs:sequence/>
   </xs:complexType>
@@ -13,7 +17,32 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="dniCliente" type="xs:string"/>
       <xs:element minOccurs="0" name="emailCliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaSorteo" type="xs:string"/>
       <xs:element minOccurs="0" name="nomCliente" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificarCancelado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificarCanceladoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="notificarGanador">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="notificarGanadorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Exception" type="tns:Exception"/>

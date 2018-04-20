@@ -9,12 +9,28 @@
     <wsdl:part name="parameters" element="tns:getCuentasClientes">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="verificarCancelado">
+    <wsdl:part name="parameters" element="tns:verificarCancelado">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificarCanceladoResponse">
+    <wsdl:part name="parameters" element="tns:verificarCanceladoResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="Exception">
     <wsdl:part name="Exception" element="tns:Exception">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCuentasClientesResponse">
     <wsdl:part name="parameters" element="tns:getCuentasClientesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notificarGanadorResponse">
+    <wsdl:part name="parameters" element="tns:notificarGanadorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notificarGanador">
+    <wsdl:part name="parameters" element="tns:notificarGanador">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ClientesWS">
@@ -25,6 +41,18 @@
     </wsdl:output>
       <wsdl:fault name="Exception" message="tns:Exception">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificarCancelado">
+      <wsdl:input name="verificarCancelado" message="tns:verificarCancelado">
+    </wsdl:input>
+      <wsdl:output name="verificarCanceladoResponse" message="tns:verificarCanceladoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="notificarGanador">
+      <wsdl:input name="notificarGanador" message="tns:notificarGanador">
+    </wsdl:input>
+      <wsdl:output name="notificarGanadorResponse" message="tns:notificarGanadorResponse">
+    </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ClientesWSServiceSoapBinding" type="tns:ClientesWS">
@@ -40,6 +68,24 @@
       <wsdl:fault name="Exception">
         <soap:fault name="Exception" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificarCancelado">
+      <soap:operation soapAction="urn:VerificarCancelado" style="document"/>
+      <wsdl:input name="verificarCancelado">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificarCanceladoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="notificarGanador">
+      <soap:operation soapAction="urn:NotificarGanador" style="document"/>
+      <wsdl:input name="notificarGanador">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="notificarGanadorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ClientesWSService">
