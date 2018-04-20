@@ -1,0 +1,46 @@
+package ar.edu.ubp.das.beans;
+
+public class ClienteBean {
+
+	//Atributos
+	private String dniCliente;
+	private String nomCliente;
+	private String emailCliente;
+	private String fechaSorteo;
+	public String toString;
+
+	public String toString() {
+		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente
+				+ ", fechaSorteo=" + fechaSorteo + ", toString=" + toString + "]";
+	}
+
+	//Constructor publico
+	public ClienteBean(){}
+	
+	//Metodos
+	public String getDniCliente() {
+		return dniCliente;
+	}
+	public void setDniCliente(String dniComprador) {
+		this.dniCliente = dniComprador;
+	}
+	public String getNomCliente() {
+		return nomCliente;
+	}
+	public void setNomCliente(String nomCliente) {
+		this.nomCliente = nomCliente;
+	}
+	public String getEmailCliente() {
+		return emailCliente;
+	}
+	public void setEmailCliente(String emailCliente) {
+		this.emailCliente = emailCliente;
+	}
+	public String getFechaSorteo() {
+		return fechaSorteo;
+	}
+
+	public void setFechaSorteo(String fechaSorteo) {
+		this.fechaSorteo = fechaSorteo;
+	}
+}

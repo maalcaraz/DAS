@@ -1,47 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Login</title>
+  <title>Welcome</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,bootstrap.min,login" ></script>
-	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,bootstrap.min," />
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,login" />
 </head>
 <body>
 
  
- 
- 
  <div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" 
-class="close" title="Close Modal">&times;</span>
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
 
-  <div class="modal-content animate" >
-  <form class="form-group" id="form">
-  <h3>Bienvenido al Portal del Gobierno</h3>
-		    <div class="form-group">
-		      <label for="user">User:</label>
-		      <input type="text" class="form-control" id="user" name="user" placeholder="Enter username" autofocus required>
-		    </div>
-		    <div class="form-group">
-		      <label for="pwd">Password:</label>
-		      <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password" required>
-		    </div>
-		    <div class="checkbox">
-		      <label><input type="checkbox"> Remember me</label>
-		    </div>
-		     <div class="form-group">
-		    <input type="button" onclick="jLogin.acceder()" value="Login"/>
-		      </div>
-	<div class="form-group">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
+  <!-- Modal Content -->
+  <form class="modal-content animate" id="form" >
+  
+   <div class="imgcontainer">
+   <h3>Bienvenido al Portal del Gobierno Nacional</h3>
+      <img src="./img/logo.jpg" alt="Avatar" class="avatar">
     </div>
+    <div class="container">
+		<label for="user">Username:</label>
+		<input type="text" id="user" name="user" placeholder="Enter username" autofocus required>
+		   
+		<label for="pwd">Password:</label>
+		<input type="password" id="pwd" name="pwd" placeholder="Enter password" required >
+		   
+		<button type="button" name="login" onclick="jLogin.acceder()">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+	<div class="container" style="background-color:#f1f1f1">
+      <button type="button" name="cancelbtn" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw" >Forgot <a href="#">password?</a></span>
+    </div>
+    
     <div id="message"> </div>
     </form>
-    </div>
-  
-	</div>
+  </div>
+	
  <script type="text/javascript">document.getElementById('id01').style.display='block'</script>
  
 </body>

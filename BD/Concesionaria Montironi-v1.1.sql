@@ -1,9 +1,10 @@
 use montironi
 
-drop table ganadores
-drop table plan_comprador
-drop table compradores
+drop table novedades
+drop table adquiridos
+drop table planes_modelos
 drop table cuotas
+drop table clientes
 drop table planes
 drop table vehiculos
 drop table sucursales
@@ -17,8 +18,6 @@ drop table colores
 drop table tipos_vehiculos
 drop table nacionalidades
 go
-go
-
 
 create table nacionalidades
 (
@@ -38,8 +37,8 @@ go
 
 create table provincias
 (
-	cod_provincia		char(2)		not null,
-	nombre_provincia	varchar(30) not null,
+	cod_provincia		char(2)			not null,
+	nombre_provincia	varchar(30)		not null,
 	CONSTRAINT PK__provincias__END primary key(cod_provincia),
 	CONSTRAINT UK__provincias__END unique(nombre_provincia)
 )
@@ -70,7 +69,6 @@ values('BA', 'Buenos Aires'),
 	  ('TF', 'Tierra del Fuego'),
 	  ('TU', 'Tucuman')
 go
-
 
 create table localidades
 (
@@ -103,17 +101,18 @@ go
 
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
-		(2, 'BMW', 'GER'),
+	--	(2, 'BMW', 'GER'),
 		(3, 'Chevrolet', 'USA'),
-		(4, 'Mazda', 'JAP'),
-		(5, 'Mercedes Benz', 'GER' ),
-		(6, 'Mitsubishi', 'JAP'),
-		(7, 'Nissan', 'JAP'),
-		(8, 'Peugeot', 'FRA'),
-		(9, 'Chrysler/Jeep/Dodge', 'USA'),
-		(10, 'Citroen', 'FRA'),
-		(11, 'Fiat', 'ITA'),
-		(12, 'Ford', 'USA')
+	--	(4, 'Mazda', 'JAP'),
+	--	(5, 'Mercedes Benz', 'GER' ),
+	--	(6, 'Mitsubishi', 'JAP'),
+	--	(7, 'Nissan', 'JAP'),
+	--	(8, 'Peugeot', 'FRA'),
+	--	(9, 'Chrysler/Jeep/Dodge', 'USA'),
+	--	(10, 'Citroen', 'FRA'),
+	--	(11, 'Fiat', 'ITA'),
+		(12, 'Ford', 'USA'),
+		(13, 'Volkswagen', 'GER')
 go
 
 create table modelos
@@ -132,12 +131,12 @@ values  (1, 1, 'A1'),
 		(1, 2, 'A3'),
 		(1, 3, 'A4'),
 		(1, 4, 'Q5'),
-		(2, 1, '118i'),
+	/*	(2, 1, '118i'),
 		(2, 2, '320D'),
 		(2, 3, '325i'),
 		(2, 4, '335i'),
 		(2, 5, 'X1D'),
-		(3, 1, 'Agile'),
+	*/	(3, 1, 'Agile'),
 		(3, 2, 'Astra'),
 		(3, 3, 'Aveo'),
 		(3, 4, 'Captiva'),
@@ -157,7 +156,7 @@ values  (1, 1, 'A1'),
 		(3, 18, 'Tracker'),
 		(3, 19, 'Vectra'),
 		(3, 20, 'Zafira'),
-		(4, 1, 'B2500'),
+	/*	(4, 1, 'B2500'),
 		(4, 2, 'C200'),
 		(5, 1, 'Sprinter'),
 		(6, 1, 'L200'),
@@ -203,7 +202,14 @@ values  (1, 1, 'A1'),
 		(11, 5, 'Fiorino'),
 		(11, 6, 'Palio'),
 		(11, 7, 'Grand Siena'),
-		(11, 8, 'Strada')
+		(11, 8, 'Strada'),
+	*/	(12, 1, 'Fiesta'),
+		(12, 2, 'Focus'),
+		(12, 3, 'Ecosport'),
+		(12, 4, 'Ka'),
+		(12, 5, 'Ranger'),
+		(12, 6, 'Mondeo'),
+		(12, 7, 'Transit')
 go
 
 create table versiones
@@ -246,7 +252,19 @@ create table modelos_versiones
 go
 
 insert into modelos_versiones (id_marca, id_modelo, id_version)
-values(11, 1, 1), -- 11=Fiat
+values(1, 1, 1), -- = Audi
+	  (1, 2, 1), -- Verificar versiones (puse todo 1).
+	  (1, 3, 1),
+	  (1, 4, 1),
+	  (3, 1, 1), -- = Chevrolet
+	  (3, 5, 1),
+	  (3, 10, 1),
+	  (3, 20, 1),
+	  (12, 1, 1),
+	  (12, 2, 1),
+	  (12, 5, 1),
+	  (12, 7, 1)
+	  /*(11, 1, 1), -- 11=Fiat
 	  (11, 1, 2),
 	  (11, 2, 3),
 	  (11, 2, 4),
@@ -263,7 +281,7 @@ values(11, 1, 1), -- 11=Fiat
 	  (11, 6, 1),
 	  (11, 6, 6),
 	  (11, 7, 1),
-	  (11, 7, 6)
+	  (11, 7, 6)*/
 go
 
 create table colores
@@ -318,12 +336,13 @@ go
 insert into sucursales(id_sucursal, cod_provincia, id_localidad, nom_sucursal)
 values (1, 'CB', 1, 'Sucursal Rio IV'),
 	   (2, 'CB', 2, 'Centro'),
-	   (3, 'CB', 5, 'Oncativo')
+	   (3, 'CB', 5, 'Oncativo'),
+	   (4, 'CB', 4, 'Jesus Maria')
 go
 
-create table compradores
+create table clientes
 (
-	dni_comprador			char(8)			not null,
+	dni_cliente				char(8)			not null,
 	apellido_nombre			char(30)		not null,
 	edad					smallint		not null,
 	domicilio				char(20)		null,
@@ -331,16 +350,17 @@ create table compradores
 	cod_provincia			char(2)			not null,
 	id_localidad			tinyint			not null,
 	telefono				char(20)		null,
-	CONSTRAINT PK__compradores__END primary key(dni_comprador),
-	CONSTRAINT FK__compradores_localidades__END foreign key(cod_provincia, id_localidad) references localidades,
+	CONSTRAINT PK__clientes__END primary key(dni_cliente),
+	CONSTRAINT FK__clientes_localidades__END foreign key(cod_provincia, id_localidad) references localidades,
 	check (edad > 18)
 )
 go
 
-insert into compradores(dni_comprador, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
+insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
 values(25555555, 'Juan Perez', 43, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
 	  (26666666, 'Marcos Juarez', 40, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
-	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777')
+	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
+	  (23432255, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3517473350')
 go
 
 create table vehiculos	
@@ -364,9 +384,9 @@ create table vehiculos
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
-values(1234, 11, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
-	  (1235, 11, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
-	  (1236, 11, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
+values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
+	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
+	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
 go
 
 create table planes
@@ -384,78 +404,80 @@ go
 
 insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
 values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/interes', 'CON'), 
-	  (303456, ''60, '5 ', '84 cuotas 0% interes', 
-	  (303457, 80, '', 1, 2, 50),
-	  (303458, 90, '', 2, 2, 50),
-	  (303459, 120, '', 2, 2, 50)
+	  (303456, 'Plan Nacional Chevrolet','Plan Nacional Chevrolet', 60, '5ta cuota', '84 cuotas 0% interes', 'GOB'),
+	  (303457, 'Plan 100% financiado', 'Plan 100% financiado', 80, '10ma cuota','84 cuotas 0% interes', 'GOB'),
+	  (303458, 'Plan 70/30 cuota reducida', 'Plan 70/30 cuota reducida', 90, '3ra cuota', '84 cuotas 0% interes', 'GOB')
+	--  (303459, 120, '', 2, 2, 50)
 go
 
 create table cuotas
 (
 	id_cuota				smallint		not null,
+	dni_cliente				char(8)			not null,
 	id_plan					integer			not null,
-	monto					decimal(10,2)	null, -- por defecto
+	importe					decimal(10,2)	null, -- por defecto
 	fecha_vencimiento		date			null,
 	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
-	CONSTRAINT PK__cuotas__END primary key (id_cuota, id_plan),
-	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan) references planes
+	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan),
+	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente) references clientes
 )
 go
 
-create table plan_comprador
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+values(111, 25555555, 303456, 5000.000, '02-02-2018', 'S'),
+	  (112, 25555555, 303456, 5000.000, '02-03-2018', 'S'),
+	  (113, 25555555, 303456, 5000.000, '02-04-2018', 'S'),
+	  (114, 25555555, 303456, 5000.000, '02-05-2018', 'N'),
+	  (115, 25555555, 303456, 5000.000, '02-06-2018', 'N'),
+	  (111, 26666666, 303457, 5000.000, '02-02-2018', 'N'),
+	  (112, 27777777, 303458, 5000.000, '02-03-2018', 'N')
+go
+
+create table adquiridos
 (
 	id_plan					integer			not null, 
-	dni_comprador			char(8)			not null,		
-	CONSTRAINT PK__plan_comprador__END primary key (id_plan, dni_comprador),
-	CONSTRAINT FK__plan_plan_comprador__END foreign key(id_plan) references planes,
-	CONSTRAINT FK__plan_comprador_comprador__END foreign key(dni_comprador) references compradores
+	dni_cliente			char(8)			not null,		
+	cancelado				char(1)			not null	check (cancelado in ('S', 'N')),
+	ganador_sorteo			char(1)			not null	check (ganador_sorteo in ('S', 'N')),
+	fecha_sorteado			date			null,
+	fecha_entrega			date			null,
+	nro_chasis				varchar(15)		null,
+	sucursal_suscripcion	smallint		not null,
+	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente),
+	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__adquiridos_vehiculos__END foreign key(nro_chasis) references vehiculos,
+	CONSTRAINT FK__adquiridos_sucursales__END foreign key(sucursal_suscripcion) references sucursales
 )
 go
 
-create table ganadores
+insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion)
+values(303456, 25555555, 'N', 'N', null, null, null, 1),
+	  (303457, 26666666, 'N', 'N', null, null, null, 1),
+	  (303458, 27777777, 'N', 'N', null, null, null, 1),
+	  (303455, 23432255, 'N', 'N', null, null, null, 1)
+go
+
+create table planes_modelos
 (
 	id_plan					integer			not null, 
-	dni_comprador			char(8)			not null,
-	fecha_sorteo			date			not null,
-	CONSTRAINT PK__ganadores__END primary key(id_plan, dni_comprador, fecha_sorteo),
-	CONSTRAINT FK__ganadores_plan_comps__END foreign key(id_plan, dni_comprador) references plan_comprador
+	id_marca				smallint		not null,
+	id_modelo				smallint		not null,
+	id_version				smallint		not null,
+	CONSTRAINT PK__planes_modelos__END primary key(id_plan, id_marca, id_modelo),
+	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
+)
+
+create table novedades
+(
+	id_novedad				integer			not null identity(1,1),
+	textoNovedad			varchar(max)	not null,
+	CONSTRAINT PK__novedades__END primary key(id_novedad)
 )
 go
-
-insert into cuotas(id_cuota, id_plan, monto, fecha_vencimiento, pagó)
-values(111, 303456, 5000.000, '02-02-2018', 'S'),
-	  (112, 303456, 5000.000, '02-03-2018', 'S'),
-	  (113, 303456, 5000.000, '02-04-2018', 'S'),
-	  (114, 303456, 5000.000, '02-05-2018', 'N'),
-	  (115, 303456, 5000.000, '02-06-2018', 'N'),
-	  (111, 303457, 5000.000, '02-02-2018', 'N')
-	 -- (112, 303458, 5000.000, '02-03-2018', 'N')
-go
-
-insert into plan_comprador (id_plan, dni_comprador)
-values(0303456, 25555555),
-	  (0303457, 26666666)
-	 -- (0303458, 27777777)
-go
-
-insert into ganadores (id_plan, dni_comprador,fecha_sorteo)
-values(0303457, 26666666, '05-05-2018')
-go
-
 
 drop procedure dbo.get_estados_cuentas
 go
-
-create procedure dbo.get_estados_cuentas
-as
-begin
-  select c.dni_comprador,
-         c.apellido_nombre
-	from compradores c (nolock)
-   order by c.apellido_nombre
-end;
-go
-
 
 create procedure dbo.get_estados_cuentas
 as
@@ -470,3 +492,115 @@ go
 
 execute dbo.get_estados_cuentas
 go
+
+--Trigger 
+
+--1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
+
+CREATE TRIGGER tu_ri_patentes
+ON adquiridos
+FOR update
+AS
+	BEGIN
+		IF EXISTS (
+					select * from 
+					adquiridos a join vehiculos v
+					on a.nro_chasis = v.nro_chasis
+					where a.nro_chasis <> null
+					and a.fecha_entrega > getDate()
+					)
+		BEGIN
+				UPDATE v
+				SET v.nro_patente = 'AA-aaa-aa' -- actualizar. Agregamos una tabla 'patentes'?
+				FROM vehiculos v
+				where exists (
+								select * from 
+								adquiridos a join vehiculos v
+								on a.nro_chasis = v.nro_chasis
+								where a.nro_chasis <> null
+								and a.fecha_entrega > getDate()
+							)
+		END
+	END
+go
+
+drop procedure dbo.cancelar_ganador
+go 
+
+CREATE PROCEDURE dbo.cancelar_ganador
+(
+	@dni_cliente		char(8),
+	@fecha_sorteo	varchar(10)
+)
+AS
+BEGIN
+
+	if exists (
+				Select * from clientes c
+				where c.dni_cliente = @dni_cliente
+				)
+	UPDATE a
+		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
+			a.ganador_sorteo = 'S'
+		FROM adquiridos a
+		where a.dni_cliente = @dni_cliente
+END
+go
+
+-- execute dbo.cancelar_ganador '25555555', '02-02-18' 
+
+-- lo probamos con 
+
+select * from adquiridos a
+where a.ganador_sorteo = 'S'
+
+
+
+drop procedure dbo.insertar_novedad
+go
+
+create procedure dbo.insertar_novedad
+(
+	@texto_novedad			varchar(max)
+)
+AS
+	BEGIN
+			insert into novedades(textoNovedad)
+			values(@texto_novedad)
+	END
+go
+
+--execute dbo.insertar_novedad 'Hola mundo'
+
+select * from novedades
+
+
+drop procedure dbo.verificar_cancelado
+go
+
+create procedure dbo.verificar_cancelado
+(
+	@dni_cliente			char(12)
+)
+AS
+	BEGIN
+			if exists (
+				Select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				where c.dni_cliente = @dni_cliente
+				)
+				begin
+					select cancelado = 1
+				end
+			else
+				begin
+					select cancelado = 0
+				end
+			
+	END
+go
+
+--execute dbo.verificar_cancelado '27777777'
+
+select * from clientes

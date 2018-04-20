@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
@@ -34,8 +36,13 @@ public class ClientesResource {
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				clientes = dao.select();
-				return Response.status( Response.Status.OK ).entity(clientes).build();
-			} 
+				
+				Gson gson = new Gson();
+				String json = gson.toJson(clientes);
+				
+				System.out.println(json);
+				return Response.status( Response.Status.OK ).entity(json).build();
+			}
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
 			}
@@ -44,20 +51,53 @@ public class ClientesResource {
 	@Path("/notificarGanador")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response getVideos(@FormParam("dni_cliente") String dniCliente, 
-			                  @FormParam("nombre_apellido") String nombreApellido,
-			                  @FormParam("fecha_sorteo") String fechaSorteo) {
+	public Response notificarGanador(@FormParam("id_concesionaria") String idConcesionaria,
+									@FormParam("dni_cliente") String dniCliente, 
+									@FormParam("nombre_apellido") String nombreApellido,
+									@FormParam("email_cliente") String emailCliente,
+									@FormParam("fecha_sorteo") String fechaSorteo) {
         try {
         	
-        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "EstadosCuentas", "ar.edu.ubp.das" );
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	
         	ClienteBean e = new ClienteBean();
         	e.setDniCliente(dniCliente);
         	e.setNomCliente(nombreApellido);
         	e.setFechaSorteo(fechaSorteo);
         	
-        	dao.update(e);        	
+        	/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
+        	if (idConcesionaria.equals("Montironi")){
+        		dao.update(e);
+        		System.out.println("Entrando a concesionaria");
+        	}
+        	else{ /*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
+        		
+        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
+        		dao.insert(novedad);
+        		// Hay que programarlo todavia.
+        	}
+        	
         	String mensajeRespuesta = "Notificacion exitosa";
+        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+        }
+        catch(SQLException ex) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+	}
+	@Path("/verificarCancelado")
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente) {
+        try {
+        	
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	
+        	ClienteBean e = new ClienteBean();
+        	e.setDniCliente(dniCliente);        	
+        	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+        	
+        	
+        	
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
