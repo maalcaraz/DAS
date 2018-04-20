@@ -9,9 +9,12 @@ public class ClienteBean implements Bean{
 	private String nomCliente;
 	private String emailCliente;
 	private String fechaSorteo;
+	private String idPlan;
 
 	@Override
 	public String toString() {
+		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente + 
+		", fechaSorteo=" + fechaSorteo + "]";
 	}
 
 	//Constructor publico
@@ -42,5 +45,13 @@ public class ClienteBean implements Bean{
 
 	public void setFechaSorteo(String fechaSorteo) {
 		this.fechaSorteo = fechaSorteo;
+	}
+
+	public String getIdPlan() {
+		return idPlan;
+	}
+
+	public void setIdPlan(String idPlan) {
+		this.idPlan = idPlan;
 	}
 }

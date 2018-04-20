@@ -89,9 +89,10 @@ public class MSClientesDao extends DaoImpl {
 	public boolean valid(Bean form) throws SQLException {
 		this.connect();		
 		ClienteBean f = (ClienteBean) form;
-		this.setProcedure("dbo.verificar_cancelado(?)"); // falta agregar al PA el nro plan
+		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
 		this.setParameter(1, f.getDniCliente());
+		this.setParameter(2, f.getIdPlan());
 		 
 		
 		boolean res = this.executeValidateQuery("cancelado"); 
