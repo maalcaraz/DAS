@@ -579,8 +579,8 @@ go
 
 create procedure dbo.verificar_cancelado
 (
-	@dni_cliente			char(12),
-	@id_plan				integer
+	@dni_cliente			char(12)
+	@id_plan				char(12)
 )
 AS
 	BEGIN
@@ -610,4 +610,3 @@ Select * from clientes c
 				on c.dni_cliente = ad.dni_cliente
 				where c.dni_cliente = '27777777'
 				and ad.cancelado = 'N' 
-
