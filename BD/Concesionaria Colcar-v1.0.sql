@@ -485,14 +485,33 @@ as
 begin
   select c.dni_cliente,
          c.apellido_nombre,
-		 c.email
+		 c.domicilio,
+		 c.email,
+		 c.telefono,
+		 pl.id_plan,
+		 ad.cancelado,
+		 ad.ganador_sorteo,
+		 ad.fecha_entrega,
+		 ad.fecha_sorteado,
+		 ad.nro_chasis,
+		 pl.cant_cuotas
 	from clientes c (nolock)
+	join adquiridos ad
+	on c.dni_cliente = ad.dni_cliente
+	join planes pl
+	on ad.id_plan = pl.id_plan
    order by c.apellido_nombre
 end;
 go
 
 execute dbo.get_estados_cuentas
 go
+
+select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				join planes pl
+				on ad.id_plan = pl.id_plan
 
 --Trigger 
 
@@ -579,7 +598,8 @@ go
 
 create procedure dbo.verificar_cancelado
 (
-	@dni_cliente			char(12)
+	@dni_cliente			char(12),
+	@id_plan				char(12)
 )
 AS
 	BEGIN
@@ -588,6 +608,8 @@ AS
 				join adquiridos ad
 				on c.dni_cliente = ad.dni_cliente
 				where c.dni_cliente = @dni_cliente
+				and ad.cancelado = 'S'
+				and ad.id_plan = @id_plan
 				)
 				begin
 					select cancelado = 1
@@ -600,6 +622,10 @@ AS
 	END
 go
 
---execute dbo.verificar_cancelado '27777777'
+--execute dbo.verificar_cancelado '27777777', 303458
 
-select * from clientes
+Select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				where c.dni_cliente = '27777777'
+				and ad.cancelado = 'N' 
