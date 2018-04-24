@@ -10,15 +10,7 @@
   </xs:complexType>
   <xs:complexType name="getCuentasClientesResponse">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:clienteBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="clienteBean">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="dniCliente" type="xs:string"/>
-      <xs:element minOccurs="0" name="emailCliente" type="xs:string"/>
-      <xs:element minOccurs="0" name="fechaSorteo" type="xs:string"/>
-      <xs:element minOccurs="0" name="nomCliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="verificarCancelado">

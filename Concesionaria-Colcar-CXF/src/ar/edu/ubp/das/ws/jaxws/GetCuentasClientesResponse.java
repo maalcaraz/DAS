@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class GetCuentasClientesResponse {
 
     @XmlElement(name = "return")
-    private java.util.List<ar.edu.ubp.das.src.beans.ClienteBean> _return;
+    private java.lang.String _return;
 
-    public java.util.List<ar.edu.ubp.das.src.beans.ClienteBean> getReturn() {
+    public java.lang.String getReturn() {
         return this._return;
     }
 
-    public void setReturn(java.util.List<ar.edu.ubp.das.src.beans.ClienteBean> new_return)  {
+    public void setReturn(java.lang.String new_return)  {
         this._return = new_return;
     }
 

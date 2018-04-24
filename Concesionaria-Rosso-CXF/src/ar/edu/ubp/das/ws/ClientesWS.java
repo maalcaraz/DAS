@@ -8,6 +8,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import com.google.gson.Gson;
+
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
@@ -17,19 +19,19 @@ import ar.edu.ubp.das.src.beans.ClienteBean;
 public class ClientesWS {
 
 	@WebMethod(operationName = "getCuentasClientes", action = "urn:GetCuentasClientes")
-	public List<ClienteBean> getCuentasClientes() throws Exception {
+	public String getCuentasClientes() throws Exception {
 		
-		List<Bean> cts = new LinkedList<Bean>();
-		List<ClienteBean> cuentas = new LinkedList<ClienteBean>(); 
-		try {
+		List<Bean> clientes = new LinkedList<Bean>();
+		
+		try
+		{
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
-			cts = dao.select();
-			
-			for (Bean b : cts){
-				cuentas.add((ClienteBean) b);
-			}
-			return cuentas;
+			clientes = dao.select();
+			Gson gson = new Gson();
+			String json = gson.toJson(clientes);
+			System.out.println(json);
+			return json;
 		} 
 		catch ( SQLException error ) {
 			throw new Exception(error.getMessage());
@@ -38,10 +40,10 @@ public class ClientesWS {
 	
 	@WebMethod(operationName = "notificarGanador", action = "urn:NotificarGanador")
 	public String notificarGanador(@WebParam(name = "arg0") String idConcesionaria, 
-			   					   @WebParam(name = "arg1") String dniCliente, 
-			   					   @WebParam(name = "arg2") String nombreApellido,
-			   					   @WebParam(name = "arg3") String emailCliente,
-			   					   @WebParam(name = "arg4") String fechaSorteo) throws Exception {
+								   @WebParam(name = "arg1") String dniCliente, 
+								   @WebParam(name = "arg2") String nombreApellido,
+								   @WebParam(name = "arg3") String emailCliente,
+								   @WebParam(name = "arg4") String fechaSorteo) {
 		try {
 		
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -61,25 +63,26 @@ public class ClientesWS {
 				// Hay que programarlo todavia.
 			}
 			String mensajeRespuesta = "Notificacion exitosa";
-				return mensajeRespuesta;
-		}
-		catch(SQLException ex) {
-			return ex.getMessage();
-		}
-	}
-
-	@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
-	public String verificarCancelado(@WebParam(name = "arg0") String dniCliente) throws Exception {
-		try {
-			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-			ClienteBean e = new ClienteBean();
-			e.setDniCliente(dniCliente);        	
-			String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-			
 			return mensajeRespuesta;
 		}
 		catch(SQLException ex) {
 			return ex.getMessage();
 		}
 	}
+	
+	@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
+	public String verificarCancelado(@WebParam(name = "arg0") String dniCliente) {
+        try {
+        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	ClienteBean e = new ClienteBean();
+        	e.setDniCliente(dniCliente);        	
+        	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+        	
+        	return mensajeRespuesta;
+        }
+        catch(SQLException ex) {
+			return ex.getMessage();
+        }
+	}
+	
 }

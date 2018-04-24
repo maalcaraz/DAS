@@ -47,16 +47,12 @@
     </wsdl:input>
       <wsdl:output name="verificarCanceladoResponse" message="tns:verificarCanceladoResponse">
     </wsdl:output>
-      <wsdl:fault name="Exception" message="tns:Exception">
-    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="notificarGanador">
       <wsdl:input name="notificarGanador" message="tns:notificarGanador">
     </wsdl:input>
       <wsdl:output name="notificarGanadorResponse" message="tns:notificarGanadorResponse">
     </wsdl:output>
-      <wsdl:fault name="Exception" message="tns:Exception">
-    </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ClientesWSServiceSoapBinding" type="tns:ClientesWS">
@@ -81,9 +77,6 @@
       <wsdl:output name="verificarCanceladoResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="Exception">
-        <soap:fault name="Exception" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="notificarGanador">
       <soap:operation soapAction="urn:NotificarGanador" style="document"/>
@@ -93,9 +86,6 @@
       <wsdl:output name="notificarGanadorResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="Exception">
-        <soap:fault name="Exception" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ClientesWSService">
