@@ -482,14 +482,33 @@ as
 begin
   select c.dni_cliente,
          c.apellido_nombre,
-		 c.email
+		 c.domicilio,
+		 c.email,
+		 c.telefono,
+		 pl.id_plan,
+		 ad.cancelado,
+		 ad.ganador_sorteo,
+		 ad.fecha_entrega,
+		 ad.fecha_sorteado,
+		 ad.nro_chasis,
+		 pl.cant_cuotas
 	from clientes c (nolock)
-   order by c.apellido_nombre
+	join adquiridos ad
+	on c.dni_cliente = ad.dni_cliente
+	join planes pl
+	on ad.id_plan = pl.id_plan
+    order by c.apellido_nombre
 end;
 go
 
 execute dbo.get_estados_cuentas
 go
+
+select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				join planes pl
+				on ad.id_plan = pl.id_plan
 
 --Trigger 
 
