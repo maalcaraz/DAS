@@ -19,16 +19,25 @@ import javax.xml.bind.annotation.XmlType;
 
 public class VerificarCancelado {
 
-    @XmlElement(name = "arg0")
-    private java.lang.String arg0;
+	@XmlElement(name = "dni_cliente")
+    private java.lang.String dni_cliente;
+    @XmlElement(name = "id_plan")
+    private java.lang.String id_plan;
+  
 
-    public java.lang.String getArg0() {
-        return this.arg0;
+    public java.lang.String getDniCliente() {
+        return this.dni_cliente;
     }
 
-    public void setArg0(java.lang.String newArg0)  {
-        this.arg0 = newArg0;
+    public void setDniCliente(java.lang.String newArg0)  {
+        this.dni_cliente = newArg0;
+    }
+    public java.lang.String getIdPlan() {
+        return this.id_plan;
     }
 
+    public void setIdPlan(java.lang.String newArg0)  {
+        this.id_plan = newArg0;
+    }
 }
 

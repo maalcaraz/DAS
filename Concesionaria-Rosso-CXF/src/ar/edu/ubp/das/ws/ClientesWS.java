@@ -39,11 +39,11 @@ public class ClientesWS {
 	}
 	
 	@WebMethod(operationName = "notificarGanador", action = "urn:NotificarGanador")
-	public String notificarGanador(@WebParam(name = "arg0") String idConcesionaria, 
-								   @WebParam(name = "arg1") String dniCliente, 
-								   @WebParam(name = "arg2") String nombreApellido,
-								   @WebParam(name = "arg3") String emailCliente,
-								   @WebParam(name = "arg4") String fechaSorteo) {
+	public String notificarGanador(@WebParam(name = "id_concesionaria") String idConcesionaria, 
+								   @WebParam(name = "dni_cliente") String dniCliente, 
+								   @WebParam(name = "nombre_apellido") String nombreApellido,
+								   @WebParam(name = "email_cliente") String emailCliente,
+								   @WebParam(name = "fecha_sorteo") String fechaSorteo) {
 		try {
 		
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -71,18 +71,18 @@ public class ClientesWS {
 	}
 	
 	@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
-	public String verificarCancelado(@WebParam(name = "arg0") String dniCliente) {
+	public String verificarCancelado(@WebParam(name = "dni_cliente") String dniCliente, 
+									 @WebParam(name = "id_plan") String idPlan) {
         try {
-        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	MSClientesDao dao = (MSClientesDao) DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);        	
+        	e.setDniCliente(dniCliente);     
+        	e.setIdPlan(idPlan);
         	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
         	return mensajeRespuesta;
         }
         catch(SQLException ex) {
 			return ex.getMessage();
         }
 	}
-	
 }

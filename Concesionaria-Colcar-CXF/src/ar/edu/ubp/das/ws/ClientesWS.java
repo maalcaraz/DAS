@@ -57,7 +57,8 @@ public class ClientesWS {
 				dao.update(e);
 				System.out.println("Entrando a concesionaria");
 			}
-			else{ /*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
+			else{ 
+				/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
 				String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
 				dao.insert(novedad);
 				// Hay que programarlo todavia.
@@ -71,13 +72,13 @@ public class ClientesWS {
 	}
 	
 	@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
-	public String verificarCancelado(@WebParam(name = "arg0") String dniCliente) {
+	public String verificarCancelado(@WebParam(name = "dni_cliente") String dniCliente, @WebParam(name = "id_plan") String idPlan) {
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);        	
+        	e.setDniCliente(dniCliente);     
+        	e.setIdPlan(idPlan);
         	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
         	return mensajeRespuesta;
         }
         catch(SQLException ex) {
