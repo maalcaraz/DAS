@@ -1,0 +1,39 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ClientesWSService WSDL service -->
+
+  <service name="ClientesWS" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ws.das.ubp.edu.ar"/>
+      <parameter name="wsdlServiceElement" value="ClientesWSService"/>
+      <parameter name="schemaQualified" value="http://ws.das.ubp.edu.ar"/>
+      <parameter name="wsdlServicePort" value="ClientesWS"/>
+      <parameter name="className" value="ar.edu.ubp.das.ws.ClientesWSSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="ClientesWS"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="notificarGanador" qname="operNS:notificarGanador" xmlns:operNS="http://ws.das.ubp.edu.ar" returnQName="retNS:notificarGanadorReturn" xmlns:retNS="http://ws.das.ubp.edu.ar" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:idConcesionaria" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:dniCliente" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:nombreApellido" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:emailCliente" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:fechaSorteo" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="verificarCancelado" qname="operNS:verificarCancelado" xmlns:operNS="http://ws.das.ubp.edu.ar" returnQName="retNS:verificarCanceladoReturn" xmlns:retNS="http://ws.das.ubp.edu.ar" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:dniCliente" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:idPlan" xmlns:pns="http://ws.das.ubp.edu.ar" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getCuentasClientes" qname="operNS:getCuentasClientes" xmlns:operNS="http://ws.das.ubp.edu.ar" returnQName="retNS:getCuentasClientesReturn" xmlns:retNS="http://ws.das.ubp.edu.ar" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <parameter name="allowedMethods" value="notificarGanador verificarCancelado getCuentasClientes"/>
+
+  </service>
+</deployment>
