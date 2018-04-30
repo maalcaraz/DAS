@@ -24,8 +24,8 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _GetCuentasClientes_QNAME = new QName("http://ws.das.ubp.edu.ar/", "getCuentasClientes");
-    private final static QName _GetCuentasClientesResponse_QNAME = new QName("http://ws.das.ubp.edu.ar/", "getCuentasClientesResponse");
+    private final static QName _GetClientes_QNAME = new QName("http://ws.das.ubp.edu.ar/", "getClientes");
+    private final static QName _GetClientesResponse_QNAME = new QName("http://ws.das.ubp.edu.ar/", "getClientesResponse");
     private final static QName _NotificarGanador_QNAME = new QName("http://ws.das.ubp.edu.ar/", "notificarGanador");
     private final static QName _NotificarGanadorResponse_QNAME = new QName("http://ws.das.ubp.edu.ar/", "notificarGanadorResponse");
     private final static QName _VerificarCancelado_QNAME = new QName("http://ws.das.ubp.edu.ar/", "verificarCancelado");
@@ -40,19 +40,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetCuentasClientes }
+     * Create an instance of {@link GetClientes }
      * 
      */
-    public GetCuentasClientes createGetCuentasClientes() {
-        return new GetCuentasClientes();
+    public GetClientes createGetClientes() {
+        return new GetClientes();
     }
 
     /**
-     * Create an instance of {@link GetCuentasClientesResponse }
+     * Create an instance of {@link GetClientesResponse }
      * 
      */
-    public GetCuentasClientesResponse createGetCuentasClientesResponse() {
-        return new GetCuentasClientesResponse();
+    public GetClientesResponse createGetClientesResponse() {
+        return new GetClientesResponse();
     }
 
     /**
@@ -96,21 +96,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCuentasClientes }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetClientes }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://ws.das.ubp.edu.ar/", name = "getCuentasClientes")
-    public JAXBElement<GetCuentasClientes> createGetCuentasClientes(GetCuentasClientes value) {
-        return new JAXBElement<GetCuentasClientes>(_GetCuentasClientes_QNAME, GetCuentasClientes.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.das.ubp.edu.ar/", name = "getClientes")
+    public JAXBElement<GetClientes> createGetClientes(GetClientes value) {
+        return new JAXBElement<GetClientes>(_GetClientes_QNAME, GetClientes.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCuentasClientesResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetClientesResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://ws.das.ubp.edu.ar/", name = "getCuentasClientesResponse")
-    public JAXBElement<GetCuentasClientesResponse> createGetCuentasClientesResponse(GetCuentasClientesResponse value) {
-        return new JAXBElement<GetCuentasClientesResponse>(_GetCuentasClientesResponse_QNAME, GetCuentasClientesResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://ws.das.ubp.edu.ar/", name = "getClientesResponse")
+    public JAXBElement<GetClientesResponse> createGetClientesResponse(GetClientesResponse value) {
+        return new JAXBElement<GetClientesResponse>(_GetClientesResponse_QNAME, GetClientesResponse.class, null, value);
     }
 
     /**

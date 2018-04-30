@@ -1,2 +1,7 @@
 Proyecto rest creado como lo haciamos en un principio, pero obteniendo
 los valores de la base de datos usando el patron DAOS.
+
+tips: 
+
+* Si se van a modificar los servicios CXF, lo mejor es eliminar la clase PortTypeServer para darse cuenta si realmente
+esta sobreescribiendo los archivos y configuraciones. Ademas, es recomendable cerrar el IDE y abrirlo de nuevo. 

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.ubp.das.ws.ClientesWS;
-import ar.edu.ubp.das.ws.ClientesWSService;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWS;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWSService;
 
 @WebServlet("/verificarCancelado.jsp")
 public class VerificarCanceladoServlet extends HttpServlet {
@@ -31,12 +31,13 @@ public class VerificarCanceladoServlet extends HttpServlet {
 		// toma dni_cliente
 		
 		try{
-			ClientesWSService service = new ClientesWSService();
+			ConcesionariaRossoWSService service = new ConcesionariaRossoWSService();
 		
-			ClientesWS respuesta = service.getClientesWSPort();
+			ConcesionariaRossoWS respuesta = service.getConcesionariaRossoWSPort();
 			String dniCliente = "23432255";
+			String idPlan = "303458";
 			
-			request.setAttribute("error", respuesta.verificarCancelado(dniCliente));
+			request.setAttribute("error", respuesta.verificarCancelado(dniCliente, idPlan));
 			this.gotoPage("/error.jsp", request, response);
 		}
 		catch (Exception ex){

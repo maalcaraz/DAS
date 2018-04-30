@@ -3,6 +3,7 @@ package ar.edu.ubp.das.ws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -16,7 +17,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="dni_cliente" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="id_plan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -27,34 +29,62 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "verificarCancelado", propOrder = {
-    "arg0"
+    "dniCliente",
+    "idPlan"
 })
 public class VerificarCancelado {
 
-    protected String arg0;
+    @XmlElement(name = "dni_cliente")
+    protected String dniCliente;
+    @XmlElement(name = "id_plan")
+    protected String idPlan;
 
     /**
-     * Obtiene el valor de la propiedad arg0.
+     * Obtiene el valor de la propiedad dniCliente.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg0() {
-        return arg0;
+    public String getDniCliente() {
+        return dniCliente;
     }
 
     /**
-     * Define el valor de la propiedad arg0.
+     * Define el valor de la propiedad dniCliente.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg0(String value) {
-        this.arg0 = value;
+    public void setDniCliente(String value) {
+        this.dniCliente = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad idPlan.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getIdPlan() {
+        return idPlan;
+    }
+
+    /**
+     * Define el valor de la propiedad idPlan.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setIdPlan(String value) {
+        this.idPlan = value;
     }
 
 }

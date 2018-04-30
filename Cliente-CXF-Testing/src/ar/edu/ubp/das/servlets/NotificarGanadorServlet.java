@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.ubp.das.ws.ClientesWS;
-import ar.edu.ubp.das.ws.ClientesWSService;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWS;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWSService;
 
 /**
  * Servlet implementation class NotificarGanadorServlet
@@ -23,13 +23,10 @@ public class NotificarGanadorServlet extends HttpServlet {
         super();
         
     }
-
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String dniCliente = "23432255";
 		String nomCliente = "Pablo Alcaraz";
@@ -37,9 +34,9 @@ public class NotificarGanadorServlet extends HttpServlet {
 		String fechaSorteo = "03-03-18";
 	
 		try{
-			ClientesWSService service = new ClientesWSService();
+			ConcesionariaRossoWSService service = new ConcesionariaRossoWSService();
 		
-			ClientesWS respuesta = service.getClientesWSPort();
+			ConcesionariaRossoWS respuesta = service.getConcesionariaRossoWSPort();
 			
 			
 			request.setAttribute("error", respuesta.notificarGanador("Montironi", dniCliente, nomCliente, emailCliente, fechaSorteo));

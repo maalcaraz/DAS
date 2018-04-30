@@ -513,6 +513,8 @@ select * from clientes c
 				join planes pl
 				on ad.id_plan = pl.id_plan
 
+go
+
 --Trigger 
 
 --1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)

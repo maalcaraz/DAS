@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.ubp.das.ws.ClientesWS;
-import ar.edu.ubp.das.ws.ClientesWSService;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWS;
+import ar.edu.ubp.das.ws.ConcesionariaRossoWSService;
 
 /**
  * Servlet implementation class ObtenerClientesServlet
@@ -31,11 +31,11 @@ public class ObtenerClientesServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try{
-			ClientesWSService service = new ClientesWSService();
+			ConcesionariaRossoWSService service = new ConcesionariaRossoWSService();
 		
-			ClientesWS respuesta = service.getClientesWSPort();
+			ConcesionariaRossoWS respuesta = service.getConcesionariaRossoWSPort();
 			
-			String clientes = respuesta.getCuentasClientes();
+			String clientes = respuesta.getClientes();
 			
 			request.setAttribute("error", clientes);
 			this.gotoPage("/error.jsp", request, response);

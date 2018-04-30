@@ -44,7 +44,8 @@ public class VerificarCanceladoServlet extends HttpServlet {
 		try {
 			
 			List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-	      	nvps.add(new BasicNameValuePair("dni_cliente" , "Montironi"));
+	      	nvps.add(new BasicNameValuePair("dni_cliente" , "27777777"));
+	      	nvps.add(new BasicNameValuePair("id_plan" , "303458"));
 	      	
 	      	URI uri = URI.create("http://localhost:8080/Concesionaria-AutoHaus-REST/rest/autohaus/verificarCancelado");
 	
