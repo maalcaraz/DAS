@@ -13,9 +13,6 @@
 
 <h1>Seleccione el servicio a consumir</h1>
 
-<div id="message"></div>
-<div id="result"> </div>
-
 <form id="form" method="post" action="javascript:void(null)">
 
 <select id="servicio" name="servicio">
@@ -56,7 +53,9 @@
 <br>
 
 </form>
-
+<h2>Resultados </h2>
+<div id="message"></div>
+<div id="result"> </div>
 
 </body>
 </html>
