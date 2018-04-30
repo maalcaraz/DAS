@@ -228,9 +228,9 @@ values (1, 'Attractive 1.4'),
 	   (5, 'Volcano 4WD AT'),
 	   (6, 'Essence 1.6'),
 	   (7, 'Blackmotion 1.6'),
-	   (8, 'Furgón corto 2.3 Techo Normal'),
-	   (9, 'Furgón corto 2.3 Techo Normal'),
-	   (10, 'Furgón medio 2.3 Techo Normal'),
+	   (8, 'FurgÃ³n corto 2.3 Techo Normal'),
+	   (9, 'FurgÃ³n corto 2.3 Techo Normal'),
+	   (10, 'FurgÃ³n medio 2.3 Techo Normal'),
 	   (11, 'Combinato 2.3'),
 	   (12, 'Furgon Maxicargo 2.3 Techo Elevado'),
 	   (13, '1.4'),
@@ -372,7 +372,7 @@ create table vehiculos
 	id_color				tinyint			not null,
 	id_tipo_vehiculo		tinyint			not null,
 	precio					decimal(10, 2)	null,
-	año_fabricacion			smallint		null,
+	aÃ±o_fabricacion			smallint		null,
 	id_sucursal				smallint		not null,	
 	nro_patente				char(9)			null,
 	CONSTRAINT PK__vehiculos__END primary key(nro_chasis),
@@ -383,7 +383,7 @@ create table vehiculos
 )
 go
 
-insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
+insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, aÃ±o_fabricacion, id_sucursal, nro_patente)
 values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
 	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
 	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
@@ -397,12 +397,12 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		not null,
-	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
+	dueÃ±o_plan				char(3)			not null check(dueÃ±o_plan in ('GOB','CON')),
 	CONSTRAINT PK__planes__END primary key(id_plan)
 )
 go
 
-insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
+insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÃ±o_plan)
 values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/interes', 'CON'), 
 	  (303456, 'Plan Nacional Chevrolet','Plan Nacional Chevrolet', 60, '5ta cuota', '84 cuotas 0% interes', 'GOB'),
 	  (303457, 'Plan 100% financiado', 'Plan 100% financiado', 80, '10ma cuota','84 cuotas 0% interes', 'GOB'),
@@ -417,14 +417,14 @@ create table cuotas
 	id_plan					integer			not null,
 	importe					decimal(10,2)	null, -- por defecto
 	fecha_vencimiento		date			null,
-	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
+	pagÃ³					char(1)			check (pagÃ³ in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente) references clientes
 )
 go
 
-insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagÃ³)
 values(111, 25555555, 303456, 5000.000, '02-02-2018', 'S'),
 	  (112, 25555555, 303456, 5000.000, '02-03-2018', 'S'),
 	  (113, 25555555, 303456, 5000.000, '02-04-2018', 'S'),
@@ -500,7 +500,7 @@ begin
 	on c.dni_cliente = ad.dni_cliente
 	join planes pl
 	on ad.id_plan = pl.id_plan
-    order by c.apellido_nombre
+   order by c.apellido_nombre
 end;
 go
 
