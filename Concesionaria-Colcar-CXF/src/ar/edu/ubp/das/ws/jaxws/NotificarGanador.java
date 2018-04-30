@@ -15,59 +15,59 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"arg0", "arg1", "arg2", "arg3", "arg4"})
+@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_concesionaria", "dni_cliente", "nombre_apellido", "email_cliente",  "fecha_sorteo"})
 
 public class NotificarGanador {
 
-    @XmlElement(name = "arg0")
-    private java.lang.String arg0;
-    @XmlElement(name = "arg1")
-    private java.lang.String arg1;
-    @XmlElement(name = "arg2")
-    private java.lang.String arg2;
-    @XmlElement(name = "arg3")
-    private java.lang.String arg3;
-    @XmlElement(name = "arg4")
-    private java.lang.String arg4;
+    @XmlElement(name = "id_concesionaria")
+    private java.lang.String id_concesionaria;
+    @XmlElement(name = "dni_cliente")
+    private java.lang.String dni_cliente;
+    @XmlElement(name = "nombre_apellido")
+    private java.lang.String nombre_apellido;
+    @XmlElement(name = "email_cliente")
+    private java.lang.String email_cliente;
+    @XmlElement(name = "fecha_sorteo")
+    private java.lang.String fecha_sorteo;
 
-    public java.lang.String getArg0() {
-        return this.arg0;
+    public java.lang.String getIdConcesionaria() {
+        return this.id_concesionaria;
     }
 
-    public void setArg0(java.lang.String newArg0)  {
-        this.arg0 = newArg0;
+    public void setIdConcesionaria(java.lang.String newArg0)  {
+        this.id_concesionaria = newArg0;
     }
 
-    public java.lang.String getArg1() {
-        return this.arg1;
+    public java.lang.String getDniCliente() {
+        return this.dni_cliente;
     }
 
-    public void setArg1(java.lang.String newArg1)  {
-        this.arg1 = newArg1;
+    public void setDniCliente(java.lang.String newArg1)  {
+        this.dni_cliente = newArg1;
     }
 
-    public java.lang.String getArg2() {
-        return this.arg2;
+    public java.lang.String getNombreApellido() {
+        return this.nombre_apellido;
     }
 
-    public void setArg2(java.lang.String newArg2)  {
-        this.arg2 = newArg2;
+    public void setNombreApellido(java.lang.String newArg2)  {
+        this.nombre_apellido = newArg2;
     }
 
-    public java.lang.String getArg3() {
-        return this.arg3;
+    public java.lang.String getEmailCliente() {
+        return this.email_cliente;
     }
 
-    public void setArg3(java.lang.String newArg3)  {
-        this.arg3 = newArg3;
+    public void setEmailCliente(java.lang.String newArg3)  {
+        this.email_cliente = newArg3;
     }
 
-    public java.lang.String getArg4() {
-        return this.arg4;
+    public java.lang.String getFechaSorteo() {
+        return this.fecha_sorteo;
     }
 
-    public void setArg4(java.lang.String newArg4)  {
-        this.arg4 = newArg4;
+    public void setFechaSorteo(java.lang.String newArg4)  {
+        this.fecha_sorteo = newArg4;
     }
 
 }

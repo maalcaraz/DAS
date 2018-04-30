@@ -18,7 +18,9 @@ import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 
-@Path("/autohaus")
+
+@Path("/AutoHaus")
+
 @Produces(MediaType.APPLICATION_JSON) 
 public class ClientesResource {
 	 @Path("/ejemplo")
@@ -99,8 +101,6 @@ public class ClientesResource {
 			e.setIdPlan(idPlan);
 
         	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
-        	
         	
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }

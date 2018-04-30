@@ -8,10 +8,18 @@
    <title>Reporte de Error</title>            
 </head>
 <body>
-	<div id="error">
+<h2>
+<%
+	
+	out.print(request.getAttribute("servicio"));
+	%>
+
+</h2>
+
 	<%
 	out.println(request.getAttribute("error"));
+	//out.print(request.getAttribute("servicio"));
 	%>
-	</div>
+
 </body>
 </html>
