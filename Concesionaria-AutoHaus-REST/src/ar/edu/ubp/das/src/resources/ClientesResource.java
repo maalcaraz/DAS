@@ -18,7 +18,9 @@ import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 
-@Path("/autohaus")
+
+@Path("/AutoHaus")
+
 @Produces(MediaType.APPLICATION_JSON) 
 public class ClientesResource {
 	 @Path("/ejemplo")

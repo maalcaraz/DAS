@@ -36,10 +36,15 @@ public class ObtenerClientesServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		URI uri = URI.create("http://localhost:8080/Concesionaria-AutoHaus-REST/rest/autohaus/datosClientes");            
+		String servicio = (request.getParameter("servicio")); // verificar por null
+		System.out.println(servicio);
+		
+		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/datosClientes";
+		System.out.println(s);
+		URI uri = URI.create(s); // Podemos evitar este duplicado y sacarlo del path en el servicio           
 		HttpPost req = new HttpPost();
 		         req.setURI(uri);
-		         // req.setEntity(new UrlEncodedFormEntity(nvps)); 
+		
 		HttpClient client = HttpClientBuilder.create().build();	       
 		HttpResponse resp = client.execute(req);
 		HttpEntity responseEntity = resp.getEntity();
@@ -49,6 +54,7 @@ public class ObtenerClientesServlet extends HttpServlet {
 		if(responseStatus.getStatusCode() != 200) {
 			throw new RuntimeException(restResp);
 		}
+		request.setAttribute("servicio", servicio);
 		request.setAttribute("error", restResp);
 		this.gotoPage("/error.jsp", request, response);
 		

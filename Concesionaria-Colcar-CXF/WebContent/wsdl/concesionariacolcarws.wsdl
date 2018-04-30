@@ -5,8 +5,8 @@
   <import namespace="http://ws.das.ubp.edu.ar/" schemaLocation="concesionariacolcarws_schema1.xsd"/>
 </schema>
   </wsdl:types>
-  <wsdl:message name="getCuentasClientes">
-    <wsdl:part name="parameters" element="tns:getCuentasClientes">
+  <wsdl:message name="getClientesResponse">
+    <wsdl:part name="parameters" element="tns:getClientesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="verificarCancelado">
@@ -21,8 +21,8 @@
     <wsdl:part name="Exception" element="tns:Exception">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getCuentasClientesResponse">
-    <wsdl:part name="parameters" element="tns:getCuentasClientesResponse">
+  <wsdl:message name="getClientes">
+    <wsdl:part name="parameters" element="tns:getClientes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="notificarGanadorResponse">
@@ -34,10 +34,10 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ConcesionariaColcarWS">
-    <wsdl:operation name="getCuentasClientes">
-      <wsdl:input name="getCuentasClientes" message="tns:getCuentasClientes">
+    <wsdl:operation name="getClientes">
+      <wsdl:input name="getClientes" message="tns:getClientes">
     </wsdl:input>
-      <wsdl:output name="getCuentasClientesResponse" message="tns:getCuentasClientesResponse">
+      <wsdl:output name="getClientesResponse" message="tns:getClientesResponse">
     </wsdl:output>
       <wsdl:fault name="Exception" message="tns:Exception">
     </wsdl:fault>
@@ -61,12 +61,12 @@
   </wsdl:portType>
   <wsdl:binding name="ConcesionariaColcarWSServiceSoapBinding" type="tns:ConcesionariaColcarWS">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getCuentasClientes">
-      <soap:operation soapAction="urn:GetCuentasClientes" style="document"/>
-      <wsdl:input name="getCuentasClientes">
+    <wsdl:operation name="getClientes">
+      <soap:operation soapAction="urn:GetClientes" style="document"/>
+      <wsdl:input name="getClientes">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getCuentasClientesResponse">
+      <wsdl:output name="getClientesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="Exception">

@@ -18,8 +18,8 @@ import ar.edu.ubp.das.src.beans.ClienteBean;
 @WebService(targetNamespace = "http://ws.das.ubp.edu.ar/", portName = "ConcesionariaColcarWSPort", serviceName = "ConcesionariaColcarWSService")
 public class ConcesionariaColcarWS {
 
-		@WebMethod(operationName = "getCuentasClientes", action = "urn:GetCuentasClientes")
-		public String getCuentasClientes() throws Exception {
+		@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
+		public String getClientes() throws Exception {
 			
 			List<Bean> clientes = new LinkedList<Bean>();
 			

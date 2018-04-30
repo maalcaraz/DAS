@@ -69,9 +69,7 @@ public class NotificarGanadorServlet extends HttpServlet {
 		if(responseStatus.getStatusCode() != 200) {
 			throw new RuntimeException(restResp);
 		}
-			
 		//Gson gson = new Gson();
-		
 		
 		//LinkedList<AlumnosCurso> alumnos = gson.fromJson(restResp, new TypeToken<LinkedList<AlumnosCurso>>(){}.getType());
 		request.setAttribute("error", restResp);

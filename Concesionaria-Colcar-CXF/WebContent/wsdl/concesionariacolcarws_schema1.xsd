@@ -1,14 +1,14 @@
 <xs:schema xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.das.ubp.edu.ar/">
-  <xs:element name="getCuentasClientes" type="tns:getCuentasClientes"/>
-  <xs:element name="getCuentasClientesResponse" type="tns:getCuentasClientesResponse"/>
+  <xs:element name="getClientes" type="tns:getClientes"/>
+  <xs:element name="getClientesResponse" type="tns:getClientesResponse"/>
   <xs:element name="notificarGanador" type="tns:notificarGanador"/>
   <xs:element name="notificarGanadorResponse" type="tns:notificarGanadorResponse"/>
   <xs:element name="verificarCancelado" type="tns:verificarCancelado"/>
   <xs:element name="verificarCanceladoResponse" type="tns:verificarCanceladoResponse"/>
-  <xs:complexType name="getCuentasClientes">
+  <xs:complexType name="getClientes">
     <xs:sequence/>
   </xs:complexType>
-  <xs:complexType name="getCuentasClientesResponse">
+  <xs:complexType name="getClientesResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
