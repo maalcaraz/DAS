@@ -85,6 +85,7 @@ public class ClientesResource {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 	}
+	
 	@Path("/verificarCancelado")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -100,11 +101,9 @@ public class ClientesResource {
         	//chequear por que un cliente puede tener mas de un plan
 			p.setIdPlan(idPlan);
 
-        	//String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+
 			String mensajeRespuesta = ((dao.valid2Beans(c,p) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
-        	
-        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+        	        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();

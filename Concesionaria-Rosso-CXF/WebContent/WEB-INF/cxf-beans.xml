@@ -5,8 +5,9 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<jaxws:endpoint id="clientesws" implementor="ar.edu.ubp.das.ws.ClientesWS"
-		wsdlLocation="wsdl/clientesws.wsdl" address="/clientesws">
+	<jaxws:endpoint id="concesionariarossows"
+		implementor="ar.edu.ubp.das.ws.ConcesionariaRossoWS" wsdlLocation="wsdl/concesionariarossows.wsdl"
+		address="/concesionariarossows">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>

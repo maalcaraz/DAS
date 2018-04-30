@@ -2,8 +2,6 @@ package ar.edu.ubp.das.servlets;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,13 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -30,9 +25,7 @@ import org.apache.http.util.EntityUtils;
 public class ObtenerClientesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	
     public ObtenerClientesServlet() {
         super();
         
@@ -43,11 +36,15 @@ public class ObtenerClientesServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		URI uri = URI.create("http://localhost:8080/Concesionaria-AutoHaus-REST/rest/autohaus/datosClientes");            
-        
+		String servicio = (request.getParameter("servicio")); // verificar por null
+		System.out.println(servicio);
+		
+		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/datosClientes";
+		System.out.println(s);
+		URI uri = URI.create(s); // Podemos evitar este duplicado y sacarlo del path en el servicio           
 		HttpPost req = new HttpPost();
 		         req.setURI(uri);
-		         // req.setEntity(new UrlEncodedFormEntity(nvps)); 
+		
 		HttpClient client = HttpClientBuilder.create().build();	       
 		HttpResponse resp = client.execute(req);
 		HttpEntity responseEntity = resp.getEntity();
@@ -57,6 +54,7 @@ public class ObtenerClientesServlet extends HttpServlet {
 		if(responseStatus.getStatusCode() != 200) {
 			throw new RuntimeException(restResp);
 		}
+		request.setAttribute("servicio", servicio);
 		request.setAttribute("error", restResp);
 		this.gotoPage("/error.jsp", request, response);
 		

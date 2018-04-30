@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ConcesionariaColcarWSService" targetNamespace="http://ws.das.ubp.edu.ar/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://ws.das.ubp.edu.ar/" schemaLocation="concesionariacolcarws_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getClientesResponse">
+    <wsdl:part name="parameters" element="tns:getClientesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificarCancelado">
+    <wsdl:part name="parameters" element="tns:verificarCancelado">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verificarCanceladoResponse">
+    <wsdl:part name="parameters" element="tns:verificarCanceladoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part name="Exception" element="tns:Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClientes">
+    <wsdl:part name="parameters" element="tns:getClientes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notificarGanadorResponse">
+    <wsdl:part name="parameters" element="tns:notificarGanadorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notificarGanador">
+    <wsdl:part name="parameters" element="tns:notificarGanador">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ConcesionariaColcarWS">
+    <wsdl:operation name="getClientes">
+      <wsdl:input name="getClientes" message="tns:getClientes">
+    </wsdl:input>
+      <wsdl:output name="getClientesResponse" message="tns:getClientesResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="tns:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificarCancelado">
+      <wsdl:input name="verificarCancelado" message="tns:verificarCancelado">
+    </wsdl:input>
+      <wsdl:output name="verificarCanceladoResponse" message="tns:verificarCanceladoResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="tns:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="notificarGanador">
+      <wsdl:input name="notificarGanador" message="tns:notificarGanador">
+    </wsdl:input>
+      <wsdl:output name="notificarGanadorResponse" message="tns:notificarGanadorResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="tns:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConcesionariaColcarWSServiceSoapBinding" type="tns:ConcesionariaColcarWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getClientes">
+      <soap:operation soapAction="urn:GetClientes" style="document"/>
+      <wsdl:input name="getClientes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getClientesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verificarCancelado">
+      <soap:operation soapAction="urn:VerificarCancelado" style="document"/>
+      <wsdl:input name="verificarCancelado">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verificarCanceladoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="notificarGanador">
+      <soap:operation soapAction="urn:NotificarGanador" style="document"/>
+      <wsdl:input name="notificarGanador">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="notificarGanadorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ConcesionariaColcarWSService">
+    <wsdl:port name="ConcesionariaColcarWSPort" binding="tns:ConcesionariaColcarWSServiceSoapBinding">
+      <soap:address location="http://localhost:8080/Concesionaria-Colcar-CXF/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
