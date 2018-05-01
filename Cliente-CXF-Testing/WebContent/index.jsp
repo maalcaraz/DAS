@@ -4,26 +4,57 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./css/style.css">
 <script type="text/javascript" src="./js/jquery.js"></script>
 <script type="text/javascript" src="./js/utils.js"></script>
 <script type="text/javascript" src="./js/test.js"></script>
-<title>Testing de Servicio REST</title>
+<title>Testing de Servicio CXF</title>
 </head>
 <body>
 
 <h1>Seleccione el servicio a consumir</h1>
 
+<form id="form" method="post" action="javascript:void(null)">
+
+
+<div class="box">
+<h2> Obtener clientes </h2>
 <button id="obtener" onclick="jTest.obtener()" name="obtener"> Obtener Datos de Clientes </button>
-<br>
-<button id="notificar" onclick="jTest.notificar()" name="notificar"> Notificar ganador </button>
-<br>
+<br><br>
+</div>
+
+<div class="box">
+<h2> Notificar ganador </h2>
+	
+	<label for="idConcesionaria"> Concesionaria:  </label>
+	<input type="text" id="idConcesionaria" name="idConcesionaria"> <br><br>
+	<label for="dniCliente"> Dni del cliente:  </label>
+	<input type="text" id="dniCliente" name="dniCliente"><br><br>
+	<label for="nombreApellido"> Nombre y apellido: </label>
+	<input type="text" id="nombreApellido" name="nombreApellido"><br><br>
+	<label for="emailCliente"> Email:  </label>
+	<input type="text" id="emailCliente" name="emailCliente"><br><br>
+	<label for="fechaSorteo"> Fecha del sorteo:  </label>
+	<input type="text" id="fechaSorteo" name="fechaSorteo"><br><br>
+	
+	<button id="notificar" onclick="jTest.notificar()" name="notificar"> Notificar ganador </button><br><br>
+</div>
+
+<div class="box">
+<h2> Verificar ganador </h2>
+<br><br>
+	<label for="dniVerificar"> Dni:  </label>
+	<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
+	<label for="idPlan"> Identificador de plan:  </label>
+	<input type="text" id="idPlan" name="idPlan"><br><br>
 <button id="verificar" onclick="jTest.verificar()" name="verificar"> Verificar cancelado </button>
+<br><br>
+</div>
 
-<br>
+</form>
+<h2>Resultados </h2>
 <div id="message"></div>
-<div id="result"></div>
-
-<script type="text/javascript">jTest.consumir()</script>
+<div id="result"> </div>
 
 </body>
 </html>

@@ -31,10 +31,8 @@ public class NotificarGanadorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public NotificarGanadorServlet() {
-        super();
-        
+        super();   
     }
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -42,14 +40,15 @@ public class NotificarGanadorServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String dniCliente = "23432255";
-		String nomCliente = "Pablo Alcaraz";
-		String emailCliente = "pabloalcaraz@gmail.com";
-		String fechaSorteo = "03-03-18";
+		String idConcesionaria = request.getParameter("idConcesionaria");
+		String dniCliente = request.getParameter("dniCliente");//"23432255";
+		String nomCliente = request.getParameter("nombreApellido");//"Pablo Alcaraz";
+		String emailCliente = request.getParameter("emailCliente");//pabloalcaraz@gmail.com";
+		String fechaSorteo = request.getParameter("fechaSorteo");//"03-03-18";
 	
 	try {
       	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-      	nvps.add(new BasicNameValuePair("id_concesionaria" , "Montironi"));
+      	nvps.add(new BasicNameValuePair("id_concesionaria", idConcesionaria));
 		nvps.add(new BasicNameValuePair("dni_cliente" , dniCliente));
 		nvps.add(new BasicNameValuePair("nombre_apellido", nomCliente));
 		nvps.add(new BasicNameValuePair("email_cliente", emailCliente));

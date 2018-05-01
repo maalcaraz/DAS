@@ -28,18 +28,18 @@ public class NotificarGanadorServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String dniCliente = "23432255";
-		String nomCliente = "Pablo Alcaraz";
-		String emailCliente = "pabloalcaraz@gmail.com";
-		String fechaSorteo = "03-03-18";
+		String idConcesionaria = request.getParameter("idConcesionaria");
+		String dniCliente = request.getParameter("dniCliente");//"23432255";
+		String nomCliente = request.getParameter("nombreApellido");//"Pablo Alcaraz";
+		String emailCliente = request.getParameter("emailCliente");//pabloalcaraz@gmail.com";
+		String fechaSorteo = request.getParameter("fechaSorteo");//"03-03-18";
 	
 		try{
 			ConcesionariaRossoWSService service = new ConcesionariaRossoWSService();
 		
 			ConcesionariaRossoWS respuesta = service.getConcesionariaRossoWSPort();
 			
-			
-			request.setAttribute("error", respuesta.notificarGanador("Montironi", dniCliente, nomCliente, emailCliente, fechaSorteo));
+			request.setAttribute("error", respuesta.notificarGanador(idConcesionaria, dniCliente, nomCliente, emailCliente, fechaSorteo));
 			
 			this.gotoPage("/error.jsp", request, response);
 		}

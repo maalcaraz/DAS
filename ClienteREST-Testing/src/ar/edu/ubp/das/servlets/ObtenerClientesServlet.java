@@ -2,6 +2,7 @@ package ar.edu.ubp.das.servlets;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +18,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import ar.edu.ubp.das.beans.ClienteBean;
 
 /**
  * Servlet implementation class ObtenerClientesServlet
@@ -54,9 +60,15 @@ public class ObtenerClientesServlet extends HttpServlet {
 		if(responseStatus.getStatusCode() != 200) {
 			throw new RuntimeException(restResp);
 		}
+		
+		// Armar de nuevo un bean de Clientes para pasarlo a otros jsp
+		
+		Gson gson = new Gson();
+		LinkedList<ClienteBean> clientes = gson.fromJson(restResp, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+		
 		request.setAttribute("servicio", servicio);
-		request.setAttribute("error", restResp);
-		this.gotoPage("/error.jsp", request, response);
+		request.setAttribute("clientes", clientes);
+		this.gotoPage("/clientes.jsp", request, response);
 		
 	}
 	private void gotoPage(String address, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

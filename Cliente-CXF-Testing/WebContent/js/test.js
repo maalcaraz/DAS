@@ -6,6 +6,7 @@ var jTest = {
 				url: "./getClientes.jsp",
 				type: "post",
 				dataType: "html",
+				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
 					jUtils.showing("message", hr.responseText);
@@ -21,6 +22,7 @@ var jTest = {
 				url: "./notificarGanador.jsp",
 				type: "post",
 				dataType: "html",
+				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
 					jUtils.showing("message", hr.responseText);
@@ -36,6 +38,7 @@ var jTest = {
 				url: "./verificarCancelado.jsp",
 				type: "post",
 				dataType: "html",
+				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
 					jUtils.showing("message", hr.responseText);
