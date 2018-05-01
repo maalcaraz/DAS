@@ -17,6 +17,7 @@ import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
 
 
 @Path("/Montironi")
@@ -86,6 +87,7 @@ public class ClientesResource {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 	}
+	
 	@Path("/verificarCancelado")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -95,14 +97,15 @@ public class ClientesResource {
         	
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	
-        	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);
+        	ClienteBean c = new ClienteBean();
+        	PlanBean p = new PlanBean();
+        	c.setDniCliente(dniCliente);
         	//chequear por que un cliente puede tener mas de un plan
-			e.setIdPlan(idPlan);
+			p.setIdPlan(idPlan);
 
-        	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	
-        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+
+			String mensajeRespuesta = ((dao.valid2Beans(c,p) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+        	        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
