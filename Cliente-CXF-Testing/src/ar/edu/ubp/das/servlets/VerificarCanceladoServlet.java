@@ -28,14 +28,14 @@ public class VerificarCanceladoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// toma dni_cliente
+		
 		
 		try{
 			ConcesionariaRossoWSService service = new ConcesionariaRossoWSService();
 		
 			ConcesionariaRossoWS respuesta = service.getConcesionariaRossoWSPort();
-			String dniCliente = "23432255";
-			String idPlan = "303458";
+			String dniCliente = request.getParameter("dniVerificar");//"23432255";
+			String idPlan = request.getParameter("idPlan");//"303458";
 			
 			request.setAttribute("error", respuesta.verificarCancelado(dniCliente, idPlan));
 			this.gotoPage("/error.jsp", request, response);

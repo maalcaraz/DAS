@@ -30,10 +30,8 @@ public class VerificarCanceladoServlet extends HttpServlet {
     
     public VerificarCanceladoServlet() {
         super();
-        
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
@@ -61,7 +59,6 @@ public class VerificarCanceladoServlet extends HttpServlet {
 			if(responseStatus.getStatusCode() != 200) { 
 				throw new RuntimeException(restResp); 
 			}
-				
 			request.setAttribute("error", restResp);
 	    	this.gotoPage("/error.jsp", request, response);
 	       
