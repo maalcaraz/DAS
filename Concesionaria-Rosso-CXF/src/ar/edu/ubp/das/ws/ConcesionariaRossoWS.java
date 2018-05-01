@@ -14,6 +14,7 @@ import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
 
 @WebService(targetNamespace = "http://ws.das.ubp.edu.ar/", portName = "ConcesionariaRossoWSPort", serviceName = "ConcesionariaRossoWSService")
 public class ConcesionariaRossoWS {
@@ -75,11 +76,12 @@ public class ConcesionariaRossoWS {
 	public String verificarCancelado(@WebParam(name = "arg0") String dniCliente, 
 									 @WebParam(name = "arg1") String idPlan) throws Exception {
         try {
-        	MSClientesDao dao = (MSClientesDao) DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);     
-        	e.setIdPlan(idPlan);
-        	String mensajeRespuesta = ((dao.valid(e) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
+	        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+	        	ClienteBean c = new ClienteBean();
+	        	PlanBean p = new PlanBean();
+	        	c.setDniCliente(dniCliente);     
+	        	p.setIdPlan(idPlan);
+	        	String mensajeRespuesta = ((dao.valid2Beans(c, p) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
         	return mensajeRespuesta;
         }
         catch(SQLException ex) {

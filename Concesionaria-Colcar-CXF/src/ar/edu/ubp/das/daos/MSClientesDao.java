@@ -8,6 +8,7 @@ import java.util.List;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
 
 public class MSClientesDao extends DaoImpl {
 
@@ -87,6 +88,7 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public boolean valid(Bean form) throws SQLException {
+		/*
 		this.connect();		
 		ClienteBean f = (ClienteBean) form;
 		this.setProcedure("dbo.verificar_cancelado(?)"); // falta agregar al PA el nro plan
@@ -100,5 +102,27 @@ public class MSClientesDao extends DaoImpl {
 		this.disconnect();
 		
 		return res;
+		*/
+		return false;
 	}
+	
+	@Override
+	public boolean valid2Beans(Bean form1, Bean form2) throws SQLException {
+		this.connect();		
+		ClienteBean f1 = (ClienteBean) form1;
+		PlanBean f2 = (PlanBean) form2;
+		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
+		
+		this.setParameter(1, f1.getDniCliente());
+		this.setParameter(2, f2.getIdPlan());
+		 
+		
+		boolean res = this.executeValidateQuery("cancelado"); 
+		
+		
+		this.disconnect();
+		
+		return res;
+	}
+	
 }
