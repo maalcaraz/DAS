@@ -7,6 +7,7 @@ import java.util.List;
 
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 
@@ -29,7 +30,6 @@ public class MSClientesDao extends DaoImpl {
 		this.setProcedure("dbo.insertar_novedad(?)");
 	
 		this.setParameter(1, textoNovedad);
-		
 		this.executeUpdate();
 		this.disconnect();
 
@@ -37,18 +37,30 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
-		
 		ClienteBean f = (ClienteBean) form;
 		System.out.println(f.getDniCliente());
-		//Procesamiento para notificar los nuevos ganadores
+		/*Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. */
 		this.setProcedure("dbo.cancelar_ganador(?,?)");
 		this.setParameter(1, f.getDniCliente());
 		this.setParameter(2, f.getFechaSorteo());
-		
 		this.executeUpdate();
-		
 		this.disconnect();
 
+	}
+	
+	public void update(Bean b1, Bean b2) throws SQLException {
+		this.connect();
+		
+		ClienteBean cliente = (ClienteBean) b1;
+		AdquiridoBean adquirido = (AdquiridoBean) b2;
+		
+	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
+		this.setParameter(1, cliente.getDniCliente());
+		this.setParameter(2, adquirido.getFechaSorteado());
+		this.setParameter(3, adquirido.getIdPlan());
+		this.executeUpdate();
+		this.disconnect();
 	}
 
 	@Override
@@ -68,10 +80,9 @@ public class MSClientesDao extends DaoImpl {
 		
 		this.setProcedure("dbo.get_estados_cuentas()", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
-        
         ResultSet result = this.getStatement().executeQuery();
 
-        // Almacenamiento en la estructura a retornar en el servicio
+        /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
         while (result.next()){
         	clienteRecuperado = new ClienteBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
@@ -80,9 +91,7 @@ public class MSClientesDao extends DaoImpl {
         	clientes.add(clienteRecuperado);
         	result.next();
         }
-    	
 		this.disconnect();
-		
 		return clientes;
 	}
 

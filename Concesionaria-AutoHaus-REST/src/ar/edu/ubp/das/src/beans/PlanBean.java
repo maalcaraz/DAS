@@ -10,7 +10,7 @@ public class PlanBean implements Bean {
 	}
 
 	private String idPlan;
-	private String dniCliente;
+	//private String dniCliente;
 	private String cantCuotas;
 	
 	public String getCantCuotas() {

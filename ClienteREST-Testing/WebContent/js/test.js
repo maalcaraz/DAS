@@ -22,6 +22,7 @@ var jTest = {
 				url: "./notificarGanador.jsp",
 				type: "post",
 				dataType: "html",
+				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
 					jUtils.showing("message", hr.responseText);

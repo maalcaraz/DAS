@@ -1,6 +1,8 @@
 package ar.edu.ubp.das.src.beans;
 
-public class AdquiridoBean {
+import ar.edu.ubp.das.db.Bean;
+
+public class AdquiridoBean implements Bean {
 	
 	private String idPlan;
 	private String cancelado;
