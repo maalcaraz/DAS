@@ -17,7 +17,6 @@
 <form id="form" method="post" action="javascript:void(null)">
 
 <select id="servicio" name="servicio">
-	<option value="" selected > Seleccione el servicio a apuntar </option>
 	<option value="AutoHaus"> AutoHaus </option>
 	<option value="Montironi"> Montironi </option>
 </select>

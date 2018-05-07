@@ -1,5 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import com.google.gson.Gson;
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 
 @Path("/Montironi")
@@ -54,33 +57,53 @@ public class ClientesResource {
 	@Path("/notificarGanador")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response notificarGanador(@FormParam("id_concesionaria") String idConcesionaria,
+	public Response notificarGanador(@FormParam("id_portal") String idPortal,
+									@FormParam("id_concesionaria") String idConcesionaria,
 									@FormParam("dni_cliente") String dniCliente, 
 									@FormParam("nombre_apellido") String nombreApellido,
-									@FormParam("email_cliente") String emailCliente,
+									@FormParam("id_plan") String idPlan,
 									@FormParam("fecha_sorteo") String fechaSorteo) {
-        try {
+        
+		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
+	
+		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+    	String estado_transaccion = "Failed"; 
+    	String mensajeRespuesta = " ";
+        Date horaFechaTransaccion = new Date();
+        
+		
+		try {
         	
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	
-        	ClienteBean e = new ClienteBean();
-        	e.setDniCliente(dniCliente);
-        	e.setNomCliente(nombreApellido);
-        	e.setFechaSorteo(fechaSorteo);
+        	ClienteBean cliente = new ClienteBean();
+        	AdquiridoBean adquirido = new AdquiridoBean();
+        	cliente.setDniCliente(dniCliente);
+        	adquirido.setFechaSorteado(fechaSorteo);
+        	adquirido.setIdPlan(idPlan);
+
         	
         	/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
         	if (idConcesionaria.equals("Montironi")){
-        		dao.update(e);
-        		System.out.println("Entrando a concesionaria");
+        		dao.update(cliente, adquirido);
         	}
         	else{ /*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
         		
         		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
         		dao.insert(novedad);
-        		// Hay que programarlo todavia.
+        		
         	}
         	
-        	String mensajeRespuesta = "Notificacion exitosa";
+        	estado_transaccion = "Success";
+        	mensajeRespuesta = "Notificación exitosa";
+        	
+        	Gson gson = new Gson();
+        	TransaccionBean transaccion = new TransaccionBean();
+        	transaccion.setId_transaccion(id_transaccion);
+        	transaccion.setEstado_transaccion(estado_transaccion);
+        	transaccion.setMensajeRespuesta(mensajeRespuesta);
+        	transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        	String f = gson.toJson(transaccion);
+        	System.out.println(f);
         	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {

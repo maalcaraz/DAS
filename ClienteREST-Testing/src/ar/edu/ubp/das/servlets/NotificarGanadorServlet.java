@@ -46,34 +46,35 @@ public class NotificarGanadorServlet extends HttpServlet {
 		String emailCliente = request.getParameter("emailCliente");//pabloalcaraz@gmail.com";
 		String fechaSorteo = request.getParameter("fechaSorteo");//"03-03-18";
 	
-	try {
-      	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-      	nvps.add(new BasicNameValuePair("id_concesionaria", idConcesionaria));
-		nvps.add(new BasicNameValuePair("dni_cliente" , dniCliente));
-		nvps.add(new BasicNameValuePair("nombre_apellido", nomCliente));
-		nvps.add(new BasicNameValuePair("email_cliente", emailCliente));
-		nvps.add(new BasicNameValuePair("fecha_sorteo", fechaSorteo));
-
-		URI uri = URI.create("http://localhost:8080/Concesionaria-AutoHaus-REST/rest/autohaus/notificarGanador");            
-			            
-		HttpPost req = new HttpPost();
-		         req.setURI(uri);
-		         req.setEntity(new UrlEncodedFormEntity(nvps)); 
-		HttpClient client = HttpClientBuilder.create().build();	       
-		HttpResponse resp = client.execute(req);
-		HttpEntity responseEntity = resp.getEntity();
-		StatusLine responseStatus = resp.getStatusLine();
-		String restResp = EntityUtils.toString(responseEntity);	
+		String servicio = (request.getParameter("servicio"));
+		try {
+	      	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+	      	nvps.add(new BasicNameValuePair("id_concesionaria", idConcesionaria));
+			nvps.add(new BasicNameValuePair("dni_cliente" , dniCliente));
+			nvps.add(new BasicNameValuePair("nombre_apellido", nomCliente));
+			nvps.add(new BasicNameValuePair("email_cliente", emailCliente));
+			nvps.add(new BasicNameValuePair("fecha_sorteo", fechaSorteo));
+	
+			URI uri = URI.create("http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/notificarGanador");            
+				            
+			HttpPost req = new HttpPost();
+			         req.setURI(uri);
+			         req.setEntity(new UrlEncodedFormEntity(nvps)); 
+			HttpClient client = HttpClientBuilder.create().build();	       
+			HttpResponse resp = client.execute(req);
+			HttpEntity responseEntity = resp.getEntity();
+			StatusLine responseStatus = resp.getStatusLine();
+			String restResp = EntityUtils.toString(responseEntity);	
+				
+			if(responseStatus.getStatusCode() != 200) {
+				throw new RuntimeException(restResp);
+			}
+			//Gson gson = new Gson();
 			
-		if(responseStatus.getStatusCode() != 200) {
-			throw new RuntimeException(restResp);
-		}
-		//Gson gson = new Gson();
-		
-		//LinkedList<AlumnosCurso> alumnos = gson.fromJson(restResp, new TypeToken<LinkedList<AlumnosCurso>>(){}.getType());
-		request.setAttribute("error", restResp);
-    	this.gotoPage("/error.jsp", request, response);
-       
+			//LinkedList<AlumnosCurso> alumnos = gson.fromJson(restResp, new TypeToken<LinkedList<AlumnosCurso>>(){}.getType());
+			request.setAttribute("error", restResp);
+	    	this.gotoPage("/error.jsp", request, response);
+	       
         }
         catch(RuntimeException ex) {
         	response.setStatus(400);

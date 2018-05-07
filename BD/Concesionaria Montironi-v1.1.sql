@@ -513,7 +513,7 @@ select * from clientes c
 				on c.dni_cliente = ad.dni_cliente
 				join planes pl
 				on ad.id_plan = pl.id_plan
-
+go
 --Trigger 
 
 --1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
@@ -551,20 +551,31 @@ go
 CREATE PROCEDURE dbo.cancelar_ganador
 (
 	@dni_cliente		char(8),
-	@fecha_sorteo	varchar(10)
+	@fecha_sorteo		varchar(10),
+	@id_plan			integer
 )
 AS
 BEGIN
 
 	if exists (
-				Select * from clientes c
-				where c.dni_cliente = @dni_cliente
-				)
+				SELECT * from adquiridos ad
+				where ad.dni_cliente = @dni_cliente
+				and ad.id_plan = @id_plan 
+			  )
+	UPDATE cuo
+		SET cuo.pagó = 'S'
+		FROM cuotas cuo
+		where cuo.dni_cliente = @dni_cliente
+		and	  cuo.id_plan = @id_plan
+
 	UPDATE a
-		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
-			a.ganador_sorteo = 'S'
-		FROM adquiridos a
+		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), 
+			a.ganador_sorteo = 'S', -- Cambiamos su estado a ganador
+			a.cancelado = 'S'		-- Especificamos que ya estan canceladas sus cuotas
+		FROM adquiridos a		
 		where a.dni_cliente = @dni_cliente
+		and		  a.id_plan = @id_plan
+	
 END
 go
 
