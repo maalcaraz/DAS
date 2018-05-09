@@ -14,7 +14,6 @@ import ar.edu.ubp.das.src.beans.ClienteBean;
 public class ConcesionariaTagleWS {
 
 	public String getClientes() throws Exception {
-			
 			List<Bean> clientes = new LinkedList<Bean>();
 			
 			try

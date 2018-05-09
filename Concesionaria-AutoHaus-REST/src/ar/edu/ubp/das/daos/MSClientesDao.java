@@ -2,6 +2,7 @@ package ar.edu.ubp.das.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class MSClientesDao extends DaoImpl {
 		/*Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. */
 		this.setProcedure("dbo.cancelar_ganador(?,?)");
 		this.setParameter(1, f.getDniCliente());
-		this.setParameter(2, f.getFechaSorteo());
+		//this.setParameter(2, f.getFechaSorteo());
 		this.executeUpdate();
 		this.disconnect();
 
@@ -67,13 +68,29 @@ public class MSClientesDao extends DaoImpl {
 	public void delete(Bean form) throws SQLException {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public List<Bean> select() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<List<Bean>> selectListBeans() throws SQLException {
 		
 		// Estructuras iniciales
+		//List<Bean> 	clientes = new LinkedList<Bean>();
+		List<List<Bean>> listOfBeans = new ArrayList<List<Bean>>();
 		List<Bean> 	clientes = new LinkedList<Bean>();
+		List<Bean> 	adquiridos = new LinkedList<Bean>();
+		List<Bean> 	planes = new LinkedList<Bean>();
 		ClienteBean clienteRecuperado;
+		AdquiridoBean adquiridoRecuperado;
+		PlanBean planRecuperado;
+		
+		listOfBeans.add(clientes);
+		listOfBeans.add(adquiridos);
+		listOfBeans.add(planes);
 		
 		// Operaciones en BD
 		this.connect();
@@ -85,14 +102,44 @@ public class MSClientesDao extends DaoImpl {
         /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
         while (result.next()){
         	clienteRecuperado = new ClienteBean();
+        	adquiridoRecuperado = new AdquiridoBean();
+        	planRecuperado = new PlanBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
         	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
+        	clienteRecuperado.setEdad(result.getString("edad"));
+        	clienteRecuperado.setDomicilio(result.getString("domicilio"));
         	clienteRecuperado.setEmailCliente(result.getString("email"));
-        	clientes.add(clienteRecuperado);
+        	clienteRecuperado.setTelefono(result.getString("telefono"));
+        	clienteRecuperado.setIdLocalidad(result.getString("id_localidad"));
+        	clienteRecuperado.setCodProvincia(result.getString("cod_provincia"));
+        	
+        	listOfBeans.get(0).add(clienteRecuperado);
+        	
+        	adquiridoRecuperado.setDniCliente(result.getString("dni_cliente"));
+        	adquiridoRecuperado.setIdPlan(result.getString("id_plan"));
+        	adquiridoRecuperado.setCancelado(result.getString("cancelado"));
+        	adquiridoRecuperado.setGanadorSorteo(result.getString("ganador_sorteo"));
+        	adquiridoRecuperado.setFechaEntrega(result.getString("fecha_entrega"));
+        	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
+        	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
+        	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
+        	
+        	listOfBeans.get(1).add(adquiridoRecuperado);
+        	
+        	planRecuperado.setIdPlan(result.getString("id_plan"));
+        	planRecuperado.setDescripcion(result.getString("descripcion"));
+        	planRecuperado.setNom_plan(result.getString("nom_plan"));
+        	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
+        	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
+        	planRecuperado.setEntrega_pactada(result.getString("financion"));
+        	planRecuperado.setEntrega_pactada(result.getString("dueño_plan"));
+
+        	listOfBeans.get(2).add(planRecuperado);
+        	
         	result.next();
         }
 		this.disconnect();
-		return clientes;
+		return listOfBeans;
 	}
 
 	@Override
@@ -135,4 +182,5 @@ public class MSClientesDao extends DaoImpl {
 		
 		return res;
 	}
+
 }

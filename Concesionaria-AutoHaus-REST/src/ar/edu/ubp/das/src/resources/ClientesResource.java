@@ -88,7 +88,7 @@ public class ClientesResource {
         	}
         	
         	estado_transaccion = "Success";
-        	mensajeRespuesta = "Notificación exitosa";
+        	mensajeRespuesta = "NotificaciÃ³n exitosa";
         	
         	Gson gson = new Gson();
         	TransaccionBean transaccion = new TransaccionBean();
@@ -112,9 +112,8 @@ public class ClientesResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente,
-										@FormParam("id_plan") String idPlan) {
+									   @FormParam("id_plan") String idPlan) {
         try {
-        	
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
         	
         	ClienteBean c = new ClienteBean();
@@ -122,10 +121,8 @@ public class ClientesResource {
         	c.setDniCliente(dniCliente);
         	//chequear por que un cliente puede tener mas de un plan
 			p.setIdPlan(idPlan);
-
-
 			String mensajeRespuesta = ((dao.valid2Beans(c,p) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
