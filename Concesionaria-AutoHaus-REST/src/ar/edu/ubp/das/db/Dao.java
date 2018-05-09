@@ -11,6 +11,7 @@ public interface Dao {
     public void insert(String textoNovedad) throws SQLException;
     public void update(Bean bean) throws SQLException;
     public void delete(Bean bean) throws SQLException;
+    public List<List<Bean>> selectListBeans() throws SQLException;
     public List<Bean> select() throws SQLException;
     public boolean valid(Bean bean) throws SQLException;
 	public boolean valid2Beans(Bean form1, Bean form2) throws SQLException;
