@@ -11,6 +11,7 @@ public class PlanBean implements Bean {
 
 	private String idPlan;
 	private String dniCliente;
+	
 	private String cantCuotas;
 	
 	public String getCantCuotas() {
@@ -20,7 +21,15 @@ public class PlanBean implements Bean {
 	public void setCantCuotas(String cantCuotas) {
 		this.cantCuotas = cantCuotas;
 	}
+	
+	public String getDniCliente() {
+		return dniCliente;
+	}
 
+	public void setDniCliente(String dniCliente) {
+		this.dniCliente = dniCliente;
+	}
+	
 	public String getIdPlan() {
 		return idPlan;
 	}

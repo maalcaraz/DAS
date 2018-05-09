@@ -228,9 +228,9 @@ values (1, 'Attractive 1.4'),
 	   (5, 'Volcano 4WD AT'),
 	   (6, 'Essence 1.6'),
 	   (7, 'Blackmotion 1.6'),
-	   (8, 'Furgón corto 2.3 Techo Normal'),
-	   (9, 'Furgón corto 2.3 Techo Normal'),
-	   (10, 'Furgón medio 2.3 Techo Normal'),
+	   (8, 'FurgÃ³n corto 2.3 Techo Normal'),
+	   (9, 'FurgÃ³n corto 2.3 Techo Normal'),
+	   (10, 'FurgÃ³n medio 2.3 Techo Normal'),
 	   (11, 'Combinato 2.3'),
 	   (12, 'Furgon Maxicargo 2.3 Techo Elevado'),
 	   (13, '1.4'),
@@ -372,7 +372,7 @@ create table vehiculos
 	id_color				tinyint			not null,
 	id_tipo_vehiculo		tinyint			not null,
 	precio					decimal(10, 2)	null,
-	año_fabricacion			smallint		null,
+	aÃ±o_fabricacion			smallint		null,
 	id_sucursal				smallint		not null,	
 	nro_patente				char(9)			null,
 	CONSTRAINT PK__vehiculos__END primary key(nro_chasis),
@@ -383,7 +383,7 @@ create table vehiculos
 )
 go
 
-insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
+insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, aÃ±o_fabricacion, id_sucursal, nro_patente)
 values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
 	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
 	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
@@ -397,12 +397,12 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		not null,
-	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
+	dueÃ±o_plan				char(3)			not null check(dueÃ±o_plan in ('GOB','CON')),
 	CONSTRAINT PK__planes__END primary key(id_plan)
 )
 go
 
-insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
+insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÃ±o_plan)
 values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/interes', 'CON'), 
 	  (303456, 'Plan Nacional Chevrolet','Plan Nacional Chevrolet', 60, '5ta cuota', '84 cuotas 0% interes', 'GOB'),
 	  (303457, 'Plan 100% financiado', 'Plan 100% financiado', 80, '10ma cuota','84 cuotas 0% interes', 'GOB'),
@@ -485,13 +485,33 @@ as
 begin
   select c.dni_cliente,
          c.apellido_nombre,
-		 c.email
+		 c.domicilio,
+		 c.email,
+		 c.telefono,
+		 pl.id_plan,
+		 ad.cancelado,
+		 ad.ganador_sorteo,
+		 ad.fecha_entrega,
+		 ad.fecha_sorteado,
+		 ad.nro_chasis,
+		 pl.cant_cuotas
 	from clientes c (nolock)
-   order by c.apellido_nombre
+	join adquiridos ad
+	on c.dni_cliente = ad.dni_cliente
+	join planes pl
+	on ad.id_plan = pl.id_plan
+    order by c.apellido_nombre
 end;
 go
 
 execute dbo.get_estados_cuentas
+go
+
+select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				join planes pl
+				on ad.id_plan = pl.id_plan
 go
 
 --Trigger 
@@ -531,20 +551,31 @@ go
 CREATE PROCEDURE dbo.cancelar_ganador
 (
 	@dni_cliente		char(8),
-	@fecha_sorteo	varchar(10)
+	@fecha_sorteo		varchar(10),
+	@id_plan			integer
 )
 AS
 BEGIN
 
 	if exists (
-				Select * from clientes c
-				where c.dni_cliente = @dni_cliente
-				)
+				SELECT * from adquiridos ad
+				where ad.dni_cliente = @dni_cliente
+				and ad.id_plan = @id_plan 
+			  )
+	UPDATE cuo
+		SET cuo.pagó = 'S'
+		FROM cuotas cuo
+		where cuo.dni_cliente = @dni_cliente
+		and	  cuo.id_plan = @id_plan
+
 	UPDATE a
-		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), -- EN ESTE PROCEDIMIENTO HAY QUE AGREGAR LA CANCELACION DE CUOTAS.
-			a.ganador_sorteo = 'S'
-		FROM adquiridos a
+		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), 
+			a.ganador_sorteo = 'S', -- Cambiamos su estado a ganador
+			a.cancelado = 'S'		-- Especificamos que ya estan canceladas sus cuotas
+		FROM adquiridos a		
 		where a.dni_cliente = @dni_cliente
+		and		  a.id_plan = @id_plan
+	
 END
 go
 
@@ -572,3 +603,41 @@ go
 --execute dbo.insertar_novedad 'Hola mundo'
 
 select * from novedades
+
+
+drop procedure dbo.verificar_cancelado
+go
+
+create procedure dbo.verificar_cancelado
+(
+	@dni_cliente			char(12),
+	@id_plan				char(12)
+)
+AS
+	BEGIN
+			if exists (
+				Select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				where c.dni_cliente = @dni_cliente
+				and ad.cancelado = 'S'
+				and ad.id_plan = @id_plan
+				)
+				begin
+					select cancelado = 1
+				end
+			else
+				begin
+					select cancelado = 0
+				end
+			
+	END
+go
+
+--execute dbo.verificar_cancelado '27777777', 303458
+
+Select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				where c.dni_cliente = '27777777'
+				and ad.cancelado = 'N' 

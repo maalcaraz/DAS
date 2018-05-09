@@ -1,17 +1,17 @@
 package ar.edu.ubp.das.beans;
 
-public class ClienteBean {
+public class ClienteBean implements Bean{
 
 	//Atributos
 	private String dniCliente;
 	private String nomCliente;
 	private String emailCliente;
 	private String fechaSorteo;
-	public String toString;
 
+	@Override
 	public String toString() {
 		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", emailCliente=" + emailCliente
-				+ ", fechaSorteo=" + fechaSorteo + ", toString=" + toString + "]";
+				+ ", fechaSorteo=" + fechaSorteo + "]";
 	}
 
 	//Constructor publico
@@ -43,4 +43,5 @@ public class ClienteBean {
 	public void setFechaSorteo(String fechaSorteo) {
 		this.fechaSorteo = fechaSorteo;
 	}
+	
 }

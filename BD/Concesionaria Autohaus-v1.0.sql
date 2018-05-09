@@ -512,7 +512,6 @@ select * from clientes c
 				on c.dni_cliente = ad.dni_cliente
 				join planes pl
 				on ad.id_plan = pl.id_plan
-
 go
 
 --Trigger 

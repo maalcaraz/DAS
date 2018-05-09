@@ -15,21 +15,31 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_concesionaria", "dni_cliente", "nombre_apellido", "email_cliente",  "fecha_sorteo"})
+@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_portal","id_concesionaria", "dni_cliente", "nombre_apellido", "id_plan",  "fecha_sorteo"})
 
 public class NotificarGanador {
 
-    @XmlElement(name = "id_concesionaria")
+	@XmlElement(name = "id_portal")
+    private java.lang.String id_portal;
+  	@XmlElement(name = "id_concesionaria")
     private java.lang.String id_concesionaria;
     @XmlElement(name = "dni_cliente")
     private java.lang.String dni_cliente;
     @XmlElement(name = "nombre_apellido")
     private java.lang.String nombre_apellido;
-    @XmlElement(name = "email_cliente")
-    private java.lang.String email_cliente;
+    @XmlElement(name = "id_plan")
+    private java.lang.String id_plan;
     @XmlElement(name = "fecha_sorteo")
     private java.lang.String fecha_sorteo;
 
+    public java.lang.String getId_portal() {
+		return id_portal;
+	}
+
+	public void setId_portal(java.lang.String id_portal) {
+		this.id_portal = id_portal;
+	}
+	
     public java.lang.String getIdConcesionaria() {
         return this.id_concesionaria;
     }
@@ -54,13 +64,13 @@ public class NotificarGanador {
         this.nombre_apellido = newArg2;
     }
 
-    public java.lang.String getEmailCliente() {
-        return this.email_cliente;
-    }
+	public java.lang.String getId_plan() {
+		return id_plan;
+	}
 
-    public void setEmailCliente(java.lang.String newArg3)  {
-        this.email_cliente = newArg3;
-    }
+	public void setId_plan(java.lang.String id_plan) {
+		this.id_plan = id_plan;
+	}
 
     public java.lang.String getFechaSorteo() {
         return this.fecha_sorteo;

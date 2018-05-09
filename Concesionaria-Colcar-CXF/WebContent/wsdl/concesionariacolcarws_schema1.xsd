@@ -26,10 +26,11 @@
   </xs:complexType>
   <xs:complexType name="notificarGanador">
     <xs:sequence>
+      <xs:element minOccurs="0" name="id_portal" type="xs:string"/>
       <xs:element minOccurs="0" name="id_concesionaria" type="xs:string"/>
       <xs:element minOccurs="0" name="dni_cliente" type="xs:string"/>
       <xs:element minOccurs="0" name="nombre_apellido" type="xs:string"/>
-      <xs:element minOccurs="0" name="email_cliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="id_plan" type="xs:string"/>
       <xs:element minOccurs="0" name="fecha_sorteo" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>

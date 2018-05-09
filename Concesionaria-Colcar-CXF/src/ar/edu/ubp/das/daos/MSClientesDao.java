@@ -7,6 +7,7 @@ import java.util.List;
 
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 
@@ -49,6 +50,21 @@ public class MSClientesDao extends DaoImpl {
 		
 		this.disconnect();
 
+	}
+	
+	public void update(Bean b1, Bean b2) throws SQLException {
+		this.connect();
+		
+		ClienteBean cliente = (ClienteBean) b1;
+		AdquiridoBean adquirido = (AdquiridoBean) b2;
+		
+	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
+		this.setParameter(1, cliente.getDniCliente());
+		this.setParameter(2, adquirido.getFechaSorteado());
+		this.setParameter(3, adquirido.getIdPlan());
+		this.executeUpdate();
+		this.disconnect();
 	}
 
 	@Override

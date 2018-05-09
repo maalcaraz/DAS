@@ -15,60 +15,70 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"arg0", "arg1", "arg2", "arg3", "arg4"})
+@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_portal", "id_concesionaria", "dni_cliente", "nombre_apellido", "id_plan", "fecha_sorteo"})
 
 public class NotificarGanador {
 
-    @XmlElement(name = "arg0")
-    private java.lang.String arg0;
-    @XmlElement(name = "arg1")
-    private java.lang.String arg1;
-    @XmlElement(name = "arg2")
-    private java.lang.String arg2;
-    @XmlElement(name = "arg3")
-    private java.lang.String arg3;
-    @XmlElement(name = "arg4")
-    private java.lang.String arg4;
+    @XmlElement(name = "id_portal")
+    private java.lang.String id_portal;
+    @XmlElement(name = "id_concesionaria")
+    private java.lang.String id_concesionaria;
+    @XmlElement(name = "dni_cliente")
+    private java.lang.String dni_cliente;
+    @XmlElement(name = "nombre_apellido")
+    private java.lang.String nombre_apellido;
+    @XmlElement(name = "id_plan")
+    private java.lang.String id_plan;
+    @XmlElement(name = "fecha_sorteo")
+    private java.lang.String fecha_sorteo;
 
-    public java.lang.String getArg0() {
-        return this.arg0;
-    }
+    public java.lang.String getId_portal() {
+  		return id_portal;
+  	}
 
-    public void setArg0(java.lang.String newArg0)  {
-        this.arg0 = newArg0;
-    }
+  	public void setId_portal(java.lang.String id_portal) {
+  		this.id_portal = id_portal;
+  	}
+  	
+      public java.lang.String getIdConcesionaria() {
+          return this.id_concesionaria;
+      }
 
-    public java.lang.String getArg1() {
-        return this.arg1;
-    }
+      public void setIdConcesionaria(java.lang.String newArg0)  {
+          this.id_concesionaria = newArg0;
+      }
 
-    public void setArg1(java.lang.String newArg1)  {
-        this.arg1 = newArg1;
-    }
+      public java.lang.String getDniCliente() {
+          return this.dni_cliente;
+      }
 
-    public java.lang.String getArg2() {
-        return this.arg2;
-    }
+      public void setDniCliente(java.lang.String newArg1)  {
+          this.dni_cliente = newArg1;
+      }
 
-    public void setArg2(java.lang.String newArg2)  {
-        this.arg2 = newArg2;
-    }
+      public java.lang.String getNombreApellido() {
+          return this.nombre_apellido;
+      }
 
-    public java.lang.String getArg3() {
-        return this.arg3;
-    }
+      public void setNombreApellido(java.lang.String newArg2)  {
+          this.nombre_apellido = newArg2;
+      }
 
-    public void setArg3(java.lang.String newArg3)  {
-        this.arg3 = newArg3;
-    }
+  	public java.lang.String getId_plan() {
+  		return id_plan;
+  	}
 
-    public java.lang.String getArg4() {
-        return this.arg4;
-    }
+  	public void setId_plan(java.lang.String id_plan) {
+  		this.id_plan = id_plan;
+  	}
 
-    public void setArg4(java.lang.String newArg4)  {
-        this.arg4 = newArg4;
-    }
+      public java.lang.String getFechaSorteo() {
+          return this.fecha_sorteo;
+      }
 
-}
+      public void setFechaSorteo(java.lang.String newArg4)  {
+          this.fecha_sorteo = newArg4;
+      }
+
+  }
 

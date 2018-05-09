@@ -1,6 +1,7 @@
 package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,10 @@ import com.google.gson.Gson;
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 @WebService(targetNamespace = "http://ws.das.ubp.edu.ar/", portName = "ConcesionariaColcarWSPort", serviceName = "ConcesionariaColcarWSService")
 public class ConcesionariaColcarWS {
@@ -39,32 +42,53 @@ public class ConcesionariaColcarWS {
 		}
 		
 		@WebMethod(operationName = "notificarGanador", action = "urn:NotificarGanador")
-		public String notificarGanador(@WebParam(name = "id_concesionaria") String idConcesionaria, 
-									   @WebParam(name = "dni_cliente") String dniCliente, 
-									   @WebParam(name = "nombre_apellido") String nombreApellido,
-									   @WebParam(name = "email_cliente") String emailCliente,
-									   @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {
-			try {
+		public String notificarGanador( @WebParam(name = "id_portal") String idPortal,
+									    @WebParam(name = "id_concesionaria") String idConcesionaria, 
+									    @WebParam(name = "dni_cliente") String dniCliente, 
+									    @WebParam(name = "nombre_apellido") String nombreApellido,
+									    @WebParam(name = "id_plan") String idPlan,
+									    @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {
+			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 			
-				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				ClienteBean e = new ClienteBean();
-				e.setDniCliente(dniCliente);
-				e.setNomCliente(nombreApellido);
-				e.setFechaSorteo(fechaSorteo);
+			String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+	    	String estado_transaccion = "Failed"; // by default
+	    	String mensajeRespuesta = " ";
+	        Date horaFechaTransaccion = new Date();
+	        
+	        try {
 			
+	        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+	        	ClienteBean cliente = new ClienteBean();
+	        	AdquiridoBean adquirido = new AdquiridoBean();
+	        	cliente.setDniCliente(dniCliente);
+	        	adquirido.setFechaSorteado(fechaSorteo);
+	        	adquirido.setIdPlan(idPlan);
+	        	
 				/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
 				if (idConcesionaria.equals("Colcar")){
-					dao.update(e);
-					System.out.println("Entrando a concesionaria");
+					dao.update(cliente, adquirido);
+					mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
 				}
 				else{ 
 					/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
 					String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
 					dao.insert(novedad);
-					// Hay que programarlo todavia.
+					mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
 				}
-				String mensajeRespuesta = "Notificacion exitosa";
-				return mensajeRespuesta;
+
+	        	estado_transaccion = "Success";
+	        	
+	        	Gson gson = new Gson();
+	        	TransaccionBean transaccion = new TransaccionBean();
+	        	transaccion.setId_transaccion(id_transaccion);
+	        	transaccion.setEstado_transaccion(estado_transaccion);
+	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
+	        	transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+	        	String f = gson.toJson(transaccion);
+	        	System.out.println(f);
+	        	
+	        	return f;
+	        	
 			}
 			catch(SQLException ex) {
 				throw new Exception(ex.getMessage());
