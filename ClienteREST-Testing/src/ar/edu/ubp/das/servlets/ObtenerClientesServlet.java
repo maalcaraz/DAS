@@ -67,7 +67,7 @@ public class ObtenerClientesServlet extends HttpServlet {
 		LinkedList<ClienteBean> clientes = gson.fromJson(restResp, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
 		
 		request.setAttribute("servicio", servicio);
-		request.setAttribute("clientes", clientes);
+		request.setAttribute("error", restResp);
 		this.gotoPage("/clientes.jsp", request, response);
 		
 	}

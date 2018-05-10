@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -37,14 +36,42 @@ public class ClientesResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getClientes() {
-			List<Bean> clientes = new LinkedList<Bean>();
+			
+		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+    	String estado_transaccion = "Failed"; 
+    	String mensajeRespuesta = " ";
+        Date horaFechaTransaccion = new Date();
 			try {
+				
+				
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				clientes = dao.select();
+				System.out.println("Antes del select");
+				List<List<Bean>> lista = dao.selectListBeans();
+				System.out.println("Despues del select");
 				Gson gson = new Gson();
-				String json = gson.toJson(clientes);
-				System.out.println(json);
-				return Response.status( Response.Status.OK ).entity(json).build();
+				
+				String jsonClientes = gson.toJson(lista.get(0));
+				gson = new Gson();
+				String jsonAdquiridos = gson.toJson(lista.get(1));
+				gson = new Gson();
+				String jsonPlanes = gson.toJson(lista.get(2));
+				gson = new Gson();
+				String jsonCuotas = gson.toJson(lista.get(3));
+		
+				String res = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
+
+	        	estado_transaccion = "Success";
+	        	
+				TransaccionBean transaccion = new TransaccionBean();
+	        	transaccion.setId_transaccion(id_transaccion);
+	        	transaccion.setEstado_transaccion(estado_transaccion);
+	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
+	        	transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+	        	transaccion.setRetorno(res);
+	        	String f = gson.toJson(transaccion);
+	        	System.out.println(f);
+				
+				return Response.status( Response.Status.OK ).entity(f).build();
 			}
 			catch ( SQLException error ) {
 	    	    return Response.status( Response.Status.BAD_REQUEST ).entity( error.getMessage() ).build();
@@ -79,16 +106,16 @@ public class ClientesResource {
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
         		dao.update(cliente, adquirido);
+        		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
         		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
         		dao.insert(novedad);
-        		// Hay que programarlo todavia.
+        		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
         	}
         	
         	estado_transaccion = "Success";
-        	mensajeRespuesta = "Notificación exitosa";
         	
         	Gson gson = new Gson();
         	TransaccionBean transaccion = new TransaccionBean();

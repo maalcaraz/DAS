@@ -18,7 +18,7 @@
 
 	<%
 	out.println(request.getAttribute("error"));
-	//out.print(request.getAttribute("servicio"));
+	
 	%>
 
 </body>

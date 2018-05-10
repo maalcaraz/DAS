@@ -9,10 +9,10 @@ var jTest = {
 				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
-					jUtils.showing("message", hr.responseText);
+					jUtils.showing("error", hr.responseText);
 				},
 				success: function(html) {
-					jUtils.showing("result", html);
+					jUtils.showing("error", html);
 				}		
 			});
 		},

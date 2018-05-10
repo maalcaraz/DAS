@@ -31,16 +31,16 @@
 <div class="box">
 <h2> Notificar ganador </h2>
 	
-	<label for="idConcesionaria"> Concesionaria:  </label>
-	<input type="text" id="idConcesionaria" name="idConcesionaria"> <br><br>
+		<label for="idConcesionaria"> Concesionaria:  </label>
+	<input type="text" id="idConcesionaria" name="idConcesionaria" value="Colcar"> <br><br>
 	<label for="dniCliente"> Dni del cliente:  </label>
-	<input type="text" id="dniCliente" name="dniCliente"><br><br>
+	<input type="text" id="dniCliente" name="dniCliente" value="25555555"><br><br>
 	<label for="nombreApellido"> Nombre y apellido: </label>
-	<input type="text" id="nombreApellido" name=nombreApellido><br><br>
-	<label for="emailCliente"> Email:  </label>
-	<input type="text" id="emailCliente" name="emailCliente"><br><br>
+	<input type="text" id="nombreApellido" name="nombreApellido"><br><br>
+	<label for="idPlan"> Email:  </label>
+	<input type="text" id="idPlan" name="idPlan" value="303456"><br><br>
 	<label for="fechaSorteo"> Fecha del sorteo:  </label>
-	<input type="text" id="fechaSorteo" name="fechaSorteo"><br><br>
+	<input type="text" id="fechaSorteo" name="fechaSorteo" value="02-02-18"><br><br>
 	
 	<button id="notificar" onclick="jTest.notificar()" name="notificar"> Notificar ganador </button><br><br>
 </div>

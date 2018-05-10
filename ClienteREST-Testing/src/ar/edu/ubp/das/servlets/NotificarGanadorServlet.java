@@ -43,7 +43,7 @@ public class NotificarGanadorServlet extends HttpServlet {
 		String idConcesionaria = request.getParameter("idConcesionaria");
 		String dniCliente = request.getParameter("dniCliente");//"23432255";
 		String nomCliente = request.getParameter("nombreApellido");//"Pablo Alcaraz";
-		String emailCliente = request.getParameter("emailCliente");//pabloalcaraz@gmail.com";
+		String idPlan = request.getParameter("idPlan");//pabloalcaraz@gmail.com";
 		String fechaSorteo = request.getParameter("fechaSorteo");//"03-03-18";
 	
 		String servicio = (request.getParameter("servicio"));
@@ -52,7 +52,7 @@ public class NotificarGanadorServlet extends HttpServlet {
 	      	nvps.add(new BasicNameValuePair("id_concesionaria", idConcesionaria));
 			nvps.add(new BasicNameValuePair("dni_cliente" , dniCliente));
 			nvps.add(new BasicNameValuePair("nombre_apellido", nomCliente));
-			nvps.add(new BasicNameValuePair("email_cliente", emailCliente));
+			nvps.add(new BasicNameValuePair("id_plan", idPlan));
 			nvps.add(new BasicNameValuePair("fecha_sorteo", fechaSorteo));
 	
 			URI uri = URI.create("http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/notificarGanador");            
@@ -69,9 +69,6 @@ public class NotificarGanadorServlet extends HttpServlet {
 			if(responseStatus.getStatusCode() != 200) {
 				throw new RuntimeException(restResp);
 			}
-			//Gson gson = new Gson();
-			
-			//LinkedList<AlumnosCurso> alumnos = gson.fromJson(restResp, new TypeToken<LinkedList<AlumnosCurso>>(){}.getType());
 			request.setAttribute("error", restResp);
 	    	this.gotoPage("/error.jsp", request, response);
 	       

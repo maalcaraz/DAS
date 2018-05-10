@@ -1,5 +1,7 @@
 package ar.edu.ubp.das.src.beans;
 
+import java.util.LinkedList;
+
 import ar.edu.ubp.das.db.Bean;
 
 public class AdquiridoBean implements Bean{
@@ -12,6 +14,7 @@ public class AdquiridoBean implements Bean{
 	private String fechaSorteado;
 	private String nroChasis;
 	private String sucursalSuscripcion;
+	private LinkedList<CuotaBean> cuotas = new LinkedList<>();
 	
 	@Override
 	public String toString() {
@@ -71,6 +74,14 @@ public class AdquiridoBean implements Bean{
 	}
 	public void setNroChasis(String nroChasis) {
 		this.nroChasis = nroChasis;
-	}	
+	}
 	
+	public LinkedList<CuotaBean> getCuotas() {
+		return cuotas;
+	}
+
+	public void setCuotas(LinkedList<CuotaBean> cuotas) {
+		this.cuotas = cuotas;
+	}
+
 }

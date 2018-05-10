@@ -17,13 +17,13 @@ public class TransaccionBean implements Bean {
 	private String estado_transaccion;
 	private String mensajeRespuesta;
 	private String horaFechaTransaccion;
-	private Object retorno;
+	private String retorno;
 	
-	public Object getRetorno() {
+	public String getRetorno() {
 		return retorno;
 	}
 
-	public void setRetorno(Object retorno) {
+	public void setRetorno(String retorno) {
 		this.retorno = retorno;
 	}
 
