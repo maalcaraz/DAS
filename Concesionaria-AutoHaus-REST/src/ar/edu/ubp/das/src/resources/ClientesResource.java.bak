@@ -36,17 +36,16 @@ public class ClientesResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getClientes() {
-		String idConcesionaria = "AutoHaus";
-		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-    	 
-    	String mensajeRespuesta = " ";
+				
+		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+    	String mensajeRespuesta = "";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         String res = "";
         
-        transaccion.setId_transaccion(idTransaccion);
+        transaccion.setId_transaccion(id_transaccion);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 			
 			try {

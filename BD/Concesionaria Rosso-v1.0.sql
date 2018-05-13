@@ -483,24 +483,19 @@ go
 create procedure dbo.get_estados_cuentas
 as
 begin
-  select c.dni_cliente,
-         c.apellido_nombre,
-		 c.domicilio,
-		 c.email,
-		 c.telefono,
-		 pl.id_plan,
-		 ad.cancelado,
-		 ad.ganador_sorteo,
-		 ad.fecha_entrega,
-		 ad.fecha_sorteado,
-		 ad.nro_chasis,
-		 pl.cant_cuotas
+   select c.dni_cliente, c.apellido_nombre, c.edad, c.domicilio, c.email, c.telefono, c.id_localidad, c.cod_provincia,
+		 ad.cancelado, ad.ganador_sorteo, ad.fecha_entrega, ad.fecha_sorteado, ad.sucursal_suscripcion, ad.nro_chasis,
+		 pl.id_plan, pl.descripcion, pl.nom_plan, pl.cant_cuotas, pl.entrega_pactada, pl.financiacion, pl.dueño_plan,
+		 cuo.id_cuota, cuo.importe, cuo.fecha_vencimiento, cuo.pagó
 	from clientes c (nolock)
-	join adquiridos ad
+	left join adquiridos ad
 	on c.dni_cliente = ad.dni_cliente
-	join planes pl
+	right join planes pl
 	on ad.id_plan = pl.id_plan
-    order by c.apellido_nombre
+	full join cuotas cuo
+	on cuo.dni_cliente = ad.dni_cliente
+	and cuo.id_plan = ad.id_plan
+    order by c.dni_cliente, pl.id_plan
 end;
 go
 
@@ -636,8 +631,13 @@ go
 
 --execute dbo.verificar_cancelado '27777777', 303458
 
-Select * from clientes c
-				join adquiridos ad
-				on c.dni_cliente = ad.dni_cliente
-				where c.dni_cliente = '27777777'
-				and ad.cancelado = 'N' 
+Select * 
+	from clientes c
+		join adquiridos ad
+		on c.dni_cliente = ad.dni_cliente
+		where c.dni_cliente = '27777777'
+		and ad.cancelado = 'N' 
+go
+
+
+

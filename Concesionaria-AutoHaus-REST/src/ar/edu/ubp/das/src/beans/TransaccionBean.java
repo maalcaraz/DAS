@@ -1,5 +1,4 @@
 package ar.edu.ubp.das.src.beans;
-
 import ar.edu.ubp.das.db.Bean;
 
 public class TransaccionBean implements Bean {
@@ -7,17 +6,20 @@ public class TransaccionBean implements Bean {
 	public TransaccionBean() {
 	
 	}
-
-	@Override
-	public String toString() {
-		return "TransaccionBean [estado_transaccion=" + estado_transaccion + ", mensajeRespuesta=" + mensajeRespuesta
-				+ ", horaFechaTransaccion=" + horaFechaTransaccion + ", id_transaccion=" + id_transaccion + "]";
-	}
-
-	private String estado_transaccion;
+	
+	private String idTransaccion;
+	private String estadoTransaccion;
 	private String mensajeRespuesta;
 	private String horaFechaTransaccion;
 	private String retorno;
+	private String idConcesionaria;
+
+	@Override
+	public String toString() {
+		return "TransaccionBean [idTransaccion=" + idTransaccion + ", estadoTransaccion=" + estadoTransaccion
+				+ ", mensajeRespuesta=" + mensajeRespuesta + ", horaFechaTransaccion=" + horaFechaTransaccion
+				+ ", retorno=" + retorno + ", idConcesionaria=" + idConcesionaria + "]";
+	}
 	
 	public String getRetorno() {
 		return retorno;
@@ -27,18 +29,19 @@ public class TransaccionBean implements Bean {
 		this.retorno = retorno;
 	}
 
-	private String id_transaccion;
-	public String getId_transaccion() {
-		return id_transaccion;
+	public String getIdConcesionaria() {
+		return idConcesionaria;
 	}
-	public void setId_transaccion(String id_transaccion) {
-		this.id_transaccion = id_transaccion;
+
+	public void setIdConcesionaria(String idConcesionaria) {
+		this.idConcesionaria = idConcesionaria;
 	}
-	public String getEstado_transaccion() {
-		return estado_transaccion;
+	
+	public String getEstadoTransaccion() {
+		return estadoTransaccion;
 	}
-	public void setEstado_transaccion(String estado_transaccion) {
-		this.estado_transaccion = estado_transaccion;
+	public void setEstado_transaccion(String estadoTransaccion) {
+		this.estadoTransaccion = estadoTransaccion;
 	}
 	public String getMensajeRespuesta() {
 		return mensajeRespuesta;
@@ -52,6 +55,12 @@ public class TransaccionBean implements Bean {
 	public void setHoraFechaTransaccion(String horaFechaTransaccion) {
 		this.horaFechaTransaccion = horaFechaTransaccion;
 	}
-	
+
+	public String getId_transaccion() {
+		return idTransaccion;
+	}
+	public void setId_transaccion(String idTransaccion) {
+		this.idTransaccion = idTransaccion;
+	}
 
 }

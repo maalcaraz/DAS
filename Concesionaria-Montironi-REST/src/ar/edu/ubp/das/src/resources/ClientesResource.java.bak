@@ -140,7 +140,7 @@ public class ClientesResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente,
-									   @FormParam("id_plan") String idPlan) {
+										@FormParam("id_plan") String idPlan) {
         try {
         	
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -153,7 +153,7 @@ public class ClientesResource {
 
 
 			String mensajeRespuesta = ((dao.valid2Beans(c,p) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
-        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
+        	        	return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();

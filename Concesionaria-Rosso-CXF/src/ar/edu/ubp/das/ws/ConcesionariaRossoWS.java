@@ -25,18 +25,41 @@ public class ConcesionariaRossoWS {
 	
 	@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
 	public String getClientes() throws Exception {
-		
-		List<Bean> clientes = new LinkedList<Bean>();
+		String idConcesionaria = "Rosso";
+		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+    	String estadoTransaccion = "Failed"; 
+    	String mensajeRespuesta = " ";
+        Date horaFechaTransaccion = new Date();
 		
 		try
 		{
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
-			clientes = dao.select();
+			List<List<Bean>> lista = dao.selectListBeans();
 			Gson gson = new Gson();
-			String json = gson.toJson(clientes);
-			System.out.println(json);
-			return json;
+			String jsonClientes = gson.toJson(lista.get(0));
+			gson = new Gson();
+			String jsonAdquiridos = gson.toJson(lista.get(1));
+			gson = new Gson();
+			String jsonPlanes = gson.toJson(lista.get(2));
+			gson = new Gson();
+			String jsonCuotas = gson.toJson(lista.get(3));
+	
+			String retorno = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
+
+        	estadoTransaccion = "Success";
+        	
+			TransaccionBean transaccion = new TransaccionBean();
+        	transaccion.setId_transaccion(idTransaccion);
+        	transaccion.setEstado_transaccion(estadoTransaccion);
+        	transaccion.setMensajeRespuesta(mensajeRespuesta);
+        	transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        	transaccion.setIdConcesionaria(idConcesionaria);
+        	transaccion.setRetorno(retorno);
+        	String respuestaServicio = gson.toJson(transaccion);
+        	System.out.println(respuestaServicio);
+        	
+        	return respuestaServicio;
 		} 
 		catch ( SQLException ex ) {
 			throw new Exception(ex.getMessage());
