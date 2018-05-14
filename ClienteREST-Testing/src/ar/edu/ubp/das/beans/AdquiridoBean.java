@@ -1,8 +1,6 @@
-package ar.edu.ubp.das.src.beans;
+package ar.edu.ubp.das.beans;
 
 import java.util.LinkedList;
-
-import ar.edu.ubp.das.db.Bean;
 
 public class AdquiridoBean implements Bean{
 	

@@ -1,5 +1,4 @@
 package ar.edu.ubp.das.src.beans;
-
 import ar.edu.ubp.das.db.Bean;
 
 public class TransaccionBean implements Bean {
@@ -14,33 +13,6 @@ public class TransaccionBean implements Bean {
 	private String horaFechaTransaccion;
 	private String retorno;
 	private String idConcesionaria;
-	
-	
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idTransaccion == null) ? 0 : idTransaccion.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TransaccionBean other = (TransaccionBean) obj;
-		if (idTransaccion == null) {
-			if (other.idTransaccion != null)
-				return false;
-		} else if (!idTransaccion.equals(other.idTransaccion))
-			return false;
-		return true;
-	}
 
 	@Override
 	public String toString() {
