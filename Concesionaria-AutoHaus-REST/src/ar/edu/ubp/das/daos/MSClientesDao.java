@@ -127,7 +127,7 @@ public class MSClientesDao extends DaoImpl {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
-        	adquiridos.add(adquiridoRecuperado);
+        	
         	if (!adquiridos.contains(adquiridoRecuperado)){
         		adquiridos.add(adquiridoRecuperado);
         	}
@@ -148,9 +148,9 @@ public class MSClientesDao extends DaoImpl {
         	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
         	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
         	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
-        	cuotaRecuperada.setPagada(result.getString("pagada"));
+        	cuotaRecuperada.setPagada(result.getString("pagó"));
         	cuotaRecuperada.setImporte(result.getString("importe"));
-        	cuotaRecuperada.setFechavto(result.getString("fecha_vencimiento"));
+        	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));;
         	if (!cuotas.contains(cuotaRecuperada)){
         		cuotas.add(cuotaRecuperada);
         	}

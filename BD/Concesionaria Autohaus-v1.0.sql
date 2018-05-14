@@ -502,11 +502,12 @@ go
 execute dbo.get_estados_cuentas
 go
 
-select * from clientes c
-				join adquiridos ad
-				on c.dni_cliente = ad.dni_cliente
-				join planes pl
-				on ad.id_plan = pl.id_plan
+select * 
+	from clientes c
+		join adquiridos ad
+		on c.dni_cliente = ad.dni_cliente
+		join planes pl
+		on ad.id_plan = pl.id_plan
 go
 
 --Trigger 

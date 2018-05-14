@@ -44,16 +44,15 @@ public class ClientesResource {
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
-        String res = "";
+        String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 			
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				System.out.println("Antes del select");
+				
 				List<List<Bean>> lista = dao.selectListBeans();
-				System.out.println("Despues del select");
 				
 				String jsonClientes = gson.toJson(lista.get(0));
 				gson = new Gson();
@@ -63,13 +62,15 @@ public class ClientesResource {
 				gson = new Gson();
 				String jsonCuotas = gson.toJson(lista.get(3));
 		
-				res = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
+				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
 	        	transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
-	        	transaccion.setRetorno(res);
+	        	transaccion.setRetorno(stringRespuesta);
+	        	transaccion.setIdConcesionaria(idConcesionaria);
 	        	respuestaServicio = gson.toJson(transaccion);
-	        	System.out.println(respuestaServicio);
+
+	        	//System.out.println(respuestaServicio);
 			}
 			catch (SQLException ex) {
 				
@@ -77,6 +78,7 @@ public class ClientesResource {
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
 	        	transaccion.setRetorno("Failed");
+	        	transaccion.setIdConcesionaria(idConcesionaria);
 	        	respuestaServicio = gson.toJson(transaccion);
 			}
 			
@@ -93,14 +95,14 @@ public class ClientesResource {
 									 @FormParam("id_plan") String idPlan,
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
     	String mensajeRespuesta = "";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
-        transaccion.setId_transaccion(id_transaccion);
+        transaccion.setId_transaccion(idTransaccion);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
     	
         try {
@@ -113,7 +115,7 @@ public class ClientesResource {
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update(cliente, adquirido);
+        		dao.update((Bean)cliente, (Bean)adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
@@ -145,14 +147,14 @@ public class ClientesResource {
 									   @FormParam("id_plan") String idPlan) {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
     	String mensajeRespuesta = "";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
-        transaccion.setId_transaccion(id_transaccion);
+        transaccion.setId_transaccion(idTransaccion);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
         
         try {
@@ -162,7 +164,7 @@ public class ClientesResource {
         	cliente.setDniCliente(dniCliente);
 			plan.setIdPlan(idPlan);
 			
-			mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			mensajeRespuesta = ((dao.valid2Beans((Bean)cliente,(Bean)plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
         	
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);

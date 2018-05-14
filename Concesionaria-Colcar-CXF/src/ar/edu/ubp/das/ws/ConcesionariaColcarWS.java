@@ -28,7 +28,6 @@ public class ConcesionariaColcarWS {
 	    	String estadoTransaccion = "Failed"; 
 	    	String mensajeRespuesta = " ";
 	        Date horaFechaTransaccion = new Date();
-			
 	        
 			try
 			{
