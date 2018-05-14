@@ -48,6 +48,7 @@ public class ClienteBean implements Bean{
 				+ ", idLocalidad=" + idLocalidad + ", codProvincia=" + codProvincia + "]";
 	}
 
+
 	//Constructor publico
 	public ClienteBean(){}
 	
