@@ -22,7 +22,11 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import ar.edu.ubp.das.beans.AdquiridoBean;
 import ar.edu.ubp.das.beans.ClienteBean;
+import ar.edu.ubp.das.beans.CuotaBean;
+import ar.edu.ubp.das.beans.PlanBean;
+import ar.edu.ubp.das.beans.TransaccionBean;
 
 /**
  * Servlet implementation class ObtenerClientesServlet
@@ -42,8 +46,8 @@ public class ObtenerClientesServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String servicio = (request.getParameter("servicio")); // verificar por null
-		System.out.println(servicio);
+		String servicio = (request.getParameter("servicio")); 
+		
 		
 		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/datosClientes";
 		System.out.println(s);
@@ -61,13 +65,37 @@ public class ObtenerClientesServlet extends HttpServlet {
 			throw new RuntimeException(restResp);
 		}
 		
-		// Armar de nuevo un bean de Clientes para pasarlo a otros jsp
-		
 		Gson gson = new Gson();
-		LinkedList<ClienteBean> clientes = gson.fromJson(restResp, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+		//LinkedList<ClienteBean> clientes = gson.fromJson(restResp, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
 		
-		request.setAttribute("servicio", servicio);
-		request.setAttribute("error", restResp);
+		TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+		String idConcesionaria = transaccion.getIdConcesionaria();
+		
+		String listaRetorno[] = transaccion.getRetorno().split("],");
+
+		//System.out.println(listaRetorno[0]);
+		String strClientes = listaRetorno[0] + "]";
+		LinkedList<ClienteBean> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+		
+		
+		gson = new Gson();
+		String strPlanes = listaRetorno[1] + "]";
+		LinkedList<PlanBean> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
+		
+		gson = new Gson();
+		String strAdquiridos = listaRetorno[2] + "]";
+		LinkedList<AdquiridoBean> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
+		
+		gson = new Gson();
+		
+		LinkedList<CuotaBean> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
+		
+		request.setAttribute("idConcesionaria", idConcesionaria);
+		request.setAttribute("clientes", clientes);
+		request.setAttribute("planes", planes);
+		request.setAttribute("adquiridos", adquiridos);
+		request.setAttribute("cuotas", cuotas);
+		//request.setAttribute("error", restResp);
 		this.gotoPage("/clientes.jsp", request, response);
 		
 	}

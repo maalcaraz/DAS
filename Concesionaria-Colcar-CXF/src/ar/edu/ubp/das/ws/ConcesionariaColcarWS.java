@@ -75,6 +75,7 @@ public class ConcesionariaColcarWS {
 									    @WebParam(name = "id_plan") String idPlan,
 									    @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
+
 			String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
 			String mensajeRespuesta = "";
 			Date horaFechaTransaccion = new Date();
@@ -82,6 +83,7 @@ public class ConcesionariaColcarWS {
 	        String respuestaServicio = null;
 	        TransaccionBean transaccion = new TransaccionBean();
 	        
+
 	        transaccion.setId_transaccion(idTransaccion);
 	        transaccion.setIdConcesionaria(idConcesionaria);
 	        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
@@ -105,9 +107,11 @@ public class ConcesionariaColcarWS {
 					dao.insert(novedad);
 					mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
 				}
+
 				
 				transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
+
 	        	respuestaServicio = gson.toJson(transaccion);
 	        	System.out.println(respuestaServicio);
 			}
@@ -140,6 +144,7 @@ public class ConcesionariaColcarWS {
 	        try {
 	        	
 	        	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+
 	        	ClienteBean cliente = new ClienteBean();
 	        	PlanBean plan = new PlanBean();
 	        	cliente.setDniCliente(dniCliente);

@@ -38,6 +38,7 @@ public class ClientesResource {
 	public Response getClientes() {
 		String idConcesionaria = "AutoHaus";
 		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+
     	String mensajeRespuesta = "";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
@@ -51,9 +52,8 @@ public class ClientesResource {
         
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				System.out.println("Antes del select");
+				
 				List<List<Bean>> lista = dao.selectListBeans();
-				System.out.println("Despues del select");
 				
 				String jsonClientes = gson.toJson(lista.get(0));
 				gson = new Gson();
@@ -62,14 +62,13 @@ public class ClientesResource {
 				String jsonPlanes = gson.toJson(lista.get(2));
 				gson = new Gson();
 				String jsonCuotas = gson.toJson(lista.get(3));
-		
-				stringRespuesta = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
+
+				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
 	        	transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
 	        	transaccion.setRetorno(stringRespuesta);
 	        	respuestaServicio = gson.toJson(transaccion);
-	        	System.out.println(respuestaServicio);
 			}
 			catch (SQLException ex) {
 				
