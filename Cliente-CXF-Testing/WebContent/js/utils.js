@@ -2,7 +2,7 @@ jUtils = {
 
     executing: function(divId, mini) {
     	type = mini == undefined || mini == false ? "" : "little";
-        $('#' + divId).html("<img src=\"/img/i" + type + "loader.gif\" border=\"0\"/>").show();
+       // $('#' + divId).html("<img src=\"/img/i" + type + "loader.gif\" border=\"0\"/>").show();
     },
 
     showing: function(divId, html) {

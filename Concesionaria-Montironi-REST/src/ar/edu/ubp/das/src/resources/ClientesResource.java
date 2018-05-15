@@ -117,7 +117,7 @@ public class ClientesResource {
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update((Bean)cliente, (Bean)adquirido);
+        		dao.update(cliente, adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
@@ -166,7 +166,7 @@ public class ClientesResource {
         	cliente.setDniCliente(dniCliente);
 			plan.setIdPlan(idPlan);
 			
-			mensajeRespuesta = ((dao.valid2Beans((Bean)cliente,(Bean)plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
         	
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);

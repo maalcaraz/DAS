@@ -2,7 +2,6 @@ package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -27,16 +26,23 @@ public class ConcesionariaRossoWS {
 	public String getClientes() throws Exception {
 		String idConcesionaria = "Rosso";
 		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-    	String estadoTransaccion = "Failed"; 
+    	
     	String mensajeRespuesta = " ";
         Date horaFechaTransaccion = new Date();
-		
+        Gson gson = new Gson();
+        String respuestaServicio = null;
+        TransaccionBean transaccion = new TransaccionBean();
+        String stringRespuesta = "";
+        
+        transaccion.setId_transaccion(idTransaccion);
+        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+			
 		try
 		{
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
 			List<List<Bean>> lista = dao.selectListBeans();
-			Gson gson = new Gson();
+			gson = new Gson();
 			String jsonClientes = gson.toJson(lista.get(0));
 			gson = new Gson();
 			String jsonAdquiridos = gson.toJson(lista.get(1));
@@ -45,25 +51,25 @@ public class ConcesionariaRossoWS {
 			gson = new Gson();
 			String jsonCuotas = gson.toJson(lista.get(3));
 	
-			String retorno = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
+			stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 
-        	estadoTransaccion = "Success";
-        	
-			TransaccionBean transaccion = new TransaccionBean();
-        	transaccion.setId_transaccion(idTransaccion);
-        	transaccion.setEstado_transaccion(estadoTransaccion);
+			transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
-        	transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        	transaccion.setRetorno(stringRespuesta);
         	transaccion.setIdConcesionaria(idConcesionaria);
-        	transaccion.setRetorno(retorno);
-        	String respuestaServicio = gson.toJson(transaccion);
+        	
         	System.out.println(respuestaServicio);
         	
-        	return respuestaServicio;
 		} 
 		catch ( SQLException ex ) {
-			throw new Exception(ex.getMessage());
+			transaccion.setEstado_transaccion("Failed");
+        	transaccion.setMensajeRespuesta(ex.getMessage());
+        	transaccion.setRetorno("Failed");
+        	transaccion.setIdConcesionaria(idConcesionaria);
 		}
+		
+		respuestaServicio = gson.toJson(transaccion);
+		return respuestaServicio;
 	}
 	
 	@WebMethod(operationName = "notificarGanador", action = "urn:NotificarGanador")
