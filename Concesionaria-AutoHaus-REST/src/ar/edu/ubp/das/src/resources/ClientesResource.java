@@ -38,8 +38,8 @@ public class ClientesResource {
 	public Response getClientes() {
 		String idConcesionaria = "AutoHaus";
 		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-    	 
-    	String mensajeRespuesta = " ";
+
+    	String mensajeRespuesta = "";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
@@ -47,8 +47,9 @@ public class ClientesResource {
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
-			
+        
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
@@ -61,16 +62,13 @@ public class ClientesResource {
 				String jsonPlanes = gson.toJson(lista.get(2));
 				gson = new Gson();
 				String jsonCuotas = gson.toJson(lista.get(3));
-		
+
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
 	        	transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
 	        	transaccion.setRetorno(stringRespuesta);
-	        	transaccion.setIdConcesionaria(idConcesionaria);
 	        	respuestaServicio = gson.toJson(transaccion);
-
-	        	//System.out.println(respuestaServicio);
 			}
 			catch (SQLException ex) {
 				
@@ -78,7 +76,6 @@ public class ClientesResource {
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
 	        	transaccion.setRetorno("Failed");
-	        	transaccion.setIdConcesionaria(idConcesionaria);
 	        	respuestaServicio = gson.toJson(transaccion);
 			}
 			
@@ -103,6 +100,7 @@ public class ClientesResource {
         TransaccionBean transaccion = new TransaccionBean();
         
         transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
     	
         try {
@@ -115,7 +113,7 @@ public class ClientesResource {
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update((Bean)cliente, (Bean)adquirido);
+        		dao.update(cliente, adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
@@ -149,12 +147,14 @@ public class ClientesResource {
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
     	String mensajeRespuesta = "";
+    	String idConcesionaria = "AutoHaus";
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
         transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
         
         try {
@@ -164,7 +164,7 @@ public class ClientesResource {
         	cliente.setDniCliente(dniCliente);
 			plan.setIdPlan(idPlan);
 			
-			mensajeRespuesta = ((dao.valid2Beans((Bean)cliente,(Bean)plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
         	
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
