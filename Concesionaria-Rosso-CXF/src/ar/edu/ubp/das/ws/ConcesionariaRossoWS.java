@@ -2,7 +2,6 @@ package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -27,7 +26,9 @@ public class ConcesionariaRossoWS {
 	public String getClientes() throws Exception {
 		String idConcesionaria = "Rosso";
 		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+
     	String mensajeRespuesta = "";
+
         Date horaFechaTransaccion = new Date();
         Gson gson = new Gson();
         String respuestaServicio = null;
@@ -42,6 +43,7 @@ public class ConcesionariaRossoWS {
 		{
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 			List<List<Bean>> lista = dao.selectListBeans();
+
 			String jsonClientes = gson.toJson(lista.get(0));
 			gson = new Gson();
 			String jsonAdquiridos = gson.toJson(lista.get(1));
@@ -50,8 +52,8 @@ public class ConcesionariaRossoWS {
 			gson = new Gson();
 			String jsonCuotas = gson.toJson(lista.get(3));
 	
-			stringRespuesta = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
-			
+
+			stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 			transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	transaccion.setRetorno(stringRespuesta);
@@ -65,7 +67,6 @@ public class ConcesionariaRossoWS {
         	transaccion.setRetorno("Failed");
         	respuestaServicio = gson.toJson(transaccion);
 		}
-		
 		return respuestaServicio;
 	}
 	

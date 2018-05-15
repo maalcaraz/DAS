@@ -177,7 +177,7 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
         	cuotaRecuperada.setPagada(result.getString("pagó"));
         	cuotaRecuperada.setImporte(result.getString("importe"));
-        	cuotaRecuperada.setFechavto(result.getString("fecha_vencimiento"));
+        	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));
         	if (!cuotas.contains(cuotaRecuperada)){
         		cuotas.add(cuotaRecuperada);
         	}

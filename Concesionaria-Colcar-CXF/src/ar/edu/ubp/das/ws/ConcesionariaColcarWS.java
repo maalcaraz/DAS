@@ -25,17 +25,18 @@ public class ConcesionariaColcarWS {
 		public String getClientes() throws Exception {
 			String idConcesionaria = "Colcar";
 			String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+
 			String mensajeRespuesta = "";
 			Date horaFechaTransaccion = new Date();
-	        Gson gson = new Gson();
-	        String respuestaServicio = null;
-	        TransaccionBean transaccion = new TransaccionBean();
-	        String stringRespuesta = "";
+
+      Gson gson = new Gson();
+      String respuestaServicio = null;
+      TransaccionBean transaccion = new TransaccionBean();
+      String stringRespuesta = "";
 	        
-	        transaccion.setId_transaccion(idTransaccion);
-	        transaccion.setIdConcesionaria(idConcesionaria);
-	        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
-			
+      transaccion.setId_transaccion(idTransaccion);
+      transaccion.setIdConcesionaria(idConcesionaria);
+      transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 			try
 			{
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -48,22 +49,26 @@ public class ConcesionariaColcarWS {
 				gson = new Gson();
 				String jsonCuotas = gson.toJson(lista.get(3));
 		
-				stringRespuesta = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
-				
+
+				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
+
 				transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
 	        	transaccion.setRetorno(stringRespuesta);
-	        	respuestaServicio = gson.toJson(transaccion);
-	        	System.out.println(respuestaServicio);				
-			}
-			catch ( SQLException ex ) {
-				
+	        	transaccion.setIdConcesionaria(idConcesionaria);
+	        	
+	        	System.out.println(respuestaServicio);
+	        	
+			} 
+			catch ( SQLException error ) {
 				transaccion.setEstado_transaccion("Failed");
-	        	transaccion.setMensajeRespuesta(ex.getMessage());
+	        	transaccion.setMensajeRespuesta(error.getMessage());
 	        	transaccion.setRetorno("Failed");
-	        	respuestaServicio = gson.toJson(transaccion);
+	        	transaccion.setIdConcesionaria(idConcesionaria);
+	        	
+		
 			}
-			
+			respuestaServicio = gson.toJson(transaccion);
 			return respuestaServicio;
 		}
 		

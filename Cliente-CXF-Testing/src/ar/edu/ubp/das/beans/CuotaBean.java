@@ -1,6 +1,4 @@
-package ar.edu.ubp.das.src.beans;
-
-import ar.edu.ubp.das.db.Bean;
+package ar.edu.ubp.das.beans;
 
 public class CuotaBean implements Bean{
 
@@ -83,19 +81,19 @@ public class CuotaBean implements Bean{
 		this.importe = importe;
 	}
 	
-	public String getPagada() {
-		return pagada;
-	}
-	public void setPagada(String pagada) {
-		this.pagada = pagada;
-	}
-	
 	public String getFechaVencimiento() {
 		return fechaVencimiento;
 	}
 
 	public void setFechaVencimiento(String fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public String getPagada() {
+		return pagada;
+	}
+	public void setPagada(String pagada) {
+		this.pagada = pagada;
 	}
 
 }

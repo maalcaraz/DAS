@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import ar.edu.ubp.das.beans.AdquiridoBean;
 import ar.edu.ubp.das.beans.ClienteBean;
+import ar.edu.ubp.das.beans.CuotaBean;
+import ar.edu.ubp.das.beans.PlanBean;
+import ar.edu.ubp.das.beans.TransaccionBean;
 import ar.edu.ubp.das.ws.ConcesionariaRossoWS;
 import ar.edu.ubp.das.ws.ConcesionariaRossoWSService;
 
@@ -43,10 +47,37 @@ public class ObtenerClientesServlet extends HttpServlet {
 			// Armar de nuevo un bean de Clientes para pasarlo a otros jsp
 			
 			Gson gson = new Gson();
-			LinkedList<ClienteBean> clientes = gson.fromJson(respuesta.getClientes(), new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+			//LinkedList<ClienteBean> clientes = gson.fromJson(respuesta.getClientes(), new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
 			
-			//request.setAttribute("servicio", servicio);
+			
+			TransaccionBean transaccion = gson.fromJson(respuesta.getClientes(), new TypeToken<TransaccionBean>(){}.getType());
+			String idConcesionaria = transaccion.getIdConcesionaria();
+			
+			String listaRetorno[] = transaccion.getRetorno().split("],");
+
+			//System.out.println(listaRetorno[0]);
+			String strClientes = listaRetorno[0] + "]";
+			LinkedList<ClienteBean> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+			
+			
+			gson = new Gson();
+			String strPlanes = listaRetorno[1] + "]";
+			LinkedList<PlanBean> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
+			
+			gson = new Gson();
+			String strAdquiridos = listaRetorno[2] + "]";
+			LinkedList<AdquiridoBean> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
+			
+			gson = new Gson();
+			
+			LinkedList<CuotaBean> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
+			
+			request.setAttribute("idConcesionaria", idConcesionaria);
 			request.setAttribute("clientes", clientes);
+			request.setAttribute("planes", planes);
+			request.setAttribute("adquiridos", adquiridos);
+			request.setAttribute("cuotas", cuotas);
+			//request.setAttribute("error", restResp);
 			this.gotoPage("/clientes.jsp", request, response);
 			
 		}

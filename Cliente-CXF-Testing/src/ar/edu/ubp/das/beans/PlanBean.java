@@ -1,6 +1,4 @@
-package ar.edu.ubp.das.src.beans;
-
-import ar.edu.ubp.das.db.Bean;
+package ar.edu.ubp.das.beans;
 
 public class PlanBean implements Bean {
 	

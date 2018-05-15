@@ -16,39 +16,6 @@ public class AdquiridoBean implements Bean{
 	private String sucursalSuscripcion;
 	private LinkedList<CuotaBean> cuotas = new LinkedList<>();
 	
-	
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dniCliente == null) ? 0 : dniCliente.hashCode());
-		result = prime * result + ((idPlan == null) ? 0 : idPlan.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AdquiridoBean other = (AdquiridoBean) obj;
-		if (dniCliente == null) {
-			if (other.dniCliente != null)
-				return false;
-		} else if (!dniCliente.equals(other.dniCliente))
-			return false;
-		if (idPlan == null) {
-			if (other.idPlan != null)
-				return false;
-		} else if (!idPlan.equals(other.idPlan))
-			return false;
-		return true;
-	}
-
 	@Override
 	public String toString() {
 		return "AdquiridoBean [dniCliente=" + dniCliente + ", idPlan=" + idPlan + ", cancelado=" + cancelado
