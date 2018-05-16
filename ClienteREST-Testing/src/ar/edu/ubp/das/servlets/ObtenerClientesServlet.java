@@ -49,7 +49,7 @@ public class ObtenerClientesServlet extends HttpServlet {
 		String servicio = (request.getParameter("servicio")); 
 		
 		
-		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/datosClientes";
+		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";
 		System.out.println(s);
 		URI uri = URI.create(s); // Podemos evitar este duplicado y sacarlo del path en el servicio           
 		HttpPost req = new HttpPost();

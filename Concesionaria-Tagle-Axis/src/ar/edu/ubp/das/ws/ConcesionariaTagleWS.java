@@ -17,11 +17,12 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 public class ConcesionariaTagleWS {
 
-	public String getClientes() throws Exception {
+	public String getClientes(String idPortal) throws Exception {
 		String idConcesionaria = "Tagle";
-		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
-        Date horaFechaTransaccion = new Date();
+        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
@@ -72,14 +73,15 @@ public class ConcesionariaTagleWS {
 			   					   String fechaSorteo) throws Exception {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode();
     	String mensajeRespuesta = "";
-        Date horaFechaTransaccion = new Date();
+        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
-        transaccion.setId_transaccion(id_transaccion);
+        transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 		
@@ -122,15 +124,16 @@ public class ConcesionariaTagleWS {
 			 						 String idPlan) throws Exception {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode();
     	String mensajeRespuesta = "";
     	String idConcesionaria = "Tagle";
-        Date horaFechaTransaccion = new Date();
+        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
-        transaccion.setId_transaccion(id_transaccion);
+        transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 		

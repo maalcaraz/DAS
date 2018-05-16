@@ -22,21 +22,21 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 public class ConcesionariaColcarWS {
 
 		@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
-		public String getClientes() throws Exception {
+		public String getClientes(String idPortal) throws Exception {
+			
 			String idConcesionaria = "Colcar";
-			String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-
-			String mensajeRespuesta = "";
 			Date horaFechaTransaccion = new Date();
+			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
+			String mensajeRespuesta = "";
 
-      Gson gson = new Gson();
-      String respuestaServicio = null;
-      TransaccionBean transaccion = new TransaccionBean();
-      String stringRespuesta = "";
+			Gson gson = new Gson();
+			String respuestaServicio = null;
+			TransaccionBean transaccion = new TransaccionBean();
+			String stringRespuesta = "";
 	        
-      transaccion.setId_transaccion(idTransaccion);
-      transaccion.setIdConcesionaria(idConcesionaria);
-      transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+			transaccion.setId_transaccion(idTransaccion);
+			transaccion.setIdConcesionaria(idConcesionaria);
+			transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 			try
 			{
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -81,14 +81,13 @@ public class ConcesionariaColcarWS {
 									    @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 
-			String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-			String mensajeRespuesta = "";
 			Date horaFechaTransaccion = new Date();
+			String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
+			String mensajeRespuesta = "";
 	        Gson gson = new Gson();
 	        String respuestaServicio = null;
 	        TransaccionBean transaccion = new TransaccionBean();
 	        
-
 	        transaccion.setId_transaccion(idTransaccion);
 	        transaccion.setIdConcesionaria(idConcesionaria);
 	        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
@@ -134,15 +133,16 @@ public class ConcesionariaColcarWS {
 		public String verificarCancelado(@WebParam(name = "dni_cliente") String dniCliente, 
 										 @WebParam(name = "id_plan") String idPlan) throws Exception  {
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-			String id_transaccion = "12345"; // definir en que momento y lugar se determina esto.
+			Date horaFechaTransaccion = new Date();
+			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
 	    	String mensajeRespuesta = "";
 	    	String idConcesionaria = "Colcar";
-	        Date horaFechaTransaccion = new Date();
+	        
 	        Gson gson = new Gson();
 	        String respuestaServicio = null;
 	        TransaccionBean transaccion = new TransaccionBean();
 	        
-	        transaccion.setId_transaccion(id_transaccion);
+	        transaccion.setId_transaccion(idTransaccion);
 	        transaccion.setIdConcesionaria(idConcesionaria);
 	        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
 			

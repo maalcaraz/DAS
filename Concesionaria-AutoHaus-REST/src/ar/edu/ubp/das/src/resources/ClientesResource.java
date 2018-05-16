@@ -32,15 +32,15 @@ public class ClientesResource {
 		 return Response.status( Response.Status.OK ).entity( ret ).build();
 	 }
 	 
-	@Path("/datosClientes")
+	@Path("/getClientes")
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response getClientes() {
+	public Response getClientes(String idPortal) {
 		String idConcesionaria = "AutoHaus";
-		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
-
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
-        Date horaFechaTransaccion = new Date();
+      
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
@@ -92,9 +92,10 @@ public class ClientesResource {
 									 @FormParam("id_plan") String idPlan,
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
-        Date horaFechaTransaccion = new Date();
+        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
@@ -145,10 +146,11 @@ public class ClientesResource {
 									   @FormParam("id_plan") String idPlan) {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		String idTransaccion = "12345"; // definir en que momento y lugar se determina esto.
+		Date horaFechaTransaccion = new Date();
+		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
     	String idConcesionaria = "AutoHaus";
-        Date horaFechaTransaccion = new Date();
+  
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
