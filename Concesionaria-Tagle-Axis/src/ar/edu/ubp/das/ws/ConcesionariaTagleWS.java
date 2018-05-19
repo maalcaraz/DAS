@@ -120,7 +120,8 @@ public class ConcesionariaTagleWS {
 		return mensajeRespuesta;
 	}
 	
-	public String verificarCancelado(String dniCliente, 
+	public String verificarCancelado(String idPortal,
+									 String dniCliente, 
 			 						 String idPlan) throws Exception {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/

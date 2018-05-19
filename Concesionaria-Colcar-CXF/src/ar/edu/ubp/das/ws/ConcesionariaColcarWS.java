@@ -22,7 +22,7 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 public class ConcesionariaColcarWS {
 
 		@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
-		public String getClientes(String idPortal) throws Exception {
+		public String getClientes(@WebParam(name = "arg0") String idPortal) throws Exception {
 			
 			String idConcesionaria = "Colcar";
 			Date horaFechaTransaccion = new Date();
@@ -130,11 +130,11 @@ public class ConcesionariaColcarWS {
 		}
 		
 		@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
-		public String verificarCancelado(@WebParam(name = "dni_cliente") String dniCliente, 
+		public String verificarCancelado(@WebParam(name = "arg0") String idPortal, @WebParam(name = "dni_cliente") String dniCliente, 
 										 @WebParam(name = "id_plan") String idPlan) throws Exception  {
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 			Date horaFechaTransaccion = new Date();
-			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
+			String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
 	    	String mensajeRespuesta = "";
 	    	String idConcesionaria = "Colcar";
 	        

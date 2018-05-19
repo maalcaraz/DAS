@@ -38,6 +38,7 @@ var jTest = {
 				url: "./verificarCancelado.jsp",
 				type: "post",
 				dataType: "html",
+				data: $("#form").serialize(),
 				error: function(hr) {
 					jUtils.hiding("result");
 					jUtils.showing("message", hr.responseText);

@@ -145,8 +145,12 @@ public class ClientesResource {
 	@Path("/verificarCancelado")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response verificarCancelado(@FormParam("dni_cliente") String dniCliente,
+	public Response verificarCancelado(@FormParam("id_portal") String idPortal,
+									   @FormParam("dni_cliente") String dniCliente,
 									   @FormParam("id_plan") String idPlan) {
+		
+		// Deberiamos definir para que usar el idPortal y donde.
+		
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();

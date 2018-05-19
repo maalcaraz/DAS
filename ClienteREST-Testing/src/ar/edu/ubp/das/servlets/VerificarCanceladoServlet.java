@@ -41,11 +41,18 @@ public class VerificarCanceladoServlet extends HttpServlet {
 		
 		try {
 			
+			String servicio = request.getParameter("servicio");
+			
+			String idPortal = request.getParameter("idPortal");
+			String dniCliente = request.getParameter("dniCliente");
+			String idPlan = request.getParameter("idPlan");
+			
 			List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-	      	nvps.add(new BasicNameValuePair("dni_cliente" , "27777777"));
-	      	nvps.add(new BasicNameValuePair("id_plan" , "303458"));
+			nvps.add(new BasicNameValuePair("id_portal" , idPortal));
+	      	nvps.add(new BasicNameValuePair("dni_cliente" , dniCliente));
+	      	nvps.add(new BasicNameValuePair("id_plan" , idPlan));
 	      	
-	      	URI uri = URI.create("http://localhost:8080/Concesionaria-AutoHaus-REST/rest/autohaus/verificarCancelado");
+	      	URI uri = URI.create("http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/verificarCancelado");
 	
 	      	HttpPost req = new HttpPost();
 	        req.setURI(uri);
