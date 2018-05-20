@@ -2,8 +2,9 @@ use portalgob
 
 
 drop procedure dbo.validar_usuarios
-
 go
+
+drop table transacciones
 drop table usuarios
 drop table participantes_sorteos
 drop table sorteos
@@ -108,6 +109,17 @@ create table errores
 	CONSTRAINT PK__errores__END primary key(id_error)
 )
 go
+
+create table transacciones
+(
+	id_transaccion			varchar(15)			not null,
+	id_concesionaria		char(8)				not null,
+	estado_transaccion		varchar(10)			not null,
+	descripcion				varchar				null,
+	
+	check (estado_transaccion in ('SUCCESS','FAILED'))
+)
+go 
 
 create table sorteos
 (

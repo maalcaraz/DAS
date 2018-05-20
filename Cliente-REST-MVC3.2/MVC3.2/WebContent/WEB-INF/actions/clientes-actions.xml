@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:noNamespaceSchemaLocation="../schema/actions.xsd">
+    <form-beans>
+    </form-beans>
+    <action-mappings>
+     <action path="/MostrarClientes.do" type="MostrarClientesAction">
+            <forward name="success" path="/clientes/mostrarClientes.jsp"/>
+        </action>
+        <action path="/ConsumirClientes.do" type="ConsumirClientesAction">
+            <forward name="success" path="/clientes/consumirClientes.jsp"/>
+        </action>
+    </action-mappings>
+</actions>

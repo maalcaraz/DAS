@@ -48,7 +48,6 @@ public class ObtenerClientesServlet extends HttpServlet {
 		
 		String servicio = (request.getParameter("servicio")); 
 		
-		
 		String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";
 		System.out.println(s);
 		URI uri = URI.create(s); // Podemos evitar este duplicado y sacarlo del path en el servicio           
@@ -87,7 +86,6 @@ public class ObtenerClientesServlet extends HttpServlet {
 		LinkedList<AdquiridoBean> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
 		
 		gson = new Gson();
-		
 		LinkedList<CuotaBean> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
 		
 		request.setAttribute("idConcesionaria", idConcesionaria);
@@ -95,7 +93,7 @@ public class ObtenerClientesServlet extends HttpServlet {
 		request.setAttribute("planes", planes);
 		request.setAttribute("adquiridos", adquiridos);
 		request.setAttribute("cuotas", cuotas);
-		//request.setAttribute("error", restResp);
+		
 		this.gotoPage("/clientes.jsp", request, response);
 		
 	}

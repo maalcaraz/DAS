@@ -1,4 +1,22 @@
 var jLogin = {
+		login: function() {
+			window.location.replace("./login/Login.do");
+			 /*jUtils.executing("result");
+		        jUtils.hiding("message");
+		        $.ajax({
+		            url: "./login/Login.do",
+		            type: "post",
+		            dataType: "html",
+		            error: function(hr){
+		                jUtils.hiding("result");
+		                jUtils.showing("message", hr.responseText);
+		            },
+		            success: function(html) {
+		            	//window.location.replace("./cuentas/Default.do");
+		            }
+		        });		*/
+		},
+		
 		acceder: function() {
 			/*window.location.replace("./login/validateLogin.do");*/
 			 jUtils.executing("result");
@@ -12,8 +30,8 @@ var jLogin = {
 		                jUtils.hiding("result");
 		                jUtils.showing("message", hr.responseText);
 		            },
-		            success: function(html) {
-		            	window.location.replace("./cuentas/Default.do");
+		            success: function() {
+		            	//window.location.replace("./cuentas/Default.do");
 		            }
 		        });		
 			

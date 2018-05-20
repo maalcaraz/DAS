@@ -10,5 +10,22 @@
 </head>
 <body>
 
+<span id="novedades"> Novedades </span>
+
+<span id="proximasFechas"> Proximas fechas </span>
+
+<span id="ganadores" > Ganadores </span>
+
+<span id="concesionariasAdheridas"> Concesionarias Adheridas </span>
+
+
+<span id="suscribirConcesionaria"> Suscribir Concesionaria </span>
+
+<span id="about"> Como es el plan </span>
+
+<span id="resultadosSorteo"> Resultados ultimo sorteo </span>
+
+<button id="login" name="login" onclick="jLogin.login()"> Iniciar Sesion </button>
+
 </body>
 </html>

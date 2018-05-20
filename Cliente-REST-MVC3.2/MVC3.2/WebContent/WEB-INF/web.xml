@@ -19,7 +19,7 @@
   </context-param>
   <context-param>
     <param-name>action.default.path</param-name>
-    <param-value>/home/Home.do</param-value>
+    <param-value></param-value>
   </context-param>
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
