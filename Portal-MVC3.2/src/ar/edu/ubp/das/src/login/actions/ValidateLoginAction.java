@@ -22,7 +22,6 @@ public class ValidateLoginAction implements Action{
 		String user = request.getParameter("user") == null ? "NO TRAJO NADA" : request.getParameter("user");
 		String pass = request.getParameter("pwd") == null ? "NO TRAJO NADA" : request.getParameter("pwd");
 		
-		System.out.println(user);
 		
 		MSLoginDao dao = (MSLoginDao)DaoFactory.getDao("Login", "login");
 		
@@ -31,11 +30,17 @@ public class ValidateLoginAction implements Action{
 		daf.setItem("user", user);
 		daf.setItem("pass", pass);
 		
-		boolean res = dao.valid(daf);
+		int res = dao.validarUsuario(daf);
 		
 		//
-		if (res){
-			return mapping.getForwardByName("success");
+		if (res == 0){
+			return mapping.getForwardByName("admin");
+		}
+		if (res == 1){
+			return mapping.getForwardByName("cliente");
+		}
+		if (res == 2){
+			return mapping.getForwardByName("sistema");
 		}
 		else {
 			throw new RuntimeException("Error de validacion de usuario"); 

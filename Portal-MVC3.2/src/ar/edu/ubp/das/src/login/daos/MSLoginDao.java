@@ -48,9 +48,22 @@ public class MSLoginDao extends DaoImpl{
 		 this.setParameter(1, form.getItem("user"));
 		 this.setParameter(2, form.getItem("pass"));
 		
-		boolean res = this.executeValidateQuery("existe"); 
+	//	boolean res = this.executeValidateQuery("existe"); 
 		
 		
+		this.disconnect();
+		
+		return false;
+	}
+	
+	public int validarUsuario(DynaActionForm form) throws SQLException {
+		this.connect();
+		
+		this.setProcedure("dbo.validar_usuarios(?,?)");
+		
+		this.setParameter(1, form.getItem("user"));
+		this.setParameter(2, form.getItem("pass"));
+		int res = this.executeValidateQuery("existe"); 
 		this.disconnect();
 		
 		return res;

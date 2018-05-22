@@ -8,7 +8,9 @@
     		<forward name="success" path="/login/login.jsp" />
     	</action>
 	   	<action type="ValidateLoginAction" path="/validateLogin.do">
-	   		<forward name="success" path="/login/validateLogin.jsp" />
+	   		<forward name="admin" path="/login/admin.jsp" />
+	   		<forward name="cliente" path="/login/cliente.jsp" />
+	   		<forward name="sistema" path="/login/sistema.jsp" />
 	   	</action>
     </action-mappings>
 </actions>

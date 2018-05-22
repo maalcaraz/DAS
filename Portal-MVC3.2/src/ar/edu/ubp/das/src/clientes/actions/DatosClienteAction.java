@@ -1,4 +1,4 @@
-package ar.edu.ubp.das.src.cuentas.actions;
+package ar.edu.ubp.das.src.clientes.actions;
 
 import java.sql.SQLException;
 
@@ -10,14 +10,15 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 
-public class DefaultAction implements Action {
+public class DatosClienteAction implements Action{
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-		// TODO Auto-generated method stub
+		/*Deberiamos obtener desde cookies el dni del cliente y el idPlan para ejecutar algun procedimiento
+		 * de la BD local y que me traiga los datos de cuenta del cliente que estoy solicitando.*/
 		
-		return mapping.getForwardByName("success");
+		return null;
 	}
 
 }

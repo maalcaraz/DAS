@@ -8,7 +8,6 @@
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,login" />
 </head>
 <body>
-
  
  <div id="id01" class="modal">
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
@@ -18,7 +17,7 @@
   
    <div class="imgcontainer">
    <h3>Bienvenido al Portal del Gobierno Nacional</h3>
-      <img src="./img/logo.jpg" alt="Avatar" class="avatar">
+     
     </div>
     <div class="container">
 		<label for="user">Username:</label>
@@ -40,8 +39,8 @@
     <div id="message"> </div>
     </form>
   </div>
-	
- <script type="text/javascript">document.getElementById('id01').style.display='block'</script>
+
+  <script type="text/javascript">document.getElementById('id01').style.display='block'</script>
  
 </body>
 </html>

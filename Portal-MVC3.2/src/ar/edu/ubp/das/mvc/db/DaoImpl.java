@@ -88,11 +88,11 @@ public abstract class DaoImpl implements Dao {
         return list;
     }
     
-    public boolean executeValidateQuery(String atributo) throws SQLException {
-    	boolean response = false;
+    public int executeValidateQuery(String atributo) throws SQLException {
+    	int response = -1;
         ResultSet result = this.statement.executeQuery();
         if(result.next()) {
-            response = result.getBoolean(atributo); 
+            response = result.getInt(atributo); 
         }
         return response;
     }

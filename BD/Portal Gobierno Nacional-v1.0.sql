@@ -115,8 +115,9 @@ create table transacciones
 	id_transaccion			varchar(15)			not null,
 	id_concesionaria		char(8)				not null,
 	estado_transaccion		varchar(10)			not null,
-	descripcion				varchar				null,
-	
+	mensaje_respuesta		varchar				null,
+	hora_fecha				date				not null,
+	--retorno						
 	check (estado_transaccion in ('SUCCESS','FAILED'))
 )
 go 
@@ -142,13 +143,16 @@ go
 create table usuarios
 (
 	id_usuario		varchar(20)		not null,
+	tipo_usuario	varchar(10)			not null,
 	pass			varchar(30)		not null,
-	CONSTRAINT PK__usuarios__END primary key(id_usuario)
+	CONSTRAINT PK__usuarios__END primary key(id_usuario),
+	check (tipo_usuario in ('admin', 'cliente', 'sistema'))
 )
 go
 
-insert into usuarios(id_usuario, pass)
-values ('admin', 'intel123')
+insert into usuarios(id_usuario, pass, tipo_usuario)
+values ('admin', 'intel123', 'admin'),
+	   ('pepe', 'pepepass', 'cliente')
 go
 
 
@@ -167,25 +171,38 @@ BEGIN
 					and u.pass = @password
 				   )
 			begin
-				select existe = 1
-			end
+				if exists (select * from usuarios u
+							where u.id_usuario = @username
+							and u.pass = @password
+							and u.tipo_usuario = 'admin')
+				begin
+					select existe = 0
+				end
+				else
+					if exists (	select * from usuarios u
+									where u.id_usuario = @username
+									and u.pass = @password
+									and u.tipo_usuario = 'cliente'
+						)
+					begin
+						select existe = 1
+					end
+					else
+						if exists (
+									select * from usuarios u
+										where u.id_usuario = @username
+										and u.pass = @password
+										and u.tipo_usuario ='sistema')
+						begin
+							select existe = 2
+						end
+				end
 		else
 			begin
-				select existe = 0
+				select existe = -1
 			end
 END
 go
---execute dbo.validar_usuarios 'Pepe', 'pepepass'
+--execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
-
-
-create procedure dbo.validar_usuario
-AS
-BEGIN
-		select * from usuarios u
-			where u.id_usuario = 'admin'
-			and u.pass = 'intel123'
-		
-END
-go

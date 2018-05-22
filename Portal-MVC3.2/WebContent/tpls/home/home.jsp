@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,bootstrap.min,login" ></script>
+	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,login" />
 <title>HOME!</title>
 </head>
@@ -25,7 +25,7 @@
 
 <span id="resultadosSorteo"> Resultados ultimo sorteo </span>
 
-<button id="login" name="login" onclick="jLogin.login()"> Iniciar Sesion </button>
-
+<input type="button" id="login" name="login" onclick="jLogin.login()" value="Iniciar Sesion"> 
+<div id="content"></div>
 </body>
 </html>
