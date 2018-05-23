@@ -206,3 +206,10 @@ go
 --execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
+create procedure dbo.insertarClientes
+(
+)
+AS
+BEGIN
+END
+go

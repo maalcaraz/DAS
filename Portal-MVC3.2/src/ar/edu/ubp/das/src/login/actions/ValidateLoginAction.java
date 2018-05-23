@@ -32,18 +32,11 @@ public class ValidateLoginAction implements Action{
 		
 		int res = dao.validarUsuario(daf);
 		
-		//
-		if (res == 0){
-			return mapping.getForwardByName("admin");
-		}
-		if (res == 1){
-			return mapping.getForwardByName("cliente");
-		}
-		if (res == 2){
-			return mapping.getForwardByName("sistema");
-		}
-		else {
-			throw new RuntimeException("Error de validacion de usuario"); 
+		switch(res){
+		case 0: return mapping.getForwardByName("admin");
+		case 1: return mapping.getForwardByName("cliente");
+		case 2: return mapping.getForwardByName("sistema"); 
+		default: throw new RuntimeException("Error de validacion de usuario"); 
 		}
 	}
 }

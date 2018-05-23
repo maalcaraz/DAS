@@ -8,5 +8,10 @@
 </head>
 <body>
 <h1>Te loggeaste como admin del gobierno</h1>
+
+
+
+
+<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionarias.getClientes()">
 </body>
 </html>

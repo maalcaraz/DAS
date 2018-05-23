@@ -1,6 +1,3 @@
-var jClientes = {
-	
-	estadosCuentas : function (dni, idplan){
+var jClientes ={
 		
-	}
 };
