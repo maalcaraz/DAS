@@ -1,4 +1,4 @@
-use portalgob
+	use portalgob
 
 
 drop procedure dbo.validar_usuarios
@@ -206,10 +206,103 @@ go
 --execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
-create procedure dbo.insertarClientes
+create procedure dbo.insertar_cliente
 (
+	@dni_cliente				char(8),	
+	@id_concesionaria			char(8),--?????????
+	@apellido_nombre			char(30),
+	@edad						smallint,
+	@domicilio					char(20),
+	@email						varchar(50)
 )
 AS
-BEGIN
-END
+	BEGIN
+		insert into clientes(dni_cliente, id_concesionaria, apellido_nombre, edad, domicilio, email)
+		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email)
+	END
+go
+-- id concesionaria de donde lo sacamos???
+
+create procedure dbo.insertar_plan
+(
+	@id_plan					integer, 
+	@descripcion				varchar(100),
+	@cant_cuotas				tinyint,
+	@entrega_pactada			varchar(50),
+	@financiacion				varchar(50),
+	@dueño_plan					char(3)
+)
+AS
+	BEGIN
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan)
+	END
+go
+-- no nos falto nombre plan que si esta en la consecionarias??
+
+create procedure dbo.insertar_adquirido
+(
+	@id_plan				integer, 
+	@dni_cliente			char(8),	
+	@id_concesionaria		char(8),	
+	@cancelado				char(1),
+	@ganador_sorteo			char(1),
+	@fecha_sorteado			date,
+	@fecha_entrega			date,
+	@nro_chasis				varchar(15)
+)
+AS
+	BEGIN
+		insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis)
+		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis)
+	END
+go
+
+-- id concesionaria de donde lo sacamos???
+
+create procedure dbo.insertar_cuota
+(
+	@id_cuota				smallint,
+	@dni_cliente				char(8),
+	@id_plan					integer,
+	@id_concesionaria		char(8),
+	@importe					decimal(10,2),
+	@fecha_vencimiento		date,
+	@pagó					char(1)
+)
+AS
+	BEGIN
+		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pagó)
+		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
+	END
+go
+-- id concesionaria de donde lo sacamos???
+
+create procedure dbo.insertar_transaccion
+(
+	@id_transaccion			varchar(15),
+	@id_concesionaria		char(8),
+	@estado_transaccion		varchar(10),
+	@mensaje_respuesta		varchar,
+	@hora_fecha				date
+)
+AS
+	BEGIN
+		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, @hora_fecha)
+	END
+go
+-- id concesionaria de donde lo sacamos???
+
+
+
+create procedure dbo.insertar_novedad
+(
+	@texto_novedad			varchar(max)
+)
+AS
+	BEGIN
+			insert into novedades(textoNovedad)
+			values(@texto_novedad)
+	END
 go
