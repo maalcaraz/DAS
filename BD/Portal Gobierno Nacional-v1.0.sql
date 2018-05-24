@@ -64,7 +64,7 @@ create table clientes
 	domicilio				char(20)		null,
 	email					varchar(50)		not null,
 	CONSTRAINT PK__clientes__END primary key(dni_cliente, id_concesionaria),
-	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
+	--CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
 )
 go
 
@@ -306,3 +306,6 @@ AS
 			values(@texto_novedad)
 	END
 go
+
+select *
+	from clientes

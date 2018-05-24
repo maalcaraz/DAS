@@ -4,6 +4,6 @@
     <form-beans>
     </form-beans>
     <action-mappings>
-    		 <action path="/ConsultaQuincenal.do" type="ConsultaQuincenal" validate="false" noforward="true" />
+    		 <action path="/ConsultaQuincenal.do" type="ConsultaQuincenalAction" validate="false" noforward="true" />
     </action-mappings>
 </actions>

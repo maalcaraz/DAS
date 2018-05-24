@@ -104,7 +104,6 @@ public class MSClientesDao extends DaoImpl {
        
         
         while (result.getRow() > 0){
-        	System.out.println("Linea");
         	clienteRecuperado = new ClienteBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
         	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));

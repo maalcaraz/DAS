@@ -2,6 +2,7 @@ package ar.edu.ubp.das.src.concesionarias.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
@@ -23,21 +24,23 @@ public class MSConcesionariaDao extends DaoImpl{
 	}
 	
 	@Override
-	public void insertClientes(List<DynaActionForm> form) throws SQLException {
+	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
 		this.connect();
 		
-		for (DynaActionForm f : form){
-			ClienteForm c = (ClienteForm) f;
+		this.setProcedure("dbo.insertar_cliente(?, ?, ?, ?, ?, ?)");
+		
+		for (ClienteForm c : clientes){
 			
-			
+			this.setParameter(1, c.getDniCliente());
+			this.setParameter(2, idConcesionaria);
+			this.setParameter(3, c.getName());
+			this.setParameter(4, c.getEdad());
+			this.setParameter(5, c.getDomicilio());
+			this.setParameter(6, c.getEmailCliente());
+			this.executeUpdate();
 		}
+
 		
-		
-		
-		this.setProcedure("dbo.registroQuincenal(?)");
-	
-		//this.setParameter(1);
-		this.executeUpdate();
 		this.disconnect();
 		
 	}
@@ -86,6 +89,12 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertClientes(List<DynaActionForm> form) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
