@@ -63,13 +63,14 @@ public class ConsultaQuincenalAction implements Action {
 			
 			TransaccionForm transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
 			String idConcesionaria = transaccion.getIdConcesionaria();
+			System.out.println(transaccion.toString());
 			
 			String listaRetorno[] = transaccion.getRetorno().split("],");
 
 			//System.out.println(listaRetorno[0]);
 			String strClientes = listaRetorno[0] + "]";
 			LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
-			System.out.println(clientes.get(0).toString());
+			//System.out.println(clientes.get(0).toString());
 			gson = new Gson();
 			String strPlanes = listaRetorno[1] + "]";
 			LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
@@ -81,6 +82,7 @@ public class ConsultaQuincenalAction implements Action {
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
+			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);
 			return null;
 		}

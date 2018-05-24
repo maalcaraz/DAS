@@ -8,6 +8,7 @@ import java.util.List;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 
 public class MSLoginDao extends DaoImpl{
 
@@ -71,11 +72,6 @@ public class MSLoginDao extends DaoImpl{
 		return res;
 	}
 
-	@Override
-	public void insertClientes(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void insertCuotas(List<DynaActionForm> form) throws SQLException {
@@ -95,14 +91,15 @@ public class MSLoginDao extends DaoImpl{
 		
 	}
 
+
 	@Override
-	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
+	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
+	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}

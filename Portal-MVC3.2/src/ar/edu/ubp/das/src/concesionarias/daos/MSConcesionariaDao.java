@@ -8,6 +8,7 @@ import java.util.List;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 
 public class MSConcesionariaDao extends DaoImpl{
 
@@ -20,6 +21,25 @@ public class MSConcesionariaDao extends DaoImpl{
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		// TODO Auto-generated method stub
+		
+	}
+	
+
+	@Override
+	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
+		
+		this.connect();
+		
+		this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
+		
+		this.setParameter(1, transaccion.getId_transaccion());
+		this.setParameter(2, transaccion.getIdConcesionaria());
+		this.setParameter(3, transaccion.getEstadoTransaccion());
+		this.setParameter(4, transaccion.getMensajeRespuesta());
+		this.setParameter(5, transaccion.getHoraFechaTransaccion());
+		this.executeUpdate();
+		
+		this.disconnect();
 		
 	}
 	
@@ -39,10 +59,8 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(6, c.getEmailCliente());
 			this.executeUpdate();
 		}
-
 		
 		this.disconnect();
-		
 	}
 
 	@Override
@@ -87,16 +105,5 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 	}
 
-	@Override
-	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void insertClientes(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
