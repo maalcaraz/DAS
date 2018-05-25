@@ -12,7 +12,6 @@ public class ClienteBean implements Bean{
 	private String idLocalidad;
 	private String codProvincia;
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

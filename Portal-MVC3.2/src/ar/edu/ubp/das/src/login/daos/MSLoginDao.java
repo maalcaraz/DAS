@@ -69,4 +69,34 @@ public class MSLoginDao extends DaoImpl{
 		return res;
 	}
 
+	@Override
+	public void insertClientes(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertCuotas(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertAdquiridos(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertPlanes(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

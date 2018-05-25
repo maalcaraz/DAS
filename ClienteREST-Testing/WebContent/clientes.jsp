@@ -22,6 +22,7 @@
 			<td> Telefono </td>
 			<td> Localidad </td>
 			<td> Provincia </td>
+			<td> Concesionaria </td>
 		</tr>
 	</thead>
 	<tbody>
@@ -37,6 +38,7 @@
 			<td> ${ cliente.telefono } </td>
 			<td> ${ cliente.idLocalidad } </td>
 			<td> ${ cliente.codProvincia } </td>
+			<td> ${ cliente.idConcesionaria } </td>
 		</tr>	
 	</c:forEach>
 	</tbody>
