@@ -38,6 +38,8 @@ public class ClientesResource {
 	public Response getClientes(String idPortal) {
 		String idConcesionaria = "AutoHaus";
 		Date horaFechaTransaccion = new Date();
+		java.sql.Date sDate = new java.sql.Date(horaFechaTransaccion.getTime());
+
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
       
@@ -48,7 +50,7 @@ public class ClientesResource {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sDate.toString());
         
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );

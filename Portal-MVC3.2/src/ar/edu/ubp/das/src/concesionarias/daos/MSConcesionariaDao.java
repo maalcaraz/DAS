@@ -2,11 +2,13 @@ package ar.edu.ubp.das.src.concesionarias.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 
 public class MSConcesionariaDao extends DaoImpl{
 
@@ -22,24 +24,43 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 	}
 	
+
 	@Override
-	public void insertClientes(List<DynaActionForm> form) throws SQLException {
+	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
+		
 		this.connect();
 		
-		for (DynaActionForm f : form){
-			ClienteForm c = (ClienteForm) f;
-			
-			
-		}
+		this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
 		
-		
-		
-		this.setProcedure("dbo.registroQuincenal(?)");
-	
-		//this.setParameter(1);
+		this.setParameter(1, transaccion.getId_transaccion());
+		this.setParameter(2, transaccion.getIdConcesionaria());
+		this.setParameter(3, transaccion.getEstadoTransaccion());
+		this.setParameter(4, transaccion.getMensajeRespuesta());
+		this.setParameter(5, transaccion.getHoraFechaTransaccion());
 		this.executeUpdate();
+		
 		this.disconnect();
 		
+	}
+	
+	@Override
+	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
+		this.connect();
+		
+		this.setProcedure("dbo.insertar_cliente(?, ?, ?, ?, ?, ?)");
+		
+		for (ClienteForm c : clientes){
+			
+			this.setParameter(1, c.getDniCliente());
+			this.setParameter(2, idConcesionaria);
+			this.setParameter(3, c.getName());
+			this.setParameter(4, c.getEdad());
+			this.setParameter(5, c.getDomicilio());
+			this.setParameter(6, c.getEmailCliente());
+			this.executeUpdate();
+		}
+		
+		this.disconnect();
 	}
 
 	@Override
@@ -84,10 +105,5 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 	}
 
-	@Override
-	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

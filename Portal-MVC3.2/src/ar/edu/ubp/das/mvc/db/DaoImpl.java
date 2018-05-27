@@ -11,6 +11,7 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.DatasourceConfig;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
 
 public abstract class DaoImpl implements Dao {
 
@@ -204,5 +205,5 @@ public abstract class DaoImpl implements Dao {
     public Date getDateParam(int paramIndex) throws SQLException {
     	return this.statement.getDate(paramIndex);
     }
-    
+
 }

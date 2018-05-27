@@ -1,7 +1,12 @@
-	use portalgob
-
+use portalgob
 
 drop procedure dbo.validar_usuarios
+drop procedure dbo.insertar_cliente
+drop procedure dbo.insertar_adquirido
+drop procedure dbo.insertar_cuota
+drop procedure dbo.insertar_novedad
+drop procedure dbo.insertar_plan
+drop procedure dbo.insertar_transaccion
 go
 
 drop table transacciones
@@ -278,18 +283,19 @@ AS
 go
 -- id concesionaria de donde lo sacamos???
 
-create procedure dbo.insertar_transaccion
+alter procedure dbo.insertar_transaccion
 (
 	@id_transaccion			varchar(15),
 	@id_concesionaria		char(8),
 	@estado_transaccion		varchar(10),
 	@mensaje_respuesta		varchar,
-	@hora_fecha				date
+	@hora_fecha				varchar
 )
 AS
 	BEGIN
+		
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
-		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, @hora_fecha)
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, Convert(date,@hora_fecha))
 	END
 go
 -- id concesionaria de donde lo sacamos???
@@ -306,3 +312,6 @@ AS
 			values(@texto_novedad)
 	END
 go
+
+select *
+	from clientes

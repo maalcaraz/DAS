@@ -2,10 +2,13 @@ package ar.edu.ubp.das.src.login.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 
 public class MSLoginDao extends DaoImpl{
 
@@ -69,34 +72,28 @@ public class MSLoginDao extends DaoImpl{
 		return res;
 	}
 
-	@Override
-	public void insertClientes(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void insertCuotas(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void insertAdquiridos(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
 	public void insertPlanes(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void insertTransacciones(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
+
+	}
+
+	@Override
+	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
 	}
 
 }

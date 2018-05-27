@@ -22,11 +22,13 @@ import ar.edu.ubp.das.mvc.action.Action;
 import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
+import ar.edu.ubp.das.mvc.db.DaoFactory;
 import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
 import ar.edu.ubp.das.portal.forms.TransaccionForm;
+import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 
 public class ConsultaQuincenalAction implements Action {
 
@@ -61,12 +63,14 @@ public class ConsultaQuincenalAction implements Action {
 			
 			TransaccionForm transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
 			String idConcesionaria = transaccion.getIdConcesionaria();
+			System.out.println(transaccion.toString());
 			
 			String listaRetorno[] = transaccion.getRetorno().split("],");
 
 			//System.out.println(listaRetorno[0]);
 			String strClientes = listaRetorno[0] + "]";
 			LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
+			//System.out.println(clientes.get(0).toString());
 			gson = new Gson();
 			String strPlanes = listaRetorno[1] + "]";
 			LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
@@ -76,14 +80,14 @@ public class ConsultaQuincenalAction implements Action {
 			gson = new Gson();
 			LinkedList<CuotaForm> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
 			
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
-			
-			
-			
-			
+			Concesionaria.insertTransacciones(transaccion);
+			Concesionaria.insertClientes(clientes, idConcesionaria);
 			return null;
 		}
 		catch(Exception ex){
+			System.out.println(ex.getMessage());
 			return null;
 			
 		}
