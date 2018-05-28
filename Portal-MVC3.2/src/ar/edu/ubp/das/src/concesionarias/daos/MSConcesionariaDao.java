@@ -7,7 +7,10 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
+import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.CuotaForm;
+import ar.edu.ubp.das.portal.forms.PlanForm;
 import ar.edu.ubp.das.portal.forms.TransaccionForm;
 
 public class MSConcesionariaDao extends DaoImpl{
@@ -24,8 +27,6 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 	}
 	
-
-	@Override
 	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
 		
 		this.connect();
@@ -43,7 +44,6 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 	}
 	
-	@Override
 	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
 		this.connect();
 		
@@ -53,7 +53,7 @@ public class MSConcesionariaDao extends DaoImpl{
 			
 			this.setParameter(1, c.getDniCliente());
 			this.setParameter(2, idConcesionaria);
-			this.setParameter(3, c.getName());
+			this.setParameter(3, c.getNomCliente());
 			this.setParameter(4, c.getEdad());
 			this.setParameter(5, c.getDomicilio());
 			this.setParameter(6, c.getEmailCliente());
@@ -62,7 +62,28 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		this.disconnect();
 	}
-
+	
+	 public void insertAdquiridos(LinkedList<AdquiridoForm> adquiridos, String idConcesionaria) throws SQLException {
+		this.connect();
+		
+		this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?)");
+		
+		for (AdquiridoForm a : adquiridos){
+			
+			this.setParameter(1, a.getIdPlan());
+			this.setParameter(2, a.getDniCliente());
+			this.setParameter(3, idConcesionaria);
+			this.setParameter(4, a.getCancelado());
+			this.setParameter(5, a.getGanadorSorteo());
+			this.setParameter(6, a.getFechaSorteado());
+			this.setParameter(7, a.getFechaEntrega());
+			this.setParameter(8, a.getNroChasis());
+			this.executeUpdate();
+		}
+		
+		this.disconnect();
+	}
+	
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
 		// TODO Auto-generated method stub
@@ -87,22 +108,46 @@ public class MSConcesionariaDao extends DaoImpl{
 		return false;
 	}
 
-	@Override
-	public void insertCuotas(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
+	public void insertCuotas(List<CuotaForm> cuotas, String idConcesionaria) throws SQLException {
+		this.connect();
+		
+		this.setProcedure("dbo.insertar_cuota(?, ?, ?, ?, ?, ?, ?)");
+		
+		for (CuotaForm cuo : cuotas){
+			
+			this.setParameter(1, cuo.getIdCuota());
+			this.setParameter(2, cuo.getDniCliente());
+			this.setParameter(3, cuo.getIdPlan());
+			this.setParameter(4, idConcesionaria);
+			this.setParameter(5, cuo.getImporte());
+			this.setParameter(6, cuo.getFechaVencimiento());
+			this.setParameter(7, cuo.getPagada());
+			this.executeUpdate();
+		}
+		
+		this.disconnect();
 		
 	}
 
-	@Override
-	public void insertAdquiridos(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void insertPlanes(List<DynaActionForm> form) throws SQLException {
-		// TODO Auto-generated method stub
+	public void insertPlanes(List<PlanForm> planes) throws SQLException {
 		
+		this.connect();
+		
+		this.setProcedure("dbo.insertar_plan(?, ?, ?, ?, ?, ?)");
+		
+		for (PlanForm p : planes){
+			
+			this.setParameter(1, p.getIdPlan());
+			this.setParameter(2, p.getDescripcion());
+			this.setParameter(3, p.getCant_cuotas());
+			this.setParameter(4, p.getEntrega_pactada());
+			this.setParameter(5, p.getFinanciacion());
+			this.setParameter(6, p.getDuenoPlan());
+			this.executeUpdate();
+		}
+		
+		this.disconnect();
 	}
 
 

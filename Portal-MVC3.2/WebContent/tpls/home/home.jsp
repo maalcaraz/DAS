@@ -10,20 +10,17 @@
 </head>
 <body>
 
-<span id="novedades"> Novedades </span>
+<ul>
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="#novedades">Novedades</a></li>
+  <li><a href="#proximasfechas"> Proximas fechas </a></li>
+  <li><a href="#ganadores">Ganadores</a></li>
+  <li><a href="#concesionarias">Concesionarias Adheridas</a></li>
+  <li><a href="#suscribir">Suscribir Concesionaria</a></li>
+  <li><a href="#about">Como es el plan </a></li>
+  <li><a href="#resultadosSorteo"> Resultados ultimo sorteo </a></li>
+</ul>
 
-<span id="proximasFechas"> Proximas fechas </span>
-
-<span id="ganadores" > Ganadores </span>
-
-<span id="concesionariasAdheridas"> Concesionarias Adheridas </span>
-
-
-<span id="suscribirConcesionaria"> Suscribir Concesionaria </span>
-
-<span id="about"> Como es el plan </span>
-
-<span id="resultadosSorteo"> Resultados ultimo sorteo </span>
 
 <input type="button" id="login" name="login" onclick="jLogin.login()" value="Iniciar Sesion"> 
 <div id="content"></div>

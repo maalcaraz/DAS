@@ -43,7 +43,7 @@ public class ConsultaQuincenalAction implements Action {
 			
 			String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";
 			System.out.println(s);
-			URI uri = URI.create(s); // Podemos evitar este duplicado y sacarlo del path en el servicio           
+			URI uri = URI.create(s);           
 			HttpPost req = new HttpPost();
 			         req.setURI(uri);
 			HttpClient client = HttpClientBuilder.create().build();	       
@@ -59,20 +59,19 @@ public class ConsultaQuincenalAction implements Action {
 			}
 			
 			Gson gson = new Gson();
-			//LinkedList<ClienteForm> clientes = gson.fromJson(restResp, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
 			
 			TransaccionForm transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
 			String idConcesionaria = transaccion.getIdConcesionaria();
-			System.out.println(transaccion.toString());
+			
 			
 			String listaRetorno[] = transaccion.getRetorno().split("],");
 
-			//System.out.println(listaRetorno[0]);
 			String strClientes = listaRetorno[0] + "]";
 			LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
-			//System.out.println(clientes.get(0).toString());
+			
 			gson = new Gson();
 			String strPlanes = listaRetorno[1] + "]";
+			System.out.println(listaRetorno[3]);
 			LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
 			gson = new Gson();
 			String strAdquiridos = listaRetorno[2] + "]";
@@ -84,6 +83,9 @@ public class ConsultaQuincenalAction implements Action {
 			
 			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);
+			Concesionaria.insertPlanes(planes);
+			Concesionaria.insertAdquiridos(adquiridos, idConcesionaria);
+			Concesionaria.insertCuotas(cuotas, idConcesionaria);
 			return null;
 		}
 		catch(Exception ex){

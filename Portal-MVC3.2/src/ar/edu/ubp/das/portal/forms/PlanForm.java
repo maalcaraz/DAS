@@ -9,7 +9,7 @@ public class PlanForm extends DynaActionForm {
 	private String nom_plan;
 	private String cant_cuotas;
 	private String entrega_pactada;
-	private String financion;
+	private String financiacion;
 	private String duenoPlan;
 
 	
@@ -42,7 +42,7 @@ public class PlanForm extends DynaActionForm {
 	@Override
 	public String toString() {
 		return "PlanForm [idPlan=" + idPlan + ", descripcion=" + descripcion + ", nom_plan=" + nom_plan
-				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financion=" + financion
+				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financiacion=" + financiacion
 				+ ", duenoPlan=" + duenoPlan + "]";
 	}
 
@@ -77,11 +77,11 @@ public class PlanForm extends DynaActionForm {
 	public void setEntrega_pactada(String entrega_pactada) {
 		this.entrega_pactada = entrega_pactada;
 	}
-	public String getFinancion() {
-		return financion;
+	public String getFinanciacion() {
+		return financiacion;
 	}
-	public void setFinancion(String financion) {
-		this.financion = financion;
+	public void setFinancion(String financiacion) {
+		this.financiacion = financiacion;
 	}
 	public String getDuenoPlan() {
 		return duenoPlan;

@@ -11,7 +11,6 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.DatasourceConfig;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
 
 public abstract class DaoImpl implements Dao {
 

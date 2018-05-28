@@ -20,6 +20,7 @@ drop table clientes
 drop table planes
 drop table concesionarias
 drop table tecnologias
+drop table novedades
 go
 
 
@@ -54,7 +55,7 @@ create table planes
 	descripcion				varchar(100)	not null,
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
-	financiacion			varchar(50)		not null,
+	financiacion			varchar(50)		 null,
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
 	CONSTRAINT PK__planes__END primary key(id_plan)
 )
@@ -160,7 +161,13 @@ values ('admin', 'intel123', 'admin'),
 	   ('pepe', 'pepepass', 'cliente')
 go
 
-
+create table novedades
+(
+	id_novedad				integer			not null identity(1,1),
+	textoNovedad			varchar(max)	not null,
+	CONSTRAINT PK__novedades__END primary key(id_novedad)
+)
+go
 
 create procedure dbo.validar_usuarios
 (
@@ -268,10 +275,10 @@ go
 create procedure dbo.insertar_cuota
 (
 	@id_cuota				smallint,
-	@dni_cliente				char(8),
-	@id_plan					integer,
+	@dni_cliente			char(8),
+	@id_plan				integer,
 	@id_concesionaria		char(8),
-	@importe					decimal(10,2),
+	@importe				decimal(10,2),
 	@fecha_vencimiento		date,
 	@pagó					char(1)
 )
@@ -281,9 +288,8 @@ AS
 		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
 	END
 go
--- id concesionaria de donde lo sacamos???
 
-alter procedure dbo.insertar_transaccion
+create procedure dbo.insertar_transaccion
 (
 	@id_transaccion			varchar(15),
 	@id_concesionaria		char(8),
@@ -295,12 +301,15 @@ AS
 	BEGIN
 		
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
-		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, Convert(date,@hora_fecha))
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, convert(datetime,@hora_fecha))
 	END
 go
--- id concesionaria de donde lo sacamos???
 
+select CONVERT (datetime, '')
+go
 
+select getdate()
+go
 
 create procedure dbo.insertar_novedad
 (
@@ -315,3 +324,27 @@ go
 
 select *
 	from clientes
+go
+
+select *
+	from planes
+go
+
+select *
+	from adquiridos
+go
+
+select * 
+	from cuotas
+go
+
+insert into tecnologias (cod_tecnologia, nombre_tecnologia)
+values('R', 'REST'),
+	  ('C', 'CXF'),
+	  ('A', 'AXIS')
+go
+
+insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia)
+values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', '02-02-18' , 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'R')
+go
+

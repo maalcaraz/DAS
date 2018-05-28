@@ -36,9 +36,10 @@ public class ClientesResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getClientes(String idPortal) {
-		String idConcesionaria = "AutoHaus";
+		String idConcesionaria = "AH123456";
 		Date horaFechaTransaccion = new Date();
-		java.sql.Date sDate = new java.sql.Date(horaFechaTransaccion.getTime());
+		System.out.println(horaFechaTransaccion);
+		//java.sql.Date sDate = new java.sql.Date(horaFechaTransaccion.getTime());
 
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
@@ -50,7 +51,9 @@ public class ClientesResource {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(sDate.toString());
+       // transaccion.setHoraFechaTransaccion(sDate.toString());
+        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        
         
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
