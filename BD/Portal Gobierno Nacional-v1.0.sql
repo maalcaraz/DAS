@@ -294,20 +294,23 @@ create procedure dbo.insertar_transaccion
 	@id_transaccion			varchar(15),
 	@id_concesionaria		char(8),
 	@estado_transaccion		varchar(10),
-	@mensaje_respuesta		varchar,
-	@hora_fecha				varchar
+	@mensaje_respuesta		varchar(255),
+	@hora_fecha				date
 )
 AS
 	BEGIN
 		
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
-		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, convert(datetime,@hora_fecha))
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
 	END
 go
 
-select CONVERT (datetime, '')
+select CONVERT (datetime, '2018-05-28 23:52:53.413')
 go
 
+select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
+go 
+ 
 select getdate()
 go
 
@@ -336,6 +339,10 @@ go
 
 select * 
 	from cuotas
+go
+
+select * 
+	from transacciones
 go
 
 insert into tecnologias (cod_tecnologia, nombre_tecnologia)

@@ -89,7 +89,7 @@ public class ConsultaQuincenalAction implements Action {
 			return null;
 		}
 		catch(Exception ex){
-			System.out.println(ex.getMessage());
+			System.out.println("Error en Consulta Quincenal: "+ ex.getMessage());
 			return null;
 			
 		}

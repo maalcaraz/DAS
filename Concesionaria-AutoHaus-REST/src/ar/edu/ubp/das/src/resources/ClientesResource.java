@@ -38,7 +38,13 @@ public class ClientesResource {
 	public Response getClientes(String idPortal) {
 		String idConcesionaria = "AH123456";
 		Date horaFechaTransaccion = new Date();
-		System.out.println(horaFechaTransaccion);
+		
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		
+		
+		System.out.println(sqlTimestamp);
 		//java.sql.Date sDate = new java.sql.Date(horaFechaTransaccion.getTime());
 
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
@@ -52,7 +58,7 @@ public class ClientesResource {
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
        // transaccion.setHoraFechaTransaccion(sDate.toString());
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
         
         
 			try {
