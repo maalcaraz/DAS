@@ -64,7 +64,7 @@ public class ConsultaQuincenalAction implements Action {
 			String idConcesionaria = transaccion.getIdConcesionaria();
 			
 			
-			String listaRetorno[] = transaccion.getRetorno().split("],");
+			String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
 
 			String strClientes = listaRetorno[0] + "]";
 			LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );

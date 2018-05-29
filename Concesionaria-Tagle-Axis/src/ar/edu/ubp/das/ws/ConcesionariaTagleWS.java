@@ -2,7 +2,6 @@ package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -20,8 +19,10 @@ public class ConcesionariaTagleWS {
 	public String getClientes(String idPortal) throws Exception {
 		String idConcesionaria = "Tagle";
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-    	String mensajeRespuesta = "";
         
         Gson gson = new Gson();
         String respuestaServicio = null;
@@ -30,7 +31,7 @@ public class ConcesionariaTagleWS {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 			
 		try
 		{
@@ -48,8 +49,7 @@ public class ConcesionariaTagleWS {
 			stringRespuesta = jsonClientes + jsonPlanes + jsonAdquiridos + jsonCuotas;
 			
 			transaccion.setEstado_transaccion("Success");
-	        transaccion.setMensajeRespuesta(mensajeRespuesta);
-	        transaccion.setRetorno(stringRespuesta);
+	        transaccion.setMensajeRespuesta(stringRespuesta);
 	        respuestaServicio = gson.toJson(transaccion);
 	        System.out.println(respuestaServicio);
 
@@ -57,7 +57,6 @@ public class ConcesionariaTagleWS {
 		catch ( SQLException ex ) {
 			transaccion.setEstado_transaccion("Failed");
 	       	transaccion.setMensajeRespuesta(ex.getMessage());
-	       	transaccion.setRetorno("Failed");
 	       	respuestaServicio = gson.toJson(transaccion);
 		}
 		
@@ -74,6 +73,9 @@ public class ConcesionariaTagleWS {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode();
     	String mensajeRespuesta = "";
         
@@ -83,7 +85,7 @@ public class ConcesionariaTagleWS {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 		
 		try {
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -117,7 +119,7 @@ public class ConcesionariaTagleWS {
         	respuestaServicio = gson.toJson(transaccion);
 		}
 		
-		return mensajeRespuesta;
+		return respuestaServicio;
 	}
 	
 	public String verificarCancelado(String idPortal,
@@ -126,6 +128,9 @@ public class ConcesionariaTagleWS {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode();
     	String mensajeRespuesta = "";
     	String idConcesionaria = "Tagle";
@@ -136,7 +141,7 @@ public class ConcesionariaTagleWS {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 		
 		try {
 			MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -145,7 +150,7 @@ public class ConcesionariaTagleWS {
         	cliente.setDniCliente(dniCliente);
         	//chequear por que un cliente puede tener mas de un plan
         	plan.setIdPlan(idPlan);
-			
+        	mensajeRespuesta = ((dao.valid2Beans(cliente, plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}") ;
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	respuestaServicio = gson.toJson(transaccion);
@@ -156,6 +161,6 @@ public class ConcesionariaTagleWS {
         	respuestaServicio = gson.toJson(transaccion);
 		}
 		
-		return mensajeRespuesta;
+		return respuestaServicio;
 	}
 }

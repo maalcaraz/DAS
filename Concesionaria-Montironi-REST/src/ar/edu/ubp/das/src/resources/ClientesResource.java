@@ -37,19 +37,22 @@ public class ClientesResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getClientes(String idPortal) {
-		String idConcesionaria = "Montironi";
+		String idConcesionaria = "MO123456";
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		
+		
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-    	 
-    	String mensajeRespuesta = " ";
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
-
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setIdConcesionaria(idConcesionaria);
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 			
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -67,9 +70,7 @@ public class ClientesResource {
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
 	        	transaccion.setEstado_transaccion("Success");
-	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
-	        	transaccion.setRetorno(stringRespuesta);
-	        	transaccion.setIdConcesionaria(idConcesionaria);
+	        	transaccion.setMensajeRespuesta(stringRespuesta);
 	        	respuestaServicio = gson.toJson(transaccion);
 
 	        	//System.out.println(respuestaServicio);
@@ -79,8 +80,6 @@ public class ClientesResource {
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
-	        	transaccion.setRetorno("Failed");
-	        	transaccion.setIdConcesionaria(idConcesionaria);
 	        	respuestaServicio = gson.toJson(transaccion);
 			}
 			
@@ -98,6 +97,9 @@ public class ClientesResource {
 									 @FormParam("fecha_sorteo") String fechaSorteo) {
         /*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
         
@@ -107,7 +109,7 @@ public class ClientesResource {
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 		
 		try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
@@ -154,6 +156,9 @@ public class ClientesResource {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
+		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		long lnMilisegundos = utilDate.getTime();
+		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
     	String idConcesionaria = "Montironi";
@@ -163,7 +168,7 @@ public class ClientesResource {
 
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
-        transaccion.setHoraFechaTransaccion(horaFechaTransaccion.toString());
+        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 		
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
