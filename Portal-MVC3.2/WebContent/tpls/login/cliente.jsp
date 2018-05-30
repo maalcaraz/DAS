@@ -10,18 +10,20 @@
 <body>
 <h1> Te loggeaste como cliente</h1>
 
-<div display="inline-block">
+<div>
 <h4>Estado Cuenta </h4>
 <br><span id="estadoCuenta" onclick="jClientes.estadoCuenta()">
 Conoce el estado de tu cuenta: cuotas abonadas, cuotas restantes, plan adquirido y descripcion de financiacion. 
 </span>
 </div>
-<div display="inline-block">
+
+<div>
 <h4>Mi producto</h4>
 <br>
 <p>Conoce el auto que vas a tener, sus caracteristicas y especificaciones tecnicas.</p>
 </div>
-<div display="inline-block">
+
+<div>
 <h4>Mis datos</h4>
 <br>
 <p>Actualiza tus datos personales.</p> 

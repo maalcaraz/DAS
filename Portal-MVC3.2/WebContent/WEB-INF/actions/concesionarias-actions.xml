@@ -5,5 +5,8 @@
     </form-beans>
     <action-mappings>
     		 <action path="/ConsultaQuincenal.do" type="ConsultaQuincenalAction" validate="false" noforward="true" />
+			<action type="SuscripcionAction" path="/Suscripcion.do">
+				<forward name="success" path="/concesionarias/suscripcion.jsp" />
+			</action>
     </action-mappings>
 </actions>

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login" ></script>
+	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,login" />
-<title>HOME!</title>
+<title>HOME</title>
 </head>
 <body>
 
@@ -16,13 +16,14 @@
   <li><a href="#proximasfechas"> Proximas fechas </a></li>
   <li><a href="#ganadores">Ganadores</a></li>
   <li><a href="#concesionarias">Concesionarias Adheridas</a></li>
-  <li><a href="#suscribir">Suscribir Concesionaria</a></li>
+  <li><a href="#suscribir" onclick="jConcesionarias.suscribir()">Suscribir Concesionaria</a></li>
   <li><a href="#about">Como es el plan </a></li>
   <li><a href="#resultadosSorteo"> Resultados ultimo sorteo </a></li>
+  <li><input type="button" id="login" name="login" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
 </ul>
 
 
-<input type="button" id="login" name="login" onclick="jLogin.login()" value="Iniciar Sesion"> 
+
 <div id="content"></div>
 </body>
 </html>
