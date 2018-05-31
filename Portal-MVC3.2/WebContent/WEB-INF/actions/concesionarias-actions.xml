@@ -8,5 +8,6 @@
 			<action type="SuscripcionAction" path="/Suscripcion.do">
 				<forward name="success" path="/concesionarias/suscripcion.jsp" />
 			</action>
+			<action path="/InsertarConcesionaria.do" type="InsercionConcesionariaAction" validate="false" noforward="true" />
     </action-mappings>
 </actions>

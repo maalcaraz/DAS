@@ -12,6 +12,7 @@ import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
 import ar.edu.ubp.das.portal.forms.TransaccionForm;
+import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class MSConcesionariaDao extends DaoImpl{
 
@@ -23,8 +24,27 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
 		
+	}
+	
+	public void insert(ConcesionariaForm form) throws SQLException {
+		this.connect();
+		this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		
+		this.setParameter(1, form.getIdConcesionaria());
+		this.setParameter(2, form.getNomConcesionaria());
+		this.setParameter(3, form.getCuit());
+		this.setParameter(4, form.getEmail());
+		this.setParameter(5, form.getDireccion());
+		this.setParameter(6, form.getTelefono());
+		this.setParameter(7, form.getUltimaActualizacion());
+		this.setParameter(8, form.getCantDiasCaducidad());
+		this.setParameter(9, form.getUrlServicio());
+		this.setParameter(10, form.getCodTecnologia());
+		
+		this.executeUpdate();
+		
+		this.disconnect();
 	}
 	
 	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {

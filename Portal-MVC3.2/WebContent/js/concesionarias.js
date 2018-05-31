@@ -38,5 +38,22 @@ var jConcesionarias ={
 	            	
 	            }
 	        });	
+		},
+		insertarConcesionaria : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/InsertarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#formSuscripcion").serialize(),
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	alert ("Concesionaria suscripta!");
+	            }
+	        });	
 		}
 };

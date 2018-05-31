@@ -16,15 +16,27 @@
 <input type="text" id="nombreConcesionaria" name="nombreConcesionaria" autofocus required>
 
 <label for="tipoServicio">Tipo de Servicio: </label>
-	<select>
-		<option id="rest" value="rest">Rest </option>
-		<option id="cxf" value="cxf"> CXF </option>
-		<option id="axis" value="axis">Axis </option>
+	<select id="tipoServicio" name="tipoServicio">
+		<option value="R">Rest </option>
+		<option value="C"> CXF </option>
+		<option value="A">Axis </option>
 	</select>
 	
+<label for="cuit">Cuit: </label>
+<input type="text" id="cuit" name="cuit" autofocus required>
+
+<label for="emailConcesionaria">Email: </label>
+<input type="text" id="emailConcesionaria" name="emailConcesionaria" autofocus required>
+
+<label for="direccionConcesionaria">Direccion: </label>
+<input type="text" id="direccionConcesionaria" name="direccionConcesionaria" autofocus required>
+
+<label for="telefonoConcesionaria">Telefono: </label>
+<input type="text" id="telefonoConcesionaria" name="telefonoConcesionaria" autofocus required>
+
 	<br>
 	<div class="container" style="background-color:#f1f1f1">
-	  <button type="button" name="suscript" onclick="jLogin.acceder()">Login</button>
+	  <button type="button" name="suscript" onclick="jLogin.acceder()">Suscribir</button>
       <button type="button" name="cancelbtn" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
     </div>
 </form>
