@@ -40,8 +40,8 @@ create table concesionarias
 	email						varchar(50)		null,	
 	direccion					varchar(100)	null,
 	telefono					char(11)		null,
-	ultima_actualizacion		date			not null,
-	cant_dias_caducidad			tinyint			not null,
+	ultima_actualizacion		date			null,
+	cant_dias_caducidad			tinyint			default '15',
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
 	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria),
@@ -312,6 +312,26 @@ select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
 go 
  
 select getdate()
+go
+
+create procedure dbo.insertar_consecionaria
+(
+	@id_concesionaria				char(8),	
+	@nombre_concesionaria			varchar(30),
+	@cuit							char(9),
+	@email							varchar(50),
+	@direccion						varchar(100),
+	@telefono						char(11),
+	@ultima_actualizacion			date,
+	@cant_dias_caducidad			tinyint,
+	@url_servicio					varchar(100),
+	@cod_tecnologia					char(1)
+)
+AS
+	BEGIN
+		insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia)
+		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, @ultima_actualizacion, @cant_dias_caducidad, @url_servicio, @cod_tecnologia)
+	END
 go
 
 create procedure dbo.insertar_novedad
