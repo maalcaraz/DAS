@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login" ></script>
+	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,login" />
 </head>
 <body>
@@ -22,6 +22,10 @@
 		<option value="A">Axis </option>
 	</select>
 	
+<br>
+<label for="url">Url: </label>
+<input type="text" id="url" name="url" autofocus required>
+
 <label for="cuit">Cuit: </label>
 <input type="text" id="cuit" name="cuit" autofocus required>
 
@@ -36,7 +40,7 @@
 
 	<br>
 	<div class="container" style="background-color:#f1f1f1">
-	  <button type="button" name="suscript" onclick="jLogin.acceder()">Suscribir</button>
+	  <button type="button" name="suscript" onclick="jConcesionaria.insertarConcesionaria()">Suscribir</button>
       <button type="button" name="cancelbtn" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
     </div>
 </form>

@@ -314,7 +314,7 @@ go
 select getdate()
 go
 
-create procedure dbo.insertar_consecionaria
+create procedure dbo.insertar_concesionaria
 (
 	@id_concesionaria				char(8),	
 	@nombre_concesionaria			varchar(30),
@@ -371,7 +371,10 @@ values('R', 'REST'),
 	  ('A', 'AXIS')
 go
 
+/*
 insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia)
 values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', '02-02-18' , 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'R')
 go
-
+*/
+select *
+	from concesionarias

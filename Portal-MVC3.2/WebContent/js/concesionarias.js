@@ -1,4 +1,4 @@
-var jConcesionarias ={
+var jConcesionaria ={
 		
 		getClientes : function(){
 			jUtils.executing("result");

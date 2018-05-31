@@ -20,7 +20,7 @@ public class InsercionConcesionariaAction implements Action {
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
 		// Generar el idConcesionaria basado en nombre
-		
+		String url = request.getParameter("url");
 		String nombreConcesionaria = request.getParameter("nombreConcesionaria");
 		String tipoServicio = request.getParameter("tipoServicio");
 		String idConcesionaria = nombreConcesionaria + nombreConcesionaria.hashCode();
