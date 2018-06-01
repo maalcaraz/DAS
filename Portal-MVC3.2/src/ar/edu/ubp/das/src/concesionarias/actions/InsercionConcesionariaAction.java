@@ -39,6 +39,7 @@ public class InsercionConcesionariaAction implements Action {
 			nuevaConc.setEmail(email);
 			nuevaConc.setDireccion(direccion);
 			nuevaConc.setTelefono(telefono);
+			nuevaConc.setUrlServicio(url);
 			
 			MSConcesionariaDao dao = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
