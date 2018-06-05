@@ -30,9 +30,10 @@ public class ValidateLoginAction implements Action{
 		daf.setItem("user", user);
 		daf.setItem("pass", pass);
 		
-		int res = dao.validarUsuario(daf);
+		//int res = dao.validarUsuario(daf);
+		DynaActionForm res = dao.select(daf).get(0);
 		
-		switch(res){
+		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
 		case 0: return mapping.getForwardByName("admin");
 		case 1: return mapping.getForwardByName("cliente");
 		case 2: return mapping.getForwardByName("sistema"); 

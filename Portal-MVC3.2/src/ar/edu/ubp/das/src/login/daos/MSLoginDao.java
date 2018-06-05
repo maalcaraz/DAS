@@ -11,8 +11,11 @@ public class MSLoginDao extends DaoImpl{
 
 	@Override
 	public DynaActionForm make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DynaActionForm usuario = new DynaActionForm();
+		usuario.setItem("tipo_usuario", result.getString("existe"));
+		
+		return usuario;
 	}
 
 	@Override
@@ -35,38 +38,35 @@ public class MSLoginDao extends DaoImpl{
 
 	@Override
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
-	
-		return null;
+		
+		List<DynaActionForm> res;
+		this.connect();
+		this.setProcedure("dbo.validar_usuarios(?,?)");
+		this.setParameter(1, form.getItem("user"));
+		this.setParameter(2, form.getItem("pass"));
+		//int res = this.executeValidateQuery("existe"); 
+		// Por ahora esto funciona si se pudo loggear
+		res = this.executeQuery();
+		this.disconnect();
+		return res;
 	}
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
-		this.connect();
-		
+		/*this.connect();
 		this.setProcedure("dbo.validar_usuarios(?,?)");
-		
-		 this.setParameter(1, form.getItem("user"));
-		 this.setParameter(2, form.getItem("pass"));
-		
-	//	boolean res = this.executeValidateQuery("existe"); 
-		
-		
-		this.disconnect();
-		
-		return false;
-	}
-	
-	public int validarUsuario(DynaActionForm form) throws SQLException {
-		this.connect();
-		
-		this.setProcedure("dbo.validar_usuarios(?,?)");
-		
 		this.setParameter(1, form.getItem("user"));
 		this.setParameter(2, form.getItem("pass"));
-		int res = this.executeValidateQuery("existe"); 
+		//int res = this.executeValidateQuery("existe"); 
+		// Por ahora esto funciona si se pudo loggear
+		boolean res = ((this.executeQuery() != null) ? true : false);
 		this.disconnect();
-		
-		return res;
+		return res;*/
+		return true;
 	}
+	/*
+	public int validarUsuario(DynaActionForm form) throws SQLException {
+		
+	}*/
 
 }
