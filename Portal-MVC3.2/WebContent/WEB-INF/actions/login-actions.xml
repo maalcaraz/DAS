@@ -12,5 +12,8 @@
 	   		<forward name="cliente" path="/login/cliente.jsp" />
 	   		<forward name="sistema" path="/login/sistema.jsp" />
 	   	</action>
+	   	<action type="LogOutAction" path="/Logout.do">
+    		<forward name="success" path="/login/logout.jsp" />
+    	</action>
     </action-mappings>
 </actions>
