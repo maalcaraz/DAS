@@ -87,15 +87,6 @@ public abstract class DaoImpl implements Dao {
         }
         return list;
     }
-    /*
-    public int executeValidateQuery(String atributo) throws SQLException {
-    	int response = -1;
-        ResultSet result = this.statement.executeQuery();
-        if(result.next()) {
-            response = result.getInt(atributo); 
-        }
-        return response;
-    }*/
 	
     public void setDatasource(DatasourceConfig datasource) {
         this.datasource = datasource;

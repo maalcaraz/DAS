@@ -14,13 +14,16 @@ public class MSLoginDao extends DaoImpl{
 		
 		DynaActionForm usuario = new DynaActionForm();
 		usuario.setItem("tipo_usuario", result.getString("existe"));
-		
 		return usuario;
 	}
 
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		form.getItem("");
+		
+		
+		
 		
 	}
 
@@ -64,9 +67,4 @@ public class MSLoginDao extends DaoImpl{
 		return res;*/
 		return true;
 	}
-	/*
-	public int validarUsuario(DynaActionForm form) throws SQLException {
-		
-	}*/
-
 }

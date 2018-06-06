@@ -25,6 +25,10 @@ public class MSConcesionariaDao extends DaoImpl{
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		
+		form.getItem("form1");
+		
+		
+		
 	}
 	
 	public void insert(ConcesionariaForm form) throws SQLException {

@@ -14,6 +14,6 @@ public interface Dao {
     public List<List<Bean>> selectListBeans() throws SQLException;
     public List<Bean> select() throws SQLException;
     public boolean valid(Bean bean) throws SQLException;
-	public boolean valid2Beans(Bean form1, Bean form2) throws SQLException;
+	public boolean valid(Bean form1, Bean form2) throws SQLException;
 
 }

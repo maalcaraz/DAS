@@ -9,6 +9,7 @@ drop procedure dbo.insertar_plan
 drop procedure dbo.insertar_transaccion
 go
 
+drop table logs
 drop table transacciones
 drop table usuarios
 drop table participantes_sorteos
@@ -218,6 +219,59 @@ go
 --execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
+create table logs -- agregar a la BD del portal
+(
+	tipoLog		char(5) not null,
+	horaLog		datetime,
+	usuario		varchar(100),
+	check (tipoLog in ('LOGIN','ERROR')),
+	CONSTRAINT PK__logs__END primary key(tipoLog, horaLog)
+)
+go
+
+create procedure dbo.loginUsuario
+(
+	@username		varchar(max) = null,
+	@tipo			integer	
+)
+AS
+BEGIN
+
+		if exists (
+					select * from usuarios u
+					where u.id_usuario = @username
+				   )
+			begin
+				if exists (select * from usuarios u
+							where u.id_usuario = @username
+							and u.tipo_usuario = 'admin')
+				begin
+					select existe = 0
+				end
+				else
+					if exists (	select * from usuarios u
+									where u.id_usuario = @username
+									and u.tipo_usuario = 'cliente'
+						)
+					begin
+						select existe = 1
+					end
+					else
+						if exists (
+									select * from usuarios u
+										where u.id_usuario = @username
+										and u.tipo_usuario ='sistema')
+						begin
+							select existe = 2
+						end
+				end
+		else
+			begin
+				select existe = -1
+			end
+END
+go
+
 create procedure dbo.insertar_cliente
 (
 	@dni_cliente				char(8),	
@@ -313,6 +367,7 @@ go
  
 select getdate()
 go
+
 
 create procedure dbo.insertar_concesionaria
 (
