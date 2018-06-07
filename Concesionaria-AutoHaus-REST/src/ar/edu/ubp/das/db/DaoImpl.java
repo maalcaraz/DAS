@@ -75,7 +75,7 @@ public abstract class DaoImpl implements Dao {
         }
         return rows;
     }
-    
+    /*
     public boolean executeValidateQuery(String atributo) throws SQLException {
     	boolean response = false;
         ResultSet result = this.statement.executeQuery();
@@ -84,7 +84,7 @@ public abstract class DaoImpl implements Dao {
         }
         return response;
     }
-
+	*/
     public List<Bean> executeQuery() throws SQLException {
         List<Bean> list   = new LinkedList<Bean>();
         ResultSet            result = this.statement.executeQuery();

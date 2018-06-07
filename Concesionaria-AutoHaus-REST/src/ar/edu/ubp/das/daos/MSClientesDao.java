@@ -10,6 +10,7 @@ import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.CuotaBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 
@@ -17,8 +18,12 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
+		
+		AdquiridoBean adquirido = new AdquiridoBean();
+		
+		adquirido.setCancelado(result.getString("cancelado"));
         
-    	return null;
+    	return adquirido;
 	}
 
 	@Override
@@ -39,28 +44,13 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
-		ClienteBean f = (ClienteBean) form;
-		System.out.println(f.getDniCliente());
-		/* Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. */
-		this.setProcedure("dbo.cancelar_ganador(?,?)");
-		this.setParameter(1, f.getDniCliente());
-		//this.setParameter(2, f.getFechaSorteo());
-		this.executeUpdate();
-		this.disconnect();
-
-	}
-	
-	public void update(Bean b1, Bean b2) throws SQLException {
-		this.connect();
+		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
 		
-		ClienteBean cliente = (ClienteBean) b1;
-		AdquiridoBean adquirido = (AdquiridoBean) b2;
-		
-	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+		/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
 		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
-		this.setParameter(1, cliente.getDniCliente());
-		this.setParameter(2, adquirido.getFechaSorteado());
-		this.setParameter(3, adquirido.getIdPlan());
+		this.setParameter(1, concesionaria.getClientes().get(0).getDniCliente());
+		this.setParameter(2, concesionaria.getAdquiridos().get(0).getFechaSorteado());
+		this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
 		this.executeUpdate();
 		this.disconnect();
 	}
@@ -168,42 +158,23 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public boolean valid(Bean form) throws SQLException {
 		
-		/*
-		this.connect();		
-		ClienteBean f = (ClienteBean) form;
+		this.connect();
+		List<Bean> adquiridos;
+		AdquiridoBean adquirido = (AdquiridoBean) form;
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
-		this.setParameter(1, f.getDniCliente());
-		this.setParameter(2, f.getIdPlan());
+		this.setParameter(1, adquirido.getDniCliente());
+		this.setParameter(1, adquirido.getIdPlan());
 		 
-		
-		boolean res = this.executeValidateQuery("cancelado"); 
-		
+		adquiridos = this.executeQuery();
+		adquirido = (AdquiridoBean)adquiridos.get(0);
 		
 		this.disconnect();
 		
-		return res;
-		*/
-		return false;
+		System.out.println(Boolean.valueOf(adquirido.getCancelado()));
+		
+		return Boolean.valueOf(adquirido.getCancelado());
+		
 	}
 	
-	@Override
-	public boolean valid2Beans(Bean form1, Bean form2) throws SQLException {
-		this.connect();		
-		ClienteBean f1 = (ClienteBean) form1;
-		PlanBean f2 = (PlanBean) form2;
-		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
-		
-		this.setParameter(1, f1.getDniCliente());
-		this.setParameter(2, f2.getIdPlan());
-		 
-		
-		boolean res = this.executeValidateQuery("cancelado"); 
-		
-		
-		this.disconnect();
-		
-		return res;
-	}
-
 }

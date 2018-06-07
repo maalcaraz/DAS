@@ -1,6 +1,7 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -20,7 +21,7 @@ import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
-
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 
 @Path("/AutoHaus")
 @Produces(MediaType.APPLICATION_JSON) 
@@ -117,15 +118,23 @@ public class ClientesResource {
     	
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	ConcesionariaBean concesionaria = new ConcesionariaBean();
         	ClienteBean cliente = new ClienteBean();
+        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
+        	clientes.add(cliente);
         	AdquiridoBean adquirido = new AdquiridoBean();
+        	List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+        	adquiridos.add(adquirido);
         	cliente.setDniCliente(dniCliente);
         	adquirido.setFechaSorteado(fechaSorteo);
         	adquirido.setIdPlan(idPlan);
+        	concesionaria.setClientes(clientes);
+        	concesionaria.setAdquiridos(adquiridos);
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update(cliente, adquirido);
+        		dao.update(concesionaria);
+        		//dao.update(cliente, adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
@@ -176,13 +185,30 @@ public class ClientesResource {
         
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+        	ConcesionariaBean concesionaria = new ConcesionariaBean();
+        	AdquiridoBean adquirido = new AdquiridoBean();
+        	/*
         	ClienteBean cliente = new ClienteBean();
+        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
         	PlanBean plan = new PlanBean();
-        	cliente.setDniCliente(dniCliente);
-			plan.setIdPlan(idPlan);
-			
-			mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+        	List<PlanBean> planes = new LinkedList<PlanBean>();
         	
+
+        	cliente.setDniCliente(dniCliente);
+        	plan.setIdPlan(idPlan);
+        	clientes.add(cliente);
+        	planes.add(plan);
+        	
+        	concesionaria.setClientes(clientes);
+        	concesionaria.setPlanes(planes);
+			
+			*/
+        	adquirido.setDniCliente(dniCliente);
+        	adquirido.setIdPlan(idPlan);
+			
+			//mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			mensajeRespuesta = ((dao.valid(adquirido) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	respuestaServicio = gson.toJson(transaccion);
