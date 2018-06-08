@@ -164,17 +164,20 @@ public class MSClientesDao extends DaoImpl {
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
 		this.setParameter(1, adquirido.getDniCliente());
-		this.setParameter(1, adquirido.getIdPlan());
+		this.setParameter(2, adquirido.getIdPlan());
 		 
 		adquiridos = this.executeQuery();
 		adquirido = (AdquiridoBean)adquiridos.get(0);
 		
 		this.disconnect();
 		
-		System.out.println(Boolean.valueOf(adquirido.getCancelado()));
+		boolean res = false;
 		
-		return Boolean.valueOf(adquirido.getCancelado());
+		if(Integer.parseInt(adquirido.getCancelado())!= 0){
+			res = true;
+		}
 		
+		return res;
 	}
 	
 }

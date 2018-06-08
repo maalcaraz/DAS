@@ -185,34 +185,16 @@ public class ClientesResource {
         
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ConcesionariaBean concesionaria = new ConcesionariaBean();
         	AdquiridoBean adquirido = new AdquiridoBean();
-        	/*
-        	ClienteBean cliente = new ClienteBean();
-        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
-        	PlanBean plan = new PlanBean();
-        	List<PlanBean> planes = new LinkedList<PlanBean>();
-        	
 
-        	cliente.setDniCliente(dniCliente);
-        	plan.setIdPlan(idPlan);
-        	clientes.add(cliente);
-        	planes.add(plan);
-        	
-        	concesionaria.setClientes(clientes);
-        	concesionaria.setPlanes(planes);
-			
-			*/
         	adquirido.setDniCliente(dniCliente);
         	adquirido.setIdPlan(idPlan);
-			
-			//mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+
 			mensajeRespuesta = ((dao.valid(adquirido) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
 			
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	respuestaServicio = gson.toJson(transaccion);
-        	//return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
