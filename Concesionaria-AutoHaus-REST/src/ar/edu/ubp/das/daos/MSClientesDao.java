@@ -28,17 +28,18 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public void insert(Bean form) throws SQLException {
-
+		this.connect();
+		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
+		System.out.println(concesionaria.getNovedad());
+		this.setProcedure("dbo.insertar_novedad(?)");
+	
+		this.setParameter(1, concesionaria.getNovedad());
+		this.executeUpdate();
+		this.disconnect();
 	}
 	
 	public void insert(String textoNovedad) throws SQLException {
-		this.connect();
-		System.out.println(textoNovedad);
-		this.setProcedure("dbo.insertar_novedad(?)");
-	
-		this.setParameter(1, textoNovedad);
-		this.executeUpdate();
-		this.disconnect();
+		
 
 	}
 	@Override

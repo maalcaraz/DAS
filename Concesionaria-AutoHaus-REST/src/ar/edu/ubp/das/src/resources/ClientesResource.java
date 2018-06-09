@@ -118,29 +118,23 @@ public class ClientesResource {
     	
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ConcesionariaBean concesionaria = new ConcesionariaBean();
-        	ClienteBean cliente = new ClienteBean();
-        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
-        	clientes.add(cliente);
         	AdquiridoBean adquirido = new AdquiridoBean();
-        	List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
-        	adquiridos.add(adquirido);
-        	cliente.setDniCliente(dniCliente);
+        	adquirido.setDniCliente(dniCliente);
         	adquirido.setFechaSorteado(fechaSorteo);
         	adquirido.setIdPlan(idPlan);
-        	concesionaria.setClientes(clientes);
-        	concesionaria.setAdquiridos(adquiridos);
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update(concesionaria);
+        		dao.update(adquirido);
         		//dao.update(cliente, adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
         		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
-        		dao.insert(novedad);
+        		ConcesionariaBean concesionaria = new ConcesionariaBean();
+        		concesionaria.setNovedad(novedad);
+        		dao.insert(concesionaria);
         		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
         	}
         	
@@ -167,6 +161,7 @@ public class ClientesResource {
 									   @FormParam("id_plan") String idPlan) {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
+		System.out.println(idPortal);
 		Date horaFechaTransaccion = new Date();
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
