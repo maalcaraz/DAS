@@ -64,19 +64,14 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public List<Bean> select() throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Bean> concesionariaTablas = new ArrayList<Bean>();
+		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
+		List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+		List<PlanBean> 	planes = new LinkedList<PlanBean>();
+		List<CuotaBean> cuotas = new LinkedList<CuotaBean>();
+		
 
-	@Override
-	public List<List<Bean>> selectListBeans() throws SQLException {
-		
-		// Estructuras iniciales
-		
-		List<List<Bean>> listOfBeans = new ArrayList<List<Bean>>();
-		List<Bean> clientes = new LinkedList<Bean>();
-		List<Bean> adquiridos = new LinkedList<Bean>();
-		List<Bean> 	planes = new LinkedList<Bean>();
-		List<Bean> cuotas = new LinkedList<Bean>();
+		ConcesionariaBean concesionaria = new ConcesionariaBean();
 		ClienteBean clienteRecuperado;
 		AdquiridoBean adquiridoRecuperado;
 		PlanBean planRecuperado;
@@ -88,12 +83,11 @@ public class MSClientesDao extends DaoImpl {
 		this.setProcedure("dbo.get_estados_cuentas()", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
         ResultSet result = this.getStatement().executeQuery();
-
-        /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
+        
+/*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
         
         result.next();
        
-        
         while (result.getRow() > 0){
         	clienteRecuperado = new ClienteBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
@@ -107,7 +101,7 @@ public class MSClientesDao extends DaoImpl {
         	if (!clientes.contains(clienteRecuperado)){
         		clientes.add(clienteRecuperado);
         	}
-        		
+        	
         	adquiridoRecuperado = new AdquiridoBean();
     		adquiridoRecuperado.setDniCliente(result.getString("dni_cliente"));
         	adquiridoRecuperado.setIdPlan(result.getString("id_plan"));
@@ -117,10 +111,10 @@ public class MSClientesDao extends DaoImpl {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
-        	
         	if (!adquiridos.contains(adquiridoRecuperado)){
         		adquiridos.add(adquiridoRecuperado);
         	}
+        	
         
         	planRecuperado = new PlanBean();
         	planRecuperado.setIdPlan(result.getString("id_plan"));
@@ -133,27 +127,27 @@ public class MSClientesDao extends DaoImpl {
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
         	}
-        	
+
         	cuotaRecuperada = new CuotaBean();
         	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
         	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
         	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
         	cuotaRecuperada.setPagada(result.getString("pagó"));
         	cuotaRecuperada.setImporte(result.getString("importe"));
-        	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));;
+        	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));
         	if (!cuotas.contains(cuotaRecuperada)){
         		cuotas.add(cuotaRecuperada);
         	}
-        	
         	result.next();
         }
-        listOfBeans.add(clientes);
-		listOfBeans.add(adquiridos);
-		listOfBeans.add(planes);
-		listOfBeans.add(cuotas);
+        concesionaria.setClientes(clientes);
+        concesionaria.setAdquiridos(adquiridos);
+        concesionaria.setPlanes(planes);
+        concesionaria.setCuotas(cuotas);
+        concesionariaTablas.add(concesionaria);
 		
 		this.disconnect();
-		return listOfBeans;
+		return concesionariaTablas;
 	}
 
 	@Override

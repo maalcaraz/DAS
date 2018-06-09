@@ -1,8 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -15,13 +13,10 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import ar.edu.ubp.das.daos.MSClientesDao;
-import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
-import ar.edu.ubp.das.src.beans.ClienteBean;
-import ar.edu.ubp.das.src.beans.PlanBean;
-import ar.edu.ubp.das.src.beans.TransaccionBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 @Path("/AutoHaus")
 @Produces(MediaType.APPLICATION_JSON) 
@@ -39,19 +34,17 @@ public class ClientesResource {
 	public Response getClientes(String idPortal) {
 		String idConcesionaria = "AH123456";
 		Date horaFechaTransaccion = new Date();
-		
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-		
-		
 		System.out.println(sqlTimestamp);
-
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-      
         Gson gson = new Gson();
         String respuestaServicio = null;
+        
         TransaccionBean transaccion = new TransaccionBean();
+        
+        
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
@@ -62,15 +55,17 @@ public class ClientesResource {
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
-				List<List<Bean>> lista = dao.selectListBeans();
+				//List<List<Bean>> lista = dao.selectListBeans();
+				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
 				
-				String jsonClientes = gson.toJson(lista.get(0));
+				//String jsonClientes = gson.toJson(lista.get(0));
+				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();
-				String jsonAdquiridos = gson.toJson(lista.get(1));
+				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
 				gson = new Gson();
-				String jsonPlanes = gson.toJson(lista.get(2));
+				String jsonPlanes = gson.toJson(concesionaria.getPlanes());
 				gson = new Gson();
-				String jsonCuotas = gson.toJson(lista.get(3));
+				String jsonCuotas = gson.toJson(concesionaria.getCuotas());
 
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
@@ -79,7 +74,6 @@ public class ClientesResource {
 	        	respuestaServicio = gson.toJson(transaccion);
 			}
 			catch (SQLException ex) {
-				
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
