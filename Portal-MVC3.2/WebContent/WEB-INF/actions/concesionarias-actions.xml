@@ -9,5 +9,11 @@
 				<forward name="success" path="/concesionarias/suscripcion.jsp" />
 			</action>
 			<action path="/InsertarConcesionaria.do" type="InsercionConcesionariaAction" validate="false" noforward="true" />
+			<action type="NotificarGanadorAction" path="/NotificacionGanador.do">
+				<forward name="success" path="/concesionarias/notificarGanador.jsp" />
+			</action>
+			<action type="VerificarCanceladoAction" path="/VerificarCancelado.do">
+				<forward name="success" path="/concesionarias/verificarCancelado.jsp" />
+			</action>
     </action-mappings>
 </actions>

@@ -20,9 +20,9 @@ public class MSLoginDao extends DaoImpl{
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		
-		form.getItem("");
+	//	form.getItem("");
 		
-		
+		// POR LO PRONTO ESTA PARTE QUEDA EN PAUSA
 		
 		
 	}

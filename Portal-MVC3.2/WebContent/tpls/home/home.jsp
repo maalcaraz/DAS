@@ -19,7 +19,7 @@
   <li><a href="#suscribir" onclick="jConcesionaria.suscribir()">Suscribir Concesionaria</a></li>
   <li><a href="#about">Como es el plan </a></li>
   <li><a href="#resultadosSorteo"> Resultados ultimo sorteo </a></li>
-  <li><input type="button" id="login" name="login" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
+  <li><input type="button" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
 </ul>
 
 

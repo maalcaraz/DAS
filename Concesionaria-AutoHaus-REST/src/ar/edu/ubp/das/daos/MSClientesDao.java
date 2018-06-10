@@ -20,7 +20,7 @@ public class MSClientesDao extends DaoImpl {
 	public Bean make(ResultSet result) throws SQLException {
 		
 		AdquiridoBean adquirido = new AdquiridoBean();
-		
+		System.out.println("RESULT: "+ result.getString("cancelado"));
 		adquirido.setCancelado(result.getString("cancelado"));
         
     	return adquirido;
@@ -123,7 +123,7 @@ public class MSClientesDao extends DaoImpl {
         	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
         	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
         	planRecuperado.setFinancion(result.getString("financiacion"));
-        	planRecuperado.setDuenoPlan(result.getString("dueño_plan"));
+        	planRecuperado.setDuenoPlan(result.getString("dueÃ±o_plan"));
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
         	}
@@ -132,7 +132,7 @@ public class MSClientesDao extends DaoImpl {
         	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
         	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
         	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
-        	cuotaRecuperada.setPagada(result.getString("pagó"));
+        	cuotaRecuperada.setPagada(result.getString("pagÃ³"));
         	cuotaRecuperada.setImporte(result.getString("importe"));
         	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));
         	if (!cuotas.contains(cuotaRecuperada)){
@@ -156,22 +156,21 @@ public class MSClientesDao extends DaoImpl {
 		this.connect();
 		List<Bean> adquiridos;
 		AdquiridoBean adquirido = (AdquiridoBean) form;
+		AdquiridoBean adquirido2;
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
 		this.setParameter(1, adquirido.getDniCliente());
 		this.setParameter(2, adquirido.getIdPlan());
 		 
 		adquiridos = this.executeQuery();
-		adquirido = (AdquiridoBean)adquiridos.get(0);
+		adquirido2 = (AdquiridoBean)adquiridos.get(0);
 		
 		this.disconnect();
-		
 		boolean res = false;
 		
 		if(Integer.parseInt(adquirido.getCancelado())!= 0){
 			res = true;
 		}
-		
 		return res;
 	}
 	
