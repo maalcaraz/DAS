@@ -178,7 +178,8 @@ public class ClientesResource {
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
-        
+        System.out.println("Cliente:" + dniCliente);
+        System.out.println("IdPlan: "+idPlan);
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());

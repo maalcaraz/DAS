@@ -580,7 +580,7 @@ BEGIN
 END
 go
 
--- execute dbo.cancelar_ganador '25555555', '02-02-18' 
+-- execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
 
 -- lo probamos con 
 
@@ -635,14 +635,15 @@ AS
 	END
 go
 
+--execute dbo.verificar_cancelado '25555555', 303456
 --execute dbo.verificar_cancelado '27777777', 303458
 
 Select * 
 	from clientes c
 		join adquiridos ad
 		on c.dni_cliente = ad.dni_cliente
-		where c.dni_cliente = '27777777'
-		and ad.cancelado = 'N' 
+		--where c.dni_cliente = '27777777'
+		where ad.cancelado = 'S' 
 go
 
 

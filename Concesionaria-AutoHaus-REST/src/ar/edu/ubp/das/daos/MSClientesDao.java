@@ -20,7 +20,7 @@ public class MSClientesDao extends DaoImpl {
 	public Bean make(ResultSet result) throws SQLException {
 		
 		AdquiridoBean adquirido = new AdquiridoBean();
-		
+		System.out.println("RESULT: "+ result.getString("cancelado"));
 		adquirido.setCancelado(result.getString("cancelado"));
         
     	return adquirido;
@@ -161,20 +161,26 @@ public class MSClientesDao extends DaoImpl {
 		this.connect();
 		List<Bean> adquiridos;
 		AdquiridoBean adquirido = (AdquiridoBean) form;
+		AdquiridoBean adquirido2;
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
 		this.setParameter(1, adquirido.getDniCliente());
-		this.setParameter(1, adquirido.getIdPlan());
+		this.setParameter(2, adquirido.getIdPlan());
 		 
 		adquiridos = this.executeQuery();
-		adquirido = (AdquiridoBean)adquiridos.get(0);
+		adquirido2 = (AdquiridoBean)adquiridos.get(0);
 		
 		this.disconnect();
+		boolean res = false;
 		
-		System.out.println(Boolean.valueOf(adquirido.getCancelado()));
+		switch( Integer.parseInt(adquirido2.getCancelado())){
+		case 0: //dao.insert(daf);
+				res = false;
+		case 1: //dao.insert(daf);
+				res = true;
+		}
 		
-		return Boolean.valueOf(adquirido.getCancelado());
-		
+		return res;
 	}
 	
 }

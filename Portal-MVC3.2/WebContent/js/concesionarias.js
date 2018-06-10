@@ -55,5 +55,45 @@ var jConcesionaria ={
 	            	alert ("Concesionaria suscripta!");
 	            }
 	        });	
+		},
+		
+		notificarConcesionaria : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/NotificarGanador.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#formNotificar").serialize(),
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("content", html);
+	            	
+	            }
+	        });	
+		},
+		
+		verificarCancelado : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/VerificarCancelado.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#formVerificar").serialize(),
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("content", html);
+	            	
+	            }
+	        });	
 		}
 };
