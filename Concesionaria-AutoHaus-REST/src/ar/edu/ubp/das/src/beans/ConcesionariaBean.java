@@ -10,7 +10,14 @@ public class ConcesionariaBean implements Bean{
 	List<AdquiridoBean> adquiridos;
 	List<CuotaBean> cuotas;
 	List<PlanBean> planes;
+	String novedad;
 	
+	public String getNovedad() {
+		return novedad;
+	}
+	public void setNovedad(String novedad) {
+		this.novedad = novedad;
+	}
 	public List<ClienteBean> getClientes() {
 		return clientes;
 	}
@@ -35,11 +42,7 @@ public class ConcesionariaBean implements Bean{
 	public void setPlanes(List<PlanBean> planes) {
 		this.planes = planes;
 	}
-	@Override
-	public String toString() {
-		return "ConcesionariaBean [clientes=" + clientes + ", adquiridos=" + adquiridos + ", cuotas=" + cuotas
-				+ ", planes=" + planes + "]";
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,6 +50,7 @@ public class ConcesionariaBean implements Bean{
 		result = prime * result + ((adquiridos == null) ? 0 : adquiridos.hashCode());
 		result = prime * result + ((clientes == null) ? 0 : clientes.hashCode());
 		result = prime * result + ((cuotas == null) ? 0 : cuotas.hashCode());
+		result = prime * result + ((novedad == null) ? 0 : novedad.hashCode());
 		result = prime * result + ((planes == null) ? 0 : planes.hashCode());
 		return result;
 	}
@@ -74,6 +78,11 @@ public class ConcesionariaBean implements Bean{
 				return false;
 		} else if (!cuotas.equals(other.cuotas))
 			return false;
+		if (novedad == null) {
+			if (other.novedad != null)
+				return false;
+		} else if (!novedad.equals(other.novedad))
+			return false;
 		if (planes == null) {
 			if (other.planes != null)
 				return false;
@@ -81,5 +90,11 @@ public class ConcesionariaBean implements Bean{
 			return false;
 		return true;
 	}
-
+	@Override
+	public String toString() {
+		return "ConcesionariaBean [clientes=" + clientes + ", adquiridos=" + adquiridos + ", cuotas=" + cuotas
+				+ ", planes=" + planes + ", novedad=" + novedad + "]";
+	}
+	
 }
+	

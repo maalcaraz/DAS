@@ -1,8 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -15,13 +13,10 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import ar.edu.ubp.das.daos.MSClientesDao;
-import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
-import ar.edu.ubp.das.src.beans.ClienteBean;
-import ar.edu.ubp.das.src.beans.PlanBean;
-import ar.edu.ubp.das.src.beans.TransaccionBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 @Path("/AutoHaus")
 @Produces(MediaType.APPLICATION_JSON) 
@@ -39,19 +34,17 @@ public class ClientesResource {
 	public Response getClientes(String idPortal) {
 		String idConcesionaria = "AH123456";
 		Date horaFechaTransaccion = new Date();
-		
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-		
-		
 		System.out.println(sqlTimestamp);
-
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-      
         Gson gson = new Gson();
         String respuestaServicio = null;
+        
         TransaccionBean transaccion = new TransaccionBean();
+        
+        
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
@@ -62,15 +55,17 @@ public class ClientesResource {
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				
-				List<List<Bean>> lista = dao.selectListBeans();
+				//List<List<Bean>> lista = dao.selectListBeans();
+				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
 				
-				String jsonClientes = gson.toJson(lista.get(0));
+				//String jsonClientes = gson.toJson(lista.get(0));
+				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();
-				String jsonAdquiridos = gson.toJson(lista.get(1));
+				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
 				gson = new Gson();
-				String jsonPlanes = gson.toJson(lista.get(2));
+				String jsonPlanes = gson.toJson(concesionaria.getPlanes());
 				gson = new Gson();
-				String jsonCuotas = gson.toJson(lista.get(3));
+				String jsonCuotas = gson.toJson(concesionaria.getCuotas());
 
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
@@ -79,7 +74,6 @@ public class ClientesResource {
 	        	respuestaServicio = gson.toJson(transaccion);
 			}
 			catch (SQLException ex) {
-				
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
@@ -118,29 +112,23 @@ public class ClientesResource {
     	
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ConcesionariaBean concesionaria = new ConcesionariaBean();
-        	ClienteBean cliente = new ClienteBean();
-        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
-        	clientes.add(cliente);
         	AdquiridoBean adquirido = new AdquiridoBean();
-        	List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
-        	adquiridos.add(adquirido);
-        	cliente.setDniCliente(dniCliente);
+        	adquirido.setDniCliente(dniCliente);
         	adquirido.setFechaSorteado(fechaSorteo);
         	adquirido.setIdPlan(idPlan);
-        	concesionaria.setClientes(clientes);
-        	concesionaria.setAdquiridos(adquiridos);
 
 /*-------- Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes y Adquiridos --------*/
         	if (idConcesionaria.equals("AutoHaus")){
-        		dao.update(concesionaria);
+        		dao.update(adquirido);
         		//dao.update(cliente, adquirido);
         		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
         		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
-        		dao.insert(novedad);
+        		ConcesionariaBean concesionaria = new ConcesionariaBean();
+        		concesionaria.setNovedad(novedad);
+        		dao.insert(concesionaria);
         		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
         	}
         	
@@ -167,6 +155,7 @@ public class ClientesResource {
 									   @FormParam("id_plan") String idPlan) {
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
+		System.out.println(idPortal);
 		Date horaFechaTransaccion = new Date();
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
@@ -186,34 +175,16 @@ public class ClientesResource {
         
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ConcesionariaBean concesionaria = new ConcesionariaBean();
         	AdquiridoBean adquirido = new AdquiridoBean();
-        	/*
-        	ClienteBean cliente = new ClienteBean();
-        	List<ClienteBean> clientes = new LinkedList<ClienteBean>();
-        	PlanBean plan = new PlanBean();
-        	List<PlanBean> planes = new LinkedList<PlanBean>();
-        	
 
-        	cliente.setDniCliente(dniCliente);
-        	plan.setIdPlan(idPlan);
-        	clientes.add(cliente);
-        	planes.add(plan);
-        	
-        	concesionaria.setClientes(clientes);
-        	concesionaria.setPlanes(planes);
-			
-			*/
         	adquirido.setDniCliente(dniCliente);
         	adquirido.setIdPlan(idPlan);
-			
-			//mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+
 			mensajeRespuesta = ((dao.valid(adquirido) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
 			
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	respuestaServicio = gson.toJson(transaccion);
-        	//return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
         }
         catch(SQLException ex) {
 			//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();

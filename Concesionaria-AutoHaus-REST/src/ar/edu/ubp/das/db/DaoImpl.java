@@ -75,16 +75,6 @@ public abstract class DaoImpl implements Dao {
         }
         return rows;
     }
-    /*
-    public boolean executeValidateQuery(String atributo) throws SQLException {
-    	boolean response = false;
-        ResultSet result = this.statement.executeQuery();
-        if(result.next()) {
-            response = result.getBoolean(atributo); // enviar "existe" como parametro
-        }
-        return response;
-    }
-	*/
     public List<Bean> executeQuery() throws SQLException {
         List<Bean> list   = new LinkedList<Bean>();
         ResultSet            result = this.statement.executeQuery();
