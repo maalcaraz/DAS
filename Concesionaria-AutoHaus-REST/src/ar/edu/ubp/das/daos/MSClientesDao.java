@@ -38,10 +38,7 @@ public class MSClientesDao extends DaoImpl {
 		this.disconnect();
 	}
 	
-	public void insert(String textoNovedad) throws SQLException {
-		
 
-	}
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
