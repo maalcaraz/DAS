@@ -10,6 +10,7 @@ import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.CuotaBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 
@@ -18,53 +19,36 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
         
-    	return null;
+		AdquiridoBean adquirido = new AdquiridoBean();
+		System.out.println("RESULT: "+ result.getString("cancelado"));
+		adquirido.setCancelado(result.getString("cancelado"));
+        
+    	return adquirido;
 	}
 
 	@Override
 	public void insert(Bean form) throws SQLException {
-
-	}
-	
-	public void insert(String textoNovedad) throws SQLException {
 		this.connect();
-		System.out.println(textoNovedad);
+		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
+		System.out.println(concesionaria.getNovedad());
 		this.setProcedure("dbo.insertar_novedad(?)");
 	
-		this.setParameter(1, textoNovedad);
-		
+		this.setParameter(1, concesionaria.getNovedad());
 		this.executeUpdate();
 		this.disconnect();
-
 	}
+
+
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
-		
-		ClienteBean f = (ClienteBean) form;
-		System.out.println(f.getDniCliente());
-		//Procesamiento para notificar los nuevos ganadores
-		this.setProcedure("dbo.cancelar_ganador(?,?)");
-		this.setParameter(1, f.getDniCliente());
-		//this.setParameter(2, f.getFechaSorteo());
-		
-		this.executeUpdate();
-		
-		this.disconnect();
-
-	}
-	
-	public void update(Bean b1, Bean b2) throws SQLException {
-		this.connect();
-		
-		ClienteBean cliente = (ClienteBean) b1;
-		AdquiridoBean adquirido = (AdquiridoBean) b2;
+		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
 		
 	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
 		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
-		this.setParameter(1, cliente.getDniCliente());
-		this.setParameter(2, adquirido.getFechaSorteado());
-		this.setParameter(3, adquirido.getIdPlan());
+		this.setParameter(1, concesionaria.getClientes().get(0).getDniCliente());
+		this.setParameter(2, concesionaria.getAdquiridos().get(0).getFechaSorteado());
+		this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
 		this.executeUpdate();
 		this.disconnect();
 	}
@@ -76,43 +60,15 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public List<Bean> select() throws SQLException {
+		// TODO Auto-generated method stub
+		List<Bean> concesionariaTablas = new ArrayList<Bean>();
+		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
+		List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+		List<PlanBean> 	planes = new LinkedList<PlanBean>();
+		List<CuotaBean> cuotas = new LinkedList<CuotaBean>();
 		
-		// Estructuras iniciales
-		List<Bean> 	clientes = new LinkedList<Bean>();
-		ClienteBean clienteRecuperado;
-		
-		// Operaciones en BD
-		this.connect();
-		
-		this.setProcedure("dbo.get_estados_cuentas()", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		
-        
-        ResultSet result = this.getStatement().executeQuery();
 
-        // Almacenamiento en la estructura a retornar en el servicio
-        while (result.next()){
-        	clienteRecuperado = new ClienteBean();
-        	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
-        	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
-        	clienteRecuperado.setEmailCliente(result.getString("email"));
-        	clientes.add(clienteRecuperado);
-        	result.next();
-        }
-    	
-		this.disconnect();
-		
-		return clientes;
-	}
-	
-public List<List<Bean>> selectListBeans() throws SQLException {
-		
-		// Estructuras iniciales
-		
-		List<List<Bean>> listOfBeans = new ArrayList<List<Bean>>();
-		List<Bean> clientes = new LinkedList<Bean>();
-		List<Bean> adquiridos = new LinkedList<Bean>();
-		List<Bean> 	planes = new LinkedList<Bean>();
-		List<Bean> cuotas = new LinkedList<Bean>();
+		ConcesionariaBean concesionaria = new ConcesionariaBean();
 		ClienteBean clienteRecuperado;
 		AdquiridoBean adquiridoRecuperado;
 		PlanBean planRecuperado;
@@ -125,13 +81,11 @@ public List<List<Bean>> selectListBeans() throws SQLException {
 		
         ResultSet result = this.getStatement().executeQuery();
 
-        /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
+/*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
         
         result.next();
        
-        
         while (result.getRow() > 0){
-        	System.out.println("Linea");
         	clienteRecuperado = new ClienteBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
         	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
@@ -142,7 +96,7 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	clienteRecuperado.setIdLocalidad(result.getString("id_localidad"));
         	clienteRecuperado.setCodProvincia(result.getString("cod_provincia"));
         	if (!clientes.contains(clienteRecuperado)){
-        		clientes.add(clienteRecuperado);
+        	clientes.add(clienteRecuperado);
         	}
         		
         	adquiridoRecuperado = new AdquiridoBean();
@@ -154,10 +108,10 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
-        	adquiridos.add(adquiridoRecuperado);
         	if (!adquiridos.contains(adquiridoRecuperado)){
-        		adquiridos.add(adquiridoRecuperado);
+        	adquiridos.add(adquiridoRecuperado);
         	}
+        	
         
         	planRecuperado = new PlanBean();
         	planRecuperado.setIdPlan(result.getString("id_plan"));
@@ -165,8 +119,8 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	planRecuperado.setNom_plan(result.getString("nom_plan"));
         	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
         	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
-        	planRecuperado.setEntrega_pactada(result.getString("financiacion"));
-        	planRecuperado.setEntrega_pactada(result.getString("dueño_plan"));
+        	planRecuperado.setFinancion(result.getString("financiacion"));
+        	planRecuperado.setDuenoPlan(result.getString("dueño_plan"));
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
         	}
@@ -181,56 +135,38 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	if (!cuotas.contains(cuotaRecuperada)){
         		cuotas.add(cuotaRecuperada);
         	}
-        	
         	result.next();
         }
-        listOfBeans.add(clientes);
-		listOfBeans.add(adquiridos);
-		listOfBeans.add(planes);
-		listOfBeans.add(cuotas);
+        concesionaria.setClientes(clientes);
+        concesionaria.setAdquiridos(adquiridos);
+        concesionaria.setPlanes(planes);
+        concesionaria.setCuotas(cuotas);
+        concesionariaTablas.add(concesionaria);
 		
 		this.disconnect();
-		return listOfBeans;
+		return concesionariaTablas;
 	}
-	
-	
 
 	@Override
 	public boolean valid(Bean form) throws SQLException {
-		/*
+		
 		this.connect();		
-		ClienteBean f = (ClienteBean) form;
-		this.setProcedure("dbo.verificar_cancelado(?)"); // falta agregar al PA el nro plan
-		
-		this.setParameter(1, f.getDniCliente());
-		 
-		
-		boolean res = this.executeValidateQuery("cancelado"); 
-		
-		
-		this.disconnect();
-		
-		return res;
-		*/
-		return false;
-	}
-	
-	@Override
-	public boolean valid2Beans(Bean form1, Bean form2) throws SQLException {
-		this.connect();		
-		ClienteBean f1 = (ClienteBean) form1;
-		PlanBean f2 = (PlanBean) form2;
+		List<Bean> adquiridos;
+		AdquiridoBean adquirido = (AdquiridoBean) form;
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
 		
-		this.setParameter(1, f1.getDniCliente());
-		this.setParameter(2, f2.getIdPlan());
+		this.setParameter(1, adquirido.getDniCliente());
+		this.setParameter(2, adquirido.getIdPlan());
 		 
-		
-		boolean res = this.executeValidateQuery("cancelado"); 
-		
+		adquiridos = this.executeQuery();
+		adquirido = (AdquiridoBean)adquiridos.get(0);
 		
 		this.disconnect();
+		boolean res = false;
 		
+		if(Integer.parseInt(adquirido.getCancelado())!= 0){
+			res = true;
+		}
 		return res;
 	}
 	
