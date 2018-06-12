@@ -1,6 +1,14 @@
 package ar.edu.ubp.das.src.concesionarias.forms;
 
-public class ConcesionariaForm {
+import java.util.List;
+
+import ar.edu.ubp.das.mvc.action.DynaActionForm;
+import ar.edu.ubp.das.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.portal.forms.CuotaForm;
+import ar.edu.ubp.das.portal.forms.PlanForm;
+
+public class ConcesionariaForm extends DynaActionForm{
 
 	public ConcesionariaForm() {
 		
@@ -15,6 +23,11 @@ public class ConcesionariaForm {
 	String cantDiasCaducidad;
 	String urlServicio;
 	String codTecnologia;
+	
+	void Consumir() {
+	}
+	
+	
 	public String getIdConcesionaria() {
 		return idConcesionaria;
 	}
@@ -160,6 +173,44 @@ public class ConcesionariaForm {
 		return true;
 	}
 	
+	
+	List<AdquiridoForm> adquiridos;
+	List<CuotaForm> cuotas;
+	List<PlanForm> planes;
+	String novedad;
+	
+	
+	List<ClienteForm> clientes;
+	public List<ClienteForm> getClientes() {
+		return clientes;
+	}
+	public void setClientes(List<ClienteForm> clientes) {
+		this.clientes = clientes;
+	}
+	public List<AdquiridoForm> getAdquiridos() {
+		return adquiridos;
+	}
+	public void setAdquiridos(List<AdquiridoForm> adquiridos) {
+		this.adquiridos = adquiridos;
+	}
+	public List<CuotaForm> getCuotas() {
+		return cuotas;
+	}
+	public void setCuotas(List<CuotaForm> cuotas) {
+		this.cuotas = cuotas;
+	}
+	public List<PlanForm> getPlanes() {
+		return planes;
+	}
+	public void setPlanes(List<PlanForm> planes) {
+		this.planes = planes;
+	}
+	public String getNovedad() {
+		return novedad;
+	}
+	public void setNovedad(String novedad) {
+		this.novedad = novedad;
+	}
 	
 	
 	

@@ -123,7 +123,7 @@ public class MSClientesDao extends DaoImpl {
         	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
         	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
         	planRecuperado.setFinancion(result.getString("financiacion"));
-        	planRecuperado.setDuenoPlan(result.getString("dueÃ±o_plan"));
+        	planRecuperado.setDuenoPlan(result.getString("dueño_plan"));
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
         	}
@@ -132,7 +132,7 @@ public class MSClientesDao extends DaoImpl {
         	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
         	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
         	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
-        	cuotaRecuperada.setPagada(result.getString("pagÃ³"));
+        	cuotaRecuperada.setPagada(result.getString("pagó"));
         	cuotaRecuperada.setImporte(result.getString("importe"));
         	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));
         	if (!cuotas.contains(cuotaRecuperada)){

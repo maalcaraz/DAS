@@ -15,7 +15,9 @@
 <div class="grid-container">
 	<div class="grid-item">
 	<h2> Consulta quincenal </h2>
-		<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionarias.getClientes()">
+		<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionaria.getClientes()">
+		
+		<div id="detalle-clientes">  </div>
 	</div>
 
 	<div class="grid-item">
@@ -37,7 +39,7 @@
 	<input type="text" id="fechaSorteo" name="fechaSorteo" value="02-02-18">
 	<br><br>
 	
-	<input type="button" id="notificarGanador" value="Notificar Ganador" onclick="jConcesionarias.notificarGanador()">
+	<input type="button" id="notificarGanador" value="Notificar Ganador" onclick="jConcesionaria.notificarGanador()">
 	
 	</div>
 	
@@ -46,7 +48,7 @@
 	<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
 	<label for="idPlan"> Identificador de plan:  </label>
 	<input type="text" id="idPlan" name="idPlan"><br><br>
-<button id="verificar" onclick="jConcesionarias.verificarCancelado()" name="verificar"> Verificar cancelado </button>
+<button id="verificar" onclick="jConcesionaria.verificarCancelado()" name="verificar"> Verificar cancelado </button>
 <br><br>
 	<div id="respuestaCancelado"> </div>
 	

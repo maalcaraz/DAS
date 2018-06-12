@@ -14,7 +14,7 @@ var jConcesionaria ={
 	            success: function(html) {
 	            	$("#login").val("Cerrar Sesion");
 	            	
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("detalle-clientes", html);
 	            	
 	            }
 	        });	

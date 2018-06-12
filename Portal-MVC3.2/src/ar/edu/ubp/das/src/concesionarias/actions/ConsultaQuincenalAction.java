@@ -39,6 +39,10 @@ public class ConsultaQuincenalAction implements Action {
 		try {
 			
 			 /*Aca tenemos que hacer un for y recorrer las concesionarias, y con eso llenar nuestra BD */
+			
+			
+			
+			
 			String servicio = "AutoHaus";
 			
 			String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";
@@ -86,7 +90,14 @@ public class ConsultaQuincenalAction implements Action {
 			Concesionaria.insertPlanes(planes);
 			Concesionaria.insertAdquiridos(adquiridos, idConcesionaria);
 			Concesionaria.insertCuotas(cuotas, idConcesionaria);
-			return null;
+			
+			
+			request.setAttribute("clientes", clientes);
+			request.setAttribute("planes", planes);
+			request.setAttribute("adquiridos", adquiridos);
+			request.setAttribute("cuotas", cuotas);
+			
+			return mapping.getForwardByName("success");
 		}
 		catch(Exception ex){
 			System.out.println("Error en Consulta Quincenal: "+ ex.getMessage());
