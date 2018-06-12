@@ -1,0 +1,17 @@
+@CHARSET "ISO-8859-1";
+
+.grid-container {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: auto auto auto;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 10pt;
+  text-align: center;
+}
