@@ -40,8 +40,15 @@ public class ConsultaQuincenalAction implements Action {
 			
 			 /*Aca tenemos que hacer un for y recorrer las concesionarias, y con eso llenar nuestra BD */
 			
+			/*
+			List<Concesionarias> suscriptas;
 			
+			for (Concesionarias c : suscriptas){
+				
+				c.consumir("getClientes", null);
+			}
 			
+			*/
 			
 			String servicio = "AutoHaus";
 			
@@ -84,6 +91,8 @@ public class ConsultaQuincenalAction implements Action {
 			LinkedList<CuotaForm> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
+			
+		
 			
 			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);

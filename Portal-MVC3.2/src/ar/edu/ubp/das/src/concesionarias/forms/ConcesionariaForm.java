@@ -7,6 +7,7 @@ import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
+import ar.edu.ubp.das.src.servicios.Servicio;
 
 public class ConcesionariaForm extends DynaActionForm{
 
@@ -21,6 +22,8 @@ public class ConcesionariaForm extends DynaActionForm{
 	String telefono;
 	String ultimaActualizacion;
 	String cantDiasCaducidad;
+	Servicio webService;
+	
 	String urlServicio;
 	String codTecnologia;
 	
