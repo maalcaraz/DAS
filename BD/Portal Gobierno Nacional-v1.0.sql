@@ -7,6 +7,9 @@ drop procedure dbo.insertar_cuota
 drop procedure dbo.insertar_novedad
 drop procedure dbo.insertar_plan
 drop procedure dbo.insertar_transaccion
+drop procedure dbo.insertar_concesionaria
+drop procedure dbo.loginUsuario
+drop procedure dbo.get_concesionarias
 go
 
 drop table logs
@@ -433,3 +436,11 @@ go
 */
 select *
 	from concesionarias
+go
+
+create procedure dbo.get_concesionarias
+AS
+BEGIN
+	Select * from concesionarias
+END
+go

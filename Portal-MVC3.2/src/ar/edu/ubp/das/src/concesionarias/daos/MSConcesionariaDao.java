@@ -18,40 +18,33 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public DynaActionForm make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		
-		form.getItem("form1");
-		
-		
-		
-	}
-	
-	public void insert(ConcesionariaForm form) throws SQLException {
+		ConcesionariaForm c = (ConcesionariaForm) form;
 		this.connect();
 		this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
-		this.setParameter(1, form.getIdConcesionaria());
-		this.setParameter(2, form.getNomConcesionaria());
-		this.setParameter(3, form.getCuit());
-		this.setParameter(4, form.getEmail());
-		this.setParameter(5, form.getDireccion());
-		this.setParameter(6, form.getTelefono());
-		this.setParameter(7, form.getUltimaActualizacion());
-		this.setParameter(8, form.getCantDiasCaducidad());
-		this.setParameter(9, form.getUrlServicio());
-		this.setParameter(10, form.getCodTecnologia());
+		this.setParameter(1, c.getIdConcesionaria());
+		this.setParameter(2, c.getNomConcesionaria());
+		this.setParameter(3, c.getCuit());
+		this.setParameter(4, c.getEmail());
+		this.setParameter(5, c.getDireccion());
+		this.setParameter(6, c.getTelefono());
+		this.setParameter(7, c.getUltimaActualizacion());
+		this.setParameter(8, c.getCantDiasCaducidad());
+		this.setParameter(9, c.getUrlServicio());
+		this.setParameter(10, c.getCodTecnologia());
 		
 		this.executeUpdate();
 		
 		this.disconnect();
 	}
-	
-	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
+	/*
+	public void insertTransacciones(DynaActionForm form) throws SQLException {
 		
 		this.connect();
 		
@@ -106,29 +99,38 @@ public class MSConcesionariaDao extends DaoImpl{
 		}
 		
 		this.disconnect();
-	}
+	}*/
 	
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		
+		//ConcesionariaForm c = (ConcesionariaForm) form;
+		// esta concesionaria en teoria viene con datos 
+		
+		
 		
 	}
 
 	@Override
 	public void delete(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+
+		this.connect();
+		
+		this.setProcedure("dbo.get_concesionarias()");
+		
+		return this.executeQuery();
 	}
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

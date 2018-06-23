@@ -8,12 +8,19 @@ import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
 import ar.edu.ubp.das.src.servicios.Servicio;
+import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
 public class ConcesionariaForm extends DynaActionForm{
 
 	public ConcesionariaForm() {
 		
 	}
+	
+	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception{
+		// Obtenemos una instancia del servicio que queremos crear
+		webService = ServicioFactory.getServicio(tipoServicio);
+	}
+	
 	String idConcesionaria;
 	String nomConcesionaria;
 	String cuit;
@@ -24,6 +31,14 @@ public class ConcesionariaForm extends DynaActionForm{
 	String cantDiasCaducidad;
 	Servicio webService;
 	
+	public Servicio getWebService() {
+		return webService;
+	}
+
+	public void setWebService(Servicio webService) {
+		this.webService = webService;
+	}
+
 	String urlServicio;
 	String codTecnologia;
 	
@@ -176,14 +191,14 @@ public class ConcesionariaForm extends DynaActionForm{
 		return true;
 	}
 	
-	
+	List<ClienteForm> clientes;
 	List<AdquiridoForm> adquiridos;
 	List<CuotaForm> cuotas;
 	List<PlanForm> planes;
 	String novedad;
 	
 	
-	List<ClienteForm> clientes;
+	
 	public List<ClienteForm> getClientes() {
 		return clientes;
 	}

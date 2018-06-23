@@ -93,7 +93,7 @@ public class ConsultaQuincenalAction implements Action {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
 		
-			
+			/*
 			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);
 			Concesionaria.insertPlanes(planes);
@@ -105,7 +105,7 @@ public class ConsultaQuincenalAction implements Action {
 			request.setAttribute("planes", planes);
 			request.setAttribute("adquiridos", adquiridos);
 			request.setAttribute("cuotas", cuotas);
-			
+			*/
 			return mapping.getForwardByName("success");
 		}
 		catch(Exception ex){

@@ -1,3 +1,4 @@
+var modal = document.getElementById('id02');
 var jConcesionaria ={
 		
 		getClientes : function(){
@@ -32,7 +33,6 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	$("#login").val("Cerrar Sesion");
 	            	
 	            	jUtils.showing("content", html);
 	            	
@@ -53,6 +53,7 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	alert ("Concesionaria suscripta!");
+	            	modal.style.display = "none";
 	            }
 	        });	
 		},
@@ -95,5 +96,26 @@ var jConcesionaria ={
 	            	
 	            }
 	        });	
+		},
+		testingSyncro : function(){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/TestingSync.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("content", html);
+	            	
+	            }
+	        });	
+			
+			
+			
 		}
 };

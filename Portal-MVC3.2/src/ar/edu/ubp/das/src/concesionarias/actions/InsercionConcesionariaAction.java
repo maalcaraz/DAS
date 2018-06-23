@@ -31,7 +31,11 @@ public class InsercionConcesionariaAction implements Action {
 		String telefono = request.getParameter("telefonoConcesionaria");
 		
 		try {
-			ConcesionariaForm nuevaConc = new ConcesionariaForm();
+			
+			// Creamos una instancia de Concesionaria, que en su constructor crea una instancia de Servicio
+			
+			ConcesionariaForm nuevaConc = new ConcesionariaForm(tipoServicio);
+			System.out.println("Despues de instanciar una concesionaria");
 			nuevaConc.setIdConcesionaria(idConcesionaria);
 			nuevaConc.setNomConcesionaria(nombreConcesionaria);
 			nuevaConc.setCodTecnologia(tipoServicio);
@@ -41,14 +45,16 @@ public class InsercionConcesionariaAction implements Action {
 			nuevaConc.setTelefono(telefono);
 			nuevaConc.setUrlServicio(url);
 			
+			
 			MSConcesionariaDao dao = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
 			dao.insert(nuevaConc);
-			return null;
+			return mapping.getForwardByName("success");
 			// devolver el mensaje a mostrar en el alert
 		}
 		catch(Exception ex){
-			System.out.println("Error en Suscripcion de concesionaria: "+ ex.getMessage());
+			//System.out.println("Error en Suscripcion de concesionaria: "+ ex.);
+			ex.printStackTrace();
 			return null;
 			
 		}

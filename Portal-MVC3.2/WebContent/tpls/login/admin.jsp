@@ -54,6 +54,13 @@
 	
 	</div>
 </div>
+
+<div class="grid-item">
+<h2>Prueba de sincronicidad de Concesionarias</h2>
+
+<input type="button" id="sync" value="Verificar" onclick="jConcesionaria.testingSyncro()">
+
+</div>
 	
 </body>
 </html>
