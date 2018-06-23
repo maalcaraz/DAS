@@ -35,7 +35,6 @@ public class InsercionConcesionariaAction implements Action {
 			// Creamos una instancia de Concesionaria, que en su constructor crea una instancia de Servicio
 			
 			ConcesionariaForm nuevaConc = new ConcesionariaForm(tipoServicio);
-			System.out.println("Despues de instanciar una concesionaria");
 			nuevaConc.setIdConcesionaria(idConcesionaria);
 			nuevaConc.setNomConcesionaria(nombreConcesionaria);
 			nuevaConc.setCodTecnologia(tipoServicio);
@@ -53,7 +52,6 @@ public class InsercionConcesionariaAction implements Action {
 			// devolver el mensaje a mostrar en el alert
 		}
 		catch(Exception ex){
-			//System.out.println("Error en Suscripcion de concesionaria: "+ ex.);
 			ex.printStackTrace();
 			return null;
 			

@@ -7,11 +7,8 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class MSConcesionariaDao extends DaoImpl{
@@ -120,12 +117,32 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
-
+		List<DynaActionForm> ret = new LinkedList<DynaActionForm>();
 		this.connect();
 		
-		this.setProcedure("dbo.get_concesionarias()");
+		this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
-		return this.executeQuery();
+		ResultSet result = this.getStatement().executeQuery();
+		result.next();
+		while(result.getRow() > 0) {
+			try{
+				ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
+				f.setIdConcesionaria(result.getString("id_concesionaria"));
+				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
+				f.setUrlServicio(result.getString("url_servicio"));
+				f.setCodTecnologia(result.getString("cod_tecnologia"));
+				ret.add(f);
+			}
+			catch(Exception ex){
+				System.out.println(ex);
+			}
+			
+			result.next();
+		}
+		
+		this.disconnect();
+		
+		return ret;
 	}
 
 	@Override

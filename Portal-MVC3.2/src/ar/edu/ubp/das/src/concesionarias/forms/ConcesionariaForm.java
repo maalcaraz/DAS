@@ -12,13 +12,13 @@ import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
 public class ConcesionariaForm extends DynaActionForm{
 
-	public ConcesionariaForm() {
+	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
-	}
-	
-	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception{
-		// Obtenemos una instancia del servicio que queremos crear
+		if (tipoServicio.equals("R")){
+			tipoServicio = "Rest";
+		}
 		webService = ServicioFactory.getServicio(tipoServicio);
+		
 	}
 	
 	String idConcesionaria;
@@ -30,8 +30,16 @@ public class ConcesionariaForm extends DynaActionForm{
 	String ultimaActualizacion;
 	String cantDiasCaducidad;
 	Servicio webService;
+	String urlServicio;
+	String codTecnologia;
+	
+
+	void Consumir() {
+	}
+	
 	
 	public Servicio getWebService() {
+		
 		return webService;
 	}
 
@@ -39,13 +47,6 @@ public class ConcesionariaForm extends DynaActionForm{
 		this.webService = webService;
 	}
 
-	String urlServicio;
-	String codTecnologia;
-	
-	void Consumir() {
-	}
-	
-	
 	public String getIdConcesionaria() {
 		return idConcesionaria;
 	}
@@ -99,6 +100,7 @@ public class ConcesionariaForm extends DynaActionForm{
 	}
 	public void setUrlServicio(String urlServicio) {
 		this.urlServicio = urlServicio;
+		this.webService.setUrl(urlServicio);
 	}
 	public String getCodTecnologia() {
 		return codTecnologia;

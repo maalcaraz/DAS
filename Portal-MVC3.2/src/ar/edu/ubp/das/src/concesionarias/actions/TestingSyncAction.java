@@ -26,13 +26,19 @@ public class TestingSyncAction  implements Action {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			String a = " " ;
 			System.out.println("Llegamos al action");
+		
+			
 			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);
 			
-			System.out.println("Select: " + forms.toString());
+			
 			for (DynaActionForm f : forms){
 				// Almacenarlas en una lista
+				System.out.println("Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
-				a += "Respuesta de "+ c.getNomConcesionaria() +":" + c.getWebService().Consumir("ejemplo", null);
+				a += "Respuesta de "+ c.getNomConcesionaria() +":";
+				System.out.println(a);
+				a += c.getWebService().Consumir("ejemplo", null);
+				
 			}
 			
 			request.setAttribute("consumos", a);
@@ -43,7 +49,8 @@ public class TestingSyncAction  implements Action {
 			
 		}
 		catch (Exception ex){
-			System.out.println(ex.getMessage());
+			//System.out.println(ex.getMessage());
+			ex.printStackTrace();
 			request.setAttribute("consumos", ex.getMessage());
 			return mapping.getForwardByName("success");
 			

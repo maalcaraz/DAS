@@ -24,16 +24,18 @@ public class ServicioRest extends ServicioImpl{
 		HttpPost req = new HttpPost();
 		
 		try {
-			if (!parameters.isEmpty()){
+			if (parameters != null){
 				
 				for (NameValuePair p : parameters){
 					nvps.add(new BasicNameValuePair(p.getName() , p.getValue()));
 				}
 				req.setEntity(new UrlEncodedFormEntity(nvps)); 
 			}
-			String nombre = this.getNomConcesionaria();
 			
-			URI uri = URI.create("http://localhost:8080/Concesionaria-"+nombre+"-REST/rest/"+nombre+"/"+operacion);  
+			URI uri = URI.create(this.getUrl()+"/"+operacion);
+			
+			System.out.println(this.getUrl()+"/"+ operacion);
+			
 			req.setURI(uri);
 			HttpClient client = HttpClientBuilder.create().build();	       
 			HttpResponse resp = client.execute(req);
@@ -43,7 +45,7 @@ public class ServicioRest extends ServicioImpl{
 			return restResp;
 		}
 		catch(Exception ex){
-			return ex.getMessage();
+			return "Error:"+ex.getMessage();
 		}
 	}
 }

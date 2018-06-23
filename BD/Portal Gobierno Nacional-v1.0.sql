@@ -444,3 +444,5 @@ BEGIN
 	Select * from concesionarias
 END
 go
+
+--execute dbo.get_concesionarias
