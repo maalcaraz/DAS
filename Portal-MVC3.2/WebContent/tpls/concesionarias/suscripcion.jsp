@@ -17,9 +17,9 @@
 
 <label for="tipoServicio">Tipo de Servicio: </label>
 	<select id="tipoServicio" name="tipoServicio">
-		<option value="R">Rest </option>
-		<option value="C"> CXF </option>
-		<option value="A">Axis </option>
+		<option value="Rest"> Rest </option>
+		<option value="CXF"> CXF </option>
+		<option value="Axis2"> Axis </option>
 	</select>
 	
 <br>

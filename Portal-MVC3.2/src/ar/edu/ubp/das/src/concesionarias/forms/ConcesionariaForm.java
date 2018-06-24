@@ -7,12 +7,20 @@ import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
+import ar.edu.ubp.das.src.servicios.Servicio;
+import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
 public class ConcesionariaForm extends DynaActionForm{
 
-	public ConcesionariaForm() {
+	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
+		
+		if (tipoServicio.equals("R")){
+			tipoServicio = "Rest";
+		}
+		webService = ServicioFactory.getServicio(tipoServicio);
 		
 	}
+	
 	String idConcesionaria;
 	String nomConcesionaria;
 	String cuit;
@@ -21,13 +29,24 @@ public class ConcesionariaForm extends DynaActionForm{
 	String telefono;
 	String ultimaActualizacion;
 	String cantDiasCaducidad;
+	Servicio webService;
 	String urlServicio;
 	String codTecnologia;
 	
+
 	void Consumir() {
 	}
 	
 	
+	public Servicio getWebService() {
+		
+		return webService;
+	}
+
+	public void setWebService(Servicio webService) {
+		this.webService = webService;
+	}
+
 	public String getIdConcesionaria() {
 		return idConcesionaria;
 	}
@@ -81,6 +100,7 @@ public class ConcesionariaForm extends DynaActionForm{
 	}
 	public void setUrlServicio(String urlServicio) {
 		this.urlServicio = urlServicio;
+		this.webService.setUrl(urlServicio);
 	}
 	public String getCodTecnologia() {
 		return codTecnologia;
@@ -173,14 +193,14 @@ public class ConcesionariaForm extends DynaActionForm{
 		return true;
 	}
 	
-	
+	List<ClienteForm> clientes;
 	List<AdquiridoForm> adquiridos;
 	List<CuotaForm> cuotas;
 	List<PlanForm> planes;
 	String novedad;
 	
 	
-	List<ClienteForm> clientes;
+	
 	public List<ClienteForm> getClientes() {
 		return clientes;
 	}

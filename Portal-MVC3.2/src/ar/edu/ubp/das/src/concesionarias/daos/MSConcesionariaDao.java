@@ -7,51 +7,41 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public DynaActionForm make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		
-		form.getItem("form1");
-		
-		
-		
-	}
-	
-	public void insert(ConcesionariaForm form) throws SQLException {
+		ConcesionariaForm c = (ConcesionariaForm) form;
 		this.connect();
 		this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
-		this.setParameter(1, form.getIdConcesionaria());
-		this.setParameter(2, form.getNomConcesionaria());
-		this.setParameter(3, form.getCuit());
-		this.setParameter(4, form.getEmail());
-		this.setParameter(5, form.getDireccion());
-		this.setParameter(6, form.getTelefono());
-		this.setParameter(7, form.getUltimaActualizacion());
-		this.setParameter(8, form.getCantDiasCaducidad());
-		this.setParameter(9, form.getUrlServicio());
-		this.setParameter(10, form.getCodTecnologia());
+		this.setParameter(1, c.getIdConcesionaria());
+		this.setParameter(2, c.getNomConcesionaria());
+		this.setParameter(3, c.getCuit());
+		this.setParameter(4, c.getEmail());
+		this.setParameter(5, c.getDireccion());
+		this.setParameter(6, c.getTelefono());
+		this.setParameter(7, c.getUltimaActualizacion());
+		this.setParameter(8, c.getCantDiasCaducidad());
+		this.setParameter(9, c.getUrlServicio());
+		this.setParameter(10, c.getCodTecnologia());
 		
 		this.executeUpdate();
 		
 		this.disconnect();
 	}
-	
-	public void insertTransacciones(TransaccionForm transaccion) throws SQLException {
+	/*
+	public void insertTransacciones(DynaActionForm form) throws SQLException {
 		
 		this.connect();
 		
@@ -106,29 +96,58 @@ public class MSConcesionariaDao extends DaoImpl{
 		}
 		
 		this.disconnect();
-	}
+	}*/
 	
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		
+		//ConcesionariaForm c = (ConcesionariaForm) form;
+		// esta concesionaria en teoria viene con datos 
+		
+		
 		
 	}
 
 	@Override
 	public void delete(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<DynaActionForm> ret = new LinkedList<DynaActionForm>();
+		this.connect();
+		
+		this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		
+		ResultSet result = this.getStatement().executeQuery();
+		result.next();
+		while(result.getRow() > 0) {
+			try{
+				ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
+				f.setIdConcesionaria(result.getString("id_concesionaria"));
+				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
+				f.setUrlServicio(result.getString("url_servicio"));
+				f.setCodTecnologia(result.getString("cod_tecnologia"));
+				ret.add(f);
+			}
+			catch(Exception ex){
+				System.out.println(ex);
+			}
+			
+			result.next();
+		}
+		
+		this.disconnect();
+		
+		return ret;
 	}
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

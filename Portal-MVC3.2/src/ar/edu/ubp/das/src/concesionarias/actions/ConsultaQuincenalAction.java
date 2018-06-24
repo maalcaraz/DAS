@@ -40,8 +40,15 @@ public class ConsultaQuincenalAction implements Action {
 			
 			 /*Aca tenemos que hacer un for y recorrer las concesionarias, y con eso llenar nuestra BD */
 			
+			/*
+			List<Concesionarias> suscriptas;
 			
+			for (Concesionarias c : suscriptas){
+				
+				c.consumir("getClientes", null);
+			}
 			
+			*/
 			
 			String servicio = "AutoHaus";
 			
@@ -85,6 +92,8 @@ public class ConsultaQuincenalAction implements Action {
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
+		
+			/*
 			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);
 			Concesionaria.insertPlanes(planes);
@@ -96,7 +105,7 @@ public class ConsultaQuincenalAction implements Action {
 			request.setAttribute("planes", planes);
 			request.setAttribute("adquiridos", adquiridos);
 			request.setAttribute("cuotas", cuotas);
-			
+			*/
 			return mapping.getForwardByName("success");
 		}
 		catch(Exception ex){
