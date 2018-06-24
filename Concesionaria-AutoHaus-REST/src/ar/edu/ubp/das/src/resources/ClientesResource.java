@@ -71,17 +71,16 @@ public class ClientesResource {
 	        	
 	        	transaccion.setEstado_transaccion("Success");
 	        	transaccion.setMensajeRespuesta(stringRespuesta);
-	        	respuestaServicio = gson.toJson(transaccion);
+	        	
 			}
 			catch (SQLException ex) {
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
 	        	transaccion.setEstado_transaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
-	        	respuestaServicio = gson.toJson(transaccion);
 			}
-			
+			respuestaServicio = gson.toJson(transaccion);
 			return Response.status( Response.Status.OK ).entity(respuestaServicio).build();
-		}
+	}
 	
 	@Path("/notificarGanador")
 	@POST
@@ -101,7 +100,6 @@ public class ClientesResource {
 		
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
     	String mensajeRespuesta = "";
-        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
@@ -134,16 +132,14 @@ public class ClientesResource {
         	
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
-        	respuestaServicio = gson.toJson(transaccion);
-        	System.out.println(respuestaServicio);
         }
         catch(SQLException ex) {
         	//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         	transaccion.setEstado_transaccion("Failed");
         	transaccion.setMensajeRespuesta(ex.getMessage());
-        	respuestaServicio = gson.toJson(transaccion);
         }
         
+        respuestaServicio = gson.toJson(transaccion);
         return Response.status(Response.Status.OK).entity(respuestaServicio).build();
 	}
 	
@@ -184,15 +180,14 @@ public class ClientesResource {
 			
         	transaccion.setEstado_transaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
-        	respuestaServicio = gson.toJson(transaccion);
         }
         catch(SQLException ex) {
 			//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         	transaccion.setEstado_transaccion("Failed");
         	transaccion.setMensajeRespuesta(ex.getMessage());
-        	respuestaServicio = gson.toJson(transaccion);
         }
         
+        respuestaServicio = gson.toJson(transaccion);
         return Response.status(Response.Status.OK).entity(respuestaServicio).build();
 	}
 }
