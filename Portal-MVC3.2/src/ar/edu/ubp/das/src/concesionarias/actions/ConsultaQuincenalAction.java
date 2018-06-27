@@ -49,7 +49,11 @@ public class ConsultaQuincenalAction implements Action {
 			}
 			
 			*/
-			
+			/*
+			 * Agregar como condicion para que se realice el consumo
+			 * la verificacion de la ultima fecha en que se actualizaron los datos.
+			 * 
+			 * */
 			String servicio = "AutoHaus";
 			
 			String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";

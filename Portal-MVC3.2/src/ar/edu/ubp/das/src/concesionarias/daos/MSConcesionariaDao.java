@@ -39,6 +39,8 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.executeUpdate();
 		
 		this.disconnect();
+		
+		
 	}
 	/*
 	public void insertTransacciones(DynaActionForm form) throws SQLException {

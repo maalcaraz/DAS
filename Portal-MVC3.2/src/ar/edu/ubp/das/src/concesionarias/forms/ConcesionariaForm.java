@@ -14,8 +14,15 @@ public class ConcesionariaForm extends DynaActionForm{
 
 	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
-		if (tipoServicio.equals("R")){
+		switch(tipoServicio){
+		case "R": 
 			tipoServicio = "Rest";
+			break;
+		case "C":
+			tipoServicio = "CXF";
+			break;
+		case "A":
+			tipoServicio = "Axis2";
 		}
 		webService = ServicioFactory.getServicio(tipoServicio);
 		
