@@ -438,6 +438,7 @@ select *
 	from concesionarias
 go
 
+
 create procedure dbo.get_concesionarias
 AS
 BEGIN

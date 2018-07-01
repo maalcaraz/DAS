@@ -16,6 +16,11 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 public class ConcesionariaTagleWS {
 
+	public String ejemplo (){
+		String ret = "Axis Funciona";
+		return ret;
+	}
+	
 	public String getClientes(String idPortal) throws Exception {
 		String idConcesionaria = "Tagle";
 		Date horaFechaTransaccion = new Date();
