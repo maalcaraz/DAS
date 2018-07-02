@@ -63,17 +63,16 @@ public class ConsultaQuincenalAction implements Action {
 			for (DynaActionForm f : forms){
 				
 				
+			// Almacenarlas en una lista
+			System.out.println("Select entrado: " + f.toString());
+			ConcesionariaForm c = (ConcesionariaForm) f;
+			restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
+			System.out.println(restResp);
+			restResp = c.getWebService().Consumir("getClientes", null);
+			//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
 				
-				// Almacenarlas en una lista
-				System.out.println("Select entrado: " + f.toString());
-				ConcesionariaForm c = (ConcesionariaForm) f;
-				restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
-				System.out.println(restResp);
-				restResp = c.getWebService().Consumir("getClientes", null);
-				//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
-				
-				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
-				idConcesionaria = transaccion.getIdConcesionaria();
+			transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
+			idConcesionaria = transaccion.getIdConcesionaria();
 			String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
 
 			String strClientes = listaRetorno[0] + "]";
@@ -96,9 +95,9 @@ public class ConsultaQuincenalAction implements Action {
 			Concesionaria.insertAdquiridos(adquiridos, idConcesionaria);
 			Concesionaria.insertCuotas(cuotas, idConcesionaria);
 				*/
-				request.setAttribute("transaccion", transaccion);
+			request.setAttribute("transaccion" + requestAttrIterator, transaccion);
 			request.setAttribute("clientes", clientes);
-				//request.setAttribute("planes", planes);
+			request.setAttribute("planes", planes);
 			request.setAttribute("adquiridos", adquiridos);
 			request.setAttribute("cuotas", cuotas);
 				
