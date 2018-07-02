@@ -9,13 +9,13 @@ public class PlanBean implements Bean {
 	private String nom_plan;
 	private String cant_cuotas;
 	private String entrega_pactada;
-	private String financion;
+	private String financiacion;
 	private String duenoPlan;
 
 	@Override
 	public String toString() {
 		return "PlanBean [idPlan=" + idPlan + ", descripcion=" + descripcion + ", nom_plan=" + nom_plan
-				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financion=" + financion
+				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financiacion=" + financiacion
 				+ ", duenoPlan=" + duenoPlan + "]";
 	}
 
@@ -50,11 +50,11 @@ public class PlanBean implements Bean {
 	public void setEntrega_pactada(String entrega_pactada) {
 		this.entrega_pactada = entrega_pactada;
 	}
-	public String getFinancion() {
-		return financion;
+	public String getFinanciacion() {
+		return financiacion;
 	}
-	public void setFinancion(String financion) {
-		this.financion = financion;
+	public void setFinanciacion(String financion) {
+		this.financiacion = financion;
 	}
 	public String getDuenoPlan() {
 		return duenoPlan;

@@ -119,7 +119,7 @@ public class MSClientesDao extends DaoImpl {
         	planRecuperado.setNom_plan(result.getString("nom_plan"));
         	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
         	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
-        	planRecuperado.setFinancion(result.getString("financiacion"));
+        	planRecuperado.setFinanciacion(result.getString("financiacion"));
         	planRecuperado.setDuenoPlan(result.getString("dueño_plan"));
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
