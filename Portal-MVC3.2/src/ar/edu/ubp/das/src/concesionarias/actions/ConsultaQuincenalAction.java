@@ -29,6 +29,7 @@ import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
 import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
+import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class ConsultaQuincenalAction implements Action {
 
@@ -49,67 +50,67 @@ public class ConsultaQuincenalAction implements Action {
 			}
 			
 			*/
-			/*
-			 * Agregar como condicion para que se realice el consumo
-			 * la verificacion de la ultima fecha en que se actualizaron los datos.
-			 * 
-			 * */
-			String servicio = "AutoHaus";
 			
-			String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";
-			System.out.println(s);
-			URI uri = URI.create(s);           
-			HttpPost req = new HttpPost();
-			         req.setURI(uri);
-			HttpClient client = HttpClientBuilder.create().build();	       
-			HttpResponse resp = client.execute(req);
-			HttpEntity responseEntity = resp.getEntity();
-			StatusLine responseStatus = resp.getStatusLine();
-			String restResp = EntityUtils.toString(responseEntity);	
-				
-			if(responseStatus.getStatusCode() != 200) {
-				request.setAttribute("error", restResp);
-				return mapping.getForwardByName("failure");
-				//throw new RuntimeException(restResp);
-			}
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
+			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);
 			
 			Gson gson = new Gson();
+			TransaccionForm transaccion = null;
+			String idConcesionaria = "";
+			String restResp = "";
+			int requestAttrIterator = 0;
 			
-			TransaccionForm transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
-			String idConcesionaria = transaccion.getIdConcesionaria();
-			
-			
+			for (DynaActionForm f : forms){
+				
+				
+				
+				// Almacenarlas en una lista
+				System.out.println("Select entrado: " + f.toString());
+				ConcesionariaForm c = (ConcesionariaForm) f;
+				restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
+				System.out.println(restResp);
+				restResp = c.getWebService().Consumir("getClientes", null);
+				//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
+				
+				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
+				idConcesionaria = transaccion.getIdConcesionaria();
 			String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
 
 			String strClientes = listaRetorno[0] + "]";
 			LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
 			
-			gson = new Gson();
 			String strPlanes = listaRetorno[1] + "]";
 			System.out.println(listaRetorno[3]);
 			LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
-			gson = new Gson();
+			
+				
 			String strAdquiridos = listaRetorno[2] + "]";
 			LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
-			gson = new Gson();
+				
+				
 			LinkedList<CuotaForm> cuotas = gson.fromJson(listaRetorno[3], new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
-			
-			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-			
-		
 			/*
 			Concesionaria.insertTransacciones(transaccion);
 			Concesionaria.insertClientes(clientes, idConcesionaria);
 			Concesionaria.insertPlanes(planes);
 			Concesionaria.insertAdquiridos(adquiridos, idConcesionaria);
 			Concesionaria.insertCuotas(cuotas, idConcesionaria);
-			
-			
+				*/
+				request.setAttribute("transaccion", transaccion);
 			request.setAttribute("clientes", clientes);
-			request.setAttribute("planes", planes);
+				//request.setAttribute("planes", planes);
 			request.setAttribute("adquiridos", adquiridos);
 			request.setAttribute("cuotas", cuotas);
-			*/
+				
+				
+				++requestAttrIterator;
+				
+			}
+			
+			//String servicio = "AutoHaus";
+			
+			//String s = "http://localhost:8080/Concesionaria-"+servicio+"-REST/rest/"+servicio+"/getClientes";	
+			
 			return mapping.getForwardByName("success");
 		}
 		catch(Exception ex){
