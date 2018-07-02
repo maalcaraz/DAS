@@ -3,13 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<c:set var="clientes" scope="request" value="${ requestScope.clientes }"> </c:set>
-<c:set var="servicio" scope="request" value="${ requestScope.idConcesionaria }"> </c:set>
-<c:set var="planes" scope="request" value="${ requestScope.planes }"> </c:set>
-<c:set var="adquiridos" scope="request" value="${ requestScope.adquiridos }"> </c:set>
-<c:set var="cuotas" scope="request" value="${ requestScope.cuotas }"> </c:set>
 
-<h4> ${ idConcesionaria } </h4>
+	<c:set var="clientes" scope="request" value="${requestScope.clientes}"> </c:set>
+	<c:set var="transaccion" scope="request" value="${requestScope.transaccion}"> </c:set>
+	<c:set var="planes" scope="request" value="${requestScope.planes}"> </c:set>
+	<c:set var="adquiridos" scope="request" value="${requestScope.adquiridos}"> </c:set>
+	<c:set var="cuotas" scope="request" value="${requestScope.cuotas}"> </c:set>
+
+
 
 <table >
 	<thead>
@@ -38,12 +39,13 @@
 			<td> ${ cliente.telefono } </td>
 			<td> ${ cliente.idLocalidad } </td>
 			<td> ${ cliente.codProvincia } </td>
-			<td> ${ cliente.idConcesionaria } </td>
+				<td> ${ transaccion.idConcesionaria } </td>
 		</tr>	
 	</c:forEach>
 	</tbody>
 </table>
 <br>
+
 <table >
 	<thead>
 		<tr>
@@ -64,12 +66,13 @@
 			<td> ${ plan.nom_plan } </td>
 			<td> ${ plan.cant_cuotas } </td>
 			<td> ${ plan.entrega_pactada } </td>
-			<td> ${ plan.financion } </td>
+			<td> ${ plan.financiacion } </td>
 			<td> ${ plan.duenoPlan } </td>
 		</tr>	
 	</c:forEach>
 	</tbody>
 </table>
+
 <br>
 <table >
 	<thead>
