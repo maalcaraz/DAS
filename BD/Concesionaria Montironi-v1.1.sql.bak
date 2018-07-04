@@ -1,4 +1,4 @@
-use COLCAR
+use montironi
 
 drop table novedades
 drop table adquiridos
@@ -507,15 +507,12 @@ go
 execute dbo.get_estados_cuentas
 go
 
-select * 
-	from clientes c
-		join adquiridos ad
-		on c.dni_cliente = ad.dni_cliente
-		join planes pl
-		on ad.id_plan = pl.id_plan
+select * from clientes c
+				join adquiridos ad
+				on c.dni_cliente = ad.dni_cliente
+				join planes pl
+				on ad.id_plan = pl.id_plan
 go
-
-
 --Trigger 
 
 --1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
@@ -581,12 +578,14 @@ BEGIN
 END
 go
 
--- execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
+-- execute dbo.cancelar_ganador '25555555', '02-02-18' 
 
 -- lo probamos con 
 
 select * from adquiridos a
 where a.ganador_sorteo = 'S'
+
+
 
 drop procedure dbo.insertar_novedad
 go
@@ -636,15 +635,14 @@ AS
 	END
 go
 
---execute dbo.verificar_cancelado '25555555', 303456
 --execute dbo.verificar_cancelado '27777777', 303458
 
 Select * 
 	from clientes c
 		join adquiridos ad
 		on c.dni_cliente = ad.dni_cliente
-		--where c.dni_cliente = '27777777'
-		where ad.cancelado = 'S' 
+		where c.dni_cliente = '27777777'
+		and ad.cancelado = 'N' 
 go
 
 

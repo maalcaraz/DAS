@@ -155,7 +155,6 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
-        	adquiridos.add(adquiridoRecuperado);
         	if (!adquiridos.contains(adquiridoRecuperado)){
         		adquiridos.add(adquiridoRecuperado);
         	}

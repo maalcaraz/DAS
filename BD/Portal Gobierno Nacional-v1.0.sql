@@ -61,7 +61,9 @@ create table planes
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		 null,
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
-	CONSTRAINT PK__planes__END primary key(id_plan)
+	id_concesionaria		char(8)			not null,	
+	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
 )
 go
 
@@ -90,10 +92,11 @@ create table adquiridos
 	fecha_entrega			date			null,
 	nro_chasis				varchar(15)		null,
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
-	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes
 )
 go
+
 
 
 create table cuotas
@@ -105,8 +108,8 @@ create table cuotas
 	importe					decimal(10,2)	not null,
 	fecha_vencimiento		date			null,
 	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
-	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan),
-	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
+	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
 )
 go
@@ -140,6 +143,15 @@ create table sorteos
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
 )
 go
+
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo)
+values ('s1', '3-03-2003', '3-03-2008'),
+	   ('s2','4-04-2004','4-04-2005'),
+	   ('s3','5-05-2005','5-06-2005'),
+	   ('s4','6-06-2006','6-07-2006'),
+	   ('s5','7-07-2007','7-08-2007')
+go
+
 
 create table participantes_sorteos
 (
@@ -299,12 +311,13 @@ create procedure dbo.insertar_plan
 	@cant_cuotas				tinyint,
 	@entrega_pactada			varchar(50),
 	@financiacion				varchar(50),
-	@dueño_plan					char(3)
+	@dueño_plan					char(3),
+	@id_concesionaria			char(8)		
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan)
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan, id_concesionaria)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
 	END
 go
 -- no nos falto nombre plan que si esta en la consecionarias??
@@ -408,7 +421,8 @@ select *
 go
 
 select *
-	from planes
+	from planes p
+--group by p.id_concesionaria
 go
 
 select *
@@ -418,6 +432,9 @@ go
 select * 
 	from cuotas
 go
+
+
+
 
 select * 
 	from transacciones
@@ -447,3 +464,23 @@ END
 go
 
 --execute dbo.get_concesionarias
+
+create procedure dbo.get_ultimo_ganador
+AS 
+BEGIN
+	select a.id_plan, a.dni_cliente 
+	from adquiridos a
+	where exists (
+					select MAX(s.fecha_sorteo) 
+					from sorteos s
+					where a.fecha_sorteado = s.fecha_sorteo
+					)
+
+END 
+go
+/*
+delete from planes
+delete from adquiridos
+delete from clientes
+delete from cuotas
+*/

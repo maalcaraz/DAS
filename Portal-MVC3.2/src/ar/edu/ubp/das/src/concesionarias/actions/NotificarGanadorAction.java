@@ -24,6 +24,12 @@ public class NotificarGanadorAction implements Action {
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
+		/* En base al proceso de sorteo, aca van a llegar losd atos del ganador.
+		 * Esos datos se van a enviar a cada una de las concesionarias
+		 * 
+		 * */
+		
+		
 		String idPortal = "PORTALGOB";
 		String idConcesionaria = request.getParameter("idConcesionaria");
 		String dniCliente = request.getParameter("dniCliente");//"23432255";
@@ -51,20 +57,18 @@ public class NotificarGanadorAction implements Action {
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			for (DynaActionForm f : forms){
 				ConcesionariaForm c = (ConcesionariaForm) f;
-				if (c.getIdConcesionaria().equals(idConcesionaria)){
-					restResp = c.getWebService().Consumir("notificarGanador", parameters);
-					
-				}
+				restResp += c.getWebService().Consumir("notificarGanador", parameters);
+				
 			}
 			
 			request.setAttribute("error", restResp);
-	    	//this.gotoPage("/error.jsp", request, response);
+	    	
 	       
         }
         catch(Exception ex) {
         	response.setStatus(400);
         	request.setAttribute("error", ex.getMessage());
-        	//this.gotoPage("/error.jsp", request, response);
+        	
         }
 		
 		

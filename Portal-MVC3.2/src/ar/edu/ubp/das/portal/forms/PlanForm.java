@@ -11,39 +11,15 @@ public class PlanForm extends DynaActionForm {
 	private String entrega_pactada;
 	private String financiacion;
 	private String duenoPlan;
-
+	private String idConcesionaria;
 	
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idPlan == null) ? 0 : idPlan.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PlanForm other = (PlanForm) obj;
-		if (idPlan == null) {
-			if (other.idPlan != null)
-				return false;
-		} else if (!idPlan.equals(other.idPlan))
-			return false;
-		return true;
-	}
 
 	@Override
 	public String toString() {
 		return "PlanForm [idPlan=" + idPlan + ", descripcion=" + descripcion + ", nom_plan=" + nom_plan
-				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financiacion=" + financiacion
-				+ ", duenoPlan=" + duenoPlan + "]";
+				+ ", cant_cuotas=" + cant_cuotas + ", entrega_pactada=" + entrega_pactada + ", financiacion="
+				+ financiacion + ", duenoPlan=" + duenoPlan + ", idConcesionaria=" + idConcesionaria + "]";
 	}
 
 	public String getIdPlan() {
@@ -80,9 +56,17 @@ public class PlanForm extends DynaActionForm {
 	public String getFinanciacion() {
 		return financiacion;
 	}
-	public void setFinancion(String financiacion) {
+	public void setFinanciacion(String financiacion) {
 		this.financiacion = financiacion;
 	}
+	public String getIdConcesionaria() {
+		return idConcesionaria;
+	}
+
+	public void setIdConcesionaria(String idConcesionaria) {
+		this.idConcesionaria = idConcesionaria;
+	}
+
 	public String getDuenoPlan() {
 		return duenoPlan;
 	}

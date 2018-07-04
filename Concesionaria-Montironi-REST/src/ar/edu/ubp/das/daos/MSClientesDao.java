@@ -131,7 +131,7 @@ public List<List<Bean>> selectListBeans() throws SQLException {
        
         
         while (result.getRow() > 0){
-        	System.out.println("Linea");
+        	
         	clienteRecuperado = new ClienteBean();
         	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
         	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
@@ -154,7 +154,6 @@ public List<List<Bean>> selectListBeans() throws SQLException {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
-        	adquiridos.add(adquiridoRecuperado);
         	if (!adquiridos.contains(adquiridoRecuperado)){
         		adquiridos.add(adquiridoRecuperado);
         	}

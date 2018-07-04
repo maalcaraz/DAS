@@ -42,7 +42,9 @@ public class VerificarCanceladoAction implements Action {
 		      	MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 				
 				System.out.println("Llegamos al action de verificar");
-				
+				/*Falta hacer una consulta a la base de datos local,
+				 * obtener el ultimo ganador
+				 * preguntar a la concesionaria a la que pertenece si lo cancelo o no*/
 				
 				List<DynaActionForm> forms =  Concesionaria.select(null);
 				for (DynaActionForm f : forms){
