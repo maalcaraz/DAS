@@ -42,25 +42,6 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		this.disconnect();
 	}
-	/*
-	public void insertTransacciones(DynaActionForm form) throws SQLException {
-		
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
-		
-		this.setParameter(1, transaccion.getId_transaccion());
-		this.setParameter(2, transaccion.getIdConcesionaria());
-		this.setParameter(3, transaccion.getEstadoTransaccion());
-		this.setParameter(4, transaccion.getMensajeRespuesta());
-		this.setParameter(5, transaccion.getHoraFechaTransaccion());
-		this.executeUpdate();
-		
-		this.disconnect();
-		
-	}
-	
-*/
 	
 	@Override
 	public void update(DynaActionForm form) throws SQLException {

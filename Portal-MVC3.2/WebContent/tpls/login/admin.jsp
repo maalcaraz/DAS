@@ -1,16 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias" ></script>
-	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,login,admin" />	
+	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos" ></script>
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />	
 </head>
 <title>Admin</title>
 </head>
 <body>
 <h1>Te loggeaste como admin del gobierno</h1>
+
+<div class="row">
+	<div class="column side">
+		<table border=1>
+		  <tr> <td> <a onclick="">Concesionarias</a> </td></tr>
+		  <tr> <td> <a onclick="jSorteos.getSorteos()">Fechas de sorteo</a></td></tr>
+		  <tr> <td> <a onclick="jSorteos.nuevoSorteo()">Nuevo sorteo</a> </td> </tr>
+		  <tr> <td> <a onclick="">About</a></td></tr>
+		</table>
+	</div>
+	
+	<div class="column middle">
+		<div id="listado_sorteos"></div>
+	</div>
+</div>
+
 
 <div class="grid-container">
 	<div class="grid-item">
@@ -18,6 +34,8 @@
 		<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionaria.getClientes()">
 		
 		<div id="detalle-clientes">  </div>
+		
+	
 	</div>
 
 	<div class="grid-item">

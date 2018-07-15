@@ -10,6 +10,8 @@ drop procedure dbo.insertar_transaccion
 drop procedure dbo.insertar_concesionaria
 drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
+drop procedure dbo.insertar_sorteo
+drop procedure dbo.get_sorteos
 go
 
 drop table logs
@@ -290,7 +292,7 @@ go
 create procedure dbo.insertar_cliente
 (
 	@dni_cliente				char(8),	
-	@id_concesionaria			char(8),--?????????
+	@id_concesionaria			char(8),
 	@apellido_nombre			char(30),
 	@edad						smallint,
 	@domicilio					char(20),
@@ -302,7 +304,6 @@ AS
 		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email)
 	END
 go
--- id concesionaria de donde lo sacamos???
 
 create procedure dbo.insertar_plan
 (
@@ -320,7 +321,6 @@ AS
 		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
 	END
 go
--- no nos falto nombre plan que si esta en la consecionarias??
 
 create procedure dbo.insertar_adquirido
 (
@@ -339,8 +339,6 @@ AS
 		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis)
 	END
 go
-
--- id concesionaria de donde lo sacamos???
 
 create procedure dbo.insertar_cuota
 (
@@ -433,8 +431,12 @@ select *
 	from cuotas
 go
 
-
-
+/*
+delete from planes
+delete from adquiridos
+delete from clientes
+delete from cuotas
+*/
 
 select * 
 	from transacciones
@@ -468,19 +470,32 @@ go
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
-	select a.id_plan, a.dni_cliente 
+	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
 	from adquiridos a
-	where exists (
-					select MAX(s.fecha_sorteo) 
-					from sorteos s
-					where a.fecha_sorteado = s.fecha_sorteo
+	where a.fecha_sorteado = (
+								select MAX(s.fecha_sorteo) as ultima_fecha
+								from sorteos s	
 					)
-
+	and a.ganador_sorteo = 'S'
 END 
 go
-/*
-delete from planes
-delete from adquiridos
-delete from clientes
-delete from cuotas
-*/
+
+create procedure dbo.insertar_sorteo
+(
+	@id_sorteo			varchar(30),
+	@fecha_sorteo		date,
+	@fecha_proximo		date
+)
+AS
+BEGIN
+	insert into sorteos
+	values (@id_sorteo, @fecha_sorteo, @fecha_proximo)
+END
+go
+
+create procedure dbo.get_sorteos
+AS
+BEGIN
+	select * from sorteos
+END
+go

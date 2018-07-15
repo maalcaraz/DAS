@@ -85,14 +85,14 @@ var jConcesionaria ={
 	            url: "./concesionarias/VerificarCancelado.do",
 	            type: "post",
 	            dataType: "html",
-	            data: $("#formVerificar").serialize(),
+	            
 	            error: function(hr){
 	                jUtils.hiding("result");
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("respuestaCancelado", html);
 	            	
 	            }
 	        });	
