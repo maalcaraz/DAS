@@ -74,6 +74,7 @@ public class ConsultaQuincenalAction implements Action {
 				c.setClientes(clientes);
 				c.setCuotas(cuotas);
 				c.setPlanes(planes);
+				c.setTransacForm(transaccion);
 				
 				Concesionaria.update(c);
 				request.setAttribute("transaccion", transaccion);

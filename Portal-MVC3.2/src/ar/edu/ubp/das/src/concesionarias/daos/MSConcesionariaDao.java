@@ -11,6 +11,7 @@ import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class MSConcesionariaDao extends DaoImpl{
@@ -132,6 +133,21 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(7, cuo.getPagada());
 			this.executeUpdate();
 		}
+		
+//----------------------------------------------------------------
+		
+		TransaccionForm transForm = c.getTransacForm();
+		
+		this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
+		
+		this.setParameter(1, transForm.getId_transaccion());
+		this.setParameter(2, transForm.getIdConcesionaria());
+		this.setParameter(3, transForm.getEstadoTransaccion());
+		//ver que hacemos aca por que mensaje respuesta no entra como viene no entra
+		//trae todas las tablas
+		this.setParameter(4, "Consulta Quincenal");
+		this.setParameter(5, transForm.getHoraFechaTransaccion());		
+		this.executeUpdate();
 		
 		this.disconnect();
 	}

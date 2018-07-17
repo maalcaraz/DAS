@@ -128,7 +128,7 @@ create table transacciones
 	id_transaccion			varchar(15)			not null,
 	id_concesionaria		char(8)				not null,
 	estado_transaccion		varchar(10)			not null,
-	mensaje_respuesta		varchar				null,
+	mensaje_respuesta		varchar(255)			null,
 	hora_fecha				date				not null,
 	--retorno						
 	check (estado_transaccion in ('SUCCESS','FAILED'))
@@ -361,8 +361,8 @@ go
 
 create procedure dbo.insertar_transaccion
 (
-	@id_transaccion			varchar(15),
-	@id_concesionaria		char(8),
+	@id_transaccion			varchar(20),
+	@id_concesionaria		char(10),
 	@estado_transaccion		varchar(10),
 	@mensaje_respuesta		varchar(255),
 	@hora_fecha				date
@@ -374,6 +374,13 @@ AS
 		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
 	END
 go
+
+select *
+from transacciones
+delete 
+from transacciones
+
+--execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
 select CONVERT (datetime, '2018-05-28 23:52:53.413')
 go
@@ -433,6 +440,10 @@ select *
 	from cuotas
 go
 
+select *
+	from transacciones
+go
+
 
 
 
@@ -484,3 +495,6 @@ delete from adquiridos
 delete from clientes
 delete from cuotas
 */
+
+select *
+from transacciones
