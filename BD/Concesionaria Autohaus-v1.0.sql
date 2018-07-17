@@ -457,7 +457,7 @@ create table adquiridos
 go
 
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion)
-values(303456, 25555555, 'N', 'N', null, null, null, 1),
+values(303456, 25555555, 'N', 'S', '07-07-2007', null, null, 1),
 	  (303457, 26666666, 'N', 'N', null, null, null, 1),
 	  (303458, 27777777, 'N', 'N', null, null, null, 1),
 	  (303455, 23432255, 'N', 'N', null, null, null, 1)
