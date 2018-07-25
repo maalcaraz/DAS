@@ -12,6 +12,7 @@ drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
 drop procedure dbo.insertar_sorteo
 drop procedure dbo.get_sorteos
+drop procedure dbo.get_ultimo_ganador
 go
 
 drop table logs
@@ -25,18 +26,9 @@ drop table cuotas
 drop table clientes
 drop table planes
 drop table concesionarias
-drop table tecnologias
 drop table novedades
 go
 
-
-create table tecnologias
-(
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	nombre_tecnologia		varchar(5)	not null,
-	CONSTRAINT PK__tecnologias__END primary key (cod_tecnologia),
-	CONSTRAINT UK__tecnologias__END unique (nombre_tecnologia)
-)
 
 create table concesionarias
 (
@@ -49,9 +41,9 @@ create table concesionarias
 	ultima_actualizacion		date			null,
 	cant_dias_caducidad			tinyint			default '15',
 	url_servicio				varchar(100)	not null,
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria),
-	CONSTRAINT FK__concesionarias_tecnologias__END foreign key(cod_tecnologia) references tecnologias
+	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
+	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
+	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria)
 )
 go
 
@@ -394,7 +386,7 @@ create procedure dbo.insertar_concesionaria
 	@ultima_actualizacion			date,
 	@cant_dias_caducidad			tinyint,
 	@url_servicio					varchar(100),
-	@cod_tecnologia					char(1)
+	@cod_tecnologia					varchar(10)
 )
 AS
 	BEGIN
@@ -440,12 +432,6 @@ delete from cuotas
 
 select * 
 	from transacciones
-go
-
-insert into tecnologias (cod_tecnologia, nombre_tecnologia)
-values('R', 'REST'),
-	  ('C', 'CXF'),
-	  ('A', 'AXIS')
 go
 
 /*

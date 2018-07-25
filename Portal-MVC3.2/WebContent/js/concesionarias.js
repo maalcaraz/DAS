@@ -114,8 +114,30 @@ var jConcesionaria ={
 	            	
 	            }
 	        });	
+		},
+		mostrarConcesionarias : function(){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/MostrarConcesionarias.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("listado_sorteos", html);
+	            	
+	            }
+	        });	
+		},
+		aprobar : function (){
 			
-			
+		},
+		rechazar : function(){
 			
 		}
+		
 };

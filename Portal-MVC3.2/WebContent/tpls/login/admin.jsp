@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos" ></script>
-	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />	
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin,home,page,messages" />	
 </head>
 <title>Admin</title>
 </head>
@@ -14,17 +14,18 @@
 
 <div class="row">
 	<div class="column side">
-		<table border=1>
-		  <tr> <td> <a onclick="">Concesionarias</a> </td></tr>
-		  <tr> <td> <a onclick="jSorteos.getSorteos()">Fechas de sorteo</a></td></tr>
-		  <tr> <td> <a onclick="jSorteos.nuevoSorteo()">Nuevo sorteo</a> </td> </tr>
-		  <tr> <td> <a onclick="">About</a></td></tr>
-		</table>
+		<ul class="nav ver"> 
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarConcesionarias()"> Concesionarias </a></li>
+		  <li class="item nav ver" > <a onclick="jSorteos.getSorteos()">Fechas de sorteo </a></li>
+		  <li class="item nav ver" > <a onclick="jSorteos.nuevoSorteo()"> Nuevo sorteo   </a></li>
+		  <li class="item nav ver" > <a onclick="">About </a> </li>
+		</ul>
 	</div>
 	
 	<div class="column middle">
 		<div id="listado_sorteos"></div>
 	</div>
+	
 </div>
 
 

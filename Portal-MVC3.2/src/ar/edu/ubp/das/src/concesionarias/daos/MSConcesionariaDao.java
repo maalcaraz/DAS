@@ -35,7 +35,8 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.setParameter(6, c.getTelefono());
 		this.setParameter(7, c.getUltimaActualizacion());
 		this.setParameter(8, c.getCantDiasCaducidad());
-		this.setParameter(9, c.getUrlServicio());
+		this.setParameter(9, c.getWebService().getUrl());
+		//this.setParameter(9, c.getUrlServicio());
 		this.setParameter(10, c.getCodTecnologia());
 		
 		this.executeUpdate();
@@ -135,8 +136,10 @@ public class MSConcesionariaDao extends DaoImpl{
 				ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
 				f.setIdConcesionaria(result.getString("id_concesionaria"));
 				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
-				f.setUrlServicio(result.getString("url_servicio"));
+				f.getWebService().setUrl(result.getString("url_servicio"));
+				//f.setUrlServicio(result.getString("url_servicio"));
 				f.setCodTecnologia(result.getString("cod_tecnologia"));
+				f.setAprobada(result.getString("aprobada"));
 				ret.add(f);
 			}
 			catch(Exception ex){
