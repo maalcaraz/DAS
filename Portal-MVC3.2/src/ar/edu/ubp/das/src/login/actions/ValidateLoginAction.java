@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ar.edu.ubp.das.mvc.action.Action;
 import ar.edu.ubp.das.mvc.action.ActionMapping;
@@ -37,10 +38,18 @@ public class ValidateLoginAction implements Action{
 		//int res = dao.validarUsuario(daf);
 		DynaActionForm res = dao.select(daf).get(0);
 		
+		HttpSession session = request.getSession();
+		
+		session.setAttribute( "usuario",  form.getItem( "usuario" ) );
+		
 		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
 		case 0: //dao.insert(daf);
+				session.setAttribute( "usuario",  user );
+				session.setAttribute( "tipoUsuario",  "admin" );
 				return mapping.getForwardByName("admin");
 		case 1: //dao.insert(daf);
+				session.setAttribute( "usuario",  user );
+				session.setAttribute( "tipoUsuario",  "cliente" );
 				return mapping.getForwardByName("cliente");
 		case 2: //dao.insert(daf);
 				return mapping.getForwardByName("sistema"); 
