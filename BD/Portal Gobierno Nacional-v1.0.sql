@@ -176,7 +176,9 @@ go
 
 insert into usuarios(id_usuario, pass, tipo_usuario)
 values ('admin', 'intel123', 'admin'),
-	   ('pepe', 'pepepass', 'cliente')
+	   ('pepe', 'pepepass', 'cliente'),
+	   ('23432255', 'pablopass', 'cliente'),
+	   ('25555555', 'juanpass', 'cliente')
 go
 
 create table novedades
@@ -507,3 +509,38 @@ BEGIN
 	select * from sorteos
 END
 go
+
+create procedure dbo.get_cliente_info
+(
+	@dni_cliente		char(8)
+)
+AS
+BEGIN
+	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, ad.id_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
+	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	from clientes cli
+	join adquiridos ad
+	on cli.dni_cliente = ad.dni_cliente
+	join planes pla
+	on pla.id_plan = ad.id_plan
+	join cuotas cuo
+	on cuo.dni_cliente = cli.dni_cliente
+	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from clientes cli1
+			join adquiridos ad
+			on cli1.dni_cliente = ad.dni_cliente
+			join planes pla
+			on pla.id_plan = ad.id_plan
+			left join cuotas cuo
+			on cuo.id_plan = pla.id_plan
+			where cli1.dni_cliente = @dni_cliente
+			group by cli1.dni_cliente, ad.id_plan
+			) cli1_cuo_pagas
+	on cli.dni_cliente = cli1_cuo_pagas.dni_cliente
+	and ad.id_plan = cli1_cuo_pagas.id_plan,
+	ult_transaccion
+	where cli.dni_cliente = @dni_cliente
+END
+go
+
+--execute dbo.get_cliente_info 25555555
