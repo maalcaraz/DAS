@@ -510,6 +510,12 @@ BEGIN
 END
 go
 
+create view dbo.ult_transaccion as
+	select max (trans.hora_fecha) as ult_transaccion_gc
+		from transacciones trans
+		where trans.id_transaccion LIKE 'GC%'
+		group by trans.hora_fecha
+
 create procedure dbo.get_cliente_info
 (
 	@dni_cliente		char(8)
@@ -544,3 +550,6 @@ END
 go
 
 --execute dbo.get_cliente_info 25555555
+
+select *
+from ult_transaccion

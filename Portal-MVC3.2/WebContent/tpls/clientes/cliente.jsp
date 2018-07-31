@@ -15,7 +15,7 @@
 			<td>Edad</td>
 			<td>Domicilio</td>
 			<td>Email</td>
-			<td>Fecha ultima actualizacion</td>
+			<td>Fecha ultima actualizacion datos</td>
 
 		</tr>
 	</thead>
