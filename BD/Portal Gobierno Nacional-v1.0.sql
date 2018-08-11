@@ -13,6 +13,9 @@ drop procedure dbo.get_concesionarias
 drop procedure dbo.insertar_sorteo
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.update_concesionaria
+drop procedure dbo.insertar_usuario
+drop procedure dbo.eliminar_concesionaria
 go
 
 drop table logs
@@ -27,6 +30,7 @@ drop table clientes
 drop table planes
 drop table concesionarias
 drop table novedades
+
 go
 
 
@@ -159,7 +163,7 @@ go
 create table usuarios
 (
 	id_usuario		varchar(20)		not null,
-	tipo_usuario	varchar(10)			not null,
+	tipo_usuario	varchar(10)		not null,
 	pass			varchar(30)		not null,
 	CONSTRAINT PK__usuarios__END primary key(id_usuario),
 	check (tipo_usuario in ('admin', 'cliente', 'sistema'))
@@ -493,3 +497,46 @@ BEGIN
 	select * from sorteos
 END
 go
+
+
+create procedure dbo.update_concesionaria
+(
+	@id_concesionaria			varchar(30)
+)
+AS 
+BEGIN
+	UPDATE c
+	SET aprobada = 'S'
+	FROM concesionarias c
+	where c.id_concesionaria = @id_concesionaria
+END
+go
+
+create procedure dbo.insertar_usuario
+(
+	@id_usuario		varchar(20),
+	@tipo_usuario	varchar(10),
+	@pass			varchar(30)
+)
+AS
+BEGIN
+	insert into usuarios 
+	values(@id_usuario, @tipo_usuario, @pass)
+END
+go
+
+select * from usuarios
+
+create procedure dbo.eliminar_concesionaria
+(
+	@id_concesionaria	char(8)
+)
+AS
+BEGIN
+	delete c
+		from concesionarias c
+		where c.id_concesionaria = @id_concesionaria
+END
+go
+
+select * from concesionarias

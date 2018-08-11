@@ -72,7 +72,40 @@ var jLogin = {
 		            	jUtils.showing("content", html);
 		            }
 		        });	
-		}	
+		},
+		primerIngreso : function () {
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./login/ingresarRegistro.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("content", html);
+	            }
+	        });
+		},
+		registrar : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./login/registrarUsuario.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#form_registro").serialize(),
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("content", html);
+	            }
+	        });
+		}
 };
 
 

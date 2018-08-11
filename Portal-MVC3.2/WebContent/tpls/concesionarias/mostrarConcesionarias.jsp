@@ -20,8 +20,8 @@
 
 					Concesionaria: ${ pendiente.nomConcesionaria }
 					<span> 
-					<input type="button" id="aprobar" name="aprobar" value="Aprobar" onclick="jConcesionaria.aprobar()"> 
-					<input type="button" id="rechazar" name="rechazar" value="Rechazar" onclick="jConcesionaria.rechazar()">
+					<input type="button" id="aprobar" name="aprobar" value="Aprobar" onclick="jConcesionaria.aprobar(&quot;${ pendiente.idConcesionaria }&quot;) "> 
+					<input type="button" id="rechazar" name="rechazar" value="Rechazar" onclick="jConcesionaria.rechazar(&quot;${ pendiente.idConcesionaria }&quot;)">
 					</span>
 				<br>
 				</div>

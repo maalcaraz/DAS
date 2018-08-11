@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <title>Welcome</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,bootstrap.min,login" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,login" />
 </head>
@@ -27,6 +26,7 @@
 		<input type="password" id="pwd" name="pwd" placeholder="Enter password" required >
 		   
 		<button type="button" name="login" onclick="jLogin.acceder()">Login</button>
+		<button type="button" name="registrar" onclick="jLogin.primerIngreso()">Registrarse</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
       </label>

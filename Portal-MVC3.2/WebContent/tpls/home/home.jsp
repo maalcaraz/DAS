@@ -12,7 +12,6 @@
 
 <ul class="nav hor">
   <li class="item nav hor"><a href="#home">Home</a></li>
-  <li class="item nav hor"><a href="#novedades">Novedades</a></li>
   <li class="item nav hor"><a href="#proximasfechas"> Proximas fechas </a></li>
   <li class="item nav hor"><a href="#ganadores">Ganadores</a></li>
   <li class="item nav hor"><a href="#concesionarias">Concesionarias Adheridas</a></li>
