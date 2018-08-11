@@ -2,7 +2,9 @@ package ar.edu.ubp.das.src.login.forms;
 
 import java.sql.Timestamp;
 
-public class LoginForm {
+import ar.edu.ubp.das.mvc.action.DynaActionForm;
+
+public class LoginForm extends DynaActionForm{
 
 	
 	private String username;

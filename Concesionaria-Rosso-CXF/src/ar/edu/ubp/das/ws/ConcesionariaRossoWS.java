@@ -20,7 +20,13 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 @WebService(targetNamespace = "http://ws.das.ubp.edu.ar/", portName = "ConcesionariaRossoWSPort", serviceName = "ConcesionariaRossoWSService")
 public class ConcesionariaRossoWS {
-
+	
+	
+	@WebMethod(operationName = "ejemplo", action = "urn:Ejemplo")
+	public String ejemplo (){
+		String ret = "CXF Funciona";
+		return ret;
+	}
 	
 	@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
 	public String getClientes(@WebParam(name = "id_portal") String idPortal) throws Exception {

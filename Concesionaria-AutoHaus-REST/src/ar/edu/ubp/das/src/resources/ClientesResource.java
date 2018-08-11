@@ -54,11 +54,8 @@ public class ClientesResource {
         
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				
-				//List<List<Bean>> lista = dao.selectListBeans();
 				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
 				
-				//String jsonClientes = gson.toJson(lista.get(0));
 				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();
 				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
@@ -93,7 +90,6 @@ public class ClientesResource {
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
-		
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);

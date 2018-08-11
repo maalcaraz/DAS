@@ -19,11 +19,20 @@ import javax.xml.bind.annotation.XmlType;
 
 public class VerificarCancelado {
 
+	@XmlElement(name = "id_portal")
+    private java.lang.String id_portal;
 	@XmlElement(name = "dni_cliente")
     private java.lang.String dni_cliente;
     @XmlElement(name = "id_plan")
     private java.lang.String id_plan;
   
+	public java.lang.String getId_portal() {
+		return id_portal;
+	}
+
+	public void setId_portal(java.lang.String id_portal) {
+		this.id_portal = id_portal;
+	}
 
     public java.lang.String getDniCliente() {
         return this.dni_cliente;
@@ -39,8 +48,5 @@ public class VerificarCancelado {
     public void setIdPlan(java.lang.String newArg0)  {
         this.id_plan = newArg0;
     }
-        
-    
-
 }
 

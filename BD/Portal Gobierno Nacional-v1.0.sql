@@ -10,6 +10,12 @@ drop procedure dbo.insertar_transaccion
 drop procedure dbo.insertar_concesionaria
 drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
+drop procedure dbo.insertar_sorteo
+drop procedure dbo.get_sorteos
+drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.update_concesionaria
+drop procedure dbo.insertar_usuario
+drop procedure dbo.eliminar_concesionaria
 go
 
 drop table logs
@@ -23,18 +29,10 @@ drop table cuotas
 drop table clientes
 drop table planes
 drop table concesionarias
-drop table tecnologias
 drop table novedades
+
 go
 
-
-create table tecnologias
-(
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	nombre_tecnologia		varchar(5)	not null,
-	CONSTRAINT PK__tecnologias__END primary key (cod_tecnologia),
-	CONSTRAINT UK__tecnologias__END unique (nombre_tecnologia)
-)
 
 create table concesionarias
 (
@@ -47,9 +45,9 @@ create table concesionarias
 	ultima_actualizacion		date			null,
 	cant_dias_caducidad			tinyint			default '15',
 	url_servicio				varchar(100)	not null,
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria),
-	CONSTRAINT FK__concesionarias_tecnologias__END foreign key(cod_tecnologia) references tecnologias
+	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
+	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
+	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria)
 )
 go
 
@@ -60,8 +58,10 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		 null,
-	dueÒo_plan				char(3)			not null check(dueÒo_plan in ('GOB','CON')),
-	CONSTRAINT PK__planes__END primary key(id_plan)
+	due√±o_plan				char(3)			not null check(due√±o_plan in ('GOB','CON')),
+	id_concesionaria		char(8)			not null,	
+	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
 )
 go
 
@@ -90,10 +90,11 @@ create table adquiridos
 	fecha_entrega			date			null,
 	nro_chasis				varchar(15)		null,
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
-	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes
 )
 go
+
 
 
 create table cuotas
@@ -104,9 +105,9 @@ create table cuotas
 	id_concesionaria		char(8)			not null,
 	importe					decimal(10,2)	not null,
 	fecha_vencimiento		date			null,
-	pagÛ					char(1)			check (pagÛ in ('N', 'S'))	DEFAULT 'S',
-	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan),
-	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan) references planes,
+	pag√≥					char(1)			check (pag√≥ in ('N', 'S'))	DEFAULT 'S',
+	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
+	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
 )
 go
@@ -125,7 +126,7 @@ create table transacciones
 	id_transaccion			varchar(15)			not null,
 	id_concesionaria		char(8)				not null,
 	estado_transaccion		varchar(10)			not null,
-	mensaje_respuesta		varchar				null,
+	mensaje_respuesta		varchar(255)			null,
 	hora_fecha				date				not null,
 	--retorno						
 	check (estado_transaccion in ('SUCCESS','FAILED'))
@@ -141,6 +142,15 @@ create table sorteos
 )
 go
 
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo)
+values ('s1', '3-03-2003', '3-03-2008'),
+	   ('s2','4-04-2004','4-04-2005'),
+	   ('s3','5-05-2005','5-06-2005'),
+	   ('s4','6-06-2006','6-07-2006'),
+	   ('s5','7-07-2007','7-08-2007')
+go
+
+
 create table participantes_sorteos
 (
 	id_sorteo				varchar(30)		not null,
@@ -153,7 +163,7 @@ go
 create table usuarios
 (
 	id_usuario		varchar(20)		not null,
-	tipo_usuario	varchar(10)			not null,
+	tipo_usuario	varchar(10)		not null,
 	pass			varchar(30)		not null,
 	CONSTRAINT PK__usuarios__END primary key(id_usuario),
 	check (tipo_usuario in ('admin', 'cliente', 'sistema'))
@@ -162,7 +172,9 @@ go
 
 insert into usuarios(id_usuario, pass, tipo_usuario)
 values ('admin', 'intel123', 'admin'),
-	   ('pepe', 'pepepass', 'cliente')
+	   ('pepe', 'pepepass', 'cliente'),
+	   ('23432255', 'pablopass', 'cliente'),
+	   ('25555555', 'juanpass', 'cliente')
 go
 
 create table novedades
@@ -278,7 +290,7 @@ go
 create procedure dbo.insertar_cliente
 (
 	@dni_cliente				char(8),	
-	@id_concesionaria			char(8),--?????????
+	@id_concesionaria			char(8),
 	@apellido_nombre			char(30),
 	@edad						smallint,
 	@domicilio					char(20),
@@ -290,7 +302,6 @@ AS
 		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email)
 	END
 go
--- id concesionaria de donde lo sacamos???
 
 create procedure dbo.insertar_plan
 (
@@ -299,15 +310,15 @@ create procedure dbo.insertar_plan
 	@cant_cuotas				tinyint,
 	@entrega_pactada			varchar(50),
 	@financiacion				varchar(50),
-	@dueÒo_plan					char(3)
+	@due√±o_plan					char(3),
+	@id_concesionaria			char(8)		
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÒo_plan)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueÒo_plan)
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, due√±o_plan, id_concesionaria)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @due√±o_plan, @id_concesionaria)
 	END
 go
--- no nos falto nombre plan que si esta en la consecionarias??
 
 create procedure dbo.insertar_adquirido
 (
@@ -327,8 +338,6 @@ AS
 	END
 go
 
--- id concesionaria de donde lo sacamos???
-
 create procedure dbo.insertar_cuota
 (
 	@id_cuota				smallint,
@@ -337,19 +346,19 @@ create procedure dbo.insertar_cuota
 	@id_concesionaria		char(8),
 	@importe				decimal(10,2),
 	@fecha_vencimiento		date,
-	@pagÛ					char(1)
+	@pag√≥					char(1)
 )
 AS
 	BEGIN
-		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pagÛ)
-		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagÛ)
+		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pag√≥)
+		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pag√≥)
 	END
 go
 
 create procedure dbo.insertar_transaccion
 (
-	@id_transaccion			varchar(15),
-	@id_concesionaria		char(8),
+	@id_transaccion			varchar(20),
+	@id_concesionaria		char(10),
 	@estado_transaccion		varchar(10),
 	@mensaje_respuesta		varchar(255),
 	@hora_fecha				date
@@ -361,6 +370,13 @@ AS
 		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
 	END
 go
+
+select *
+from transacciones
+delete 
+from transacciones
+
+--execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
 select CONVERT (datetime, '2018-05-28 23:52:53.413')
 go
@@ -383,7 +399,7 @@ create procedure dbo.insertar_concesionaria
 	@ultima_actualizacion			date,
 	@cant_dias_caducidad			tinyint,
 	@url_servicio					varchar(100),
-	@cod_tecnologia					char(1)
+	@cod_tecnologia					varchar(10)
 )
 AS
 	BEGIN
@@ -408,7 +424,8 @@ select *
 go
 
 select *
-	from planes
+	from planes p
+--group by p.id_concesionaria
 go
 
 select *
@@ -419,14 +436,16 @@ select *
 	from cuotas
 go
 
+/*
+delete from planes
+delete from adquiridos
+delete from clientes
+delete from cuotas
+*/
+
+
 select * 
 	from transacciones
-go
-
-insert into tecnologias (cod_tecnologia, nombre_tecnologia)
-values('R', 'REST'),
-	  ('C', 'CXF'),
-	  ('A', 'AXIS')
 go
 
 /*
@@ -438,6 +457,7 @@ select *
 	from concesionarias
 go
 
+
 create procedure dbo.get_concesionarias
 AS
 BEGIN
@@ -446,3 +466,123 @@ END
 go
 
 --execute dbo.get_concesionarias
+
+create procedure dbo.get_ultimo_ganador
+AS 
+BEGIN
+	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
+	from adquiridos a
+	where a.fecha_sorteado = (
+								select MAX(s.fecha_sorteo) as ultima_fecha
+								from sorteos s	
+					)
+	and a.ganador_sorteo = 'S'
+END 
+go
+
+create procedure dbo.insertar_sorteo
+(
+	@id_sorteo			varchar(30),
+	@fecha_sorteo		date,
+	@fecha_proximo		date
+)
+AS
+BEGIN
+	insert into sorteos
+	values (@id_sorteo, @fecha_sorteo, @fecha_proximo)
+END
+go
+
+create procedure dbo.get_sorteos
+AS
+BEGIN
+	select * from sorteos
+END
+go
+
+create procedure dbo.update_concesionaria
+(
+	@id_concesionaria			varchar(30)
+)
+AS 
+BEGIN
+	UPDATE c
+	SET aprobada = 'S'
+	FROM concesionarias c
+	where c.id_concesionaria = @id_concesionaria
+END
+go
+
+create procedure dbo.insertar_usuario
+(
+	@id_usuario		varchar(20),
+	@tipo_usuario	varchar(10),
+	@pass			varchar(30)
+)
+AS
+BEGIN
+	insert into usuarios 
+	values(@id_usuario, @tipo_usuario, @pass)
+END
+go
+
+select * from usuarios
+
+create procedure dbo.eliminar_concesionaria
+(
+	@id_concesionaria	char(8)
+)
+AS
+BEGIN
+	delete c
+		from concesionarias c
+		where c.id_concesionaria = @id_concesionaria
+END
+go
+
+select * from concesionarias
+
+                                                                                                 
+                                                                                                 create view dbo.ult_transaccion as
+	select max (trans.hora_fecha) as ult_transaccion_gc
+		from transacciones trans
+		where trans.id_transaccion LIKE 'GC%'
+		group by trans.hora_fecha
+
+create procedure dbo.get_cliente_info
+(
+	@dni_cliente		char(8)
+)
+AS
+BEGIN
+	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, ad.id_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
+	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	from clientes cli
+	join adquiridos ad
+	on cli.dni_cliente = ad.dni_cliente
+	join planes pla
+	on pla.id_plan = ad.id_plan
+	join cuotas cuo
+	on cuo.dni_cliente = cli.dni_cliente
+	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pag√≥ = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from clientes cli1
+			join adquiridos ad
+			on cli1.dni_cliente = ad.dni_cliente
+			join planes pla
+			on pla.id_plan = ad.id_plan
+			left join cuotas cuo
+			on cuo.id_plan = pla.id_plan
+			where cli1.dni_cliente = @dni_cliente
+			group by cli1.dni_cliente, ad.id_plan
+			) cli1_cuo_pagas
+	on cli.dni_cliente = cli1_cuo_pagas.dni_cliente
+	and ad.id_plan = cli1_cuo_pagas.id_plan,
+	ult_transaccion
+	where cli.dni_cliente = @dni_cliente
+END
+go
+
+--execute dbo.get_cliente_info 25555555
+
+select *
+from ult_transaccion

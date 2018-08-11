@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:noNamespaceSchemaLocation="../schema/actions.xsd">
+    <form-beans>
+    </form-beans>
+    <action-mappings>
+     <action type="InsertarSorteoAction" path="/InsertarNuevo.do">
+			<forward name="success" path="/sorteos/nuevoSorteo.jsp" />
+	 </action>
+	 <action type="CargarSorteoAction" path="/CargarSorteo.do">
+			<forward name="success" path="/sorteos/cargarSorteo.jsp" />
+	 </action>
+	 <action type="MostrarSorteosAction" path="/MostrarSorteos.do">
+			<forward name="success" path="/sorteos/mostrarSorteos.jsp" />
+	 </action>
+    </action-mappings>
+</actions>

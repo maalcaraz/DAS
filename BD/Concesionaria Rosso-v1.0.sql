@@ -425,7 +425,12 @@ create table cuotas
 go
 
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
-values(111, 25555555, 303456, 5000.000, '02-02-2018', 'S'),
+values(111, 23432255, 303455, 5000.000, '02-02-2018', 'N'),
+	  (112, 23432255, 303455, 5000.000, '02-03-2018', 'N'),
+	  (113, 23432255, 303455, 5000.000, '02-04-2018', 'N'),
+	  (114, 23432255, 303455, 5000.000, '02-05-2018', 'N'),
+	  (115, 23432255, 303455, 5000.000, '02-06-2018', 'N'),
+	  (111, 25555555, 303456, 5000.000, '02-02-2018', 'S'),
 	  (112, 25555555, 303456, 5000.000, '02-03-2018', 'S'),
 	  (113, 25555555, 303456, 5000.000, '02-04-2018', 'S'),
 	  (114, 25555555, 303456, 5000.000, '02-05-2018', 'N'),
@@ -502,11 +507,12 @@ go
 execute dbo.get_estados_cuentas
 go
 
-select * from clientes c
-				join adquiridos ad
-				on c.dni_cliente = ad.dni_cliente
-				join planes pl
-				on ad.id_plan = pl.id_plan
+select * 
+	from clientes c
+		join adquiridos ad
+		on c.dni_cliente = ad.dni_cliente
+		join planes pl
+		on ad.id_plan = pl.id_plan
 go
 
 --Trigger 
@@ -574,7 +580,7 @@ BEGIN
 END
 go
 
--- execute dbo.cancelar_ganador '25555555', '02-02-18' 
+-- execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
 
 -- lo probamos con 
 
@@ -629,14 +635,15 @@ AS
 	END
 go
 
+--execute dbo.verificar_cancelado '25555555', 303456
 --execute dbo.verificar_cancelado '27777777', 303458
 
 Select * 
 	from clientes c
 		join adquiridos ad
 		on c.dni_cliente = ad.dni_cliente
-		where c.dni_cliente = '27777777'
-		and ad.cancelado = 'N' 
+		--where c.dni_cliente = '27777777'
+		where ad.cancelado = 'S' 
 go
 
 

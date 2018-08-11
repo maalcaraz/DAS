@@ -7,8 +7,11 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
+import ar.edu.ubp.das.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.CuotaForm;
 import ar.edu.ubp.das.portal.forms.PlanForm;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class MSConcesionariaDao extends DaoImpl{
@@ -20,10 +23,10 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
-		
+		// Hacer un if, preguntar por el name e insertar transaccion o concesionaria.
 		ConcesionariaForm c = (ConcesionariaForm) form;
 		this.connect();
-		this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		this.setParameter(1, c.getIdConcesionaria());
 		this.setParameter(2, c.getNomConcesionaria());
@@ -33,85 +36,124 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.setParameter(6, c.getTelefono());
 		this.setParameter(7, c.getUltimaActualizacion());
 		this.setParameter(8, c.getCantDiasCaducidad());
-		this.setParameter(9, c.getUrlServicio());
+		this.setParameter(9, c.getWebService().getUrl());
 		this.setParameter(10, c.getCodTecnologia());
-		
+		this.setParameter(11, c.getAprobada());
 		this.executeUpdate();
-		
 		this.disconnect();
 	}
-	/*
-	public void insertTransacciones(DynaActionForm form) throws SQLException {
-		
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
-		
-		this.setParameter(1, transaccion.getId_transaccion());
-		this.setParameter(2, transaccion.getIdConcesionaria());
-		this.setParameter(3, transaccion.getEstadoTransaccion());
-		this.setParameter(4, transaccion.getMensajeRespuesta());
-		this.setParameter(5, transaccion.getHoraFechaTransaccion());
-		this.executeUpdate();
-		
-		this.disconnect();
-		
-	}
-	
-	public void insertClientes(LinkedList<ClienteForm> clientes, String idConcesionaria) throws SQLException {
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_cliente(?, ?, ?, ?, ?, ?)");
-		
-		for (ClienteForm c : clientes){
-			
-			this.setParameter(1, c.getDniCliente());
-			this.setParameter(2, idConcesionaria);
-			this.setParameter(3, c.getNomCliente());
-			this.setParameter(4, c.getEdad());
-			this.setParameter(5, c.getDomicilio());
-			this.setParameter(6, c.getEmailCliente());
-			this.executeUpdate();
-		}
-		
-		this.disconnect();
-	}
-	
-	 public void insertAdquiridos(LinkedList<AdquiridoForm> adquiridos, String idConcesionaria) throws SQLException {
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?)");
-		
-		for (AdquiridoForm a : adquiridos){
-			
-			this.setParameter(1, a.getIdPlan());
-			this.setParameter(2, a.getDniCliente());
-			this.setParameter(3, idConcesionaria);
-			this.setParameter(4, a.getCancelado());
-			this.setParameter(5, a.getGanadorSorteo());
-			this.setParameter(6, a.getFechaSorteado());
-			this.setParameter(7, a.getFechaEntrega());
-			this.setParameter(8, a.getNroChasis());
-			this.executeUpdate();
-		}
-		
-		this.disconnect();
-	}*/
 	
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
-		
-		
-		//ConcesionariaForm c = (ConcesionariaForm) form;
-		// esta concesionaria en teoria viene con datos 
+		this.connect();
 		
 		
 		
+		if (form.getItem("operacion").equals("aprobar")){
+			this.setProcedure("dbo.update_concesionaria (?)");
+			this.setParameter(1, form.getItem("idConcesionaria"));
+			this.executeUpdate();
+		}
+		else{
+		//-----------------------------------------------------------------
+			ConcesionariaForm c = (ConcesionariaForm) form;
+			List<PlanForm> planes = c.getPlanes();
+			
+			this.setProcedure("dbo.insertar_plan(?, ?, ?, ?, ?, ?, ?)");
+			
+			for (PlanForm p : planes){
+				this.setParameter(1, p.getIdPlan());
+				this.setParameter(2, p.getDescripcion());
+				this.setParameter(3, p.getCant_cuotas());
+				this.setParameter(4, p.getEntrega_pactada());
+				this.setParameter(5, p.getFinanciacion());
+				this.setParameter(6, p.getDuenoPlan());
+				this.setParameter(7, c.getIdConcesionaria());
+				this.executeUpdate();
+			}
+		
+		//-----------------------------------------------------------------
+	
+			List<ClienteForm> clientes = c.getClientes();
+			this.setProcedure("dbo.insertar_cliente(?, ?, ?, ?, ?, ?)");
+			for (ClienteForm cli : clientes){
+				
+				this.setParameter(1, cli.getDniCliente());
+				this.setParameter(2, c.getIdConcesionaria());
+				this.setParameter(3, cli.getNomCliente());
+				this.setParameter(4, cli.getEdad());
+				this.setParameter(5, cli.getDomicilio());
+				this.setParameter(6, cli.getEmailCliente());
+				this.executeUpdate();
+			}
+		
+		//-----------------------------------------------------------------
+		
+			List<AdquiridoForm> adquiridos = c.getAdquiridos();
+			
+			this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			for (AdquiridoForm a : adquiridos){
+				
+				this.setParameter(1, a.getIdPlan());
+				this.setParameter(2, a.getDniCliente());
+				this.setParameter(3, c.getIdConcesionaria());
+				this.setParameter(4, a.getCancelado());
+				this.setParameter(5, a.getGanadorSorteo());
+				this.setParameter(6, a.getFechaSorteado());
+				this.setParameter(7, a.getFechaEntrega());
+				this.setParameter(8, a.getNroChasis());
+				this.executeUpdate();
+			}
+		
+		//-----------------------------------------------------------------
+	
+			List<CuotaForm> cuotas = c.getCuotas();
+			this.setProcedure("dbo.insertar_cuota(?, ?, ?, ?, ?, ?, ?)");
+			
+			for (CuotaForm cuo : cuotas){
+				
+				this.setParameter(1, cuo.getIdCuota());
+				this.setParameter(2, cuo.getDniCliente());
+				this.setParameter(3, cuo.getIdPlan());
+				this.setParameter(4, c.getIdConcesionaria());
+				this.setParameter(5, cuo.getImporte());
+				this.setParameter(6, cuo.getFechaVencimiento());
+				this.setParameter(7, cuo.getPagada());
+				this.executeUpdate();
+			}
+		//----------------------------------------------------------------
+		
+		
+			TransaccionForm transForm = c.getTransacForm();
+			
+			this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
+			
+			this.setParameter(1, transForm.getId_transaccion());
+			this.setParameter(2, transForm.getIdConcesionaria());
+			this.setParameter(3, transForm.getEstadoTransaccion());
+			//ver que hacemos aca por que mensaje respuesta no entra como viene no entra
+			//trae todas las tablas
+			this.setParameter(4, "Consulta Quincenal");
+			this.setParameter(5, transForm.getHoraFechaTransaccion());		
+			this.executeUpdate();
+			
+		
+		}
+		this.disconnect();
 	}
+		
 
 	@Override
 	public void delete(DynaActionForm form) throws SQLException {
 		
+		this.connect();
+		
+		this.setProcedure("dbo.eliminar_concesionaria(?)");
+		this.setParameter(1, form.getItem("id_concesionaria"));
+		
+		this.executeQuery();
+		this.disconnect();
 		
 	}
 
@@ -119,9 +161,7 @@ public class MSConcesionariaDao extends DaoImpl{
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
 		List<DynaActionForm> ret = new LinkedList<DynaActionForm>();
 		this.connect();
-		
 		this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		
 		ResultSet result = this.getStatement().executeQuery();
 		result.next();
 		while(result.getRow() > 0) {
@@ -129,19 +169,17 @@ public class MSConcesionariaDao extends DaoImpl{
 				ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
 				f.setIdConcesionaria(result.getString("id_concesionaria"));
 				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
-				f.setUrlServicio(result.getString("url_servicio"));
+				f.getWebService().setUrl(result.getString("url_servicio"));
 				f.setCodTecnologia(result.getString("cod_tecnologia"));
+				f.setAprobada(result.getString("aprobada"));
 				ret.add(f);
 			}
 			catch(Exception ex){
 				System.out.println(ex);
 			}
-			
 			result.next();
 		}
-		
 		this.disconnect();
-		
 		return ret;
 	}
 
@@ -150,48 +188,4 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		return false;
 	}
-
-	public void insertCuotas(List<CuotaForm> cuotas, String idConcesionaria) throws SQLException {
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_cuota(?, ?, ?, ?, ?, ?, ?)");
-		
-		for (CuotaForm cuo : cuotas){
-			
-			this.setParameter(1, cuo.getIdCuota());
-			this.setParameter(2, cuo.getDniCliente());
-			this.setParameter(3, cuo.getIdPlan());
-			this.setParameter(4, idConcesionaria);
-			this.setParameter(5, cuo.getImporte());
-			this.setParameter(6, cuo.getFechaVencimiento());
-			this.setParameter(7, cuo.getPagada());
-			this.executeUpdate();
-		}
-		
-		this.disconnect();
-		
-	}
-
-
-	public void insertPlanes(List<PlanForm> planes) throws SQLException {
-		
-		this.connect();
-		
-		this.setProcedure("dbo.insertar_plan(?, ?, ?, ?, ?, ?)");
-		
-		for (PlanForm p : planes){
-			
-			this.setParameter(1, p.getIdPlan());
-			this.setParameter(2, p.getDescripcion());
-			this.setParameter(3, p.getCant_cuotas());
-			this.setParameter(4, p.getEntrega_pactada());
-			this.setParameter(5, p.getFinanciacion());
-			this.setParameter(6, p.getDuenoPlan());
-			this.executeUpdate();
-		}
-		
-		this.disconnect();
-	}
-
-
 }

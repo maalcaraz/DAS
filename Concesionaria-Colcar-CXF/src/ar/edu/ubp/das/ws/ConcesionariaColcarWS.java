@@ -2,7 +2,6 @@ package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -11,17 +10,20 @@ import javax.jws.WebService;
 import com.google.gson.Gson;
 
 import ar.edu.ubp.das.daos.MSClientesDao;
-import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
-import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
-import ar.edu.ubp.das.src.beans.PlanBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 @WebService(targetNamespace = "http://ws.das.ubp.edu.ar/", portName = "ConcesionariaColcarWSPort", serviceName = "ConcesionariaColcarWSService")
 public class ConcesionariaColcarWS {
 
+		@WebMethod(operationName = "ejemplo", action = "urn:Ejemplo")
+		public String ejemplo (){
+			String ret = "CXF Funciona";
+			return ret;
+		}
+	
 		@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
 		public String getClientes(@WebParam(name = "arg0") String idPortal) throws Exception {
 			
@@ -31,7 +33,6 @@ public class ConcesionariaColcarWS {
 			long lnMilisegundos = utilDate.getTime();
 			java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-			String mensajeRespuesta = "";
 			Gson gson = new Gson();
 			String respuestaServicio = null;
 			
@@ -44,10 +45,8 @@ public class ConcesionariaColcarWS {
 			try
 			{
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				//List<List<Bean>> lista = dao.selectListBeans();
 				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
 				
-				//String jsonClientes = gson.toJson(lista.get(0));
 				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();
 				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
@@ -131,7 +130,8 @@ public class ConcesionariaColcarWS {
 		}
 		
 		@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
-		public String verificarCancelado(@WebParam(name = "arg0") String idPortal, @WebParam(name = "dni_cliente") String dniCliente, 
+		public String verificarCancelado(@WebParam(name = "id_portal") String idPortal, 
+										 @WebParam(name = "dni_cliente") String dniCliente, 
 										 @WebParam(name = "id_plan") String idPlan) throws Exception  {
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 			Date horaFechaTransaccion = new Date();

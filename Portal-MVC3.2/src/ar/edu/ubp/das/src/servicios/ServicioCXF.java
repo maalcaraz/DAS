@@ -18,7 +18,7 @@ public class ServicioCXF extends ServicioImpl{
 			 * Para usar esa clase se importa la libreria org.apache.cxf.endpoint.Client;
 			 * 
 			 * */
-			String url = "http://localhost:9090/Concesionaria"+this.getNomConcesionaria()+"WSPort?wsdl"; 
+			String url = this.getUrl()+"?wsdl"; 
 		
 			Client client = dcf.createClient(url);
 			/* el metodo invoke() toma como parametros
@@ -28,8 +28,8 @@ public class ServicioCXF extends ServicioImpl{
 			 * */
 			
 			Object[] res = client.invoke(operacion, parameters);
-			
-			consumo = res.toString();
+			System.out.println(res[0]);
+			consumo = res[0].toString();
 		} 
 		catch (Exception e) {
 		

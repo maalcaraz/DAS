@@ -15,5 +15,12 @@
 	   	<action type="LogOutAction" path="/Logout.do">
     		<forward name="success" path="/login/logout.jsp" />
     	</action>
+    	<action type="IngresarRegistroAction" path="/ingresarRegistro.do">
+    		<forward name="success" path="/login/ingresarRegistro.jsp" />
+    	</action>
+    	<action type="RegistrarUsuarioAction" path="/registrarUsuario.do">
+    		<forward name="success" path="/login/postRegistro.jsp" />
+    		<forward name="failure" path="/login/postRegistro.jsp" />
+    	</action>
     </action-mappings>
 </actions>

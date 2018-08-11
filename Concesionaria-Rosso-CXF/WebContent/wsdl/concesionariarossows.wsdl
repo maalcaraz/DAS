@@ -21,12 +21,20 @@
     <wsdl:part name="Exception" element="tns:Exception">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="ejemplo">
+    <wsdl:part name="parameters" element="tns:ejemplo">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getClientes">
     <wsdl:part name="parameters" element="tns:getClientes">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="notificarGanadorResponse">
     <wsdl:part name="parameters" element="tns:notificarGanadorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ejemploResponse">
+    <wsdl:part name="parameters" element="tns:ejemploResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="notificarGanador">
@@ -57,6 +65,12 @@
     </wsdl:output>
       <wsdl:fault name="Exception" message="tns:Exception">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ejemplo">
+      <wsdl:input name="ejemplo" message="tns:ejemplo">
+    </wsdl:input>
+      <wsdl:output name="ejemploResponse" message="tns:ejemploResponse">
+    </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ConcesionariaRossoWSServiceSoapBinding" type="tns:ConcesionariaRossoWS">
@@ -96,6 +110,15 @@
       <wsdl:fault name="Exception">
         <soap:fault name="Exception" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ejemplo">
+      <soap:operation soapAction="urn:Ejemplo" style="document"/>
+      <wsdl:input name="ejemplo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ejemploResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ConcesionariaRossoWSService">

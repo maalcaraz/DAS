@@ -1,7 +1,7 @@
 package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public class TestingSyncAction  implements Action {
 			System.out.println("Llegamos al action");
 		
 			
-			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);
+			List<DynaActionForm> forms =  Concesionaria.select(null);
 			
 			
 			for (DynaActionForm f : forms){
