@@ -14,7 +14,9 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.portal.forms.TransaccionForm;
+import ar.edu.ubp.das.src.clientes.daos.MSClienteDao;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 
 public class DatosClienteAction implements Action{
@@ -22,23 +24,44 @@ public class DatosClienteAction implements Action{
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-		/*Deberiamos obtener desde cookies el dni del cliente y el idPlan para ejecutar algun procedimiento
-		 * de la BD local y que me traiga los datos de cuenta del cliente que estoy solicitando.*/
-		
+		/*
+		 * TO DO: implementer respetando consigna que el usuario debe generarse un usuario
+		 * la primera vez que se logea.
+		 */
+		//Session para obtener dni de cliente para buscar info en BD
 		HttpSession session = request.getSession();
-		
-		System.out.println("usuario: " + session.getAttribute( "usuario" ));
+		String forward = "failure";
 		
 		/*
 		 * tenemos que traer todos los datos y ademas la fecha de la ultima actualizacion
 		 * 
 		 */
-		/*
-		MSConcesionariaDao Cliente = (MSConcesionariaDao)DaoFactory.getDao("Cliente", "clientes");
-		LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Cliente.select(null);
-		*/
+		
+		try {
+			ClienteForm clienteForm = new ClienteForm();
+			clienteForm.setDniCliente(session.getAttribute( "usuario" ).toString());
+			MSClienteDao cliente = (MSClienteDao)DaoFactory.getDao("Cliente", "clientes");
+			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>)cliente.select(clienteForm);
+			clienteForm = (ClienteForm)forms.get(0);
+			
+			System.out.println(clienteForm.getDniCliente());
+			System.out.println(clienteForm.getNomCliente());
+				
+			request.setAttribute("cliente", clienteForm);
+			request.setAttribute("adquiridos", clienteForm.getAdquiridos());
 
-		return mapping.getForwardByName("success");
+			forward = "success";
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			String msg = "Error en Consulta Cliente: "+ e.getMessage();
+			request.setAttribute("error_msg", msg);
+			forward = "failure";
+		}
+
+		return mapping.getForwardByName(forward);
 	}
 
 }

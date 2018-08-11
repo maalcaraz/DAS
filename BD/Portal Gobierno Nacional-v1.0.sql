@@ -58,7 +58,7 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		 null,
-	dueÒo_plan				char(3)			not null check(dueÒo_plan in ('GOB','CON')),
+	due√±o_plan				char(3)			not null check(due√±o_plan in ('GOB','CON')),
 	id_concesionaria		char(8)			not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
 	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
@@ -105,7 +105,7 @@ create table cuotas
 	id_concesionaria		char(8)			not null,
 	importe					decimal(10,2)	not null,
 	fecha_vencimiento		date			null,
-	pagÛ					char(1)			check (pagÛ in ('N', 'S'))	DEFAULT 'S',
+	pag√≥					char(1)			check (pag√≥ in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
@@ -172,7 +172,9 @@ go
 
 insert into usuarios(id_usuario, pass, tipo_usuario)
 values ('admin', 'intel123', 'admin'),
-	   ('pepe', 'pepepass', 'cliente')
+	   ('pepe', 'pepepass', 'cliente'),
+	   ('23432255', 'pablopass', 'cliente'),
+	   ('25555555', 'juanpass', 'cliente')
 go
 
 create table novedades
@@ -308,13 +310,13 @@ create procedure dbo.insertar_plan
 	@cant_cuotas				tinyint,
 	@entrega_pactada			varchar(50),
 	@financiacion				varchar(50),
-	@dueÒo_plan					char(3),
+	@due√±o_plan					char(3),
 	@id_concesionaria			char(8)		
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÒo_plan, id_concesionaria)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueÒo_plan, @id_concesionaria)
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, due√±o_plan, id_concesionaria)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @due√±o_plan, @id_concesionaria)
 	END
 go
 
@@ -344,12 +346,12 @@ create procedure dbo.insertar_cuota
 	@id_concesionaria		char(8),
 	@importe				decimal(10,2),
 	@fecha_vencimiento		date,
-	@pagÛ					char(1)
+	@pag√≥					char(1)
 )
 AS
 	BEGIN
-		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pagÛ)
-		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagÛ)
+		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pag√≥)
+		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pag√≥)
 	END
 go
 
@@ -498,7 +500,6 @@ BEGIN
 END
 go
 
-
 create procedure dbo.update_concesionaria
 (
 	@id_concesionaria			varchar(30)
@@ -540,3 +541,48 @@ END
 go
 
 select * from concesionarias
+
+                                                                                                 
+                                                                                                 create view dbo.ult_transaccion as
+	select max (trans.hora_fecha) as ult_transaccion_gc
+		from transacciones trans
+		where trans.id_transaccion LIKE 'GC%'
+		group by trans.hora_fecha
+
+create procedure dbo.get_cliente_info
+(
+	@dni_cliente		char(8)
+)
+AS
+BEGIN
+	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, ad.id_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
+	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	from clientes cli
+	join adquiridos ad
+	on cli.dni_cliente = ad.dni_cliente
+	join planes pla
+	on pla.id_plan = ad.id_plan
+	join cuotas cuo
+	on cuo.dni_cliente = cli.dni_cliente
+	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pag√≥ = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from clientes cli1
+			join adquiridos ad
+			on cli1.dni_cliente = ad.dni_cliente
+			join planes pla
+			on pla.id_plan = ad.id_plan
+			left join cuotas cuo
+			on cuo.id_plan = pla.id_plan
+			where cli1.dni_cliente = @dni_cliente
+			group by cli1.dni_cliente, ad.id_plan
+			) cli1_cuo_pagas
+	on cli.dni_cliente = cli1_cuo_pagas.dni_cliente
+	and ad.id_plan = cli1_cuo_pagas.id_plan,
+	ult_transaccion
+	where cli.dni_cliente = @dni_cliente
+END
+go
+
+--execute dbo.get_cliente_info 25555555
+
+select *
+from ult_transaccion
