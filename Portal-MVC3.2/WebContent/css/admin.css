@@ -16,29 +16,29 @@
   text-align: center;
 }
 
-.ul1 {
+.nav.ver {
     list-style-type: none;
     margin: 0;
     padding: 0;
     width: 200px;
-    background-color: #f4f1f1;
-    width: 150px;
+    background-color: #55aaff;
+    width: 250px;
 }
 
-.li1 {
+.item.nav.ver {
 	text-align: center;
 }
 
-.li1 a {
+.item.nav.ver a {
     display: block;
-    color: #000;
+    color: #FFFFFF;
     padding: 8px 16px;
     text-decoration: none;
-    width: 150px;
+    width: 200px;
 }
 
 /* Change the link color on hover */
-.li1 a:hover {
+li a:hover {
     background-color: #555;
     color: white;
 }
@@ -63,12 +63,4 @@
     content: "";
     display: table;
     clear: both;
-}
-
-table{
-	border-collapse: collapse;
-	
-}
-td {
-	padding: 15px;
 }

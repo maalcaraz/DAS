@@ -23,7 +23,7 @@ public class InsercionConcesionariaAction implements Action {
 		String url = request.getParameter("url");
 		String nombreConcesionaria = request.getParameter("nombreConcesionaria");
 		String tipoServicio = request.getParameter("tipoServicio");
-		String idConcesionaria = nombreConcesionaria + nombreConcesionaria.hashCode();
+		String idConcesionaria = nombreConcesionaria + Integer.toString(nombreConcesionaria.hashCode());
 		System.out.println(idConcesionaria);
 		String email = request.getParameter("emailConcesionaria");
 		String direccion = request.getParameter("direccionConcesionaria");
@@ -42,7 +42,9 @@ public class InsercionConcesionariaAction implements Action {
 			nuevaConc.setEmail(email);
 			nuevaConc.setDireccion(direccion);
 			nuevaConc.setTelefono(telefono);
-			nuevaConc.setUrlServicio(url);
+			nuevaConc.getWebService().setUrl(url);
+			nuevaConc.setAprobada("N");
+			//nuevaConc.setUrlServicio(url);
 			
 			
 			MSConcesionariaDao dao = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
@@ -53,6 +55,7 @@ public class InsercionConcesionariaAction implements Action {
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
+			//return mapping.getForwardByName("failure");
 			return null;
 			
 		}

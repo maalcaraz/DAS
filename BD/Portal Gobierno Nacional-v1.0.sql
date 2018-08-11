@@ -12,6 +12,10 @@ drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
 drop procedure dbo.insertar_sorteo
 drop procedure dbo.get_sorteos
+drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.update_concesionaria
+drop procedure dbo.insertar_usuario
+drop procedure dbo.eliminar_concesionaria
 go
 
 drop table logs
@@ -25,18 +29,10 @@ drop table cuotas
 drop table clientes
 drop table planes
 drop table concesionarias
-drop table tecnologias
 drop table novedades
+
 go
 
-
-create table tecnologias
-(
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	nombre_tecnologia		varchar(5)	not null,
-	CONSTRAINT PK__tecnologias__END primary key (cod_tecnologia),
-	CONSTRAINT UK__tecnologias__END unique (nombre_tecnologia)
-)
 
 create table concesionarias
 (
@@ -49,9 +45,9 @@ create table concesionarias
 	ultima_actualizacion		date			null,
 	cant_dias_caducidad			tinyint			default '15',
 	url_servicio				varchar(100)	not null,
-	cod_tecnologia			char(1)		check (cod_tecnologia in ('R', 'C', 'A'))		not null,
-	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria),
-	CONSTRAINT FK__concesionarias_tecnologias__END foreign key(cod_tecnologia) references tecnologias
+	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
+	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
+	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria)
 )
 go
 
@@ -62,7 +58,7 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		 null,
-	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
+	dueÃ±o_plan				char(3)			not null check(dueÃ±o_plan in ('GOB','CON')),
 	id_concesionaria		char(8)			not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
 	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
@@ -109,7 +105,7 @@ create table cuotas
 	id_concesionaria		char(8)			not null,
 	importe					decimal(10,2)	not null,
 	fecha_vencimiento		date			null,
-	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
+	pagÃ³					char(1)			check (pagÃ³ in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
@@ -167,7 +163,7 @@ go
 create table usuarios
 (
 	id_usuario		varchar(20)		not null,
-	tipo_usuario	varchar(10)			not null,
+	tipo_usuario	varchar(10)		not null,
 	pass			varchar(30)		not null,
 	CONSTRAINT PK__usuarios__END primary key(id_usuario),
 	check (tipo_usuario in ('admin', 'cliente', 'sistema'))
@@ -314,13 +310,13 @@ create procedure dbo.insertar_plan
 	@cant_cuotas				tinyint,
 	@entrega_pactada			varchar(50),
 	@financiacion				varchar(50),
-	@dueño_plan					char(3),
+	@dueÃ±o_plan					char(3),
 	@id_concesionaria			char(8)		
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan, id_concesionaria)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÃ±o_plan, id_concesionaria)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueÃ±o_plan, @id_concesionaria)
 	END
 go
 
@@ -350,12 +346,12 @@ create procedure dbo.insertar_cuota
 	@id_concesionaria		char(8),
 	@importe				decimal(10,2),
 	@fecha_vencimiento		date,
-	@pagó					char(1)
+	@pagÃ³					char(1)
 )
 AS
 	BEGIN
-		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pagó)
-		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
+		insert into cuotas(id_cuota, dni_cliente, id_plan, id_concesionaria, importe, fecha_vencimiento, pagÃ³)
+		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagÃ³)
 	END
 go
 
@@ -403,7 +399,7 @@ create procedure dbo.insertar_concesionaria
 	@ultima_actualizacion			date,
 	@cant_dias_caducidad			tinyint,
 	@url_servicio					varchar(100),
-	@cod_tecnologia					char(1)
+	@cod_tecnologia					varchar(10)
 )
 AS
 	BEGIN
@@ -450,12 +446,6 @@ delete from cuotas
 
 select * 
 	from transacciones
-go
-
-insert into tecnologias (cod_tecnologia, nombre_tecnologia)
-values('R', 'REST'),
-	  ('C', 'CXF'),
-	  ('A', 'AXIS')
 go
 
 /*
@@ -510,7 +500,50 @@ BEGIN
 END
 go
 
-create view dbo.ult_transaccion as
+create procedure dbo.update_concesionaria
+(
+	@id_concesionaria			varchar(30)
+)
+AS 
+BEGIN
+	UPDATE c
+	SET aprobada = 'S'
+	FROM concesionarias c
+	where c.id_concesionaria = @id_concesionaria
+END
+go
+
+create procedure dbo.insertar_usuario
+(
+	@id_usuario		varchar(20),
+	@tipo_usuario	varchar(10),
+	@pass			varchar(30)
+)
+AS
+BEGIN
+	insert into usuarios 
+	values(@id_usuario, @tipo_usuario, @pass)
+END
+go
+
+select * from usuarios
+
+create procedure dbo.eliminar_concesionaria
+(
+	@id_concesionaria	char(8)
+)
+AS
+BEGIN
+	delete c
+		from concesionarias c
+		where c.id_concesionaria = @id_concesionaria
+END
+go
+
+select * from concesionarias
+
+                                                                                                 
+                                                                                                 create view dbo.ult_transaccion as
 	select max (trans.hora_fecha) as ult_transaccion_gc
 		from transacciones trans
 		where trans.id_transaccion LIKE 'GC%'
@@ -531,7 +564,7 @@ BEGIN
 	on pla.id_plan = ad.id_plan
 	join cuotas cuo
 	on cuo.dni_cliente = cli.dni_cliente
-	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagÃ³ = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
 			from clientes cli1
 			join adquiridos ad
 			on cli1.dni_cliente = ad.dni_cliente

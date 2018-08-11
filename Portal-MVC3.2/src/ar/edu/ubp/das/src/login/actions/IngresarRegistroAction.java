@@ -1,4 +1,4 @@
-package ar.edu.ubp.das.src.concesionarias.actions;
+package ar.edu.ubp.das.src.login.actions;
 
 import java.sql.SQLException;
 
@@ -10,13 +10,11 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 
-public class SuscripcionAction implements Action {
+public class IngresarRegistroAction implements Action{
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-
-		
 		
 		return mapping.getForwardByName("success");
 	}

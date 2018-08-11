@@ -114,8 +114,63 @@ var jConcesionaria ={
 	            	
 	            }
 	        });	
-			
-			
+		},
+		mostrarConcesionarias : function(){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/MostrarConcesionarias.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("listado_sorteos", html);
+	            	
+	            }
+	        });	
+		},
+		aprobar : function (idConcesionaria){
+			alert(nomConcesionaria);
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/AprobarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria": idConcesionaria},
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("listado_sorteos", html);
+	            	
+	            }
+	        });	
+		},
+		rechazar : function(idConcesionaria){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/RechazarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria": idConcesionaria},
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+		            alert("se rechazo!");
+	            }
+	        });	
+		},
+		modificar : function(){
 			
 		}
 };

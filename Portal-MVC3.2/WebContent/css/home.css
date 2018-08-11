@@ -1,13 +1,14 @@
 @CHARSET "ISO-8859-1";
-ul {
+.nav.hor {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #333;
+    list-style-type: none;
 }
 
-li {
+.item.nav.hor {
     float: left;
 }
 
@@ -24,7 +25,7 @@ li a:hover:not(.active) {
 }
 
 .active {
-    background-color: #4CAF50;
+    background-color: #55aaff;
 }
 
 input[type=button]{

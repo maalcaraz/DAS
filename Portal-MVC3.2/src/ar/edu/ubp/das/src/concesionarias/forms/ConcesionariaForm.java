@@ -15,16 +15,6 @@ public class ConcesionariaForm extends DynaActionForm{
 
 	public ConcesionariaForm(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
-		switch(tipoServicio){
-		case "R": 
-			tipoServicio = "Rest";
-			break;
-		case "C":
-			tipoServicio = "CXF";
-			break;
-		case "A":
-			tipoServicio = "Axis2";
-		}
 		webService = ServicioFactory.getServicio(tipoServicio);
 		
 	}
@@ -40,8 +30,14 @@ public class ConcesionariaForm extends DynaActionForm{
 	Servicio webService;
 	String urlServicio;
 	String codTecnologia;
+	private String aprobada;
 	TransaccionForm transacForm;
 	
+	List<ClienteForm> clientes;
+	List<AdquiridoForm> adquiridos;
+	List<CuotaForm> cuotas;
+	List<PlanForm> planes;
+	String novedad;
 
 	public TransaccionForm getTransacForm() {
 		return transacForm;
@@ -52,10 +48,8 @@ public class ConcesionariaForm extends DynaActionForm{
 		this.transacForm = transacForm;
 	}
 
-
 	void Consumir() {
 	}
-	
 	
 	public Servicio getWebService() {
 		
@@ -76,6 +70,7 @@ public class ConcesionariaForm extends DynaActionForm{
 		return nomConcesionaria;
 	}
 	public void setNomConcesionaria(String nomConcesionaria) {
+		this.getWebService().setNomConcesionaria(nomConcesionaria);
 		this.nomConcesionaria = nomConcesionaria;
 	}
 	public String getCuit() {
@@ -114,19 +109,13 @@ public class ConcesionariaForm extends DynaActionForm{
 	public void setCantDiasCaducidad(String cantDiasCaducidad) {
 		this.cantDiasCaducidad = cantDiasCaducidad;
 	}
-	public String getUrlServicio() {
-		return urlServicio;
-	}
-	public void setUrlServicio(String urlServicio) {
-		this.urlServicio = urlServicio;
-		this.webService.setUrl(urlServicio);
-	}
 	public String getCodTecnologia() {
 		return codTecnologia;
 	}
 	public void setCodTecnologia(String codTecnologia) {
 		this.codTecnologia = codTecnologia;
 	}
+
 	@Override
 	public String toString() {
 		return "ConcesionariaForm [idConcesionaria=" + idConcesionaria + ", nomConcesionaria=" + nomConcesionaria
@@ -255,15 +244,7 @@ public class ConcesionariaForm extends DynaActionForm{
 			return false;
 		return true;
 	}
-	
-	List<ClienteForm> clientes;
-	List<AdquiridoForm> adquiridos;
-	List<CuotaForm> cuotas;
-	List<PlanForm> planes;
-	String novedad;
-	
-	
-	
+
 	public List<ClienteForm> getClientes() {
 		return clientes;
 	}
@@ -295,6 +276,12 @@ public class ConcesionariaForm extends DynaActionForm{
 		this.novedad = novedad;
 	}
 	
-	
+	public String getAprobada() {
+		return aprobada;
+	}
+
+	public void setAprobada(String aprobada) {
+		this.aprobada = aprobada;
+	}
 	
 }

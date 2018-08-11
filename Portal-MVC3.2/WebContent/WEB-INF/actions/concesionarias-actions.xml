@@ -25,5 +25,14 @@
 			<action type="TestingSyncAction" path="/TestingSync.do">
 				<forward name="success" path="/concesionarias/testingSync.jsp" />
 			</action>
+			<action type="MostrarConcesionariasAction" path="/MostrarConcesionarias.do">
+				<forward name="success" path="/concesionarias/mostrarConcesionarias.jsp" />
+			</action>
+			<action type="AprobarConcesionariaAction" path="/AprobarConcesionaria.do">
+				<forward name="success" path="/concesionarias/aprobarConcesionaria.jsp" />
+			</action>
+			<action type="RechazarConcesionariaAction" path="/RechazarConcesionaria.do">
+				<forward name="success" path="/concesionarias/rechazarConcesionaria.jsp" />
+			</action>
     </action-mappings>
 </actions>
