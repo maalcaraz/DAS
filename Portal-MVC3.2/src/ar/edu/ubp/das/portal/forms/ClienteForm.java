@@ -15,6 +15,7 @@ public class ClienteForm extends DynaActionForm {
 	private String emailCliente;
 	private String idLocalidad;
 	private String codProvincia;
+	private String telefono;
 	private List<AdquiridoForm> adquiridos;
 	private List<PlanForm> planes;
 	private TransaccionForm transaccion;
@@ -206,5 +207,11 @@ public class ClienteForm extends DynaActionForm {
 	public void setIdConcesionaria(String idConcesionaria) {
 		this.idConcesionaria = idConcesionaria;
 	}
+	public String getTelefono() {
+		return telefono;
+	}
 
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 }

@@ -13,10 +13,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	$("#login").val("Cerrar Sesion");
-	            	
 	            	jUtils.showing("detalle-clientes", html);
-	            	
 	            }
 	        });	
 			
@@ -115,6 +112,24 @@ var jConcesionaria ={
 	            }
 	        });	
 		},
+		testing : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/Testing.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("concesionarias", html);
+	            	
+	            }
+	        });	
+		},
 		mostrarConcesionarias : function(){
 			jUtils.executing("result");
 	        jUtils.hiding("message");
@@ -128,13 +143,13 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("listado_sorteos", html);
+	            	jUtils.showing("concesionarias", html);
 	            	
 	            }
 	        });	
 		},
 		aprobar : function (idConcesionaria){
-			alert(nomConcesionaria);
+			alert(idConcesionaria);
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
@@ -154,6 +169,7 @@ var jConcesionaria ={
 	        });	
 		},
 		rechazar : function(idConcesionaria){
+			alert(idConcesionaria);
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
@@ -172,5 +188,23 @@ var jConcesionaria ={
 		},
 		modificar : function(){
 			
+		},
+		getDatosConcesionaria : function(idConcesionaria){
+			alert(idConcesionaria);
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/MostrarDatosConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria": idConcesionaria},
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });	
 		}
 };

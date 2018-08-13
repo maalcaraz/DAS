@@ -22,9 +22,6 @@
 			<action type="VerificarCanceladoAction" path="/VerificarCancelado.do">
 				<forward name="success" path="/concesionarias/verificarCancelado.jsp" />
 			</action>
-			<action type="TestingSyncAction" path="/TestingSync.do">
-				<forward name="success" path="/concesionarias/testingSync.jsp" />
-			</action>
 			<action type="MostrarConcesionariasAction" path="/MostrarConcesionarias.do">
 				<forward name="success" path="/concesionarias/mostrarConcesionarias.jsp" />
 			</action>
@@ -33,6 +30,15 @@
 			</action>
 			<action type="RechazarConcesionariaAction" path="/RechazarConcesionaria.do">
 				<forward name="success" path="/concesionarias/rechazarConcesionaria.jsp" />
+			</action>
+			<action type="MostrarDatosConcesionariaAction" path="/MostrarDatosConcesionaria.do">
+				<forward name="success" path="/concesionarias/mostrarDatosConcesionaria.jsp" />
+			</action>
+			<action type="TestingSyncAction" path="/TestingSync.do">
+				<forward name="success" path="/concesionarias/testingSync.jsp" />
+			</action>
+			<action type="TestingAction" path="/Testing.do">
+				<forward name="success" path="/concesionarias/testing.jsp" />
 			</action>
     </action-mappings>
 </actions>
