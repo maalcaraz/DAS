@@ -554,43 +554,48 @@ create view dbo.ult_transaccion as
 		group by trans.hora_fecha
 go
 
-create procedure dbo.get_cliente_info
+alter procedure dbo.get_cliente_info
 (
-	@dni_cliente		char(8)
+	@dni_cliente		char(8),
+	@id_concesionaria	char(8)	
 )
 AS
 BEGIN
-	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, ad.id_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
-	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	Select *
 	from clientes cli
 	join adquiridos ad
 	on cli.dni_cliente = ad.dni_cliente
 	join planes pla
 	on pla.id_plan = ad.id_plan
-	join cuotas cuo
-	on cuo.dni_cliente = cli.dni_cliente
-	join (Select cli1.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
-			from clientes cli1
-			join adquiridos ad
-			on cli1.dni_cliente = ad.dni_cliente
-			join planes pla
-			on pla.id_plan = ad.id_plan
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad1
 			left join cuotas cuo
-			on cuo.id_plan = pla.id_plan
-			where cli1.dni_cliente = @dni_cliente
-			group by cli1.dni_cliente, ad.id_plan
+			on cuo.id_plan = ad1.id_plan
+			where ad1.dni_cliente = 25555555
+			group by ad1.dni_cliente, ad1.id_plan
 			) cli1_cuo_pagas
 	on cli.dni_cliente = cli1_cuo_pagas.dni_cliente
 	and ad.id_plan = cli1_cuo_pagas.id_plan,
 	ult_transaccion
 	where cli.dni_cliente = @dni_cliente
+	and cli.id_concesionaria = @id_concesionaria
 END
 go
 
---execute dbo.get_cliente_info 25555555
+--execute dbo.get_cliente_info 25555555, AutoHaus
 
 select *
 from ult_transaccion
 
 select * from clientes
 select * from concesionarias
+
+
+create procedure 
+select * from 
+	concesionarias c
+	join clientes cli 
+	on c.id_concesionaria = cli.id_concesionaria
+	join adquiridos a
+	on a.id_concesionaria = c.id_concesionaria
+	and cli.dni_cliente = a.dni_cliente

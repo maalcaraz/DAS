@@ -2,6 +2,7 @@ package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
+import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
@@ -28,7 +30,8 @@ public class MostrarDatosConcesionariaAction implements Action{
 			if (c.getIdConcesionaria().equals(idConcesionaria)){
 				System.out.println("Esta en el action de Mostrar datos concesionaria");
 				request.setAttribute("concesionaria", c);
-				request.setAttribute("clientes", c.getClientes());
+				List<ClienteForm> clientes = c.getClientes();
+				request.setAttribute("clientes", clientes);
 				System.out.println("idconcesionaria que viene de la base: "+ c.getIdConcesionaria());
 				System.out.println("Clientes: " + c.getClientes().toString());
 			}
