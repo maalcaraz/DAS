@@ -21,19 +21,33 @@ public class MostrarDatosConcesionariaAction implements Action{
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
+		
 		MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-		LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);
+		
+		List<DynaActionForm> forms = Concesionaria.select(null);
 		String idConcesionaria = request.getParameter("idConcesionaria");
 		System.out.println("idconcesionaria que viene como parametro: "+ idConcesionaria);
+		
 		for (DynaActionForm f : forms){
 			ConcesionariaForm c = (ConcesionariaForm) f;
 			if (c.getIdConcesionaria().equals(idConcesionaria)){
 				System.out.println("Esta en el action de Mostrar datos concesionaria");
 				request.setAttribute("concesionaria", c);
-				List<ClienteForm> clientes = c.getClientes();
+				
+
+				List<DynaActionForm> clientesAux = Concesionaria.select(c);
+				
+				
+				List<ClienteForm> clientes = new LinkedList<ClienteForm>();
+				
+				for (DynaActionForm cliDAF : clientesAux){
+					ClienteForm cliF = (ClienteForm) cliDAF;
+					clientes.add(cliF); 
+				}
+				
 				request.setAttribute("clientes", clientes);
 				System.out.println("idconcesionaria que viene de la base: "+ c.getIdConcesionaria());
-				System.out.println("Clientes: " + c.getClientes().toString());
+				//System.out.println("Clientes: " + c.getClientes().toString());
 			}
 		}
 			

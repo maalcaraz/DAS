@@ -554,7 +554,7 @@ create view dbo.ult_transaccion as
 		group by trans.hora_fecha
 go
 
-alter procedure dbo.get_cliente_info
+create procedure dbo.get_cliente_info
 (
 	@dni_cliente		char(8),
 	@id_concesionaria	varchar(20)
@@ -589,11 +589,21 @@ go
 
 --execute dbo.get_cliente_info 25555555, 'Montironi705993369'
 
-select *
-from ult_transaccion
 
 select * from clientes
 select * from concesionarias
 
 select * from cuotas
+
+create procedure dbo.getDatosClientes
+(
+	@id_concesionaria			varchar(20)
+)
+AS 
+BEGIN
+	Select *
+		from clientes c
+		where c.id_concesionaria = @id_concesionaria
+END
+go
 

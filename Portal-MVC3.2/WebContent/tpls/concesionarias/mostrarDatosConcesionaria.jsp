@@ -10,20 +10,18 @@
 </head>
 
 <c:set var="concesionaria" scope="request"	value="${requestScope.concesionaria}"></c:set>
-
 <c:set var="clientes" scope="request"	value="${requestScope.clientes}"></c:set>
 
 <h1> Aqui se deberian mostrar los datos de concesionarias </h1> 
-
-	<c:forEach var="cliente" items="${ clientes }" varStatus="status">
+	<h4> ${concesionaria.idConcesionaria } </h4>
+	<c:forEach var="cliente" items="${clientes }" varStatus="status">
 		<div class="grid-item">
 	
-		Dni: ${ cliente.dniCliente }
-		Nombre: ${ cliente.nomCliente }
-		Edad: ${ cliente.edad }
-		Domicilio: ${ cliente.domicilio }
-		Email: ${ cliente.emailCliente }
+		Dni: ${cliente.dniCliente}
+		Nombre: ${cliente.nomCliente}
+		Edad: ${cliente.edad }
+		Domicilio: ${cliente.domicilio }
+		Email: ${cliente.emailCliente }
 					
-						
 		</div>
 	</c:forEach>
