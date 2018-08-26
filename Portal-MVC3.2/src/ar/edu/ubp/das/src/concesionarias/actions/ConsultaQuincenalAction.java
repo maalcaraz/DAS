@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,8 +31,20 @@ public class ConsultaQuincenalAction implements Action {
 		
 		try {
 			
-			 /*Aca tenemos que hacer un for y recorrer las concesionarias, y con eso llenar nuestra BD */
+			/*
+			 * Logica de sesion. Luego de implementarla donde sea necesaria se evaluara removerla a otro paquete
+			 * para no duplicar codigo
+			 */
+			HttpSession session = request.getSession(false);
 			
+			if(session == null){
+				return mapping.getForwardByName("noSession");
+			}
+			else if(session.getAttribute("usuario") == null)
+			{
+				session.invalidate();
+				return mapping.getForwardByName("noSession");
+			}
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);

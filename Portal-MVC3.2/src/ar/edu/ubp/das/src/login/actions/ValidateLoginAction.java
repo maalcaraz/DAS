@@ -46,10 +46,14 @@ public class ValidateLoginAction implements Action{
 		case 0: //dao.insert(daf);
 				session.setAttribute( "usuario",  user );
 				session.setAttribute( "tipoUsuario",  "admin" );
+				//Seteando tiempo de sesion a 4 minutos para testear
+				session.setMaxInactiveInterval(4*60);
 				return mapping.getForwardByName("admin");
 		case 1: //dao.insert(daf);
 				session.setAttribute( "usuario",  user );
 				session.setAttribute( "tipoUsuario",  "cliente" );
+				//Seteando tiempo de sesion a 4 minutos para testear
+				session.setMaxInactiveInterval(4*60);
 				return mapping.getForwardByName("cliente");
 		case 2: //dao.insert(daf);
 				return mapping.getForwardByName("sistema"); 

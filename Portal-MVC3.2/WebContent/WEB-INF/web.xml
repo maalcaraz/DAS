@@ -39,4 +39,7 @@
 	<exception-type>java.lang.RuntimeException</exception-type>
 	<location>/ExceptionHandler</location>
   </error-page>
+  <listener>
+		<listener-class>ar.edu.ubp.das.SessionCounterListener.SessionCounter</listener-class>
+  </listener>
 </web-app>
