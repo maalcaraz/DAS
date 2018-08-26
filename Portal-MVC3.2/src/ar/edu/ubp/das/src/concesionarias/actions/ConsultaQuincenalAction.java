@@ -30,7 +30,7 @@ public class ConsultaQuincenalAction implements Action {
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
 		try {
-			
+			System.out.println("Action de consulta quincenal");
 			/*
 			 * Logica de sesion. Luego de implementarla donde sea necesaria se evaluara removerla a otro paquete
 			 * para no duplicar codigo
@@ -68,18 +68,16 @@ public class ConsultaQuincenalAction implements Action {
 				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
 				
 				String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-	
+				/*Listado de Clientes*/
 				String strClientes = listaRetorno[0] + "]";
 				LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
-				
+				/*Listado de Planes*/
 				String strPlanes = listaRetorno[1] + "]";
-				
 				LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
-				
-					
+				/*Listado de Aquiridos*/
 				String strAdquiridos = listaRetorno[2] + "]";
 				LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
-
+				/*Listado de Cuotas*/
 				String strCuotas = listaRetorno[3];
 				LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
 				
@@ -91,12 +89,12 @@ public class ConsultaQuincenalAction implements Action {
 				
 				c.setItem("operacion", "insercionDatos");
 				Concesionaria.update(c);
+				/* Esto en realidad no se muestra en ningun JSP */
 				request.setAttribute("transaccion", transaccion);
 				request.setAttribute("clientes", clientes);
 				request.setAttribute("planes", planes);
 				request.setAttribute("adquiridos", adquiridos);
 				request.setAttribute("cuotas", cuotas);
-					
 				
 			}
 			return mapping.getForwardByName("success");

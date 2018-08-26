@@ -23,7 +23,7 @@ public class MostrarConcesionariasAction implements Action {
 		
 
 		MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-		System.out.println("Esta entrando al action de mostrar concesionarias");
+		
 		List<DynaActionForm> cAux = Concesionaria.select(null);
 		List<ConcesionariaForm> concesionarias = new LinkedList<ConcesionariaForm>();
 		List<ConcesionariaForm> pendientes = new LinkedList<ConcesionariaForm>();
@@ -31,13 +31,10 @@ public class MostrarConcesionariasAction implements Action {
 			ConcesionariaForm c1 = (ConcesionariaForm) c;
 			if (c1.getAprobada().equals("S")) concesionarias.add(c1);
 			else pendientes.add(c1);
-			System.out.println("IdConcesionaria: "+c1.getIdConcesionaria());
-			System.out.println("Aprobada: "+ c1.getAprobada());
 		}
 		
 		request.setAttribute("pendientes", pendientes);
 		request.setAttribute("concesionarias", concesionarias);
 		return mapping.getForwardByName("success");
 	}
-
 }

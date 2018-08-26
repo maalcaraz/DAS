@@ -161,24 +161,52 @@ public class MSConcesionariaDao extends DaoImpl{
 	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
 		List<DynaActionForm> ret = new LinkedList<DynaActionForm>();
 		this.connect();
-		this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet result = this.getStatement().executeQuery();
-		result.next();
-		while(result.getRow() > 0) {
-			try{
-				ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
-				f.setIdConcesionaria(result.getString("id_concesionaria"));
-				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
-				f.getWebService().setUrl(result.getString("url_servicio"));
-				f.setCodTecnologia(result.getString("cod_tecnologia"));
-				f.setAprobada(result.getString("aprobada"));
-				ret.add(f);
-			}
-			catch(Exception ex){
-				System.out.println(ex);
-			}
+		
+		if (form == null){
+			// Devuelve una lista de concesionarias
+			System.out.println("Entrando por el if");
+			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet result = this.getStatement().executeQuery();
 			result.next();
+			while(result.getRow() > 0) {
+				try{
+					ConcesionariaForm f = new ConcesionariaForm(result.getString("cod_tecnologia"));
+					f.setIdConcesionaria(result.getString("id_concesionaria"));
+					f.setNomConcesionaria(result.getString("nombre_concesionaria"));
+					f.getWebService().setUrl(result.getString("url_servicio"));
+					f.setCodTecnologia(result.getString("cod_tecnologia"));
+					f.setAprobada(result.getString("aprobada"));
+					ret.add(f);
+				}
+				catch(Exception ex){
+					System.out.println(ex);
+				}
+				result.next();
+			}
 		}
+		else {
+			// Devuelve una lista de clientes
+			System.out.println("Entrando por else...");
+			ConcesionariaForm con =  (ConcesionariaForm) form;
+			
+			this.setProcedure("dbo.getDatosClientes(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			
+			this.setParameter(1, con.getIdConcesionaria());
+			ResultSet result = this.getStatement().executeQuery();
+			result.next();
+			List<ClienteForm> clientes = new LinkedList<ClienteForm>();
+			while(result.getRow() > 0) {
+				ClienteForm c = new ClienteForm();
+				c.setDniCliente(result.getString("dni_cliente"));
+				c.setNomCliente(result.getString("apellido_nombre"));
+				//clientes.add(c);
+				ret.add(c);
+				result.next();
+			}
+			//con.setClientes(clientes);
+			
+		}
+		
 		this.disconnect();
 		return ret;
 	}

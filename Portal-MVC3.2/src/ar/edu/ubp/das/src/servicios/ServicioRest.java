@@ -34,7 +34,7 @@ public class ServicioRest extends ServicioImpl{
 			
 			URI uri = URI.create(this.getUrl()+"rest/"+ getNomConcesionaria() + "/"+operacion);
 			
-			System.out.println(this.getUrl()+"/rest/"+ getNomConcesionaria() + operacion);
+			System.out.println(this.getUrl()+"rest/"+ getNomConcesionaria() + "/"+operacion);
 			
 			req.setURI(uri);
 			HttpClient client = HttpClientBuilder.create().build();	       
