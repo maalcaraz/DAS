@@ -140,16 +140,18 @@ create table sorteos
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
 	fecha_proximo		date			not null,
+	pendiente			char(1)			not null	check (pendiente in ('S','N')),
+	descripcion			varchar(50)		not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
 )
 go
 
 insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo)
-values ('s1', '3-03-2003', '3-03-2008'),
-	   ('s2','4-04-2004','4-04-2005'),
-	   ('s3','5-05-2005','5-06-2005'),
-	   ('s4','6-06-2006','6-07-2006'),
-	   ('s5','7-07-2007','7-08-2007')
+values ('s1', '3-03-2003', '3-03-2008', 'N', ''),
+	   ('s2','4-04-2004','4-04-2005',  'N', ''),
+	   ('s3','5-05-2005','5-06-2005', 'N', ''),
+	   ('s4','6-06-2006','6-07-2006', 'N', ''),
+	   ('s5','7-07-2007','7-08-2007', 'N', '')
 go
 
 
