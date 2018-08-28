@@ -6,6 +6,7 @@
         <forward name="information" path="/util/information.jsp" />
         <forward name="success"     path="/util/success.jsp" />
         <forward name="warning"     path="/util/warning.jsp" />
+        <forward name="noSession"     path="/login/login.jsp" />
     </global-forwards>
     <alias-mappings>
         <!-- A -->

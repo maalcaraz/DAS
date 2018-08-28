@@ -36,8 +36,14 @@
 		<c:forEach var="concesionaria" items="${ concesionarias }"
 			varStatus="status">
 		<h4>Concesionarias Registradas</h4> <br><br> 
-		
-		<a onclick="jConcesionaria.getDatosConcesionaria(&quot;${ concesionaria.idConcesionaria }&quot;)" href="#"> ${ concesionaria.nomConcesionaria } </a> 
+		<div class="grid-item">
+		<h2>${ concesionaria.nomConcesionaria } </h2>
+		Tipo de Servicio: ${ concesionaria.cuit } <br>
+		Direccion: ${ concesionaria.direccion } <br>
+		Telefono: ${ concesionaria.telefono } <br>
+		Ultima actualizacion: ${ concesionaria.ultimaActualizacion } <br>
+		<a onclick="jConcesionaria.getDatosConcesionaria(&quot;${ concesionaria.idConcesionaria }&quot;)" href="#"> Ver detalle de clientes </a>
+		</div> 
 	</c:forEach>
 	</c:if>
 	</div>
