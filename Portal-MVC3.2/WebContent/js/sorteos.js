@@ -6,11 +6,11 @@ var jSorteos = {
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
-		                jUtils.showing("listado_sorteos", hr.responseText);
+		                jUtils.showing("concesionarias", hr.responseText);
 		            },
 		            success: function(html) {
 		            	
-		            	jUtils.showing("listado_sorteos", html);
+		            	jUtils.showing("concesionarias", html);
 		            }
 		        });	
 		},
@@ -20,11 +20,11 @@ var jSorteos = {
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("listado_sorteos", hr.responseText);
+	                jUtils.showing("concesionarias", hr.responseText);
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("listado_sorteos", html);
+	            	jUtils.showing("concesionarias", html);
 	            }
 	        });	
 		}
