@@ -1,88 +1,81 @@
 package ar.edu.ubp.das.src.main;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
+import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.CuotaBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
+import ar.edu.ubp.das.src.db.Bean;
+import ar.edu.ubp.das.src.db.DaoFactory;
+import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
+
 public class Main {
 
 	public static void main (String[] args){
-		
-		
-		/* 1. Consultar en la BD local si existen sorteos pendientes */
-		
-		/* existenPendientes = verificarPendientes();
-		 * fechaDefinidaSorteo = consultarFechaDefinida();
-		 * 
-		 * if (existenPendientes || (fechaDefinida == hoy) ){
-		 * 
-		 * 
-		 * 	   Traer de la bd el ganador del ultimo sorteo.
-		 * 
-		 	 * if (verificar cancelado (idconcesionaria, ganador) == true ){
-				 * 
-				 * MSConcesionariaDao bla;
-				 * List<ConcesionariaForm> all = bla.select(null); // traemos todas las concesionarias
-				 * 
-				 * for (ConcesionariaForm concesionaria : all ){
-				 * 
-				 * 		if (concesionaria.ultimaActualizacion > 15 dias ){
-				 * 			
-				 			try {
-					 			// llamar a consultaQuincenal
-					 		* 	json jsonConsultaQuincenal = concesionaria.getWebService.Consumir("getClientes", null); 			
-				 			}
-				 			catch (Exception ex)
-				 			{
-				 			* 	Guardar sorteo como pendiente (ex.getMessage());
-				 			*   return;
-				 			}
-				 			Concesionaria.update (json);
-				 * 		}
-				 * }
-				 * ganador = sortear();
-				 * 
-				 * do {
-						 * registroOk = portal.registrarGanador(ganador);
-						 * 
-						 * if (registroOk){
-						 * 		conc = ganador.idConcesionaria;
-						 * 		
-						 * 		 
-						 * 		String respuesta =	conc.getWebService("notificarGanador", ganador);
-						 * 
-						 * 		if (respuesta != OK){
-						 * 			registrarPendiente(idSorteo, respuesta)
-						 * 			return; // que vaya a fin
-						 * 		}
-						 * 
-						 * }
-						 * else {
-						 * 		intentos++;
-						 * }
-				* }
-				* while (intentos < 3 );
-					 * if (intentos == 3 ){
-					 * 		registrarPendiente(idSorteo, respuesta);
-					 * 		return;
-					 * }
-				* }
-			 * 
-			 * } 
-			 * else{
-			 *  // el ultimo ganador no fue cancelado
-			 *  
-			 *  	concesionaria.webService.Consumir (notificarGanador (ultimoGanador));
-			 *  	registrarPendiente (idSorteo, "falta cancelar ultimo ganador");
-			 *  	return;
-			 * }
-		 * }
-		 * else { // no existen sorteos pendientes o la fecha no es hoy
-			 * 		
-			 * }
-		 * */
-		
+		try {
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
+			List<Bean> listadoConcesionarias = Concesionaria.select();
+			
+			Gson gson = new Gson();
+			
+			for (Bean c : listadoConcesionarias ){
+				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
+				if ( ultimaActualizacion > 15){
+					try {
+						String restResp = concesionaria.getWebService().Consumir("getClientes", null);
+					// llamar a consultaQuincenal
+						
+						TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+						
+						String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+						/*Listado de Clientes*/
+						String strClientes = listaRetorno[0] + "]";
+						LinkedList<ClienteBean> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+						/*Listado de Planes*/
+						String strPlanes = listaRetorno[1] + "]";
+						LinkedList<PlanBean> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
+						/*Listado de Aquiridos*/
+						String strAdquiridos = listaRetorno[2] + "]";
+						LinkedList<AdquiridoBean> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
+						/*Listado de Cuotas*/
+						String strCuotas = listaRetorno[3];
+						LinkedList<CuotaBean> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
+						
+						verificarParticipantes(clientes, planes, adquiridos, cuotas);
+						
+					 }
+		 			catch (Exception ex)
+		 			{
+		 			 	//Guardar sorteo como pendiente (ex.getMessage());
+		 			   //return;
+		 				System.out.println("El presente sorteo se guarda como pendiente");
+		 			}
+		 			//Concesionaria.update (json);
+				}
+			}
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+				
 		System.out.println("Hola mundo");
 	}
 	void registrarPendiente (String idSorteo, String razon){
 		// MSSorteosDao Sorteos = new MSSorteosDao();
 		// Sorteos
+	}
+	
+	static List<Bean> verificarParticipantes (LinkedList<ClienteBean> clientes, LinkedList<PlanBean> planes, LinkedList<AdquiridoBean> adquiridos, LinkedList<CuotaBean> cuotas){
+		/*En esta funcion se deberian calcular los clientes que pueden participar del sorteo*/
+		return null;
 	}
 	
 }
