@@ -46,7 +46,7 @@ public class MSSorteosDao extends DaoImpl{
 	}
 
 	@Override
-	public List<Bean> select() throws SQLException { // Para traer los pendientes
+	public List<Bean> select(Bean bean) throws SQLException { // Para traer los pendientes
 		List<Bean> ret = new LinkedList<Bean>();
 		
 		this.connect();
@@ -75,5 +75,4 @@ public class MSSorteosDao extends DaoImpl{
 		
 		return false;
 	}
-
 }

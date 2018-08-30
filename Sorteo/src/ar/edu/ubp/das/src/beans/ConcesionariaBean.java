@@ -5,7 +5,7 @@ import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
 public class ConcesionariaBean {
 	
-	ConcesionariaBean(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
+	public ConcesionariaBean(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
 		webService = ServicioFactory.getServicio(tipoServicio);
 		

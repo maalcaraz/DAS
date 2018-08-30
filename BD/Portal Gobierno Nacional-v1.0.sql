@@ -609,3 +609,33 @@ BEGIN
 END
 go
 
+alter procedure dbo.participantes
+(
+	@id_concesionaria			varchar(20)
+)
+AS
+BEGIN
+	Select * from clientes cli 
+	join adquiridos ad
+	on cli.dni_cliente = ad.dni_cliente
+	and cli.id_concesionaria = ad.id_concesionaria
+	join planes pla 
+	on pla.id_plan = ad.id_plan
+	and pla.id_concesionaria = ad.id_concesionaria
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad1
+			left join cuotas cuo
+			on cuo.id_plan = ad1.id_plan
+			and ad1.id_concesionaria = 'Montironi705993369'
+			and cuo.id_concesionaria = 'Montironi705993369'
+			group by ad1.dni_cliente, ad1.id_plan
+			) cli1_cuo_pagas
+	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
+	and cli1_cuo_pagas.id_plan = ad.id_plan,
+	ult_transaccion
+	where cli.id_concesionaria = 'Montironi705993369'
+	and 
+END
+go
+
+--execute dbo.participantes 'Montironi705993369'
