@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
 
@@ -13,7 +14,7 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -41,13 +42,13 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public void update(Bean bean) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void delete(Bean bean) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -58,25 +59,49 @@ public class MSConcesionariaDao extends DaoImpl{
 		/* En este caso no las vamos a querer separar. 
 		 * Hay que poner en cada una de las concesionarias la lista de clientes*/
 		
+		
+		if (bean == null){
 			// Devuelve una lista de concesionarias
-		System.out.println("Entrando por el if");
-		this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet result = this.getStatement().executeQuery();
-		result.next();
-		while(result.getRow() > 0) {
-			try{
-				ConcesionariaBean f = new ConcesionariaBean(result.getString("cod_tecnologia"));
-				f.setIdConcesionaria(result.getString("id_concesionaria"));
-				f.setNomConcesionaria(result.getString("nombre_concesionaria"));
-				f.getWebService().setUrl(result.getString("url_servicio"));
-				f.setCodTecnologia(result.getString("cod_tecnologia"));
-				f.setAprobada(result.getString("aprobada"));
-				//ret.add(f);
-			}
-			catch(Exception ex){
-				System.out.println(ex);
-			}
+			System.out.println("Entrando por el if");
+			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet result = this.getStatement().executeQuery();
 			result.next();
+			while(result.getRow() > 0) {
+				try{
+					ConcesionariaBean f = new ConcesionariaBean(result.getString("cod_tecnologia"));
+					f.setIdConcesionaria(result.getString("id_concesionaria"));
+					f.setNomConcesionaria(result.getString("nombre_concesionaria"));
+					f.getWebService().setUrl(result.getString("url_servicio"));
+					f.setCodTecnologia(result.getString("cod_tecnologia"));
+					f.setAprobada(result.getString("aprobada"));
+					//ret.add(f);
+				}
+				catch(Exception ex){
+					System.out.println(ex);
+				}
+				result.next();
+			}
+		}
+		else {
+			ConcesionariaBean concesionaria = (ConcesionariaBean) bean;
+			this.setProcedure("dbo.get_participantes(?, ?, ?)");
+			this.setParameter(1, concesionaria.getIdConcesionaria());
+			this.setParameter(2, 26);
+			this.setParameter(3, 40);
+			ResultSet result = this.getStatement().executeQuery();
+			result.next();
+			while(result.getRow() > 0) {
+				try{
+					ParticipanteBean cli = new ParticipanteBean();
+					cli.setIdConcesionaria(result.getString("id_concesionaria"));
+					cli.setDniCliente(result.getString("dni_cliente"));
+					ret.add(cli);
+				}
+				catch(Exception ex){
+					System.out.println(ex);
+				}
+				result.next();
+			}
 		}
 		this.disconnect();
 		return ret;
@@ -84,7 +109,7 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public boolean valid(Bean bean) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

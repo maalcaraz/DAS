@@ -609,13 +609,16 @@ BEGIN
 END
 go
 
-alter procedure dbo.participantes
+alter procedure dbo.get_participantes
 (
-	@id_concesionaria			varchar(20)
+	@id_concesionaria			varchar(20),
+	@max_cuotas_pagas			tinyint,
+	@min_cuotas_pagas			tinyint
 )
 AS
 BEGIN
-	Select * from clientes cli 
+	Select *
+	from clientes cli 
 	join adquiridos ad
 	on cli.dni_cliente = ad.dni_cliente
 	and cli.id_concesionaria = ad.id_concesionaria
@@ -626,16 +629,17 @@ BEGIN
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan
-			and ad1.id_concesionaria = 'Montironi705993369'
-			and cuo.id_concesionaria = 'Montironi705993369'
+			and ad1.id_concesionaria = @id_concesionaria
+			and cuo.id_concesionaria = @id_concesionaria
 			group by ad1.dni_cliente, ad1.id_plan
 			) cli1_cuo_pagas
 	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
 	and cli1_cuo_pagas.id_plan = ad.id_plan,
 	ult_transaccion
-	where cli.id_concesionaria = 'Montironi705993369'
-	and 
+	where cli.id_concesionaria = @id_concesionaria
+	and cli1_cuo_pagas.cuotas_pagas > @min_cuotas_pagas
+	and cli1_cuo_pagas.cuotas_pagas < @max_cuotas_pagas
 END
 go
 
---execute dbo.participantes 'Montironi705993369'
+--execute dbo.get_participantes 'Montironi705993369', 24, 1

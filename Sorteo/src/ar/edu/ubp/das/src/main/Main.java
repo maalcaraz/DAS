@@ -23,7 +23,7 @@ public class Main {
 		try {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
-			
+			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			Gson gson = new Gson();
 			
 			for (Bean c : listadoConcesionarias ){
@@ -73,11 +73,13 @@ public class Main {
 				}
 				else{
 					/*No hace falta actualizar los datos*/
-					Concesionaria.select(c);
+					
 				}
-				/*Por ahora, los participantes son todos*/
-			//	List<ParticipanteBean> participantes = verificarParticipantes(clientes, planes, adquiridos, cuotas);
-				
+				List<Bean> participantesC = Concesionaria.select(c);
+				for (Bean b : participantesC){
+					ParticipanteBean p = (ParticipanteBean) b;
+					participantesSorteo.add(p);
+				}
 			}
 		}
 		catch(Exception ex){
@@ -89,11 +91,6 @@ public class Main {
 	void registrarPendiente (String idSorteo, String razon){
 		// MSSorteosDao Sorteos = new MSSorteosDao();
 		// Sorteos
-	}
-	
-	static List<ParticipanteBean> verificarParticipantes (LinkedList<ClienteBean> clientes, LinkedList<PlanBean> planes, LinkedList<AdquiridoBean> adquiridos, LinkedList<CuotaBean> cuotas){
-		/*En esta funcion se deberian calcular los clientes que pueden participar del sorteo*/
-		return null;
 	}
 	
 }
