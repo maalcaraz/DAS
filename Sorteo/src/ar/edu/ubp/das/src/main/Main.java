@@ -20,6 +20,16 @@ import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
 public class Main {
 
 	public static void main (String[] args){
+		
+		OpsSorteo opsSorteo = new OpsSorteo();
+		
+		boolean cancelado = opsSorteo.verificarCancelado();
+		
+		if(cancelado){
+			System.out.println("cancelado");
+		}
+			
+		
 		try {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
