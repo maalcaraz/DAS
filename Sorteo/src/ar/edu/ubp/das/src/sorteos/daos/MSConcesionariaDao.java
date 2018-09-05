@@ -74,7 +74,7 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.getWebService().setUrl(result.getString("url_servicio"));
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
 					f.setAprobada(result.getString("aprobada"));
-					//ret.add(f);
+					ret.add(f);
 				}
 				catch(Exception ex){
 					System.out.println(ex);

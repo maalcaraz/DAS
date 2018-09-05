@@ -28,8 +28,8 @@ public class Main {
 		if(cancelado){
 			System.out.println("cancelado");
 		}
-			
 		
+
 		try {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
@@ -95,6 +95,8 @@ public class Main {
 		catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}
+			
+		
 				
 		System.out.println("Hola mundo");
 	}

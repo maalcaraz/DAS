@@ -2,7 +2,6 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
@@ -23,16 +22,6 @@ public class MSGanadoresDao  extends DaoImpl {
 		
 		return adq;
 	}
-	/*
-    public List<Bean> executeQuery() throws SQLException {
-        List<Bean> list   = new LinkedList<Bean>();
-        ResultSet            result = this.statement.executeQuery();
-        while(result.next()) {
-            list.add(this.make(result));
-        }
-        return list;
-    }
-    */
 
 	@Override
 	public void insert(Bean bean) throws SQLException {

@@ -21,17 +21,17 @@ public class OpsSorteo {
 		
 	}
 	
-	
 	public boolean verificarCancelado(){
 		
 		//Accion de verificar cancelado
-				MSGanadoresDao Ganadores;
+				
 				String restResp = "";
+				boolean response = false;
 				//idportal harcodeado por ahora 
 				String idPortal = "PORTALGOB";
 				
 				try {
-					Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ganadores");
+					MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
 					/*
 					 *  Ganadores.select devuelve una lista con solo el primer elemento 
 					 */
@@ -50,7 +50,7 @@ public class OpsSorteo {
 					parameters.add(new BasicNameValuePair("dni_cliente" , adqBean.getDniCliente()));
 			      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
 					
-					MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
+					MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
 					List<Bean> listadoConcesionarias = Concesionaria.select(null);
 					
 					String concAdqBean = adqBean.getIdConcesionaria();
@@ -67,15 +67,19 @@ public class OpsSorteo {
 
 					}
 					
+					if(restResp.equals("{Cancelado: SI}")){
+						response = true;
+					}
+					
 					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
-				
+
 		
-		return false;
+		return response;
 	}
 	
 	

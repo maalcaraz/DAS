@@ -60,7 +60,7 @@ create table planes
 	cant_cuotas				tinyint			not null,
 	entrega_pactada			varchar(50)		not null,
 	financiacion			varchar(50)		null,
-	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
+	dueÃ±o_plan				char(3)			not null check(dueÃ±o_plan in ('GOB','CON')),
 	id_concesionaria		varchar(20)		not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
 	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
@@ -97,8 +97,6 @@ create table adquiridos
 )
 go
 
-
-
 create table cuotas
 (
 	id_cuota				smallint		not null,
@@ -107,7 +105,7 @@ create table cuotas
 	id_concesionaria		varchar(20)		not null,
 	importe					decimal(10,2)	not null,
 	fecha_vencimiento		date			null,
-	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
+	pagÃ³					char(1)			check (pagÃ³ in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
@@ -146,12 +144,13 @@ create table sorteos
 )
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo)
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,pendiente,descripcion)
 values ('s1', '3-03-2003', '3-03-2008', 'N', ''),
 	   ('s2','4-04-2004','4-04-2005',  'N', ''),
 	   ('s3','5-05-2005','5-06-2005', 'N', ''),
 	   ('s4','6-06-2006','6-07-2006', 'N', ''),
 	   ('s5','7-07-2007','7-08-2007', 'N', '')
+
 go
 
 
@@ -314,13 +313,13 @@ create procedure dbo.insertar_plan
 	@cant_cuotas				tinyint,
 	@entrega_pactada			varchar(50),
 	@financiacion				varchar(50),
-	@dueño_plan					char(3),
+	@dueÃ±o_plan					char(3),
 	@id_concesionaria			varchar(20)		
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan, id_concesionaria)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
+		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueÃ±o_plan, id_concesionaria)
+		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueÃ±o_plan, @id_concesionaria)
 	END
 go
 
@@ -350,12 +349,12 @@ create procedure dbo.insertar_cuota
 	@id_concesionaria		varchar(20),
 	@importe				decimal(10,2),
 	@fecha_vencimiento		date,
-	@pagó					char(1)
+	@pagÃ³					char(1)
 )
 AS
 	BEGIN
 		insert into cuotas
-		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
+		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagÃ³)
 	END
 go
 
@@ -485,6 +484,21 @@ BEGIN
 END 
 go
 
+select *
+	from adquiridos
+
+/*
+Update usado para testear ganadores
+
+update a
+	set a.ganador_sorteo = 'S',
+	a.fecha_sorteado = '2007-07-07'
+	from adquiridos a
+	where dni_cliente = 25555555
+*/
+
+--execute dbo.get_ultimo_ganador
+
 create procedure dbo.insertar_sorteo
 (
 	@id_sorteo			varchar(30),
@@ -572,7 +586,7 @@ BEGIN
 	join planes pla 
 	on pla.id_plan = ad.id_plan
 	and pla.id_concesionaria = ad.id_concesionaria
-	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagÃ³ = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan
@@ -625,7 +639,7 @@ BEGIN
 	join planes pla 
 	on pla.id_plan = ad.id_plan
 	and pla.id_concesionaria = ad.id_concesionaria
-	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagÃ³ = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan

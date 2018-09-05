@@ -1,9 +1,10 @@
 package ar.edu.ubp.das.src.beans;
 
+import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.servicios.Servicio;
 import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
-public class ConcesionariaBean {
+public class ConcesionariaBean implements Bean {
 	
 	public ConcesionariaBean(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
