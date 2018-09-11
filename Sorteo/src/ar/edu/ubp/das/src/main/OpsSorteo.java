@@ -105,12 +105,14 @@ public class OpsSorteo {
 		
 		List<Bean> participantesC = null;
 		
-		try {
+try {
+			
+			System.out.println("Arranco el programa...");
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
 			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			Gson gson = new Gson();
-			
+			System.out.println("Entrando al for de concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
@@ -119,13 +121,18 @@ public class OpsSorteo {
 				LinkedList<PlanBean> planes;
 				LinkedList<AdquiridoBean> adquiridos;
 				LinkedList<CuotaBean> cuotas;
-				
-				if ( ultimaActualizacion > 15){
+				System.out.println("Entrando al if de actualizacion de datos");
+				if ( concesionaria.getUltimaActualizacion() == null ||  ultimaActualizacion > 15){
+					System.out.println("Hay que actualizar los datos");
 					try {
+						/* Esto hace falta a la hora de preguntar si el sorteo es hoy
 						java.util.Date utilDate = new java.util.Date(); //fecha actual
 						long lnMilisegundos = utilDate.getTime();
 						java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 						concesionaria.setUltimaActualizacion(sqlTimestamp.toString());
+						System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
+						*/
+						
 						// llamar a consultaQuincenal
 						String restResp = concesionaria.getWebService().Consumir("getClientes", null);
 					
@@ -145,7 +152,15 @@ public class OpsSorteo {
 						/*Listado de Cuotas*/
 						String strCuotas = listaRetorno[3];
 						cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
-						// Concesionaria.update(); //ingresar los datos traidos del servicio a la bd local 
+						
+						// tambien arrancar con la logica de la fechade ultima actualizacion
+						concesionaria.setClientes(clientes);
+						concesionaria.setAdquiridos(adquiridos);
+						concesionaria.setCuotas(cuotas);
+						concesionaria.setPlanes(planes);
+						
+						
+						// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
 					 }
 		 			catch (Exception ex)
 		 			{
@@ -153,10 +168,9 @@ public class OpsSorteo {
 		 			   //return;
 		 				System.out.println("El presente sorteo se guarda como pendiente");
 		 			}
-					
-		 			
 				}
 				else{
+					System.out.println("No hay que actualizar los datos");
 					/*No hace falta actualizar los datos*/
 					
 				}
@@ -168,6 +182,7 @@ public class OpsSorteo {
 			}
 		}
 		catch(Exception ex){
+			System.out.println("Fallando!");
 			System.out.println(ex.getMessage());
 		}
 		

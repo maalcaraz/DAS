@@ -1,22 +1,9 @@
 package ar.edu.ubp.das.src.main;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-
-import ar.edu.ubp.das.src.beans.AdquiridoBean;
-import ar.edu.ubp.das.src.beans.ClienteBean;
-import ar.edu.ubp.das.src.beans.ConcesionariaBean;
-import ar.edu.ubp.das.src.beans.CuotaBean;
-import ar.edu.ubp.das.src.beans.ParticipanteBean;
-import ar.edu.ubp.das.src.beans.PlanBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
-import ar.edu.ubp.das.src.beans.TransaccionBean;
 import ar.edu.ubp.das.src.db.Bean;
-import ar.edu.ubp.das.src.db.DaoFactory;
-import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
 
 public class Main {
 

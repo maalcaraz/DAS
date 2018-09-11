@@ -1,16 +1,20 @@
 package ar.edu.ubp.das.src.beans;
 
+import java.util.List;
+
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.servicios.Servicio;
 import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
-public class ConcesionariaBean implements Bean {
+public class ConcesionariaBean implements Bean{
 	
 	public ConcesionariaBean(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
 		webService = ServicioFactory.getServicio(tipoServicio);
 		
 	}
+
+	String idConcesionaria;
 	String nomConcesionaria;
 	String cuit;
 	String email;
@@ -22,14 +26,13 @@ public class ConcesionariaBean implements Bean {
 	String urlServicio;
 	String codTecnologia;
 	private String aprobada;
-	//TransaccionForm transacForm;
-	
-	//List<ClienteForm> clientes;
-	//List<AdquiridoForm> adquiridos;
-	//List<CuotaForm> cuotas;
-	//List<PlanForm> planes;
+	TransaccionBean transacForm;
+	List<ClienteBean> clientes;
+	List<AdquiridoBean> adquiridos;
+	List<CuotaBean> cuotas;
+	List<PlanBean> planes;
+
 	String novedad;
-	String idConcesionaria;
 	public String getIdConcesionaria() {
 		return idConcesionaria;
 	}
@@ -133,4 +136,44 @@ public class ConcesionariaBean implements Bean {
 	public void setNovedad(String novedad) {
 		this.novedad = novedad;
 	}
+	public TransaccionBean getTransacForm() {
+		return transacForm;
+	}
+
+	public void setTransacForm(TransaccionBean transacForm) {
+		this.transacForm = transacForm;
+	}
+
+	public List<ClienteBean> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<ClienteBean> clientes) {
+		this.clientes = clientes;
+	}
+
+	public List<AdquiridoBean> getAdquiridos() {
+		return adquiridos;
+	}
+
+	public void setAdquiridos(List<AdquiridoBean> adquiridos) {
+		this.adquiridos = adquiridos;
+	}
+
+	public List<CuotaBean> getCuotas() {
+		return cuotas;
+	}
+
+	public void setCuotas(List<CuotaBean> cuotas) {
+		this.cuotas = cuotas;
+	}
+
+	public List<PlanBean> getPlanes() {
+		return planes;
+	}
+
+	public void setPlanes(List<PlanBean> planes) {
+		this.planes = planes;
+	}
+
 }

@@ -42,7 +42,8 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public void update(Bean bean) throws SQLException {
-		
+		/*Aca en el update, no olvidar que hay que insertar e nconcesionaria la fecha de actualizacion
+		 * de datos qu viene en la transaccion*/
 		
 	}
 

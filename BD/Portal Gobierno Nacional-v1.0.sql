@@ -657,8 +657,6 @@ END
 go
 
 
-
-
 --execute dbo.get_participantes 'Montironi705993369', 24, 1
 
 create procedure dbo.get_sorteos_pendientes
@@ -669,5 +667,3 @@ BEGIN
 	where s.pendiente = 'S'
 END
 go
-
-
