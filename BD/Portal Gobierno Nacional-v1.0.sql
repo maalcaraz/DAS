@@ -12,7 +12,10 @@ drop procedure dbo.insertar_concesionaria
 drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
 drop procedure dbo.insertar_sorteo
+drop procedure dbo.get_datos_clientes
+drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
+drop procedure dbo.get_sorteos_pendientes
 drop procedure dbo.get_ultimo_ganador
 drop procedure dbo.update_concesionaria
 drop procedure dbo.insertar_usuario
@@ -131,25 +134,25 @@ create table transacciones
 	--retorno						
 	check (estado_transaccion in ('SUCCESS','FAILED'))
 )
-go 
+go
 
 create table sorteos
 (
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
 	fecha_proximo		date			not null,
-	pendiente			char(1)			not null	check (pendiente in ('S','N')),
+	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
 	descripcion			varchar(50)		not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
 )
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,pendiente,descripcion)
-values ('s1', '3-03-2003', '3-03-2008', 'N', ''),
-	   ('s2','4-04-2004','4-04-2005',  'N', ''),
-	   ('s3','5-05-2005','5-06-2005', 'N', ''),
-	   ('s4','6-06-2006','6-07-2006', 'N', ''),
-	   ('s5','7-07-2007','7-08-2007', 'N', '')
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,descripcion)
+values ('s1', '3-03-2003', '3-03-2008', ''),
+	   ('s2','4-04-2004','4-04-2005', ''),
+	   ('s3','5-05-2005','5-06-2005', ''),
+	   ('s4','6-06-2006','6-07-2006', ''),
+	   ('s5','7-07-2007','7-08-2007', '')
 
 go
 
@@ -486,6 +489,7 @@ go
 
 select *
 	from adquiridos
+go
 
 /*
 Update usado para testear ganadores
@@ -503,12 +507,14 @@ create procedure dbo.insertar_sorteo
 (
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
-	@fecha_proximo		date
+	@fecha_proximo		date,
+	@pendiente			char(1),
+	@descripcion		varchar(50)
 )
 AS
 BEGIN
-	insert into sorteos
-	values (@id_sorteo, @fecha_sorteo, @fecha_proximo)
+	insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+	values (@id_sorteo, @fecha_sorteo, @fecha_proximo, @pendiente, @descripcion)
 END
 go
 
@@ -605,13 +611,7 @@ go
 
 --execute dbo.get_cliente_info 25555555, 'Montironi705993369'
 
-
-select * from clientes
-select * from concesionarias
-
-select * from cuotas
-
-create procedure dbo.getDatosClientes
+create procedure dbo.get_datos_clientes
 (
 	@id_concesionaria			varchar(20)
 )
@@ -623,7 +623,7 @@ BEGIN
 END
 go
 
-alter procedure dbo.get_participantes
+create procedure dbo.get_participantes
 (
 	@id_concesionaria			varchar(20),
 	@max_cuotas_pagas			tinyint,
