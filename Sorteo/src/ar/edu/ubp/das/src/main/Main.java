@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main (String[] args){
 		
-		OpsSorteo opsSorteo = new OpsSorteo();
+		OperacionesSorteo opsSorteo = new OperacionesSorteo();
 		/*
 		 * Bean para representar el sorteo que se va a ejecutar.
 		 * puede ser uno nuevo o uno pendiente.

@@ -25,9 +25,9 @@ import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 
-public class OpsSorteo {
+public class OperacionesSorteo {
 	
-	public OpsSorteo(){
+	public OperacionesSorteo(){
 		
 	}
 	
