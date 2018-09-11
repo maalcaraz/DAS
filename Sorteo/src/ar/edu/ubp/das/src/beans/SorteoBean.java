@@ -1,6 +1,8 @@
 package ar.edu.ubp.das.src.beans;
 
-public class SorteoBean {
+import ar.edu.ubp.das.src.db.Bean;
+
+public class SorteoBean implements Bean{
 	private String idSorteo;
 	private String fechaSorteado;
 	private String fechaProximo;

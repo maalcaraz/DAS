@@ -59,7 +59,7 @@ public class MSSorteosDao extends DaoImpl{
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
 				f.setFechaProximo(result.getString("fecha_proximo"));
-				//ret.add(f);
+				ret.add(f);
 			}
 			catch(Exception ex){
 				System.out.println(ex);

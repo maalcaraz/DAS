@@ -12,6 +12,7 @@ import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.CuotaBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoFactory;
@@ -22,80 +23,52 @@ public class Main {
 	public static void main (String[] args){
 		
 		OpsSorteo opsSorteo = new OpsSorteo();
+		/*
+		 * Bean para representar el sorteo que se va a ejecutar.
+		 * puede ser uno nuevo o uno pendiente.
+		 */
 		
+		SorteoBean sorteoActual = null;
+		
+		List<Bean> sorteosPendientes = opsSorteo.consultarPendientes();
+		
+		if(sorteosPendientes != null && !sorteosPendientes.isEmpty()){
+			
+			/*
+			 * Por ahora agarramos el primero por que es el mas viejo tenemos que definir
+			 * si procesamos esta lista o que
+			 */
+			sorteoActual = (SorteoBean)sorteosPendientes.get(0);
+			
+			System.out.println("procedemos a sortear...");
+		}
+		else
+		{
+			
+		}
+		
+		
+		
+		/*
+		 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
+		 */
 		boolean cancelado = opsSorteo.verificarCancelado();
 		
 		if(cancelado){
 			System.out.println("cancelado");
 		}
 		
-
-		try {
-			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "sorteos");
-			List<Bean> listadoConcesionarias = Concesionaria.select(null);
-			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
-			Gson gson = new Gson();
-			
-			for (Bean c : listadoConcesionarias ){
-				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
-				
-				LinkedList<ClienteBean> clientes;
-				LinkedList<PlanBean> planes;
-				LinkedList<AdquiridoBean> adquiridos;
-				LinkedList<CuotaBean> cuotas;
-				
-				if ( ultimaActualizacion > 15){
-					try {
-						java.util.Date utilDate = new java.util.Date(); //fecha actual
-						long lnMilisegundos = utilDate.getTime();
-						java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-						concesionaria.setUltimaActualizacion(sqlTimestamp.toString());
-						// llamar a consultaQuincenal
-						String restResp = concesionaria.getWebService().Consumir("getClientes", null);
-					
-						
-						TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
-						
-						String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-						/*Listado de Clientes*/
-						String strClientes = listaRetorno[0] + "]";
-						clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
-						/*Listado de Planes*/
-						String strPlanes = listaRetorno[1] + "]";
-						planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
-						/*Listado de Aquiridos*/
-						String strAdquiridos = listaRetorno[2] + "]";
-						adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
-						/*Listado de Cuotas*/
-						String strCuotas = listaRetorno[3];
-						cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
-						// Concesionaria.update(); //ingresar los datos traidos del servicio a la bd local 
-					 }
-		 			catch (Exception ex)
-		 			{
-		 			 	//Guardar sorteo como pendiente (ex.getMessage());
-		 			   //return;
-		 				System.out.println("El presente sorteo se guarda como pendiente");
-		 			}
-					
-		 			
-				}
-				else{
-					/*No hace falta actualizar los datos*/
-					
-				}
-				List<Bean> participantesC = Concesionaria.select(c);
-				for (Bean b : participantesC){
-					ParticipanteBean p = (ParticipanteBean) b;
-					participantesSorteo.add(p);
-				}
-			}
+		/*
+		 * Operacion para consultar cada concesionaria dependiendo 
+		 */
+		
+		List<Bean> participantes = opsSorteo.consultaConcesionarias();
+		
+		if(participantes != null && !participantes.isEmpty()){
+			System.out.println("procedemos a sortear...");
 		}
-		catch(Exception ex){
-			System.out.println(ex.getMessage());
-		}
-			
+		
+		
 		
 				
 		System.out.println("Hola mundo");
