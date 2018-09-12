@@ -36,7 +36,15 @@ public class MSSorteosDao extends DaoImpl{
 	@Override
 	public void update(Bean form) throws SQLException {
 		
+		SorteoBean sorteo = (SorteoBean) form;
+		this.connect();
 		
+		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?)");
+		this.setParameter(1, sorteo.getIdSorteo());
+		this.setParameter(2, sorteo.getFechaSorteado());
+		this.setParameter(3, sorteo.getPendiente());
+		this.executeQuery();
+		this.disconnect();
 	}
 
 	@Override
@@ -59,6 +67,7 @@ public class MSSorteosDao extends DaoImpl{
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
 				f.setFechaProximo(result.getString("fecha_proximo"));
+				f.setPendiente(result.getString("pendiente"));
 				ret.add(f);
 			}
 			catch(Exception ex){

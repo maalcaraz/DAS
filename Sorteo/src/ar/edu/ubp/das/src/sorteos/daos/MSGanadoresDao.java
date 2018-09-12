@@ -43,9 +43,9 @@ public class MSGanadoresDao  extends DaoImpl {
 	
 	@Override
 	public List<Bean> select(Bean bean) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		this.connect();
-		this.setProcedure("dbo.get_ultimo_ganador");
+		this.setProcedure("dbo.get_ultimo_ganador()");
 		List<Bean> ganadores = this.executeQuery();
 			
 		this.disconnect();

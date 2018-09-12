@@ -46,6 +46,7 @@ public class ConcesionariaBean implements Bean{
 	}
 
 	public void setNomConcesionaria(String nomConcesionaria) {
+		this.getWebService().setNomConcesionaria(nomConcesionaria);
 		this.nomConcesionaria = nomConcesionaria;
 	}
 

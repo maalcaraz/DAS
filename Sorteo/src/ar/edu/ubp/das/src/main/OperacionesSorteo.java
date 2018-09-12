@@ -87,7 +87,7 @@ public class OperacionesSorteo {
 					
 					
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
@@ -102,17 +102,17 @@ public class OperacionesSorteo {
 	 * Devuelve lista con de participantes para sorteo
 	 */
 	public List<Bean> consultaConcesionarias(){
-		
+		System.out.println("Entrando en Consulta de Concesionarias (OperacionesSorteo)");
 		List<Bean> participantesC = null;
 		
-try {
+		try {
 			
-			System.out.println("Arranco el programa...");
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
 			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			Gson gson = new Gson();
-			System.out.println("Entrando al for de concesionarias...");
+			
+			System.out.println("En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
@@ -123,7 +123,7 @@ try {
 				LinkedList<CuotaBean> cuotas;
 				System.out.println("Entrando al if de actualizacion de datos");
 				if ( concesionaria.getUltimaActualizacion() == null ||  ultimaActualizacion > 15){
-					System.out.println("Hay que actualizar los datos");
+					System.out.println("Consulta Quincenal (OperacionesSorteo) ==> Hay que actualizar los datos");
 					try {
 						/* Esto hace falta a la hora de preguntar si el sorteo es hoy
 						java.util.Date utilDate = new java.util.Date(); //fecha actual
@@ -181,9 +181,8 @@ try {
 				}
 			}
 		}
-		catch(Exception ex){
-			System.out.println("Fallando!");
-			System.out.println(ex.getMessage());
+		catch(RuntimeException | SQLException ex ){
+			System.out.println("No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
 		}
 		
 		return participantesC;
@@ -215,8 +214,19 @@ try {
 		}
 	
 		return pendientes;
-		
 	}
 	
-
-}
+	public void registrarSorteoPendiente(SorteoBean pendiente, String idRazon){
+		try {
+			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
+			SorteoBean s = new SorteoBean();
+			s.setIdSorteo(pendiente.getIdSorteo());
+			s.setPendiente("S");
+			sorteo.update(s);
+			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
+		}
+		catch (SQLException ex){
+			System.out.println("Hubo un error al registrar el sorteo como pendiente. Mensaje: "+ex.getMessage());
+		}
+	}
+}	

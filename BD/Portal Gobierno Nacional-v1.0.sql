@@ -18,6 +18,7 @@ drop procedure dbo.update_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
+drop procedure dbo.set_sorteo_pendiente
 go
 
 drop table logs
@@ -144,13 +145,12 @@ create table sorteos
 )
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,pendiente,descripcion)
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
 values ('s1', '3-03-2003', '3-03-2008', 'N', ''),
 	   ('s2','4-04-2004','4-04-2005',  'N', ''),
 	   ('s3','5-05-2005','5-06-2005', 'N', ''),
 	   ('s4','6-06-2006','6-07-2006', 'N', ''),
 	   ('s5','7-07-2007','7-08-2007', 'N', '')
-
 go
 
 
@@ -484,6 +484,8 @@ BEGIN
 END 
 go
 
+--execute dbo.get_ultimo_ganador
+
 select *
 	from adquiridos
 
@@ -665,5 +667,19 @@ BEGIN
 	select *
 	from sorteos s
 	where s.pendiente = 'S'
+END
+go
+
+
+create procedure dbo.set_sorteo_pendiente 
+(
+	@id_sorteo			varchar(30)
+)
+AS
+BEGIN
+	UPDATE p
+	SET pendiente = 'S'
+	FROM sorteos p
+	where p.id_sorteo = @id_sorteo
 END
 go

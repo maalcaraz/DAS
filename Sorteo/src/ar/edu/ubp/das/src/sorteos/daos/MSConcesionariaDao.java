@@ -38,7 +38,7 @@ public class MSConcesionariaDao extends DaoImpl{
 				this.setParameter(11, c.getAprobada());
 				this.executeUpdate();
 				this.disconnect();
-			}
+	}
 
 	@Override
 	public void update(Bean bean) throws SQLException {
@@ -60,10 +60,9 @@ public class MSConcesionariaDao extends DaoImpl{
 		/* En este caso no las vamos a querer separar. 
 		 * Hay que poner en cada una de las concesionarias la lista de clientes*/
 		
-		
 		if (bean == null){
 			// Devuelve una lista de concesionarias
-			System.out.println("Entrando por el if");
+			System.out.println("Entrando por el if de MSConcesionariaDao ==> Buscando en la base la lista de concesionarias registradas");
 			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
@@ -78,12 +77,14 @@ public class MSConcesionariaDao extends DaoImpl{
 					ret.add(f);
 				}
 				catch(Exception ex){
-					System.out.println(ex);
+					System.out.println("Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
 				}
 				result.next();
 			}
 		}
-		else {
+		else  {
+			
+			System.out.println("Entrando por el else en MSConcesionariaDao ==> Buscando en la base la lista de participantes del sorteo");
 			ConcesionariaBean concesionaria = (ConcesionariaBean) bean;
 			this.setProcedure("dbo.get_participantes(?, ?, ?)");
 			this.setParameter(1, concesionaria.getIdConcesionaria());

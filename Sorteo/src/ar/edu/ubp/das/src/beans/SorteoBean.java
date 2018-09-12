@@ -6,8 +6,9 @@ public class SorteoBean implements Bean{
 	private String idSorteo;
 	private String fechaSorteado;
 	private String fechaProximo;
+	private String pendiente;
 	
-	
+
 	public String getIdSorteo() {
 		return idSorteo;
 	}
@@ -30,5 +31,11 @@ public class SorteoBean implements Bean{
 
 	public void setFechaProximo(String fechaProximo) {
 		this.fechaProximo = fechaProximo;
+	}
+	public String getPendiente() {
+		return pendiente;
+	}
+	public void setPendiente(String pendiente) {
+		this.pendiente = pendiente;
 	}
 }
