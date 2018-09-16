@@ -665,5 +665,20 @@ BEGIN
 	select *
 	from sorteos s
 	where s.pendiente = 'S'
+	ORDER BY s.fecha_sorteo ASC
 END
 go
+
+--execute dbo.get_sorteos_pendientes
+
+create procedure dbo.hoy_es_fecha_de_sorteo
+AS
+BEGIN
+	select *
+	from sorteos s
+	where s.pendiente is null
+	and s.fecha_sorteo = (CONVERT (date, GETDATE()))
+END
+go
+
+--execute dbo.hoy_es_fecha_de_sorteo

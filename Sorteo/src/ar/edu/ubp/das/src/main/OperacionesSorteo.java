@@ -191,22 +191,22 @@ try {
 	}
 
 	
-	public List<Bean> consultarPendientes(){
+	public SorteoBean consultarPendientes(){
 		
 		List<Bean> pendientes = null;
+		SorteoBean sorteoPorEjecutar =  null;
 		
 		try {
+			
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendientes = sorteo.select(null);
 			
 			/*
-			 * TO DO: Ahora esta devolviendo todos los sorteos que estan como pendiente. En teoria no deberiamos setear mas
-			 * de uno como pendiente, pero debemos tener esto en cuenta. Lo cambiamos al procedimiento en BD para devolver
-			 * el mas viejo que este como pendiente o lo dejamos como esta y aca tomamos el primero del array?
-			 */
-			
-			SorteoBean sorteoPorEjecutar =  (SorteoBean) pendientes.get(0);
-			
+			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
+			 */	
+			if(pendientes != null && !pendientes.isEmpty()){
+				sorteoPorEjecutar =  (SorteoBean) pendientes.get(0);
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -214,9 +214,37 @@ try {
 			System.out.println(e.getMessage());
 		}
 	
-		return pendientes;
+		return sorteoPorEjecutar;
+	}
+	
+	
+	public SorteoBean obtenerSorteoHoy(){
+		
+		List<Bean> sorteosHoy = null;
+		SorteoBean sorteoPorEjecutar =  null;
+		
+		try {
+			
+			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
+			sorteosHoy = sorteo.obtenerSorteoActual();
+			
+			/*
+			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
+			 */	
+			if(sorteosHoy != null && !sorteosHoy.isEmpty()){
+				sorteoPorEjecutar =  (SorteoBean) sorteosHoy.get(0);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+
+		return sorteoPorEjecutar;
 		
 	}
+	
 	
 
 }

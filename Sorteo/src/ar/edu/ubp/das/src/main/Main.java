@@ -17,21 +17,24 @@ public class Main {
 		
 		SorteoBean sorteoActual = null;
 		
-		List<Bean> sorteosPendientes = opsSorteo.consultarPendientes();
+		sorteoActual = opsSorteo.consultarPendientes();
 		
-		if(sorteosPendientes != null && !sorteosPendientes.isEmpty()){
+		if(sorteoActual == null){
+			System.out.println("No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
 			
-			/*
-			 * Por ahora agarramos el primero por que es el mas viejo tenemos que definir
-			 * si procesamos esta lista o que
-			 */
-			sorteoActual = (SorteoBean)sorteosPendientes.get(0);
+			sorteoActual = opsSorteo.obtenerSorteoHoy();
 			
-			System.out.println("procedemos a sortear...");
+			if(sorteoActual == null)
+			{
+				//Ver como salimos de aca
+				System.out.println("Hoy no es fecha de sorteo. Cancelando ejecucion...");
+			}
+			
 		}
 		else
 		{
-			
+			// Para esta altura sorteoActual no es null y ya tiene el sorteo pendiente
+			System.out.println("Hay sorteo pendiente. Procedemos a ejecutarlo...");
 		}
 		
 		
