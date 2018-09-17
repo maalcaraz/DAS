@@ -682,3 +682,18 @@ END
 go
 
 --execute dbo.hoy_es_fecha_de_sorteo
+
+create procedure dbo.actualizar_sorteo_pendiente
+(
+	@id_sorteo varchar(30)
+)
+AS
+BEGIN
+	UPDATE s
+	SET pendiente = 'S'
+	FROM sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go
+
+--execute dbo.actualizar_sorteo_pendiente s6

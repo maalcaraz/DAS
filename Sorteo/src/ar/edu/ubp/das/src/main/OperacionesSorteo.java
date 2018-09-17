@@ -105,7 +105,7 @@ public class OperacionesSorteo {
 		
 		List<Bean> participantesC = null;
 		
-try {
+		try {
 			
 			System.out.println("Arranco el programa...");
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
@@ -245,6 +245,23 @@ try {
 		
 	}
 	
+	public void sorteoPendiente(SorteoBean sorteoActual){
+		
+		
+		/*Por ahora no hace falta setearle el atributo pendiente aca por que lo podemos hacer
+		 * en la BD pero podriamos cambiarlo
+		 */
+		try {
+			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
+			sorteo.update(sorteoActual);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+	}
 	
 
 }
