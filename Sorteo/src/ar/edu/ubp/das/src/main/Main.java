@@ -14,45 +14,79 @@ public class Main {
 		 * Bean para representar el sorteo que se va a ejecutar.
 		 * puede ser uno nuevo o uno pendiente.
 		 */
-		
 		SorteoBean sorteoActual = null;
+		/* 
+		 * AbortarSorteo variable a utilizar para chequear estado de ejecucion
+		 * y eventualmente guardar sorteo como pendiente
+		 */
+		boolean abortarSorteo = false;
 		
-		List<Bean> sorteosPendientes = opsSorteo.consultarPendientes();
+		sorteoActual = opsSorteo.consultarPendientes();
 		
-		if(sorteosPendientes != null && !sorteosPendientes.isEmpty()){
+		if(sorteoActual == null){
+			System.out.println("No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
 			
-			/*
-			 * Por ahora agarramos el primero por que es el mas viejo tenemos que definir
-			 * si procesamos esta lista o que
-			 */
-			sorteoActual = (SorteoBean)sorteosPendientes.get(0);
+			sorteoActual = opsSorteo.obtenerSorteoHoy();
 			
-			System.out.println("procedemos a sortear...");
+			if(sorteoActual == null)
+			{
+				System.out.println("Hoy no es fecha de sorteo. Cancelando ejecucion...");
+				abortarSorteo = true;
+			}
+			
 		}
 		else
 		{
+			// Para esta altura sorteoActual no es null y ya tiene el sorteo pendiente
+			System.out.println("Hay sorteo pendiente. Procedemos a ejecutarlo...");
+		}
+		
+		
+		if(abortarSorteo == false)
+		{
+			/*
+			 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
+			 */
+			boolean cancelado = opsSorteo.verificarCancelado();
+			
+			if(cancelado){
+				System.out.println("Ultimo ganador cancelado. Podemos proceder con el sorteo");
+			}
+			else
+			{
+				//Tenemos que notificar cancelacion pendiente
+				abortarSorteo = true;
+			}
 			
 		}
-		
-		
-		
-		/*
-		 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
-		 */
-		boolean cancelado = opsSorteo.verificarCancelado();
-		
-		if(cancelado){
-			System.out.println("cancelado");
-		}
-		
+
 		/*
 		 * Operacion para consultar cada concesionaria dependiendo 
 		 */
+		if(abortarSorteo == false){
+			
+			List<Bean> participantes = opsSorteo.consultaConcesionarias();
+			
+			if(participantes != null && !participantes.isEmpty()){
+				System.out.println("procedemos a sortear...");
+			}
+			else
+			{
+				/*como todo el procesamiento lo hacemos en la funcion aca ponemos pendiente pero no sabemos bien
+				 * por que. En este caso hay que modificarlo
+				 */
+				abortarSorteo = true;
+			}
+		}
 		
-		List<Bean> participantes = opsSorteo.consultaConcesionarias();
-		
-		if(participantes != null && !participantes.isEmpty()){
-			System.out.println("procedemos a sortear...");
+		/*
+		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
+		 * en caso de que el proceso haya fallado en alguno momento.
+		 */
+		if(abortarSorteo == true){
+			System.out.println("Seteamos sorteo como pendiente...");
+			opsSorteo.sorteoPendiente(sorteoActual);
+			
 		}
 		
 		

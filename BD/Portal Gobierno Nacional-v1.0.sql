@@ -665,5 +665,35 @@ BEGIN
 	select *
 	from sorteos s
 	where s.pendiente = 'S'
+	ORDER BY s.fecha_sorteo ASC
 END
 go
+
+--execute dbo.get_sorteos_pendientes
+
+create procedure dbo.hoy_es_fecha_de_sorteo
+AS
+BEGIN
+	select *
+	from sorteos s
+	where s.pendiente is null
+	and s.fecha_sorteo = (CONVERT (date, GETDATE()))
+END
+go
+
+--execute dbo.hoy_es_fecha_de_sorteo
+
+create procedure dbo.actualizar_sorteo_pendiente
+(
+	@id_sorteo varchar(30)
+)
+AS
+BEGIN
+	UPDATE s
+	SET pendiente = 'S'
+	FROM sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go
+
+--execute dbo.actualizar_sorteo_pendiente s6
