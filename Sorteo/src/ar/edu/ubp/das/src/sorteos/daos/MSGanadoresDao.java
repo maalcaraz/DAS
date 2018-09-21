@@ -26,7 +26,6 @@ public class MSGanadoresDao  extends DaoImpl {
 	@Override
 	public void insert(Bean bean) throws SQLException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

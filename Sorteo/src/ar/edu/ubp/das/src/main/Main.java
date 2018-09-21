@@ -2,6 +2,7 @@ package ar.edu.ubp.das.src.main;
 
 import java.util.List;
 
+import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 
 public class Main {
@@ -10,49 +11,80 @@ public class Main {
 		
 		OperacionesSorteo opsSorteo = new OperacionesSorteo();
 		/*
-		 * Bean para representar el sorteo que se va a ejecutar.
-		 * puede ser uno nuevo o uno pendiente.
+		 * Bean para representar el sorteo que se va a ejecutar. Puede ser uno nuevo o uno pendiente.
 		 */
-		/*
+
 		SorteoBean sorteoActual = null;
+		/* 
+		 * AbortarSorteo variable a utilizar para chequear estado de ejecucion
+		 * y eventualmente guardar sorteo como pendiente
+		 */
+		boolean abortarSorteo = false;
 		
-		List<Bean> sorteosPendientes = opsSorteo.consultarPendientes();
+		sorteoActual = opsSorteo.consultarPendientes();
 		
-		if(sorteosPendientes != null && !sorteosPendientes.isEmpty()){
-		
-			sorteoActual = (SorteoBean)sorteosPendientes.get(0);
+		if(sorteoActual == null){
+			System.out.println("No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
 			
-			System.out.println("procedemos a sortear...");
+			sorteoActual = opsSorteo.obtenerSorteoHoy();
+			
+			if(sorteoActual == null)
+			{
+				System.out.println("Hoy no es fecha de sorteo. Cancelando ejecucion...");
+				abortarSorteo = true;
+			}
 		}
 		else
 		{
-			
-			
-		}
-		*/
-		
-		
-		/*
-		 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
-		 */
-		boolean cancelado = opsSorteo.verificarCancelado();
-		
-		if(cancelado){
-			System.out.println("Verificar cancelado = true --> La cuenta de ese cliente esta cancelada.");
+			// Para esta altura sorteoActual no es null y ya tiene el sorteo pendiente
+			System.out.println("Hay sorteo pendiente. Procedemos a ejecutarlo...");
 		}
 		
+		if(abortarSorteo == false)
+		{
+			/*
+			 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
+			 */
+			boolean cancelado = opsSorteo.verificarCancelado();
+			
+			if(cancelado){
+				System.out.println("Ultimo ganador cancelado. Podemos proceder con el sorteo");
+			}
+			else
+			{
+				//Tenemos que notificar cancelacion pendiente
+				abortarSorteo = true;
+			}
+			
+		}
+
 		/*
 		 * Operacion para consultar cada concesionaria
 		 */
-		
-		List<Bean> participantes = opsSorteo.consultaConcesionarias();
-		
-		if(participantes != null && !participantes.isEmpty()){
+		if(abortarSorteo == false){
 			
-			System.out.println("Procedemos a sortear, ya tenemos los participantes...");
+			List<Bean> participantes = opsSorteo.consultaConcesionarias();
+			
+			if(participantes != null && !participantes.isEmpty()){
+				System.out.println("procedemos a sortear...");
+			}
+			else
+			{
+				/*como todo el procesamiento lo hacemos en la funcion aca ponemos pendiente pero no sabemos bien
+				 * por que. En este caso hay que modificarlo
+				 */
+				abortarSorteo = true;
+			}
 		}
 		
-				
-		System.out.println("Hola mundo");
+		/*
+		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
+		 * en caso de que el proceso haya fallado en alguno momento.
+		 */
+		if(abortarSorteo == true){
+			System.out.println("Seteamos sorteo como pendiente...");
+			opsSorteo.registrarSorteoPendiente(sorteoActual, "El sorteo no cumple las condiciones para ser ejecutado.");
+		}
+		System.out.println("Adios mundo");
 	}	
 }

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
@@ -78,6 +79,31 @@ public class MSSorteosDao extends DaoImpl{
 		this.disconnect();
 		return ret;
 	}
+	
+	public LinkedList<Bean> obtenerSorteoActual() throws SQLException {
+		LinkedList<Bean> ret = new LinkedList<Bean>();
+		
+		this.connect();
+		this.setProcedure("dbo.hoy_es_fecha_de_sorteo", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet result = this.getStatement().executeQuery();
+		result.next();
+		while(result.getRow() > 0) {
+			try{
+				SorteoBean f = new SorteoBean();
+				f.setIdSorteo(result.getString("id_sorteo"));
+				f.setFechaSorteado(result.getString("fecha_sorteo"));
+				f.setFechaProximo(result.getString("fecha_proximo"));
+				ret.add(f);
+			}
+			catch(Exception ex){
+				System.out.println(ex);
+			}
+			result.next();
+		}
+		this.disconnect();
+		return ret;
+	}
+	
 
 	@Override
 	public boolean valid(Bean form) throws SQLException {

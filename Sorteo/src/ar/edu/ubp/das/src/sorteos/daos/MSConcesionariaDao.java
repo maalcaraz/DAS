@@ -14,7 +14,6 @@ public class MSConcesionariaDao extends DaoImpl{
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
-		
 		return null;
 	}
 

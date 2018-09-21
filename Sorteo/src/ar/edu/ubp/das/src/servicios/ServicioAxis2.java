@@ -11,5 +11,4 @@ public class ServicioAxis2 extends ServicioImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
