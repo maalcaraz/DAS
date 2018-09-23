@@ -2,6 +2,7 @@ package ar.edu.ubp.das.src.main;
 
 import java.util.List;
 
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 
@@ -45,14 +46,16 @@ public class Main {
 			/*
 			 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
 			 */
-			boolean cancelado = opsSorteo.verificarCancelado();
+			AdquiridoBean ultimoGanador = opsSorteo.verificarCancelado();
 			
-			if(cancelado){
+			if(ultimoGanador.getCancelado().equals("true")){
 				System.out.println("Ultimo ganador cancelado. Podemos proceder con el sorteo");
 			}
 			else
 			{
 				//Tenemos que notificar cancelacion pendiente
+				// Algunos argumentos pendientes, chequear funcionamiento
+				opsSorteo.informarCancelacionPendiente(ultimoGanador);
 				abortarSorteo = true;
 			}
 			
