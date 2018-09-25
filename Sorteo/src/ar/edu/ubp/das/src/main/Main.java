@@ -3,6 +3,7 @@ package ar.edu.ubp.das.src.main;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
+import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 
@@ -10,6 +11,7 @@ public class Main {
 
 	public static void main (String[] args){
 		
+		List<Bean> participantes = null;
 		OperacionesSorteo opsSorteo = new OperacionesSorteo();
 		/*
 		 * Bean para representar el sorteo que se va a ejecutar. Puede ser uno nuevo o uno pendiente.
@@ -64,10 +66,11 @@ public class Main {
 		/*
 		 * Operacion para consultar cada concesionaria
 		 */
+		
 		if(abortarSorteo == false){
 			
-			List<Bean> participantes = opsSorteo.consultaConcesionarias();
 			
+			participantes = opsSorteo.consultaConcesionarias();
 			if(participantes != null && !participantes.isEmpty()){
 				System.out.println("procedemos a sortear...");
 			}
@@ -80,11 +83,25 @@ public class Main {
 			}
 		}
 		
+		
+		if(abortarSorteo == false){
+			
+			int ganador = (int) (Math.random() * participantes.size());
+			
+			ParticipanteBean ganadorBean = (ParticipanteBean)participantes.get(ganador);
+			
+			System.out.println( "\n>> El ganador es " +
+					ganadorBean.getDniCliente());
+			
+		}
+		
+		
+		
 		/*
 		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
 		 * en caso de que el proceso haya fallado en alguno momento.
 		 */
-		if(abortarSorteo == true){
+		if(abortarSorteo == true && sorteoActual != null ){
 			System.out.println("Seteamos sorteo como pendiente...");
 			opsSorteo.registrarSorteoPendiente(sorteoActual, "El sorteo no cumple las condiciones para ser ejecutado.");
 		}
