@@ -34,7 +34,7 @@ public class OperacionesSorteo {
 	 * Obtiene ganador de el ultimo sorteo y pregunta en concesionaria
 	 * correspondiente si se cancelo.
 	 */
-	public boolean verificarCancelado(){
+	public AdquiridoBean verificarCancelado(){
 		
 		//Accion de verificar cancelado
 				
@@ -42,6 +42,7 @@ public class OperacionesSorteo {
 				boolean response = false;
 				//idportal harcodeado por ahora 
 				String idPortal = "PORTALGOB";
+				AdquiridoBean adqBean = null;
 				
 				try {
 					MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
@@ -56,7 +57,7 @@ public class OperacionesSorteo {
 					String idConcesionaria = listaUltimoGanador.get(0).getItem("id_concesionaria");
 					*/
 					
-					AdquiridoBean adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
+					adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
 					
 					List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 					parameters.add(new BasicNameValuePair("id_portal" , idPortal));
@@ -82,6 +83,11 @@ public class OperacionesSorteo {
 					
 					if(restResp.equals("{Cancelado: SI}")){
 						response = true;
+						adqBean.setCancelado("true");
+					}
+					else
+					{
+						adqBean.setCancelado("false");
 					}
 					
 					
@@ -92,7 +98,40 @@ public class OperacionesSorteo {
 				}
 
 		
-		return response;
+		return adqBean;
+	}
+	
+	
+	public void informarCancelacionPendiente(AdquiridoBean adqBean){
+		
+		String idPortal = "PORTALGOB";
+		System.out.println("Entrando en Informar cancelado pendiente (OperacionesSorteo)");
+		
+		try {
+			
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
+			List<Bean> listadoConcesionarias = Concesionaria.select(null);
+			Gson gson = new Gson();
+			
+			System.out.println("Entrando a recorrer concesionarias...");
+			for (Bean c : listadoConcesionarias ){
+				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+				
+				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
+				parameters.add(new BasicNameValuePair("id_concesionaria" , adqBean.getIdConcesionaria()));
+				//Ver como poner estos dos datos que faltan
+				parameters.add(new BasicNameValuePair("nombre_apellido" , ""));
+				parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
+		      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
+				String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+				}
+
+		}
+		catch(RuntimeException | SQLException ex ){
+			System.out.println("No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
+		}
+		
 	}
 	
 	/*
