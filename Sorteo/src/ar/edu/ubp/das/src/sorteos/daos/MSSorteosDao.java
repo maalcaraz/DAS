@@ -41,6 +41,7 @@ public class MSSorteosDao extends DaoImpl{
 		this.connect();
 		
 		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?)");
+		System.out.println("Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
 		this.setParameter(1, sorteo.getIdSorteo());
 		this.setParameter(2, sorteo.getFechaSorteado());
 		this.setParameter(3, sorteo.getPendiente());
@@ -59,7 +60,7 @@ public class MSSorteosDao extends DaoImpl{
 		List<Bean> ret = new LinkedList<Bean>();
 		
 		this.connect();
-		this.setProcedure("dbo.get_pendientes", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		this.setProcedure("dbo.get_sorteos_pendientes", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet result = this.getStatement().executeQuery();
 		result.next();
 		while(result.getRow() > 0) {

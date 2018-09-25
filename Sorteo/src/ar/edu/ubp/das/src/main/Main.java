@@ -32,6 +32,7 @@ public class Main {
 			{
 				System.out.println("Hoy no es fecha de sorteo. Cancelando ejecucion...");
 				abortarSorteo = true;
+				System.out.println("El error en ejecucion da porque el programa en este punto ya deberia terminarse...");
 			}
 		}
 		else
@@ -81,7 +82,7 @@ public class Main {
 		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
 		 * en caso de que el proceso haya fallado en alguno momento.
 		 */
-		if(abortarSorteo == true){
+		if((abortarSorteo == true) && (sorteoActual != null)){
 			System.out.println("Seteamos sorteo como pendiente...");
 			opsSorteo.registrarSorteoPendiente(sorteoActual, "El sorteo no cumple las condiciones para ser ejecutado.");
 		}

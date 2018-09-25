@@ -30,7 +30,6 @@ public class OperacionesSorteo {
 	public OperacionesSorteo(){
 		
 	}
-	
 	/*
 	 * Obtiene ganador de el ultimo sorteo y pregunta en concesionaria
 	 * correspondiente si se cancelo.
@@ -233,13 +232,11 @@ public class OperacionesSorteo {
 			if(sorteosHoy != null && !sorteosHoy.isEmpty()){
 				sorteoPorEjecutar =  (SorteoBean) sorteosHoy.get(0);
 			}
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-
 		return sorteoPorEjecutar;
 		
 	}
@@ -248,6 +245,8 @@ public class OperacionesSorteo {
 		try {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendiente.setPendiente("S");
+			
+			System.out.println("Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
 			sorteo.update(pendiente);
 			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
 		}
