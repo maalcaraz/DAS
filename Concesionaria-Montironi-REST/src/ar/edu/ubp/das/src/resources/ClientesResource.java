@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,11 +13,9 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import ar.edu.ubp.das.daos.MSClientesDao;
-import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
-import ar.edu.ubp.das.src.beans.ClienteBean;
-import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 
@@ -42,47 +39,45 @@ public class ClientesResource {
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-		
-		
+		System.out.println(sqlTimestamp);
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
         Gson gson = new Gson();
         String respuestaServicio = null;
+        
         TransaccionBean transaccion = new TransaccionBean();
+        
+        
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
-			
+        
+        
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
 				
-				List<List<Bean>> lista = dao.selectListBeans();
-				
-				String jsonClientes = gson.toJson(lista.get(0));
+				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();
-				String jsonAdquiridos = gson.toJson(lista.get(1));
+				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
 				gson = new Gson();
-				String jsonPlanes = gson.toJson(lista.get(2));
+				String jsonPlanes = gson.toJson(concesionaria.getPlanes());
 				gson = new Gson();
-				String jsonCuotas = gson.toJson(lista.get(3));
-		
+				String jsonCuotas = gson.toJson(concesionaria.getCuotas());
+
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 	        	
-	        	transaccion.setEstado_transaccion("Success");
+	        	transaccion.setEstadoTransaccion("Success");
 	        	transaccion.setMensajeRespuesta(stringRespuesta);
-	        	respuestaServicio = gson.toJson(transaccion);
-
-	        	//System.out.println(respuestaServicio);
+	        	
 			}
 			catch (SQLException ex) {
-				
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-	        	transaccion.setEstado_transaccion("Failed");
+	        	transaccion.setEstadoTransaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
-	        	respuestaServicio = gson.toJson(transaccion);
 			}
-			
+			respuestaServicio = gson.toJson(transaccion);
 			return Response.status( Response.Status.OK ).entity(respuestaServicio).build();
 	}
 	
@@ -94,15 +89,32 @@ public class ClientesResource {
 									 @FormParam("dni_cliente") String dniCliente, 
 									 @FormParam("nombre_apellido") String nombreApellido,
 									 @FormParam("id_plan") String idPlan,
-									 @FormParam("fecha_sorteo") String fechaSorteo) {
-        /*----------------- Esta operacion retorna lo siguiente: ----------------*/
-		Date horaFechaTransaccion = new Date();
+									 @FormParam("fecha_sorteo") String fechaSorteo) {		
+		
+
+		System.out.println("----------------------------------------\n\n\t POST \n");
+		System.out.println("\n -->  IdPortal: "+idPortal);
+		System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
+		System.out.println("\n -->  DniCliente: "+dniCliente);
+		System.out.println("\n -->  Nombre y Apellido: "+nombreApellido);
+		System.out.println("\n -->  IdPlan: "+idPlan);
+		System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
+		System.out.println("\n\n----------------------------------------\n\n");
+		
+		/*
+		 * ----------------- Esta operacion retorna un mensaje indicando el estado de la operacion ----------------
+		 * 	*/
+		Date horaFechaTransaccion = new Date(); 
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
+		System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
+		System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+		System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
+		
     	String mensajeRespuesta = "";
-        
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
@@ -110,38 +122,46 @@ public class ClientesResource {
         transaccion.setId_transaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
-		
-		try {
+    	
+        try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ClienteBean cliente = new ClienteBean();
         	AdquiridoBean adquirido = new AdquiridoBean();
-        	cliente.setDniCliente(dniCliente);
+        	adquirido.setDniCliente(dniCliente);
         	adquirido.setFechaSorteado(fechaSorteo);
         	adquirido.setIdPlan(idPlan);
-        	/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
-        	if (idConcesionaria.equals("Montironi")){
-        		dao.update(cliente, adquirido);
-        		mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
+
+        	/*
+        	 * -------- Si el ganador es un cliente de esta concesionaria, 
+        	 * 			actualiza valores en la tabla Clientes y Adquiridos --------*/
+        	
+        	if (idConcesionaria.contains("AutoHaus")){
+        		dao.update(adquirido);
+        		mensajeRespuesta = "Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
         		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
-        		dao.insert(novedad);
-        		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
+        		ConcesionariaBean concesionaria = new ConcesionariaBean();
+        		concesionaria.setNovedad(novedad);
+        		dao.insert(concesionaria);
+        		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades con el ganador del sorteo";
         	}
-        	
-        	transaccion.setEstado_transaccion("Success");
+        
+        	transaccion.setEstadoTransaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
-        	respuestaServicio = gson.toJson(transaccion);
-        	System.out.println(respuestaServicio);
         }
         catch(SQLException ex) {
         	//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-        	transaccion.setEstado_transaccion("Failed");
+        	transaccion.setEstadoTransaccion("Failed");
         	transaccion.setMensajeRespuesta(ex.getMessage());
-        	respuestaServicio = gson.toJson(transaccion);
         }
-		return Response.status(Response.Status.OK).entity(respuestaServicio).build();
+        
+        
+        System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+        System.out.println("\n\n----------------------------------------");
+        respuestaServicio = gson.toJson(transaccion);
+        return Response.status(Response.Status.OK).entity(respuestaServicio).build();
 	}
 	
 	@Path("/verificarCancelado")
@@ -150,9 +170,6 @@ public class ClientesResource {
 	public Response verificarCancelado(@FormParam("id_portal") String idPortal,
 									   @FormParam("dni_cliente") String dniCliente,
 									   @FormParam("id_plan") String idPlan) {
-		
-		// Deberiamos definir para que usar el idPortal y donde.
-		
 		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		Date horaFechaTransaccion = new Date();
@@ -172,14 +189,14 @@ public class ClientesResource {
 		
         try {
         	MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-        	ClienteBean cliente = new ClienteBean();
-        	PlanBean plan = new PlanBean();
-        	cliente.setDniCliente(dniCliente);
-			plan.setIdPlan(idPlan);
+        	AdquiridoBean adquirido = new AdquiridoBean();
+        	
+        	adquirido.setDniCliente(dniCliente);
+        	adquirido.setIdPlan(idPlan);
 			
-			mensajeRespuesta = ((dao.valid2Beans(cliente,plan) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
+			mensajeRespuesta = ((dao.valid(adquirido) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
 
-        	transaccion.setEstado_transaccion("Success");
+        	transaccion.setEstadoTransaccion("Success");
         	transaccion.setMensajeRespuesta(mensajeRespuesta);
         	respuestaServicio = gson.toJson(transaccion);
         	//return Response.status(Response.Status.OK).entity(mensajeRespuesta).build();
@@ -187,7 +204,7 @@ public class ClientesResource {
         catch(SQLException ex) {
 
         	//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-        	transaccion.setEstado_transaccion("Failed");
+        	transaccion.setEstadoTransaccion("Failed");
         	transaccion.setMensajeRespuesta(ex.getMessage());
         	respuestaServicio = gson.toJson(transaccion);
         }

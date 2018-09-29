@@ -20,6 +20,8 @@ drop table tipos_vehiculos
 drop table nacionalidades
 drop procedure dbo.cancelar_ganador
 --drop trigger tu_ri_cuotas_adquiridos
+drop procedure dbo.get_estados_cuentas
+go
 go
 
 create table nacionalidades
@@ -220,9 +222,6 @@ create table novedades
 	textoNovedad			varchar(max)	not null,
 	CONSTRAINT PK__novedades__END primary key(id_novedad)
 )
-go
-
-drop procedure dbo.get_estados_cuentas
 go
 
 create procedure dbo.get_estados_cuentas
