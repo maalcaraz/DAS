@@ -32,6 +32,12 @@ public class ClientesResource {
 	@POST
 	//Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response getClientes(String idPortal) {
+		
+		
+		System.out.println("----------------------------------------\n\n\t POST \n");
+		System.out.println("\n -->  Obtener clientes no envia parametros");
+		System.out.println("\n\n----------------------------------------\n\n");
+		
 		String idConcesionaria = "AH123456";
 		Date horaFechaTransaccion = new Date();
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
@@ -39,6 +45,9 @@ public class ClientesResource {
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		System.out.println(sqlTimestamp);
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
+		System.out.println("----------------------------------------\n\n\t OBTENER DATOS DE CLIENTES\n");
+		System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+		System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
         Gson gson = new Gson();
         String respuestaServicio = null;
         
@@ -75,6 +84,9 @@ public class ClientesResource {
 	        	transaccion.setEstadoTransaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
 			}
+			System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+	        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+	        System.out.println("\n\n----------------------------------------");
 			respuestaServicio = gson.toJson(transaccion);
 			return Response.status( Response.Status.OK ).entity(respuestaServicio).build();
 	}
@@ -169,6 +181,12 @@ public class ClientesResource {
 									   @FormParam("dni_cliente") String dniCliente,
 									   @FormParam("id_plan") String idPlan) {
 		
+		System.out.println("----------------------------------------\n\n\t POST \n");
+		System.out.println("\n -->  IdPortal: "+idPortal);
+		System.out.println("\n -->  DniCliente: "+dniCliente);
+		System.out.println("\n -->  IdPlan: "+idPlan);
+		System.out.println("\n\n----------------------------------------\n\n");
+		
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		System.out.println(idPortal);
 		Date horaFechaTransaccion = new Date();
@@ -176,6 +194,9 @@ public class ClientesResource {
 		long lnMilisegundos = utilDate.getTime();
 		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
+		System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
+		System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+		System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
     	String mensajeRespuesta = "";
     	String idConcesionaria = "AutoHaus";
   
@@ -206,6 +227,9 @@ public class ClientesResource {
         	transaccion.setMensajeRespuesta(ex.getMessage());
         }
         
+        System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+        System.out.println("\n\n----------------------------------------");
         respuestaServicio = gson.toJson(transaccion);
         return Response.status(Response.Status.OK).entity(respuestaServicio).build();
 	}
