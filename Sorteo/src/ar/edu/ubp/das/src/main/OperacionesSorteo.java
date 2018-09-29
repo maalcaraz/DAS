@@ -51,12 +51,6 @@ public class OperacionesSorteo {
 					 */
 					LinkedList<Bean> listaUltimoGanador = (LinkedList<Bean>) Ganadores.select(null);
 					
-					/*
-					String dniCliente = listaUltimoGanador.get(0).getItem("dni_cliente");
-					String idPlan = listaUltimoGanador.get(0).getItem("id_plan");
-					String idConcesionaria = listaUltimoGanador.get(0).getItem("id_concesionaria");
-					*/
-					
 					adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
 					
 					List <NameValuePair> parameters = new ArrayList <NameValuePair>();
@@ -91,18 +85,17 @@ public class OperacionesSorteo {
 					}
 					
 					
-				} catch (SQLException e) {
+				} 
+				catch (SQLException e) {
 					
 					e.printStackTrace();
 					System.out.println(e.getMessage());
 				}
-
-		
 		return adqBean;
 	}
 	
 	
-	public void informarCancelacionPendiente(AdquiridoBean adqBean){
+	public void NotificarGanador(AdquiridoBean ganador){
 		
 		String idPortal = "PORTALGOB";
 		System.out.println("Entrando en Informar cancelado pendiente (OperacionesSorteo)");
@@ -114,18 +107,21 @@ public class OperacionesSorteo {
 			Gson gson = new Gson();
 			
 			System.out.println("Entrando a recorrer concesionarias...");
+			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
+			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
+			//Ver como poner estos dos datos que faltan
+			parameters.add(new BasicNameValuePair("nombre_apellido" , ""));
+			parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
+	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
+	      	
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				
-				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
-				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
-				parameters.add(new BasicNameValuePair("id_concesionaria" , adqBean.getIdConcesionaria()));
-				//Ver como poner estos dos datos que faltan
-				parameters.add(new BasicNameValuePair("nombre_apellido" , ""));
-				parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
-		      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
 				String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+				if (restResp.equals("")){
+					
 				}
+			}
 
 		}
 		catch(RuntimeException | SQLException ex ){

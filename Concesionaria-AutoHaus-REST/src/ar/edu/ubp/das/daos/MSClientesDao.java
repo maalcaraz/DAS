@@ -42,14 +42,20 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
-		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
+		AdquiridoBean ganador = (AdquiridoBean) form;
 		
-		/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+		/*-------------- Procesamiento para notificar los nuevos ganadores.------------- 
+		 *-------------- Actualiza datos del cliente en la base de datos.  -------------*/
 		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
-		this.setParameter(1, concesionaria.getClientes().get(0).getDniCliente());
-		this.setParameter(2, concesionaria.getAdquiridos().get(0).getFechaSorteado());
-		this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
-		this.executeUpdate();
+		// this.setParameter(1, concesionaria.getClientes().get(0).getDniCliente());
+		// this.setParameter(2, concesionaria.getAdquiridos().get(0).getFechaSorteado());
+		// this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
+		int dni = Integer.parseInt(ganador.getDniCliente());
+		int idPlan = Integer.parseInt(ganador.getIdPlan());
+		this.setParameter(1, dni);
+		this.setParameter(2, ganador.getFechaSorteado());
+		this.setParameter(3, idPlan);
+		this.executeQuery();
 		this.disconnect();
 	}
 

@@ -58,7 +58,7 @@ public class Main {
 			{
 				//Tenemos que notificar cancelacion pendiente
 				// Algunos argumentos pendientes, chequear funcionamiento
-				opsSorteo.informarCancelacionPendiente(ultimoGanador);
+				opsSorteo.NotificarGanador(ultimoGanador);
 				abortarSorteo = true;
 			}
 			
@@ -86,13 +86,20 @@ public class Main {
 		
 		
 		if(abortarSorteo == false){
+			// Ejecucion del sorteo
+			System.out.println("Ejecucion del sorteo");
+			int iGanador = (int) (Math.random() * participantes.size());
 			
-			int ganador = (int) (Math.random() * participantes.size());
+			ParticipanteBean participanteGanador = (ParticipanteBean)participantes.get(iGanador);
 			
-			ParticipanteBean ganadorBean = (ParticipanteBean)participantes.get(ganador);
+			System.out.println( "El ganador es " + participanteGanador.getDniCliente());
 			
-			System.out.println( "\n>> El ganador es " +
-					ganadorBean.getDniCliente());
+			AdquiridoBean ganador = new AdquiridoBean();
+			ganador.setDniCliente(participanteGanador.getDniCliente());
+			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
+			opsSorteo.NotificarGanador(ganador);
+			
+			
 			
 		}
 		/*
