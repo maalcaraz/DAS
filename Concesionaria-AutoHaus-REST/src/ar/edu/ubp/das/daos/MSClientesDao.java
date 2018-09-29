@@ -52,10 +52,11 @@ public class MSClientesDao extends DaoImpl {
 		// this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
 		int dni = Integer.parseInt(ganador.getDniCliente());
 		int idPlan = Integer.parseInt(ganador.getIdPlan());
+		
 		this.setParameter(1, dni);
 		this.setParameter(2, ganador.getFechaSorteado());
 		this.setParameter(3, idPlan);
-		this.executeQuery();
+		this.executeUpdate();
 		this.disconnect();
 	}
 
@@ -88,6 +89,8 @@ public class MSClientesDao extends DaoImpl {
         ResultSet result = this.getStatement().executeQuery();
         
 /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
+        
+        /*Queda pendiente arreglar este*/
         
         result.next();
        

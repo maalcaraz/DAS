@@ -18,6 +18,8 @@ drop table provincias
 drop table colores
 drop table tipos_vehiculos
 drop table nacionalidades
+drop procedure dbo.cancelar_ganador
+--drop trigger tu_ri_cuotas_adquiridos
 go
 
 create table nacionalidades
@@ -284,13 +286,10 @@ AS
 	END
 go
 
-drop procedure dbo.cancelar_ganador
-go 
-
 CREATE PROCEDURE dbo.cancelar_ganador
 (
 	@dni_cliente		char(8),
-	@fecha_sorteo		varchar(10),
+	@fecha_sorteo		varchar(8),
 	@id_plan			integer
 )
 AS
@@ -300,31 +299,15 @@ BEGIN
 				where ad.dni_cliente = @dni_cliente
 				and ad.id_plan = @id_plan 
 			  )
-	UPDATE cuo
-		SET cuo.pagó = 'S'
-		FROM cuotas cuo
-		where cuo.dni_cliente = @dni_cliente
-		and	  cuo.id_plan = @id_plan
-
 	UPDATE a
 		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), 
 			a.ganador_sorteo = 'S', -- Cambiamos su estado a ganador
 			a.cancelado = 'S'		-- Especificamos que ya estan canceladas sus cuotas
 		FROM adquiridos a		
 		where a.dni_cliente = @dni_cliente
-		and		  a.id_plan = @id_plan
+		and   a.id_plan = @id_plan
 END
 go
-
--- execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
-
--- lo probamos con 
-
-select * from adquiridos a
-where a.ganador_sorteo = 'S'
-
-
-select * from clientes
 
 
 drop procedure dbo.insertar_novedad
@@ -383,4 +366,44 @@ Select *
 		join adquiridos ad
 		on c.dni_cliente = ad.dni_cliente
 		where ad.cancelado = 'S' 
+go
+
+/*	execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
+	lo probamos con  */
+
+select * from adquiridos a
+where a.ganador_sorteo = 'S'
+
+select * from cuotas cuo
+where cuo.dni_cliente = 25555555
+and cuo.id_plan = 303456
+go
+
+-- Trigger para la cancelacion de cuotas: Para que cada vez que un adquirido se declare como ganador, automaticamente se le cancelen las 
+-- cuotas restantes
+/*
+	- Tabla: CUOTAS
+	- Operaciones: Update
+
+*/
+
+CREATE TRIGGER tu_ri_cuotas_adquiridos
+on adquiridos
+FOR update
+AS
+	BEGIN
+		IF exists (
+					select * from inserted i
+					where i.cancelado = 'S'
+					)
+		BEGIN	
+			UPDATE cuo
+				SET cuo.pagó = 'S'
+				FROM cuotas cuo join inserted i 
+				on cuo.dni_cliente = i.dni_cliente
+				and cuo.id_plan = i.id_plan
+				where cuo.dni_cliente = i.dni_cliente
+				and	  cuo.id_plan = i.id_plan
+		END
+	END
 go
