@@ -77,7 +77,7 @@ public abstract class DaoImpl implements Dao {
     }
     public List<Bean> executeQuery() throws SQLException {
         List<Bean> list   = new LinkedList<Bean>();
-        ResultSet            result = this.statement.executeQuery();
+        ResultSet  result = this.statement.executeQuery();
         while(result.next()) {
             list.add(this.make(result));
         }

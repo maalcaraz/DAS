@@ -27,21 +27,21 @@ public class Main {
 		sorteoActual = opsSorteo.consultarPendientes();
 		
 		if(sorteoActual == null){
-			System.out.println("No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
+			System.out.println("[Main]No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
 			
 			sorteoActual = opsSorteo.obtenerSorteoHoy();
 			
 			if(sorteoActual == null)
 			{
-				System.out.println("Hoy no es fecha de sorteo. Cancelando ejecucion...");
+				System.out.println("[Main]Hoy no es fecha de sorteo. Cancelando ejecucion...");
 				abortarSorteo = true;
-				System.out.println("El error en ejecucion da porque el programa en este punto ya deberia terminarse...");
+				System.out.println("[Main]El error en ejecucion da porque el programa en este punto ya deberia terminarse...");
 			}
 		}
 		else
 		{
 			// Para esta altura sorteoActual no es null y ya tiene el sorteo pendiente
-			System.out.println("Hay sorteo pendiente. Procedemos a ejecutarlo...");
+			System.out.println("[Main]Hay sorteo pendiente. Procedemos a ejecutarlo...");
 		}
 		
 		if(abortarSorteo == false)
@@ -51,8 +51,12 @@ public class Main {
 			 */
 			AdquiridoBean ultimoGanador = opsSorteo.verificarCancelado();
 			
-			if(ultimoGanador.getCancelado().equals("true")){
-				System.out.println("Ultimo ganador cancelado. Podemos proceder con el sorteo");
+			/*En la condicion se pregunta con OR porque si no hay aun ganadores registrados
+			 * se procede igual con la ejecucion del sorteo
+			 * 
+			 * */
+			if( (ultimoGanador == null) || (ultimoGanador.getCancelado().equals("true"))){
+				System.out.println("[Main]Ultimo ganador cancelado. Podemos proceder con el sorteo");
 			}
 			else
 			{
@@ -73,7 +77,7 @@ public class Main {
 			
 			participantes = opsSorteo.consultaConcesionarias();
 			if(participantes != null && !participantes.isEmpty()){
-				System.out.println("procedemos a sortear...");
+				System.out.println("[Main]Procedemos a sortear...");
 			}
 			else
 			{
@@ -87,29 +91,26 @@ public class Main {
 		
 		if(abortarSorteo == false){
 			// Ejecucion del sorteo
-			System.out.println("Ejecucion del sorteo");
+			System.out.println("[Main]Ejecucion del sorteo");
 			int iGanador = (int) (Math.random() * participantes.size());
 			
 			ParticipanteBean participanteGanador = (ParticipanteBean)participantes.get(iGanador);
 			
-			System.out.println( "El ganador es " + participanteGanador.getDniCliente());
+			System.out.println( "[Main]El ganador es " + participanteGanador.getDniCliente());
 			
 			AdquiridoBean ganador = new AdquiridoBean();
 			ganador.setDniCliente(participanteGanador.getDniCliente());
 			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
 			opsSorteo.NotificarGanador(ganador);
-			
-			
-			
 		}
 		/*
 		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
 		 * en caso de que el proceso haya fallado en alguno momento.
 		 */
 		if(abortarSorteo == true && sorteoActual != null ){
-			System.out.println("Seteamos sorteo como pendiente...");
-			opsSorteo.registrarSorteoPendiente(sorteoActual, "El sorteo no cumple las condiciones para ser ejecutado.");
+			System.out.println("[Main]Seteamos sorteo como pendiente...");
+			opsSorteo.registrarSorteoPendiente(sorteoActual, "[Main]El sorteo no cumple las condiciones para ser ejecutado.");
 		}
-		System.out.println("Adios mundo");
+		System.out.println("[Main]Adios mundo");
 	}	
 }

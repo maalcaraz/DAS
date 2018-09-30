@@ -48,8 +48,8 @@ create table concesionarias
 	email						varchar(50)		null,	
 	direccion					varchar(100)	null,
 	telefono					char(11)		null,
-	ultima_actualizacion		date			null,
-	cant_dias_caducidad			tinyint			default '15',
+	ultima_actualizacion		date			default (CONVERT (date, GETDATE())),
+	cant_dias_caducidad			tinyint			default 15,
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
 	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
@@ -611,7 +611,7 @@ BEGIN
 END
 go
 
---execute dbo.get_cliente_info 25555555, 'Montironi705993369'
+--execute dbo.get_cliente_info 25555555, 'AutoHaus1503004614'
 
 create procedure dbo.get_datos_clientes
 (
@@ -624,6 +624,8 @@ BEGIN
 		where c.id_concesionaria = @id_concesionaria
 END
 go
+
+-- execute dbo.get_datos_clientes 'AutoHaus1503004614'
 
 create procedure dbo.get_participantes
 (
@@ -700,3 +702,14 @@ BEGIN
 	where s.id_sorteo = @id_sorteo
 END
 go
+
+
+/* Caso 1: Hay sorteos pendientes 
+
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
+go
+
+
+*/

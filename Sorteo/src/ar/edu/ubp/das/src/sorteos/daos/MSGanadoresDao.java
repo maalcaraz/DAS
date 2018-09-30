@@ -45,11 +45,12 @@ public class MSGanadoresDao  extends DaoImpl {
 		
 		this.connect();
 		this.setProcedure("dbo.get_ultimo_ganador()");
-		List<Bean> ganadores = this.executeQuery();
-			
+		List<Bean> ganadores = this.executeQuery();			
 		this.disconnect();
+		if (ganadores.isEmpty()){
+			ganadores = null;
+		}
 		return ganadores;
-		
 	}
 
 	@Override

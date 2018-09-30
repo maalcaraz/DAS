@@ -49,39 +49,44 @@ public class OperacionesSorteo {
 					/*
 					 *  Ganadores.select devuelve una lista con solo el primer elemento 
 					 */
-					LinkedList<Bean> listaUltimoGanador = (LinkedList<Bean>) Ganadores.select(null);
+					List<Bean> listaUltimoGanador =  Ganadores.select(null);
 					
-					adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
-					
-					List <NameValuePair> parameters = new ArrayList <NameValuePair>();
-					parameters.add(new BasicNameValuePair("id_portal" , idPortal));
-					parameters.add(new BasicNameValuePair("dni_cliente" , adqBean.getDniCliente()));
-			      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
-					
-					MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
-					List<Bean> listadoConcesionarias = Concesionaria.select(null);
-					
-					String concAdqBean = adqBean.getIdConcesionaria();
-					
-					for (Bean c : listadoConcesionarias ){
-						ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+					if (listaUltimoGanador != null){ // asi pasa la primer vuelta
+						adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
 						
-						// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
+						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+						parameters.add(new BasicNameValuePair("id_portal" , idPortal));
+						parameters.add(new BasicNameValuePair("dni_cliente" , adqBean.getDniCliente()));
+				      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
 						
-						if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
-							System.out.println("Verificando cancelado en la concesionaria " + concAdqBean);
-							restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
-						}
+						MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
+						List<Bean> listadoConcesionarias = Concesionaria.select(null);
+						
+						String concAdqBean = adqBean.getIdConcesionaria();
+						
+						for (Bean c : listadoConcesionarias ){
+							ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+							
+							// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
+							
+							if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
+								System.out.println("[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
+								restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
+							}
 
+						}
+						
+						if(restResp.equals("{Cancelado: SI}")){
+							response = true;
+							adqBean.setCancelado("true");
+						}
+						else
+						{
+							adqBean.setCancelado("false");
+						}
 					}
-					
-					if(restResp.equals("{Cancelado: SI}")){
-						response = true;
-						adqBean.setCancelado("true");
-					}
-					else
-					{
-						adqBean.setCancelado("false");
+					else{
+						System.out.println("[Conc]Aun no hay ganadores registrados. dbo.ultimo_ganador retorno null");
 					}
 					
 					
@@ -98,7 +103,7 @@ public class OperacionesSorteo {
 	public void NotificarGanador(AdquiridoBean ganador){
 		
 		String idPortal = "PORTALGOB";
-		System.out.println("Entrando en Informar cancelado pendiente (OperacionesSorteo)");
+		System.out.println("[Ops Sorteo]Entrando en Informar cancelado pendiente");
 		
 		try {
 			
@@ -106,7 +111,7 @@ public class OperacionesSorteo {
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
 			Gson gson = new Gson();
 			
-			System.out.println("Entrando a recorrer concesionarias...");
+			System.out.println("[Ops Sorteo]Entrando a recorrer concesionarias...");
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
@@ -125,7 +130,7 @@ public class OperacionesSorteo {
 
 		}
 		catch(RuntimeException | SQLException ex ){
-			System.out.println("No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
+			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ex.getMessage());
 		}
 		
 	}
@@ -136,7 +141,7 @@ public class OperacionesSorteo {
 	 * Devuelve lista con de participantes para sorteo
 	 */
 	public List<Bean> consultaConcesionarias(){
-		System.out.println("Entrando en Consulta de Concesionarias (OperacionesSorteo)");
+		System.out.println("[Ops Sorteo]Entrando en Consulta de Concesionarias");
 		List<Bean> participantesC = null;
 		
 		try {
@@ -146,7 +151,7 @@ public class OperacionesSorteo {
 			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			Gson gson = new Gson();
 			
-			System.out.println("En la Consulta Quincenal - Entrando a recorrer concesionarias...");
+			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
@@ -155,9 +160,9 @@ public class OperacionesSorteo {
 				LinkedList<PlanBean> planes;
 				LinkedList<AdquiridoBean> adquiridos;
 				LinkedList<CuotaBean> cuotas;
-				System.out.println("Entrando al if de actualizacion de datos");
+				System.out.println("[Ops Sorteo]Entrando al if de actualizacion de datos");
 				if ( concesionaria.getUltimaActualizacion() == null ||  ultimaActualizacion > 15){
-					System.out.println("Consulta Quincenal (OperacionesSorteo) ==> Hay que actualizar los datos");
+					System.out.println("[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
 					try {
 						/* Esto hace falta a la hora de preguntar si el sorteo es hoy
 						java.util.Date utilDate = new java.util.Date(); //fecha actual
@@ -200,11 +205,11 @@ public class OperacionesSorteo {
 		 			{
 		 			 	//Guardar sorteo como pendiente (ex.getMessage());
 		 			   //return;
-		 				System.out.println("El presente sorteo se guarda como pendiente");
+		 				System.out.println("[Ops Sorteo]El presente sorteo se guarda como pendiente");
 		 			}
 				}
 				else{
-					System.out.println("No hay que actualizar los datos");
+					System.out.println("[Ops Sorteo]No hay que actualizar los datos");
 					/*No hace falta actualizar los datos*/
 					
 				}
@@ -216,7 +221,7 @@ public class OperacionesSorteo {
 			}
 		}
 		catch(RuntimeException | SQLException ex ){
-			System.out.println("No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
+			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
 		}
 		
 		return participantesC;
@@ -270,7 +275,7 @@ public class OperacionesSorteo {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println("[Ops Sorteo]"+e.getMessage());
 		}
 		return sorteoPorEjecutar;
 		
@@ -281,12 +286,12 @@ public class OperacionesSorteo {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendiente.setPendiente("S");
 			
-			System.out.println("Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
+			System.out.println("[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
 			sorteo.update(pendiente);
 			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
 		}
 		catch (SQLException ex){
-			System.out.println("Hubo un error al registrar el sorteo como pendiente. Mensaje: "+ex.getMessage());
+			System.out.println("[Ops Sorteo]Hubo un error al registrar el sorteo como pendiente. Mensaje: "+ex.getMessage());
 		}
 	}
 }	
