@@ -22,7 +22,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		// Hacer un if, preguntar por el name e insertar transaccion o concesionaria.
 				ConcesionariaBean c = (ConcesionariaBean) bean;
 				this.connect();
-				this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				
 				this.setParameter(1, c.getIdConcesionaria());
 				this.setParameter(2, c.getNomConcesionaria());
@@ -30,11 +30,10 @@ public class MSConcesionariaDao extends DaoImpl{
 				this.setParameter(4, c.getEmail());
 				this.setParameter(5, c.getDireccion());
 				this.setParameter(6, c.getTelefono());
-				this.setParameter(7, c.getUltimaActualizacion());
-				this.setParameter(8, c.getCantDiasCaducidad());
-				this.setParameter(9, c.getWebService().getUrl());
-				this.setParameter(10, c.getCodTecnologia());
-				this.setParameter(11, c.getAprobada());
+				this.setParameter(7, c.getCantDiasCaducidad());
+				this.setParameter(8, c.getWebService().getUrl());
+				this.setParameter(9, c.getCodTecnologia());
+				this.setParameter(10, c.getAprobada());
 				this.executeUpdate();
 				this.disconnect();
 	}
@@ -61,7 +60,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		if (bean == null){
 			// Devuelve una lista de concesionarias
-			System.out.println("Entrando por el if de MSConcesionariaDao ==> Buscando en la base la lista de concesionarias registradas");
+			System.out.println("[ConcDAO]Buscando en la base la lista de concesionarias registradas");
 			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
@@ -72,18 +71,20 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setNomConcesionaria(result.getString("nombre_concesionaria"));
 					f.getWebService().setUrl(result.getString("url_servicio"));
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
+					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
 					ret.add(f);
+					System.out.println("[ConcDAO]Insertando en la lista de concesionarias "+f.getIdConcesionaria());
 				}
 				catch(Exception ex){
-					System.out.println("Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
+					System.out.println("[ConcDAO]Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
 				}
 				result.next();
 			}
 		}
 		else  {
 			
-			System.out.println("Entrando por el else en MSConcesionariaDao ==> Buscando en la base la lista de participantes del sorteo");
+			System.out.println("[ConcDAO]Buscando en la base la lista de participantes del sorteo");
 			ConcesionariaBean concesionaria = (ConcesionariaBean) bean;
 			this.setProcedure("dbo.get_participantes(?, ?, ?)");
 			this.setParameter(1, concesionaria.getIdConcesionaria());

@@ -41,7 +41,7 @@ public class MSSorteosDao extends DaoImpl{
 		this.connect();
 		
 		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?)");
-		System.out.println("Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
+		System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
 		this.setParameter(1, sorteo.getIdSorteo());
 		this.setParameter(2, sorteo.getFechaSorteado());
 		this.setParameter(3, sorteo.getPendiente());

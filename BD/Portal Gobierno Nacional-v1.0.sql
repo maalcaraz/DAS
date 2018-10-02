@@ -21,7 +21,8 @@ drop procedure dbo.update_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
-drop procedure dbo.set_sorteo_pendiente
+drop procedure dbo.hoy_es_fecha_de_sorteo
+drop procedure dbo.actualizar_sorteo
 go
 
 drop table logs
@@ -48,7 +49,7 @@ create table concesionarias
 	email						varchar(50)		null,	
 	direccion					varchar(100)	null,
 	telefono					char(11)		null,
-	ultima_actualizacion		date			default (CONVERT (date, GETDATE())),
+	ultima_actualizacion		date			null,
 	cant_dias_caducidad			tinyint			default 15,
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
@@ -377,11 +378,6 @@ AS
 	END
 go
 
-select *
-from transacciones
-delete 
-from transacciones
-
 --execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
 select CONVERT (datetime, '2018-05-28 23:52:53.413')
@@ -393,6 +389,8 @@ go
 select getdate()
 go
 
+select FORMAT(getDate(), 'dd-MM-yyyy')
+go
 
 create procedure dbo.insertar_concesionaria
 (
@@ -402,7 +400,6 @@ create procedure dbo.insertar_concesionaria
 	@email							varchar(50),
 	@direccion						varchar(100),
 	@telefono						char(11),
-	@ultima_actualizacion			date,
 	@cant_dias_caducidad			tinyint,
 	@url_servicio					varchar(100),
 	@cod_tecnologia					varchar(10),
@@ -411,7 +408,7 @@ create procedure dbo.insertar_concesionaria
 AS
 	BEGIN
 		insert into concesionarias
-		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, @ultima_actualizacion, @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
+		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, FORMAT(getDate(), 'dd-MM-yyyy'), @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
 	END
 go
 
@@ -426,49 +423,18 @@ AS
 	END
 go
 
-select *
-	from clientes
-go
-
-select *
-	from planes p
---group by p.id_concesionaria
-go
-
-select *
-	from adquiridos
-go
-
-select * 
-	from cuotas
-go
 
 /*
-delete from planes
-delete from adquiridos
-delete from clientes
-delete from cuotas
-*/
-
-
-select * 
-	from transacciones
-go
-
-/*
-insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia)
-values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', '02-02-18' , 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'R')
+insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia, aprobada)
+values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', FORMAT(getDate(), 'dd-MM-yyyy'), 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N')
 go
 */
-select *
-	from concesionarias
-go
-
 
 create procedure dbo.get_concesionarias
 AS
 BEGIN
-	Select * from concesionarias
+	Select c.id_concesionaria, c.nombre_concesionaria, c.cuit, c.email, c.direccion, c.telefono, FORMAT(c.ultima_actualizacion, 'dd-MM-yyyy'), c.cant_dias_caducidad, c.url_servicio, c.cod_tecnologia, c.aprobada
+	 from concesionarias c
 END
 go
 
@@ -673,15 +639,13 @@ BEGIN
 END
 go
 
---execute dbo.get_sorteos_pendientes
-
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
 	select *
 	from sorteos s
 	where s.pendiente is null
-	and s.fecha_sorteo = (CONVERT (date, GETDATE()))
+	and s.fecha_sorteo = FORMAT(getDate(), 'dd-MM-yyyy')
 END
 go
 
@@ -703,7 +667,6 @@ BEGIN
 END
 go
 
-
 /* Caso 1: Hay sorteos pendientes 
 
 
@@ -711,5 +674,16 @@ insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripci
 values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
 go
 
+--execute dbo.get_sorteos_pendientes
 
 */
+
+/* Caso 2: Hoy es fecha de sorteo
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+values ('123asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'S', 'Testeando pendientes')
+go
+
+*/
+
+select * from concesionarias

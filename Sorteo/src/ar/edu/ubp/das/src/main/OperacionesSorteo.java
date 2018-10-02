@@ -154,7 +154,10 @@ public class OperacionesSorteo {
 			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+				System.out.println("ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
+				System.out.println("int ultima actualizacion: "+ ultimaActualizacion);
+				
 				
 				LinkedList<ClienteBean> clientes;
 				LinkedList<PlanBean> planes;
@@ -221,11 +224,9 @@ public class OperacionesSorteo {
 			}
 		}
 		catch(RuntimeException | SQLException ex ){
-			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD . (OperacionesSorteo) Mensaje: "+ex.getMessage());
+			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
 		}
-		
 		return participantesC;
-		
 	}
 
 	
