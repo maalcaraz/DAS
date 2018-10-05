@@ -433,7 +433,7 @@ go
 create procedure dbo.get_concesionarias
 AS
 BEGIN
-	Select c.id_concesionaria, c.nombre_concesionaria, c.cuit, c.email, c.direccion, c.telefono, FORMAT(c.ultima_actualizacion, 'dd-MM-yyyy'), c.cant_dias_caducidad, c.url_servicio, c.cod_tecnologia, c.aprobada
+	Select c.id_concesionaria, c.nombre_concesionaria, c.cuit, c.email, c.direccion, c.telefono, FORMAT(c.ultima_actualizacion, 'dd-MM-yyyy') as ultima_actualizacion, c.cant_dias_caducidad, c.url_servicio, c.cod_tecnologia, c.aprobada
 	 from concesionarias c
 END
 go
@@ -686,4 +686,3 @@ go
 
 */
 
-select * from concesionarias

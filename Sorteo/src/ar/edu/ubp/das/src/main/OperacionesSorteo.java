@@ -1,7 +1,12 @@
 package ar.edu.ubp.das.src.main;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,6 +107,7 @@ public class OperacionesSorteo {
 	
 	public void NotificarGanador(AdquiridoBean ganador){
 		
+		
 		String idPortal = "PORTALGOB";
 		System.out.println("[Ops Sorteo]Entrando en Informar cancelado pendiente");
 		
@@ -155,16 +161,16 @@ public class OperacionesSorteo {
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				System.out.println("ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
-				int ultimaActualizacion = Integer.parseInt(concesionaria.getUltimaActualizacion());
-				System.out.println("int ultima actualizacion: "+ ultimaActualizacion);
 				
+				int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
+				System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
 				
 				LinkedList<ClienteBean> clientes;
 				LinkedList<PlanBean> planes;
 				LinkedList<AdquiridoBean> adquiridos;
 				LinkedList<CuotaBean> cuotas;
 				System.out.println("[Ops Sorteo]Entrando al if de actualizacion de datos");
-				if ( concesionaria.getUltimaActualizacion() == null ||  ultimaActualizacion > 15){
+				if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > 15) ){
 					System.out.println("[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
 					try {
 						/* Esto hace falta a la hora de preguntar si el sorteo es hoy
@@ -214,7 +220,6 @@ public class OperacionesSorteo {
 				else{
 					System.out.println("[Ops Sorteo]No hay que actualizar los datos");
 					/*No hace falta actualizar los datos*/
-					
 				}
 				participantesC = Concesionaria.select(c);
 				for (Bean b : participantesC){
@@ -228,31 +233,24 @@ public class OperacionesSorteo {
 		}
 		return participantesC;
 	}
-
 	
 	public SorteoBean consultarPendientes(){
-		
 		List<Bean> pendientes = null;
 		SorteoBean sorteoPorEjecutar =  null;
-		
 		try {
-			
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendientes = sorteo.select(null);
-			
 			/*
 			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
 			 */	
 			if(pendientes != null && !pendientes.isEmpty()){
 				sorteoPorEjecutar =  (SorteoBean) pendientes.get(0);
 			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println("[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
 		}
-	
 		return sorteoPorEjecutar;
 	}
 	
@@ -295,4 +293,28 @@ public class OperacionesSorteo {
 			System.out.println("[Ops Sorteo]Hubo un error al registrar el sorteo como pendiente. Mensaje: "+ex.getMessage());
 		}
 	}
+	
+	public static synchronized int diferenciasDeFechas(String fechaUltimaActualizacion) {
+
+		Date fechaHoy = new Date();
+		Date ultimaActualizacion = null;
+		
+        SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			Date date;
+			date = parser.parse(fechaUltimaActualizacion);
+			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+		    String formattedDate = formatter.format(date);
+		    System.out.println("[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
+		    ultimaActualizacion = formatter.parse(formattedDate);
+		} 
+		catch (ParseException e) {
+			e.printStackTrace();
+		}
+        long fechaInicialMs = ultimaActualizacion.getTime();
+        long fechaFinalMs = fechaHoy.getTime();
+        long diferencia = fechaFinalMs - fechaInicialMs;
+        double dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        return ((int) dias);
+    }
 }	
