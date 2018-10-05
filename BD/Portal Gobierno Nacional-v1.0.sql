@@ -389,6 +389,8 @@ go
 select getdate()
 go
 
+select * from concesionarias
+
 select FORMAT(getDate(), 'dd-MM-yyyy')
 go
 
@@ -408,9 +410,11 @@ create procedure dbo.insertar_concesionaria
 AS
 	BEGIN
 		insert into concesionarias
-		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, FORMAT(getDate(), 'dd-MM-yyyy'), @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
+		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, getDate() , @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
 	END
 go
+
+-- execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N'
 
 create procedure dbo.insertar_novedad
 (
@@ -426,7 +430,7 @@ go
 
 /*
 insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia, aprobada)
-values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', FORMAT(getDate(), 'dd-MM-yyyy'), 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N')
+values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N')
 go
 */
 
