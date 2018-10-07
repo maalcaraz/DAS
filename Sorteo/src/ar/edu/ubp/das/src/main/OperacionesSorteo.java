@@ -226,6 +226,9 @@ public class OperacionesSorteo {
 					ParticipanteBean p = (ParticipanteBean) b;
 					participantesSorteo.add(p);
 				}
+				if (participantesSorteo.isEmpty()){
+					System.out.println("[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
+				}
 			}
 		}
 		catch(RuntimeException | SQLException ex ){

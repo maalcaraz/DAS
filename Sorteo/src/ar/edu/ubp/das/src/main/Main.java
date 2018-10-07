@@ -74,8 +74,6 @@ public class Main {
 		
 		if(abortarSorteo == false){
 			
-			
-			System.out.println("A partir de aca, ignorar los mensajes...");
 			participantes = opsSorteo.consultaConcesionarias();
 			if(participantes != null && !participantes.isEmpty()){
 				System.out.println("[Main]Procedemos a sortear...");

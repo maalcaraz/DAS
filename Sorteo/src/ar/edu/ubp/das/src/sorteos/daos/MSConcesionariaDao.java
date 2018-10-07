@@ -74,7 +74,7 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
 					ret.add(f);
-					System.out.println("[ConcDAO]Insertando en la lista de concesionarias "+f.getIdConcesionaria());
+					System.out.println("[ConcDAO]Insertando en la lista de concesionarias ->id: "+f.getIdConcesionaria());
 				}
 				catch(Exception ex){
 					System.out.println("[ConcDAO]Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
