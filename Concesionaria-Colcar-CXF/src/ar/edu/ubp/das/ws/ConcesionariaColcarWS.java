@@ -1,6 +1,7 @@
 package ar.edu.ubp.das.ws;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.jws.WebMethod;
@@ -27,19 +28,25 @@ public class ConcesionariaColcarWS {
 		@WebMethod(operationName = "getClientes", action = "urn:GetClientes")
 		public String getClientes(@WebParam(name = "arg0") String idPortal) throws Exception {
 			
-			String idConcesionaria = "CO123456";
+			System.out.println("----------------------------------------\n\n\t POST \n");
+			System.out.println("\n -->  Obtener clientes no envia parametros");
+			System.out.println("\n\n----------------------------------------\n\n");
+			
+			String idConcesionaria = "Colcar256";
 			Date horaFechaTransaccion = new Date();		
-			java.util.Date utilDate = new java.util.Date(); //fecha actual
-			long lnMilisegundos = utilDate.getTime();
-			java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+			long lnMilisegundos = horaFechaTransaccion.getTime();
+			Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
-			Gson gson = new Gson();
+			System.out.println("----------------------------------------\n\n\t OBTENER DATOS DE CLIENTES\n");
+			System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+			System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
+	        Gson gson = new Gson();
 			String respuestaServicio = null;
 			
 			TransaccionBean transaccion = new TransaccionBean();
 			String stringRespuesta = "";
 	        
-			transaccion.setId_transaccion(idTransaccion);
+			transaccion.setIdTransaccion(idTransaccion);
 			transaccion.setIdConcesionaria(idConcesionaria);
 			transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 			try
@@ -55,16 +62,18 @@ public class ConcesionariaColcarWS {
 				gson = new Gson();
 				String jsonCuotas = gson.toJson(concesionaria.getCuotas());
 
-
 				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
 
-				transaccion.setEstado_transaccion("Success");
+				transaccion.setEstadoTransaccion("Success");
 	        	transaccion.setMensajeRespuesta(stringRespuesta);
 			} 
-			catch ( SQLException error ) {
-				transaccion.setEstado_transaccion("Failed");
-	        	transaccion.setMensajeRespuesta(error.getMessage());
+			catch ( SQLException ex ) {
+				transaccion.setEstadoTransaccion("Failed");
+	        	transaccion.setMensajeRespuesta(ex.getMessage());
 			}
+			System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+	        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+	        System.out.println("\n\n----------------------------------------");
 			
 			respuestaServicio = gson.toJson(transaccion);
 			return respuestaServicio;
@@ -77,20 +86,29 @@ public class ConcesionariaColcarWS {
 									    @WebParam(name = "nombre_apellido") String nombreApellido,
 									    @WebParam(name = "id_plan") String idPlan,
 									    @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {
-			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
-
+			System.out.println("----------------\n\n\t POST -> NOTIFICAR GANADOR \n");
+			System.out.println("\n -->  IdPortal: "+idPortal);
+			System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
+			System.out.println("\n -->  DniCliente: "+dniCliente);
+			System.out.println("\n -->  Nombre y Apellido: "+nombreApellido);
+			System.out.println("\n -->  IdPlan: "+idPlan);
+			System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
+			System.out.println("\n\n----------------------------------------\n\n");
+			
 			Date horaFechaTransaccion = new Date();
-			java.util.Date utilDate = new java.util.Date(); //fecha actual
-			long lnMilisegundos = utilDate.getTime();
-			java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+			long lnMilisegundos = horaFechaTransaccion.getTime();
+			Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 			
 			String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
+			System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
+			System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+			System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
+			
 			String mensajeRespuesta = "";
 	        Gson gson = new Gson();
 	        String respuestaServicio = null;
 	        TransaccionBean transaccion = new TransaccionBean();
-	        
-	        transaccion.setId_transaccion(idTransaccion);
+	        transaccion.setIdTransaccion(idTransaccion);
 	        transaccion.setIdConcesionaria(idConcesionaria);
 	        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 	        
@@ -101,29 +119,36 @@ public class ConcesionariaColcarWS {
 	        	adquirido.setFechaSorteado(fechaSorteo);
 	        	adquirido.setIdPlan(idPlan);
 	        	
-				/*Si el ganador es un cliente de esta concesionaria, actualiza valores en la tabla Clientes*/
-				if (idConcesionaria.equals("Colcar")){
+				/*
+				 * Si el ganador es un cliente de esta concesionaria, 
+				 * actualiza valores en la tabla Clientes
+				 * */
+				if (idConcesionaria.contains("Colcar")){
 					dao.update(adquirido);
-					mensajeRespuesta="Se ha cancelado la cuenta del cliente ganador del sorteo";
+					mensajeRespuesta = "Se ha cancelado la cuenta del cliente ganador del sorteo";
 				}
 				else{
-					/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
+					/*
+					 * Si el ganador es un cliente de otra concesionaria, 
+					 * crea una entrada en la tabla Novedades
+					 * */
 	        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
 	        		ConcesionariaBean concesionaria = new ConcesionariaBean();
 	        		concesionaria.setNovedad(novedad);
 	        		dao.insert(concesionaria);
 	        		mensajeRespuesta = "Se ha insertado una entrada en la tabla novedades";
 				}
-
-				
-				transaccion.setEstado_transaccion("Success");
+				transaccion.setEstadoTransaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
 			}
 			catch(SQLException ex) {
 				//return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-	        	transaccion.setEstado_transaccion("Failed");
+	        	transaccion.setEstadoTransaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
 			}
+	        System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+	        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+	        System.out.println("\n\n----------------------------------------");
 	        
 	        respuestaServicio = gson.toJson(transaccion);
 	        return respuestaServicio;
@@ -133,21 +158,27 @@ public class ConcesionariaColcarWS {
 		public String verificarCancelado(@WebParam(name = "id_portal") String idPortal, 
 										 @WebParam(name = "dni_cliente") String dniCliente, 
 										 @WebParam(name = "id_plan") String idPlan) throws Exception  {
+			System.out.println("----------------------------------------\n\n\t POST \n");
+			System.out.println("\n -->  IdPortal: "+idPortal);
+			System.out.println("\n -->  DniCliente: "+dniCliente);
+			System.out.println("\n -->  IdPlan: "+idPlan);
+			System.out.println("\n\n----------------------------------------\n\n");
+			
 			/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 			Date horaFechaTransaccion = new Date();
-			java.util.Date utilDate = new java.util.Date(); //fecha actual
-			long lnMilisegundos = utilDate.getTime();
-			java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+			long lnMilisegundos = horaFechaTransaccion.getTime();
+			Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 			String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
+			System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
+			System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+			System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
 	    	String mensajeRespuesta = "";
-	    	String idConcesionaria = "Colcar";
+	    	String idConcesionaria = "Colcar256";
 	        
 	        Gson gson = new Gson();
 	        String respuestaServicio = null;
 	        TransaccionBean transaccion = new TransaccionBean();
-	        System.out.println("Cliente:" + dniCliente);
-	        System.out.println("IdPlan: "+idPlan);
-	        transaccion.setId_transaccion(idTransaccion);
+	        transaccion.setIdTransaccion(idTransaccion);
 	        transaccion.setIdConcesionaria(idConcesionaria);
 	        transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
 			
@@ -161,13 +192,16 @@ public class ConcesionariaColcarWS {
 	        	
 	        	mensajeRespuesta = ((dao.valid(adquirido) == true ) ? "{Cancelado: SI}" : "{Cancelado: NO}");
 	        	
-	        	transaccion.setEstado_transaccion("Success");
+	        	transaccion.setEstadoTransaccion("Success");
 	        	transaccion.setMensajeRespuesta(mensajeRespuesta);
 	        }
 	        catch(SQLException ex) {
-	        	transaccion.setEstado_transaccion("Failed");
+	        	transaccion.setEstadoTransaccion("Failed");
 	        	transaccion.setMensajeRespuesta(ex.getMessage());
 	        }
+	        System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+	        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+	        System.out.println("\n\n----------------------------------------");
 	        
 	        respuestaServicio = gson.toJson(transaccion);
         	return respuestaServicio;

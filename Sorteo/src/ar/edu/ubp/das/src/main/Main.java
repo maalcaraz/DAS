@@ -55,7 +55,7 @@ public class Main {
 			 * se procede igual con la ejecucion del sorteo
 			 * 
 			 * */
-			if( (ultimoGanador == null) || (ultimoGanador.getCancelado().equals("true"))){
+			if( (ultimoGanador == null) || (ultimoGanador.getCancelado().equals("true"))){ /*Preguntar por ultimoGanador.empty()*/
 				System.out.println("[Main]Ultimo ganador cancelado. Podemos proceder con el sorteo");
 			}
 			else

@@ -10,6 +10,7 @@ import ar.edu.ubp.das.db.Bean;
 import ar.edu.ubp.das.db.DaoImpl;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.CuotaBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 
@@ -23,33 +24,29 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public void insert(Bean form) throws SQLException {
-
-	}
-	
-	public void insert(String textoNovedad) throws SQLException {
 		this.connect();
-		System.out.println(textoNovedad);
+		ConcesionariaBean concesionaria = (ConcesionariaBean) form;
+		System.out.println(concesionaria.getNovedad());
 		this.setProcedure("dbo.insertar_novedad(?)");
 	
-		this.setParameter(1, textoNovedad);
-		
+		this.setParameter(1, concesionaria.getNovedad());
 		this.executeUpdate();
 		this.disconnect();
-
 	}
+	
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
+		AdquiridoBean ganador = (AdquiridoBean) form;
+		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
+	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+		int dni = Integer.parseInt(ganador.getDniCliente());
+		int idPlan = Integer.parseInt(ganador.getIdPlan());
 		
-		ClienteBean f = (ClienteBean) form;
-		System.out.println(f.getDniCliente());
-		//Procesamiento para notificar los nuevos ganadores
-		this.setProcedure("dbo.cancelar_ganador(?,?)");
-		this.setParameter(1, f.getDniCliente());
-		//this.setParameter(2, f.getFechaSorteo());
-		
+		this.setParameter(1, dni);
+		this.setParameter(2, ganador.getFechaSorteado());
+		this.setParameter(3, idPlan);
 		this.executeUpdate();
-		
 		this.disconnect();
 
 	}

@@ -67,7 +67,7 @@ public class TransaccionBean implements Bean {
 	public String getEstadoTransaccion() {
 		return estadoTransaccion;
 	}
-	public void setEstado_transaccion(String estadoTransaccion) {
+	public void setEstadoTransaccion(String estadoTransaccion) {
 		this.estadoTransaccion = estadoTransaccion;
 	}
 	public String getMensajeRespuesta() {
@@ -83,10 +83,10 @@ public class TransaccionBean implements Bean {
 		this.horaFechaTransaccion = horaFechaTransaccion;
 	}
 
-	public String getId_transaccion() {
+	public String getIdTransaccion() {
 		return idTransaccion;
 	}
-	public void setId_transaccion(String idTransaccion) {
+	public void setIdTransaccion(String idTransaccion) {
 		this.idTransaccion = idTransaccion;
 	}
 

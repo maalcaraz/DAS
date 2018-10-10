@@ -1,5 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -52,11 +53,9 @@ public class ClientesResource {
         String respuestaServicio = null;
         
         TransaccionBean transaccion = new TransaccionBean();
-        
-        
         String stringRespuesta = "";
         
-        transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdTransaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
         
@@ -102,7 +101,7 @@ public class ClientesResource {
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		
 
-		System.out.println("----------------------------------------\n\n\t POST \n");
+		System.out.println("----------------\n\n\t POST -> NOTIFICAR GANADOR \n");
 		System.out.println("\n -->  IdPortal: "+idPortal);
 		System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
 		System.out.println("\n -->  DniCliente: "+dniCliente);
@@ -111,13 +110,9 @@ public class ClientesResource {
 		System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
 		System.out.println("\n\n----------------------------------------\n\n");
 		
-		/*
-		 * ----------------- Esta operacion retorna un mensaje indicando el estado de la operacion ----------------
-		 * 	*/
-		Date horaFechaTransaccion = new Date(); 
-		java.util.Date utilDate = new java.util.Date(); //fecha actual
-		long lnMilisegundos = utilDate.getTime();
-		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		Date horaFechaTransaccion = new Date();
+		long lnMilisegundos = horaFechaTransaccion.getTime();
+		Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 		
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
 		System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
@@ -129,7 +124,7 @@ public class ClientesResource {
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
         
-        transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdTransaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
     	
@@ -190,9 +185,8 @@ public class ClientesResource {
 		/*----------------- Esta operacion retorna lo siguiente: ----------------*/
 		System.out.println(idPortal);
 		Date horaFechaTransaccion = new Date();
-		java.util.Date utilDate = new java.util.Date(); //fecha actual
-		long lnMilisegundos = utilDate.getTime();
-		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		long lnMilisegundos = horaFechaTransaccion.getTime();
+		Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 		String idTransaccion = "VC-"+horaFechaTransaccion.hashCode(); 
 		System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
 		System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
@@ -203,9 +197,7 @@ public class ClientesResource {
         Gson gson = new Gson();
         String respuestaServicio = null;
         TransaccionBean transaccion = new TransaccionBean();
-        System.out.println("Cliente:" + dniCliente);
-        System.out.println("IdPlan: "+idPlan);
-        transaccion.setId_transaccion(idTransaccion);
+        transaccion.setIdTransaccion(idTransaccion);
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
         

@@ -410,7 +410,7 @@ create procedure dbo.insertar_concesionaria
 AS
 	BEGIN
 		insert into concesionarias
-		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, getDate() , @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
+		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, getDate(), @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
 	END
 go
 
@@ -684,9 +684,8 @@ go
 
 /* Caso 2: Hoy es fecha de sorteo
 
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-values ('123asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'S', 'Testeando pendientes')
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
 go
 
 */
-

@@ -75,10 +75,10 @@ public class TransaccionBean implements Bean {
 		this.horaFechaTransaccion = horaFechaTransaccion;
 	}
 
-	public String getId_transaccion() {
+	public String getIdTransaccion() {
 		return idTransaccion;
 	}
-	public void setId_transaccion(String idTransaccion) {
+	public void setIdTransaccion(String idTransaccion) {
 		this.idTransaccion = idTransaccion;
 	}
 

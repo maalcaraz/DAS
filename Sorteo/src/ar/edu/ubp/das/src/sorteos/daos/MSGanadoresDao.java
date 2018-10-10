@@ -47,7 +47,7 @@ public class MSGanadoresDao  extends DaoImpl {
 		this.setProcedure("dbo.get_ultimo_ganador()");
 		List<Bean> ganadores = this.executeQuery();			
 		this.disconnect();
-		if (ganadores.isEmpty()){
+		if (ganadores.isEmpty()){ /*Modificar. Sacar estas dos lineas*/
 			ganadores = null;
 		}
 		return ganadores;
