@@ -45,7 +45,7 @@ public class MSSorteosDao extends DaoImpl{
 		this.setParameter(1, sorteo.getIdSorteo());
 		this.setParameter(2, sorteo.getFechaSorteado());
 		this.setParameter(3, sorteo.getPendiente());
-		this.executeQuery();
+		this.executeUpdate();
 		this.disconnect();
 	}
 
