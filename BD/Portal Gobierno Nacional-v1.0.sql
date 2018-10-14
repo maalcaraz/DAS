@@ -383,6 +383,9 @@ go
 select CONVERT (datetime, '2018-05-28 23:52:53.413')
 go
 
+select convert(date, '1897-05-05')
+go
+
 select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
 go 
  
@@ -496,6 +499,8 @@ BEGIN
 	select * from sorteos
 END
 go
+
+-- execute dbo.get_sorteos
 
 create procedure dbo.update_concesionaria
 (
