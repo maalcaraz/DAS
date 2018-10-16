@@ -13,5 +13,8 @@
 	 <action type="MostrarSorteosAction" path="/MostrarSorteos.do">
 			<forward name="success" path="/sorteos/mostrarSorteos.jsp" />
 	 </action>
+	 <action type="EliminarSorteosAction" path="/EliminarSorteos.do">
+			<forward name="success" path="/sorteos/eliminarSorteos.jsp" />
+	 </action>
     </action-mappings>
 </actions>

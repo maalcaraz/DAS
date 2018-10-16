@@ -23,6 +23,7 @@ drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
 drop procedure dbo.hoy_es_fecha_de_sorteo
 drop procedure dbo.actualizar_sorteo
+drop procedure dbo.eliminar_sorteo
 go
 
 drop table logs
@@ -672,6 +673,18 @@ BEGIN
 	SET pendiente	 = @pendiente,
 		fecha_sorteo = @fecha_sorteo
 	FROM sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go
+
+create procedure dbo.eliminar_sorteo
+(
+	@id_sorteo			varchar(30)
+)
+AS
+BEGIN
+	delete s
+	from sorteos s
 	where s.id_sorteo = @id_sorteo
 END
 go

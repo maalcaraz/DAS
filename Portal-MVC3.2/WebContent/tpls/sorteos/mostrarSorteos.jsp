@@ -1,23 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
-</head>
-<body>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>
 
-<table>
+<table id="tablaSorteos" border=1>
+	<tr>  <td> </td> <td> Id Sorteo : </td> <td>  Fecha Sorteo	</td> </tr>
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
-		<tr> <td> Id Sorteo : </td> <td>  ${ sorteo.idSorteo } 			</td>
-			 <td> Fecha Sorteo :  </td> <td> ${ sorteo.fechaSorteado }  </td> 
+		<tr> 
+			 <td> <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }> </td>
+			 <td> ${ sorteo.idSorteo }</td> 
+			 <td> ${ sorteo.fechaSorteado }  </td> 
 		</tr> 
 	</c:forEach>
 </table>
 
-</body>
-</html>
+<input type="button" onclick="jSorteos.eliminarSorteos()" value="Eliminar">

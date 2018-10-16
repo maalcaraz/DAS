@@ -1,8 +1,6 @@
 package ar.edu.ubp.das.src.sorteos.actions;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,20 +13,23 @@ import ar.edu.ubp.das.mvc.db.DaoFactory;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 import ar.edu.ubp.das.src.sorteos.forms.SorteosForm;
 
-public class MostrarSorteosAction implements Action{
+public class EliminarSorteosAction implements Action {
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
+		String sorteosAEliminar = request.getParameter("sorteosAEliminar");
+		System.out.println("[EliminarAction]Sorteos: "+sorteosAEliminar);
 		MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
-		
-		List<SorteosForm> sorteosList = new LinkedList<SorteosForm>();
-		for (DynaActionForm s : sorteos.select(null)){
-			SorteosForm f = (SorteosForm) s;
-			sorteosList.add(f);
+		/* Arreglo con sorteos a ser eliminados */
+		String eliminar[] = sorteosAEliminar.split(",");
+		for (String s : eliminar ){
+			System.out.println("\nEliminando sorteo "+s);
+			DynaActionForm sorteo = new SorteosForm();
+			sorteo.setItem("idSorteo", s);
+			sorteos.delete(sorteo);
 		}
-		request.setAttribute("sorteos", sorteosList);
 		return mapping.getForwardByName("success");
 	}
 

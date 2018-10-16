@@ -61,8 +61,11 @@ public class MSSorteosDao extends DaoImpl{
 
 	@Override
 	public void delete(DynaActionForm form) throws SQLException {
-		
-		
+		this.connect();
+		this.setProcedure("dbo.eliminar_sorteo(?)");
+		this.setParameter(1, form.getItem("idSorteo"));
+		this.executeUpdate();
+		this.disconnect();
 	}
 
 	@Override

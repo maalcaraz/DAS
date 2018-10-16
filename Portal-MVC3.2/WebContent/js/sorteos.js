@@ -43,5 +43,24 @@ var jSorteos = {
 	            	jUtils.showing("concesionarias", html);
 	            }
 	        });	
+		},
+		eliminarSorteos : function(){
+			var sel = [];
+			$("input:checkbox:checked").each(function () {
+				sel.push($(this).val());
+			});
+			alert(sel);
+			$.ajax({
+	            url: "./sorteos/EliminarSorteos.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"sorteosAEliminar": sel.toString()},
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });	
 		}
 };
