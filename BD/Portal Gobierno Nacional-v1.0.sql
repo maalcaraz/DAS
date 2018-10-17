@@ -24,6 +24,7 @@ drop procedure dbo.get_cliente_info
 drop procedure dbo.hoy_es_fecha_de_sorteo
 drop procedure dbo.actualizar_sorteo
 drop procedure dbo.eliminar_sorteo
+drop procedure dbo.editar_sorteo
 go
 
 drop table logs
@@ -707,3 +708,19 @@ values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando f
 go
 
 */
+--a este proc lo podemos evitar y usar actualizar sorteo, agregando descripcion como parametro
+create procedure dbo.editar_sorteo
+(
+	@id_sorteo			varchar(30),	
+	@fecha_sorteo		date,
+	@descripcion		varchar(50)
+)
+AS
+BEGIN
+	update s
+	set s.descripcion = @descripcion,
+	s.fecha_sorteo = @fecha_sorteo
+	from sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go

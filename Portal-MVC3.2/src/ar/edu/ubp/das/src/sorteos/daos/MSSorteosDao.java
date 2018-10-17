@@ -2,10 +2,8 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,8 +53,22 @@ public class MSSorteosDao extends DaoImpl{
 
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
-		
-		
+		this.connect();
+		SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		java.util.Date fechaAux;
+		try {
+			fechaAux = parser.parse(form.getItem("fechaSorteo"));
+			java.sql.Date fecha = new java.sql.Date(fechaAux.getTime());
+			this.setProcedure("dbo.editar_sorteo(?, ?, ?)");
+			this.setParameter(1, form.getItem("idSorteo"));
+			this.setParameter(2, fecha);
+			this.setParameter(3, form.getItem("descripcion"));
+		} 
+		catch (ParseException e) {
+			System.out.println("[SorteosDao]Error en update de sorteo: "+e.getMessage());
+		}
+		this.executeUpdate();
+		this.disconnect();
 	}
 
 	@Override
