@@ -34,6 +34,12 @@
 			<action type="MostrarDatosConcesionariaAction" path="/MostrarDatosConcesionaria.do">
 				<forward name="success" path="/concesionarias/mostrarDatosConcesionaria.jsp" />
 			</action>
+			<action type="ConfigurarConcesionariaAction" path="/ConfigurarConcesionaria.do">
+				<forward name="success" path="/concesionarias/configurarConcesionaria.jsp" />
+			</action>
+			<action type="GuardarConfiguracionAction" path="/GuardarConfiguracion.do">
+				<forward name="success" path="/concesionarias/guardarConfiguracion.jsp" />
+			</action>
 			<action type="TestingSyncAction" path="/TestingSync.do">
 				<forward name="success" path="/concesionarias/testingSync.jsp" />
 			</action>

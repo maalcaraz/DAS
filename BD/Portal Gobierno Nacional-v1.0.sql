@@ -17,7 +17,7 @@ drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
 drop procedure dbo.get_ultimo_ganador
-drop procedure dbo.update_concesionaria
+drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
@@ -25,6 +25,7 @@ drop procedure dbo.hoy_es_fecha_de_sorteo
 drop procedure dbo.actualizar_sorteo
 drop procedure dbo.eliminar_sorteo
 drop procedure dbo.editar_sorteo
+drop procedure dbo.reconfigurar_concesionaria
 go
 
 drop table logs
@@ -504,7 +505,7 @@ go
 
 -- execute dbo.get_sorteos
 
-create procedure dbo.update_concesionaria
+create procedure dbo.aprobar_concesionaria
 (
 	@id_concesionaria			varchar(20)	
 )
@@ -722,5 +723,31 @@ BEGIN
 	s.fecha_sorteo = @fecha_sorteo
 	from sorteos s
 	where s.id_sorteo = @id_sorteo
+END
+go
+
+create procedure dbo.reconfigurar_concesionaria
+(
+	@id_concesionaria				varchar(20),
+	@url_servicio					varchar(100),
+	@cuit							char(9),
+	@email							varchar(50),
+	@direccion						varchar(100),
+	@telefono						char(11),
+	@cant_dias_caducidad			tinyint,
+	@cod_tecnologia					varchar(10)
+)
+AS
+BEGIN
+	update c
+	set c.url_servicio			= @url_servicio,
+		c.cuit					= @cuit,
+		c.email					= @email,
+		c.direccion				= @direccion,
+		c.telefono				= @telefono,
+		c.cod_tecnologia		= @cod_tecnologia,
+		c.cant_dias_caducidad	= @cant_dias_caducidad 
+	from concesionarias c
+	where c.id_concesionaria = @id_concesionaria
 END
 go
