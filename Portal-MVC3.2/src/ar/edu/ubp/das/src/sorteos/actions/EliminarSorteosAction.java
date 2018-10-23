@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.sorteos.actions;
 
 import java.sql.SQLException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,29 +13,23 @@ import ar.edu.ubp.das.mvc.db.DaoFactory;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 import ar.edu.ubp.das.src.sorteos.forms.SorteosForm;
 
-public class InsertarSorteoAction implements Action{
+public class EliminarSorteosAction implements Action {
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
-		String fechaSorteo = request.getParameter("nuevaFecha");
-		String fechaProximo =  "";
-		SorteosForm sorteo = new SorteosForm();
-		Date hoy = new Date();
-		sorteo.setIdSorteo("s"+ hoy.toString());
-		sorteo.setFechaSorteado(fechaSorteo);
-		sorteo.setFechaProximo(fechaProximo);
-		
-		try {
-			MSSorteosDao Sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
-			Sorteos.insert(sorteo);
+		String sorteosAEliminar = request.getParameter("sorteosAEliminar");
+		System.out.println("[EliminarAction]Sorteos: "+sorteosAEliminar);
+		MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
+		/* Arreglo con sorteos a ser eliminados */
+		String eliminar[] = sorteosAEliminar.split(",");
+		for (String s : eliminar ){
+			System.out.println("\nEliminando sorteo "+s);
+			DynaActionForm sorteo = new SorteosForm();
+			sorteo.setItem("idSorteo", s);
+			sorteos.delete(sorteo);
 		}
-		catch (SQLException ex){
-			System.out.println(ex.getMessage());
-			return mapping.getForwardByName("failure");
-		}
-		
 		return mapping.getForwardByName("success");
 	}
 

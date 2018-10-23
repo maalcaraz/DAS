@@ -11,9 +11,8 @@
 <h1> Insercion de un nuevo sorteo </h1>
 <form id="formSorteo">
 
-Nueva Fecha <input type="date" name="nuevaFecha" id="nuevaFecha">
-
-<br>(Habria que validar la fecha segun los requerimientos de la profe: dia habil, no feriado y bla bla)<br>
+Nueva Fecha <input type="text" name="nuevaFecha" id="nuevaFecha">
+Formato de fecha: dd-MM-YYYY
 <input type="button" value="Guardar" onclick="jSorteos.insertar()"> 
 </form>
 </body>

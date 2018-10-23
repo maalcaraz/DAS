@@ -1,8 +1,6 @@
 package ar.edu.ubp.das.src.sorteos.actions;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,24 +9,14 @@ import ar.edu.ubp.das.mvc.action.Action;
 import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
-import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
-import ar.edu.ubp.das.src.sorteos.forms.SorteosForm;
 
-public class MostrarSorteosAction implements Action{
+public class EditarSorteoAction implements Action {
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-		
-		MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
-		
-		List<SorteosForm> sorteosList = new LinkedList<SorteosForm>();
-		for (DynaActionForm s : sorteos.select(null)){
-			SorteosForm f = (SorteosForm) s;
-			sorteosList.add(f);
-		}
-		request.setAttribute("sorteos", sorteosList);
+		System.out.println("[EditarAction]idSorteo "+request.getParameter("idSorteo"));
+		request.setAttribute("idSorteo", request.getParameter("idSorteo"));
 		return mapping.getForwardByName("success");
 	}
 
