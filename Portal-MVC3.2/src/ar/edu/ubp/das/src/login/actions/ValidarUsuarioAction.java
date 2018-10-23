@@ -14,15 +14,15 @@ import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
 import ar.edu.ubp.das.src.login.daos.MSLoginDao;
 
-public class ValidateLoginAction implements Action{
+public class ValidarUsuarioAction implements Action{
 
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
 
-		String user = request.getParameter("user") == null ? "NO TRAJO NADA" : request.getParameter("user");
-		String pass = request.getParameter("pwd") == null ? "NO TRAJO NADA" : request.getParameter("pwd");
+		String user = request.getParameter("user") == null ? "Campo vacio" : request.getParameter("user");
+		String pass = request.getParameter("pwd") == null ? "Campo vacio" : request.getParameter("pwd");
 		
 		
 		MSLoginDao dao = (MSLoginDao)DaoFactory.getDao("Login", "login");
@@ -35,12 +35,11 @@ public class ValidateLoginAction implements Action{
 		System.out.println("Momento en que se loggeo el usuario: "+ loginTime.toString());
 		
 		
-		//int res = dao.validarUsuario(daf);
 		DynaActionForm res = dao.select(daf).get(0);
-		
 		HttpSession session = request.getSession();
 		
 		session.setAttribute( "usuario",  form.getItem( "usuario" ) );
+		// Esto de arriba por que?
 		
 		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
 		case 0: //dao.insert(daf);

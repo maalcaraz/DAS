@@ -18,11 +18,9 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Iniciar Sesion");
-		            	jUtils.showing("content", html);
+		            	jUtils.showing("site", html);
 		            }
 		        });
-		        
-		        
 			}
 			else {
 				logged = 1;
@@ -38,7 +36,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Cerrar Sesion");
-		            	jUtils.showing("content", html);
+		            	jUtils.showing("site", html);
 		            }
 		        });	
 			}
@@ -47,7 +45,7 @@ var jLogin = {
 		logout : function (val){
 			if (val == 1){
 				modalSalir.style.display = "none";
-				$("#content").val(" ");
+				$("#site").val(" ");
 			}
 			else {
 				modalSalir.style.display = "none";
@@ -59,7 +57,7 @@ var jLogin = {
 			 jUtils.executing("result");
 		        jUtils.hiding("message");
 		        $.ajax({
-		            url: "./login/validateLogin.do",
+		            url: "./login/validarUsuario.do",
 		            type: "post",
 		            dataType: "html",
 		            data: $("#form").serialize(),
@@ -69,7 +67,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	modal.style.display = "none";
-		            	jUtils.showing("content", html);
+		            	jUtils.showing("site", html);
 		            }
 		        });	
 		},
@@ -85,7 +83,7 @@ var jLogin = {
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("site", html);
 	            }
 	        });
 		},
@@ -102,7 +100,7 @@ var jLogin = {
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("site", html);
 	            }
 	        });
 		}

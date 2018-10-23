@@ -23,6 +23,6 @@
 
 
 
-<div id="content"></div>
+<div id="site"></div>
 </body>
 </html>

@@ -1,16 +1,15 @@
 var jSorteos = {
 	
-		getSorteos : function (){
+		obtenerSorteos : function (){
 			 $.ajax({
 		            url: "./sorteos/MostrarSorteos.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
-		                jUtils.showing("concesionarias", hr.responseText);
+		                jUtils.showing("contenido-admin", hr.responseText);
 		            },
 		            success: function(html) {
-		            	
-		            	jUtils.showing("concesionarias", html);
+		            	jUtils.showing("contenido-admin", html);
 		            }
 		        });	
 		},
@@ -20,11 +19,11 @@ var jSorteos = {
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},
@@ -36,11 +35,11 @@ var jSorteos = {
 	            data: {"nuevaFecha" : $("#nuevaFecha").val()},
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},
@@ -56,10 +55,10 @@ var jSorteos = {
 	            dataType: "html",
 	            data: {"sorteosAEliminar": sel.toString()},
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},
@@ -70,10 +69,10 @@ var jSorteos = {
 	            dataType: "html",
 	            data: {"idSorteo": idSorteo},
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
 		},
@@ -84,10 +83,10 @@ var jSorteos = {
 	            dataType: "html",
 	            data: $("#nuevoSorteoForm").serialize(),
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
 		}

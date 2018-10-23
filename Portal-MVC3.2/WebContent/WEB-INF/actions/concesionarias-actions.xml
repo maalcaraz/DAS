@@ -24,6 +24,7 @@
 			</action>
 			<action type="MostrarConcesionariasAction" path="/MostrarConcesionarias.do">
 				<forward name="success" path="/concesionarias/mostrarConcesionarias.jsp" />
+				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="AprobarConcesionariaAction" path="/AprobarConcesionaria.do">
 				<forward name="success" path="/concesionarias/aprobarConcesionaria.jsp" />

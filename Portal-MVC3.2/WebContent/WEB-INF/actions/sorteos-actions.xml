@@ -12,6 +12,7 @@
 	 </action>
 	 <action type="MostrarSorteosAction" path="/MostrarSorteos.do">
 			<forward name="success" path="/sorteos/mostrarSorteos.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="EliminarSorteosAction" path="/EliminarSorteos.do">
 			<forward name="success" path="/sorteos/eliminarSorteos.jsp" />
