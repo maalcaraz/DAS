@@ -13,5 +13,14 @@
 	 <action type="MostrarSorteosAction" path="/MostrarSorteos.do">
 			<forward name="success" path="/sorteos/mostrarSorteos.jsp" />
 	 </action>
+	 <action type="EliminarSorteosAction" path="/EliminarSorteos.do">
+			<forward name="success" path="/sorteos/eliminarSorteos.jsp" />
+	 </action>
+	 <action type="EditarSorteoAction" path="/EditarSorteo.do">
+			<forward name="success" path="/sorteos/editarSorteo.jsp" />
+	 </action>
+	 <action type="GuardarSorteoAction" path="/GuardarSorteo.do">
+			<forward name="success" path="/sorteos/guardarSorteo.jsp" />
+	 </action>
     </action-mappings>
 </actions>

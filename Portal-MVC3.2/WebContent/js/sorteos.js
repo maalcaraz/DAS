@@ -27,5 +27,68 @@ var jSorteos = {
 	            	jUtils.showing("concesionarias", html);
 	            }
 	        });	
+		},
+		insertar : function () {
+			alert($("#nuevaFecha").val());
+			$.ajax({
+	            url: "./sorteos/InsertarNuevo.do",
+	            type: "post",
+	            data: {"nuevaFecha" : $("#nuevaFecha").val()},
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });	
+		},
+		eliminarSorteos : function(){
+			var sel = [];
+			$("input:checkbox:checked").each(function () {
+				sel.push($(this).val());
+			});
+			alert(sel);
+			$.ajax({
+	            url: "./sorteos/EliminarSorteos.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"sorteosAEliminar": sel.toString()},
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });	
+		},
+		editarSorteo : function (idSorteo) {
+			$.ajax({
+	            url: "./sorteos/EditarSorteo.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idSorteo": idSorteo},
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });
+		},
+		guardarSorteo : function () {
+			$.ajax({
+	            url: "./sorteos/GuardarSorteo.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#nuevoSorteoForm").serialize(),
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });
 		}
 };

@@ -206,5 +206,33 @@ var jConcesionaria ={
 	            	jUtils.showing("concesionarias", html);
 	            }
 	        });	
+		},
+		editarConcesionaria : function (idConcesionaria){
+			$.ajax({
+	            url: "./concesionarias/ConfigurarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria" : idConcesionaria},
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });
+		},
+		guardarCambios : function () {
+			$.ajax({
+	            url: "./concesionarias/GuardarConfiguracion.do",
+	            type: "post",
+	            dataType: "html",
+	            data: $("#nuevaConfig").serialize(),
+	            error: function(hr){
+	                jUtils.showing("concesionarias", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("concesionarias", html);
+	            }
+	        });
 		}
 };

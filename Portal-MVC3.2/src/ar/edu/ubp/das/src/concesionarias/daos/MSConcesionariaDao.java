@@ -46,12 +46,29 @@ public class MSConcesionariaDao extends DaoImpl{
 	public void update(DynaActionForm form) throws SQLException {
 		this.connect();
 		
-		
-		
+		/* Aprobacion de una concesionaria */ 
 		if (form.getItem("operacion").equals("aprobar")){
-			this.setProcedure("dbo.update_concesionaria (?)");
+			this.setProcedure("dbo.aprobar_concesionaria (?)");
 			this.setParameter(1, form.getItem("idConcesionaria"));
 			this.executeUpdate();
+			this.disconnect();
+			return;
+		}
+		if (form.getItem("operacion").equals("configurar")){
+			ConcesionariaForm c = (ConcesionariaForm) form;
+			this.setProcedure("dbo.reconfigurar_concesionaria(?,?,?,?,?,?,?,?)");
+			this.setParameter(1, c.getIdConcesionaria());
+			this.setParameter(2, c.getWebService().getUrl());
+			this.setParameter(3, c.getCuit());
+			this.setParameter(4, c.getEmail());
+			this.setParameter(5, c.getDireccion());
+			this.setParameter(6, c.getTelefono());
+			this.setParameter(7, c.getCantDiasCaducidad());
+			this.setParameter(8, c.getCodTecnologia());
+			
+			this.executeUpdate();
+			this.disconnect();
+			return;
 		}
 		else{
 		//-----------------------------------------------------------------
@@ -193,7 +210,8 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(1, con.getIdConcesionaria());
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
-			List<ClienteForm> clientes = new LinkedList<ClienteForm>();
+			List<ClienteForm> clientes = new LinkedList<ClienteForm>(); // esto se usa?
+			
 			while(result.getRow() > 0) {
 				ClienteForm c = new ClienteForm();
 				c.setDniCliente(result.getString("dni_cliente"));

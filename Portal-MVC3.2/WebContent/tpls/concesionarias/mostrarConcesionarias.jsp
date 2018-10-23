@@ -43,6 +43,7 @@
 		Telefono: ${ concesionaria.telefono } <br>
 		Ultima actualizacion: ${ concesionaria.ultimaActualizacion } <br>
 		<a onclick="jConcesionaria.getDatosConcesionaria(&quot;${ concesionaria.idConcesionaria }&quot;)" href="#"> Ver detalle de clientes </a>
+		<input type="button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
 		</div> 
 	</c:forEach>
 	</c:if>

@@ -17,12 +17,15 @@ drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
 drop procedure dbo.get_ultimo_ganador
-drop procedure dbo.update_concesionaria
+drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
 drop procedure dbo.hoy_es_fecha_de_sorteo
 drop procedure dbo.actualizar_sorteo
+drop procedure dbo.eliminar_sorteo
+drop procedure dbo.editar_sorteo
+drop procedure dbo.reconfigurar_concesionaria
 go
 
 drop table logs
@@ -383,6 +386,9 @@ go
 select CONVERT (datetime, '2018-05-28 23:52:53.413')
 go
 
+select convert(date, '1897-05-05')
+go
+
 select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
 go 
  
@@ -497,7 +503,9 @@ BEGIN
 END
 go
 
-create procedure dbo.update_concesionaria
+-- execute dbo.get_sorteos
+
+create procedure dbo.aprobar_concesionaria
 (
 	@id_concesionaria			varchar(20)	
 )
@@ -671,6 +679,18 @@ BEGIN
 END
 go
 
+create procedure dbo.eliminar_sorteo
+(
+	@id_sorteo			varchar(30)
+)
+AS
+BEGIN
+	delete s
+	from sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go
+
 /* Caso 1: Hay sorteos pendientes 
 
 
@@ -689,3 +709,45 @@ values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando f
 go
 
 */
+--a este proc lo podemos evitar y usar actualizar sorteo, agregando descripcion como parametro
+create procedure dbo.editar_sorteo
+(
+	@id_sorteo			varchar(30),	
+	@fecha_sorteo		date,
+	@descripcion		varchar(50)
+)
+AS
+BEGIN
+	update s
+	set s.descripcion = @descripcion,
+	s.fecha_sorteo = @fecha_sorteo
+	from sorteos s
+	where s.id_sorteo = @id_sorteo
+END
+go
+
+create procedure dbo.reconfigurar_concesionaria
+(
+	@id_concesionaria				varchar(20),
+	@url_servicio					varchar(100),
+	@cuit							char(9),
+	@email							varchar(50),
+	@direccion						varchar(100),
+	@telefono						char(11),
+	@cant_dias_caducidad			tinyint,
+	@cod_tecnologia					varchar(10)
+)
+AS
+BEGIN
+	update c
+	set c.url_servicio			= @url_servicio,
+		c.cuit					= @cuit,
+		c.email					= @email,
+		c.direccion				= @direccion,
+		c.telefono				= @telefono,
+		c.cod_tecnologia		= @cod_tecnologia,
+		c.cant_dias_caducidad	= @cant_dias_caducidad 
+	from concesionarias c
+	where c.id_concesionaria = @id_concesionaria
+END
+go

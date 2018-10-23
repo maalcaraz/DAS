@@ -2,6 +2,8 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,29 +22,62 @@ public class MSSorteosDao extends DaoImpl{
 	@Override
 	public void insert(DynaActionForm form) throws SQLException {
 		
-		String idSorteo = form.getItem("idSorteo");
-		String fechaSorteo = form.getItem("fechaSorteo");
-		String fechaProximo = form.getItem("fechaProximo");
+		SorteosForm sorteo = (SorteosForm) form;
+        SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+        this.connect();
+        try {
+        	
+        	java.util.Date fechaAux = parser.parse(sorteo.getFechaSorteado());
+        	java.sql.Date fecha = new java.sql.Date(fechaAux.getTime());
+        	
+        	
+    		String idSorteo = sorteo.getIdSorteo();
+    		
+    		String fechaProximo = sorteo.getFechaProximo();
+    		
+    		this.setProcedure("dbo.insertar_sorteo(?, ?, ?, ?, ?)");
+    		this.setParameter(1, idSorteo);
+    		this.setParameter(2, fecha);
+    		this.setParameter(3, fechaProximo);
+    		this.setNull(4, java.sql.Types.CHAR);
+    		this.setParameter(5, "Una descripcion");
+    		
+        }
+        catch(ParseException ex){
+        	
+        }
+        this.executeUpdate();
+		this.disconnect();
 		
+	}
+
+	@Override
+	public void update(DynaActionForm form) throws SQLException {
 		this.connect();
-		this.setProcedure("dbo.insertar_sorteo(?, ?, ?)");
-		this.setParameter(1, idSorteo);
-		this.setParameter(2, fechaSorteo);
-		this.setParameter(3, fechaProximo);
+		SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		java.util.Date fechaAux;
+		try {
+			fechaAux = parser.parse(form.getItem("fechaSorteo"));
+			java.sql.Date fecha = new java.sql.Date(fechaAux.getTime());
+			this.setProcedure("dbo.editar_sorteo(?, ?, ?)");
+			this.setParameter(1, form.getItem("idSorteo"));
+			this.setParameter(2, fecha);
+			this.setParameter(3, form.getItem("descripcion"));
+		} 
+		catch (ParseException e) {
+			System.out.println("[SorteosDao]Error en update de sorteo: "+e.getMessage());
+		}
 		this.executeUpdate();
 		this.disconnect();
 	}
 
 	@Override
-	public void update(DynaActionForm form) throws SQLException {
-		
-		
-	}
-
-	@Override
 	public void delete(DynaActionForm form) throws SQLException {
-		
-		
+		this.connect();
+		this.setProcedure("dbo.eliminar_sorteo(?)");
+		this.setParameter(1, form.getItem("idSorteo"));
+		this.executeUpdate();
+		this.disconnect();
 	}
 
 	@Override
@@ -71,8 +106,6 @@ public class MSSorteosDao extends DaoImpl{
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
-		
 		return false;
 	}
-
 }
