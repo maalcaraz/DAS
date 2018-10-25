@@ -14,7 +14,6 @@ var jClientes ={
 	            },
 	            success: function(html) {
 	            	jUtils.showing("contenido-admin", html);
-	            	
 	            }
 	        });
 	       }

@@ -45,7 +45,7 @@ var jLogin = {
 		logout : function (val){
 			if (val == 1){
 				modalSalir.style.display = "none";
-				$("#site").val(" ");
+				$("#menu").val(" ");
 			}
 			else {
 				modalSalir.style.display = "none";
