@@ -112,11 +112,11 @@ var jConcesionaria ={
 	            }
 	        });	
 		},
-		mostrarConcesionarias : function(){
+		mostrarRegistradas : function(){
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/MostrarConcesionarias.do",
+	            url: "./concesionarias/ConcesionariasRegistradas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -124,7 +124,23 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
 	            	
+	            }
+	        });	
+		},
+		mostrarPendientes : function () {
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/ConcesionariasPendientes.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
 	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
@@ -229,9 +245,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	
 	            	jUtils.showing("contenido-admin", html);
-	            	
 	            }
 	        });	
 		}

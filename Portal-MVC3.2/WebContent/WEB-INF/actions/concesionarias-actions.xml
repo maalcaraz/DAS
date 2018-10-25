@@ -22,8 +22,12 @@
 			<action type="VerificarCanceladoAction" path="/VerificarCancelado.do">
 				<forward name="success" path="/concesionarias/verificarCancelado.jsp" />
 			</action>
-			<action type="MostrarConcesionariasAction" path="/MostrarConcesionarias.do">
-				<forward name="success" path="/concesionarias/mostrarConcesionarias.jsp" />
+			<action type="ConcesionariasRegistradasAction" path="/ConcesionariasRegistradas.do">
+				<forward name="success" path="/concesionarias/mostrarRegistradas.jsp" />
+				<forward name="failure" path="/concesionarias/error.jsp" />
+			</action>
+			<action type="ConcesionariasPendientesAction" path="/ConcesionariasPendientes.do">
+				<forward name="success" path="/concesionarias/mostrarPendientes.jsp" />
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="AprobarConcesionariaAction" path="/AprobarConcesionaria.do">
