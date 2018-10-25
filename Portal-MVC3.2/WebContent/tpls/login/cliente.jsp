@@ -13,9 +13,9 @@
 <div class="menu">
 		<ul class="nav ver"> 
 		  <li class="nav tit"> <h3> Menu - Clientes </h3> </li>
+		  <li class="item nav ver" > <a onclick="jClientes.datosCliente()" href="#">Mis datos</a></li>
 		  <li class="item nav ver" > <a onclick="jClientes.estadoCuenta()" href="#"> Estado Cuenta </a></li>
 		  <li class="item nav ver" > <a href="#"> Mi producto </a></li>
-		  <li class="item nav ver" > <a href="#">Mis datos</a></li>
 		</ul>
 </div>
 	<div class="main">

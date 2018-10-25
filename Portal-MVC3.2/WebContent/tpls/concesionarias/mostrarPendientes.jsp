@@ -10,7 +10,7 @@
 <c:set var="concesionarias" scope="request"	value="${requestScope.concesionarias}"></c:set>
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
-
+<h2> Concesionarias por aprobar </h2>
 	<div>
 		<c:if test="${!empty pendientes}">
 			<c:forEach var="pendiente" items="${ pendientes }" varStatus="status">

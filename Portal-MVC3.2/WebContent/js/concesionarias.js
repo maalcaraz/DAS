@@ -106,9 +106,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	
 	            	jUtils.showing("content", html);
-	            	
 	            }
 	        });	
 		},
