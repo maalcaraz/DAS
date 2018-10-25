@@ -7,7 +7,7 @@
        	<action type="LoginAction" path="/Login.do">
     		<forward name="success" path="/login/login.jsp" />
     	</action>
-	   	<action type="ValidateLoginAction" path="/validateLogin.do">
+	   	<action type="ValidarUsuarioAction" path="/validarUsuario.do">
 	   		<forward name="admin" path="/login/admin.jsp" />
 	   		<forward name="cliente" path="/login/cliente.jsp" />
 	   		<forward name="sistema" path="/login/sistema.jsp" />

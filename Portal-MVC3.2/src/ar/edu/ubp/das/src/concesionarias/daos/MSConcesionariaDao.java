@@ -190,7 +190,12 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setIdConcesionaria(result.getString("id_concesionaria"));
 					f.setNomConcesionaria(result.getString("nombre_concesionaria"));
 					f.getWebService().setUrl(result.getString("url_servicio"));
+					f.setCuit(result.getString("cuit"));
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
+					f.setDireccion(result.getString("direccion"));
+					f.setTelefono(result.getString("telefono"));
+					//f.setCantDiasCaducidad(result.getString("cant_dias_caduc"));
+					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
 					ret.add(f);
 				}

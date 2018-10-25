@@ -16,7 +16,7 @@ public class CargarSorteoAction implements Action {
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-		
+
 		/*
 		 * Logica de sesion. Luego de implementarla donde sea necesaria se evaluara removerla a otro paquete
 		 * para no duplicar codigo
@@ -31,8 +31,6 @@ public class CargarSorteoAction implements Action {
 			session.invalidate();
 			return mapping.getForwardByName("noSession");
 		}
-				
 		return mapping.getForwardByName("success");
 	}
-
 }

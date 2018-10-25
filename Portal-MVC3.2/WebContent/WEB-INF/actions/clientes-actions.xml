@@ -6,6 +6,7 @@
     <action-mappings>
 			<action type="DatosClienteAction" path="/Cliente.do">
 				<forward name="success" path="/clientes/cliente.jsp" />
+				<forward name="failure" path="/clientes/error.jsp" />
 			</action>
     </action-mappings>
 </actions>

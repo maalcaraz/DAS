@@ -13,8 +13,7 @@ var jClientes ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("detalle-cliente", html);
-	            	
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
 	       }
