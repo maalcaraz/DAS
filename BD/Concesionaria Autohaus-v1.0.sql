@@ -406,3 +406,6 @@ AS
 		END
 	END
 go
+
+
+select * from clientes

@@ -6,42 +6,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript"
 	src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,clientes"></script>
-<link type="text/css" rel="stylesheet"
-	href="/util/StyleSheet.do/load=home,page,messages,login,cliente" />
+<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,admin,page,messages,login,cliente" />
 </head>
 <body>
 
-	<h1>Te loggeaste como cliente</h1>
-
-	<div class="grid-container">
-		
-		
-		<div class="grid-item">
-			<h2>Estado Cuenta</h2>
-			<br> <span>
-				Conoce el estado de tu cuenta: cuotas abonadas, cuotas restantes,
-				plan adquirido y descripcion de financiacion. </span>
-			<input type="button" id="estadoCuenta"
-				value="Estado Cuenta" onclick="jClientes.estadoCuenta()">
-
-			<div id="detalle-cliente"></div>
-		</div>
-
-		<div>
-			<h4>Mi producto</h4>
-			<br>
-			<p>Conoce el auto que vas a tener, sus caracteristicas y
-				especificaciones tecnicas.</p>
-		</div>
-
-		<div>
-			<h4>Mis datos</h4>
-			<br>
-			<p>Actualiza tus datos personales.</p>
-
-		</div>
-
+<div class="menu">
+		<ul class="nav ver"> 
+		  <li class="nav tit"> <h3> Menu - Clientes </h3> </li>
+		  <li class="item nav ver" > <a onclick="jClientes.estadoCuenta()" href="#"> Estado Cuenta </a></li>
+		  <li class="item nav ver" > <a href="#"> Mi producto </a></li>
+		  <li class="item nav ver" > <a href="#">Mis datos</a></li>
+		</ul>
+</div>
+	<div class="main">
+		<div id="contenido-admin"></div>
 	</div>
-
 </body>
 </html>

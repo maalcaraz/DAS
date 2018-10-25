@@ -42,6 +42,7 @@ public class InsercionConcesionariaAction implements Action {
 			nuevaConc.setEmail(email);
 			nuevaConc.setDireccion(direccion);
 			nuevaConc.setTelefono(telefono);
+			nuevaConc.setCantDiasCaducidad(Integer.toString(5));
 			nuevaConc.getWebService().setUrl(url);
 			nuevaConc.setAprobada("N");
 			//nuevaConc.setUrlServicio(url);
@@ -55,9 +56,7 @@ public class InsercionConcesionariaAction implements Action {
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
-			//return mapping.getForwardByName("failure");
-			return null;
-			
+			return mapping.getForwardByName("failure");
 		}
 	}
 

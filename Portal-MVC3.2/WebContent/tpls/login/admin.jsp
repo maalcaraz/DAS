@@ -13,7 +13,6 @@
 <div>
 <br>
 	<div class="menu">
-	
 	<br>
 		<ul class="nav ver"> 
 		  <li class="nav tit"> <h3> Menu - Admin </h3> </li>

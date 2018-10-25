@@ -50,6 +50,15 @@ public class ConcesionariaForm extends DynaActionForm{
 	void Consumir() {
 	}
 	
+	public String getUrlServicio() {
+		return this.getWebService().getUrl();
+	}
+
+	public void setUrlServicio(String urlServicio) {
+		this.getWebService().setUrl(urlServicio);
+		this.urlServicio = urlServicio;
+	}
+	
 	public Servicio getWebService() {
 		
 		return webService;

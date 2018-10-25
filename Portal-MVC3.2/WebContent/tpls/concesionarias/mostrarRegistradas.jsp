@@ -13,19 +13,20 @@
 
 	<div>
 	<c:if test="${!empty concesionarias}">
-	
-		<c:forEach var="concesionaria" items="${ concesionarias }"
-			varStatus="status">
-		<h4>Concesionarias Registradas</h4> <br><br> 
-		<div class="grid-item">
-		<h2>${ concesionaria.nomConcesionaria } </h2>
-			Tipo de Servicio: ${ concesionaria.codTecnologia } <br>
-			Direccion: ${ concesionaria.direccion } <br>
-			Telefono: ${ concesionaria.telefono } <br>
-			Ultima actualizacion: ${ concesionaria.ultimaActualizacion } <br>
-		<input type="button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
-		</div> 
-	</c:forEach>
+	<h2>Concesionarias Registradas</h2> <br><br> 
+		<c:forEach var="concesionaria" items="${ concesionarias }" varStatus="status">
+		
+			<div class="grid-item">
+			<h3>${ concesionaria.nomConcesionaria } </h3>
+				<b>Tipo de Servicio:</b> ${ concesionaria.codTecnologia } <br>
+				<b>Url:</b> ${ concesionaria.urlServicio } <br>
+				<b>Direccion:</b> ${ concesionaria.direccion } <br>
+				<b>Telefono:</b> ${ concesionaria.telefono } <br>
+				<b>Email:</b> ${ concesionaria.email } <br>
+				<b>Ultima actualizacion:</b> ${ concesionaria.ultimaActualizacion } <br>
+			<input type="button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
+			</div> 
+		</c:forEach>
 	</c:if>
 	</div>
 

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1> Insercion de un nuevo sorteo </h1>
+<h2> Insercion de un nuevo sorteo </h2>
 <form id="formSorteo">
 
 Nueva Fecha <input type="text" name="nuevaFecha" id="nuevaFecha">

@@ -194,6 +194,7 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
 					f.setDireccion(result.getString("direccion"));
 					f.setTelefono(result.getString("telefono"));
+					//f.setCantDiasCaducidad(result.getString("cant_dias_caduc"));
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
 					ret.add(f);

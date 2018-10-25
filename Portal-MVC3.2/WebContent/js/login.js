@@ -18,7 +18,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Iniciar Sesion");
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("contenido-admin", html);
 		            }
 		        });
 			}
@@ -36,7 +36,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Cerrar Sesion");
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("contenido-admin", html);
 		            }
 		        });	
 			}

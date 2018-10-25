@@ -31,7 +31,7 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
@@ -180,12 +180,9 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-		            alert("se rechazo!");
+		            alert("Se rechazo!");
 	            }
 	        });	
-		},
-		modificar : function(){
-			
 		},
 		getDatosConcesionaria : function(idConcesionaria){
 			alert(idConcesionaria);
