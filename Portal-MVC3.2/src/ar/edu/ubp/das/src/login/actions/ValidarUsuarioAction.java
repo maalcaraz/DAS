@@ -20,11 +20,10 @@ public class ValidarUsuarioAction implements Action{
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
-
 		String user = request.getParameter("user") == null ? "Campo vacio" : request.getParameter("user");
 		String pass = request.getParameter("pwd") == null ? "Campo vacio" : request.getParameter("pwd");
-		
-		
+		ForwardConfig forward = null;
+
 		MSLoginDao dao = (MSLoginDao)DaoFactory.getDao("Login", "login");
 		
 		DynaActionForm daf = new DynaActionForm();
@@ -39,25 +38,26 @@ public class ValidarUsuarioAction implements Action{
 		HttpSession session = request.getSession();
 		
 		session.setAttribute( "usuario",  form.getItem( "usuario" ) );
-		// Esto de arriba por que?
+		//Seteando tiempo de sesion a 4 minutos para testear
+		session.setMaxInactiveInterval(4*60);
 		
 		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
 		case 0: //dao.insert(daf);
 				session.setAttribute( "usuario",  user );
 				session.setAttribute( "tipoUsuario",  "admin" );
-				//Seteando tiempo de sesion a 4 minutos para testear
-				session.setMaxInactiveInterval(4*60);
-				return mapping.getForwardByName("admin");
+				forward = mapping.getForwardByName("admin");
+				break;
 		case 1: //dao.insert(daf);
 				session.setAttribute( "usuario",  user );
 				session.setAttribute( "tipoUsuario",  "cliente" );
-				//Seteando tiempo de sesion a 4 minutos para testear
-				session.setMaxInactiveInterval(4*60);
-				return mapping.getForwardByName("cliente");
+				forward = mapping.getForwardByName("cliente");
+				break;
 		case 2: //dao.insert(daf);
-				return mapping.getForwardByName("sistema"); 
-		default: throw new RuntimeException("Error de validacion de usuario"); 
-		
+				forward = mapping.getForwardByName("sistema"); 
+				break;
+		default: throw new RuntimeException("Error de validacion de usuario");
 		}
+		
+		return forward;
 	}
 }
