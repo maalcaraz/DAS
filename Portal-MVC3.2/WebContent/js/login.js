@@ -46,6 +46,7 @@ var jLogin = {
 			if (val == 1){
 				modalSalir.style.display = "none";
 				$("#menu").val(" ");
+				window.location.replace("./login/GoHome.do");
 			}
 			else {
 				modalSalir.style.display = "none";

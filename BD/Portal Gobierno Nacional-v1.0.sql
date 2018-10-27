@@ -691,24 +691,6 @@ BEGIN
 END
 go
 
-/* Caso 1: Hay sorteos pendientes 
-
-
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
-go
-
---execute dbo.get_sorteos_pendientes
-
-*/
-
-/* Caso 2: Hoy es fecha de sorteo
-
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
-go
-
-*/
 --a este proc lo podemos evitar y usar actualizar sorteo, agregando descripcion como parametro
 create procedure dbo.editar_sorteo
 (
@@ -751,3 +733,35 @@ BEGIN
 	where c.id_concesionaria = @id_concesionaria
 END
 go
+ 
+/* TESTING REAL */
+
+
+
+
+/* Caso 1: Hay sorteos pendientes 
+
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
+go
+
+--execute dbo.get_sorteos_pendientes
+
+*/
+
+/* Caso 2: Hoy es fecha de sorteo
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
+go
+
+*/
+
+SELECT * FROM concesionarias
+
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
+

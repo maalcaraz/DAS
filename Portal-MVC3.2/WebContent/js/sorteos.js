@@ -89,5 +89,18 @@ var jSorteos = {
 	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
+		},
+		proximasFechas : function () {
+			$.ajax({
+	            url: "./sorteos/ProximasFechas.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.showing("contenido-admin", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
+	            }
+	        });
 		}
 };

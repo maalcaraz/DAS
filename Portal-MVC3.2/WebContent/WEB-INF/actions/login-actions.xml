@@ -15,6 +15,9 @@
 	   	<action type="LogOutAction" path="/Logout.do">
     		<forward name="success" path="/login/logout.jsp" />
     	</action>
+    	<action type="GoHomeAction" path="/GoHome.do">
+    		<forward name="success" path="/home/home.jsp" />
+    	</action>
     	<action type="IngresarRegistroAction" path="/ingresarRegistro.do">
     		<forward name="success" path="/login/ingresarRegistro.jsp" />
     	</action>
