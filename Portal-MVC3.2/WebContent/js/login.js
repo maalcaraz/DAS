@@ -17,8 +17,7 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		            	$("#loginbutton").val("Iniciar Sesion");
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("site", html);
 		            }
 		        });
 			}
@@ -36,7 +35,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Cerrar Sesion");
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("contenido", html);
 		            }
 		        });	
 			}
@@ -45,8 +44,18 @@ var jLogin = {
 		logout : function (val){
 			if (val == 1){
 				modalSalir.style.display = "none";
-				$("#menu").val(" ");
-				window.location.replace("./login/GoHome.do");
+				$.ajax({
+		            url: "./home/Home.do",
+		            type: "post",
+		            dataType: "html",
+		            error: function(hr){
+		                jUtils.hiding("result");
+		                jUtils.showing("message", hr.responseText);
+		            },
+		            success: function(html) {
+		            	jUtils.showing("site", html);
+		            }
+		        });
 			}
 			else {
 				modalSalir.style.display = "none";
@@ -68,7 +77,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	modal.style.display = "none";
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("contenido", html);
 		            }
 		        });	
 		},

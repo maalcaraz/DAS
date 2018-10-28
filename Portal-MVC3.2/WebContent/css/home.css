@@ -28,11 +28,18 @@ li a:hover:not(.active) {
     background-color: #55aaff;
 }
 
-input[type=button]{
+.boton{
 	background-color: #333;
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;	
+}
+.normal.button{
+	background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 7px 8px;
+    text-decoration: none;
 }

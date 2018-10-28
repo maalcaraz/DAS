@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<div id="site">
 <ul class="nav hor">
   <li class="item nav hor"><a href="#home">Home</a></li>
   <li class="item nav hor"><a href="#about">Como es el plan </a></li>
@@ -18,15 +19,16 @@
   <li class="item nav hor"><a href="#concesionarias" onclick="jConcesionaria.mostrarRegistradas()">Concesionarias Adheridas</a></li>
   <li class="item nav hor"><a href="#suscribir" onclick="jConcesionaria.suscribir()">Suscribir Concesionaria</a></li>
   <li class="item nav hor"><a href="#resultadosSorteo"> Resultados ultimo sorteo </a></li>
-  <li class="item nav hor"><input type="button" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
+  <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
 </ul>
 
-<div id="site">
+<div id="contenido"> 
 	<div class="menu"> &nbsp; &nbsp; &nbsp; &nbsp; </div>
 	<div class="main" id="contenido-admin"> 
 		      <img src="/img/ford.png" alt="New York">
-
-	  </div>
+	</div>
+</div>
+	  
 	
 </div>
 </body>
