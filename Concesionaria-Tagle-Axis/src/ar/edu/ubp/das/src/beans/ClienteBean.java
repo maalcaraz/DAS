@@ -15,12 +15,36 @@ public class ClienteBean implements Bean{
 	private String codProvincia;
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dniCliente == null) ? 0 : dniCliente.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ClienteBean other = (ClienteBean) obj;
+		if (dniCliente == null) {
+			if (other.dniCliente != null)
+				return false;
+		} else if (!dniCliente.equals(other.dniCliente))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "ClienteBean [dniCliente=" + dniCliente + ", nomCliente=" + nomCliente + ", edad=" + edad
 				+ ", domicilio=" + domicilio + ", emailCliente=" + emailCliente + ", telefono=" + telefono
 				+ ", idLocalidad=" + idLocalidad + ", codProvincia=" + codProvincia + "]";
 	}
-
 
 	//Constructor publico
 	public ClienteBean(){}
