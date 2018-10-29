@@ -10,7 +10,7 @@
 <c:set var="concesionarias" scope="request"	value="${requestScope.concesionarias}"></c:set>
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
-
+<h2> Concesionarias por aprobar </h2>
 	<div>
 		<c:if test="${!empty pendientes}">
 			<c:forEach var="pendiente" items="${ pendientes }" varStatus="status">
@@ -29,23 +29,3 @@
 			No hay concesionarias pendientes de aprobacion
 		</c:if>
 	</div>
-
-	<div>
-	<c:if test="${!empty concesionarias}">
-	
-		<c:forEach var="concesionaria" items="${ concesionarias }"
-			varStatus="status">
-		<h4>Concesionarias Registradas</h4> <br><br> 
-		<div class="grid-item">
-		<h2>${ concesionaria.nomConcesionaria } </h2>
-		Tipo de Servicio: ${ concesionaria.cuit } <br>
-		Direccion: ${ concesionaria.direccion } <br>
-		Telefono: ${ concesionaria.telefono } <br>
-		Ultima actualizacion: ${ concesionaria.ultimaActualizacion } <br>
-		<a onclick="jConcesionaria.getDatosConcesionaria(&quot;${ concesionaria.idConcesionaria }&quot;)" href="#"> Ver detalle de clientes </a>
-		<input type="button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
-		</div> 
-	</c:forEach>
-	</c:if>
-	</div>
-

@@ -4,8 +4,13 @@
     <form-beans>
     </form-beans>
     <action-mappings>
-			<action type="DatosClienteAction" path="/Cliente.do">
-				<forward name="success" path="/clientes/cliente.jsp" />
+			<action type="DatosClienteAction" path="/DatosCliente.do">
+				<forward name="success" path="/clientes/datosPersonales.jsp" />
+				<forward name="failure" path="/clientes/error.jsp" />
+			</action>
+			<action type="EstadoCuentaAction" path="/EstadoCuenta.do">
+				<forward name="success" path="/clientes/estadoCuenta.jsp" />
+				<forward name="failure" path="/clientes/error.jsp" />
 			</action>
     </action-mappings>
 </actions>

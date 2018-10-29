@@ -10,24 +10,24 @@
 <title>Admin</title>
 </head>
 <body>
-<h1>Te loggeaste como admin del gobierno</h1>
-
-<div class="row">
-	<div class="column side">
+<div>
+<br>
+	<div class="menu">
+	<br>
 		<ul class="nav ver"> 
-		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarConcesionarias()" href="#"> Concesionarias </a></li>
-		  <li class="item nav ver" > <a onclick="jSorteos.getSorteos()" href="#">Fechas de sorteo </a></li>
+		  <li class="nav tit"> <h3> Menu - Admin </h3> </li>
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> Concesionarias por aprobar </a></li>
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarRegistradas()" href="#"> Concesionarias registradas </a></li>
+		  <li class="item nav ver" > <a onclick="jSorteos.obtenerSorteos()" href="#">Fechas de sorteo </a></li>
 		  <li class="item nav ver" > <a onclick="jSorteos.nuevoSorteo()" href="#"> Nuevo sorteo   </a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.testing()" href="#">Testing </a> </li>
 		</ul>
 	</div>
-	<div class="column middle">
-		<div id="concesionarias"></div>
+<br>
+	<div class="main">
+		<div id="contenido-admin"></div>
 	</div>
-	
 </div>
 
-
-	
 </body>
 </html>

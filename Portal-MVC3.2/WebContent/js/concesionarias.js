@@ -31,7 +31,7 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
@@ -106,17 +106,15 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	
 	            	jUtils.showing("content", html);
-	            	
 	            }
 	        });	
 		},
-		testing : function (){
+		mostrarRegistradas : function(){
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/Testing.do",
+	            url: "./concesionarias/ConcesionariasRegistradas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -124,17 +122,16 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
 		},
-		mostrarConcesionarias : function(){
+		mostrarPendientes : function () {
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/MostrarConcesionarias.do",
+	            url: "./concesionarias/ConcesionariasPendientes.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -142,8 +139,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
@@ -163,7 +159,7 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	
-	            	jUtils.showing("listado_sorteos", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
@@ -182,12 +178,9 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-		            alert("se rechazo!");
+		            alert("Se rechazo!");
 	            }
 	        });	
-		},
-		modificar : function(){
-			
 		},
 		getDatosConcesionaria : function(idConcesionaria){
 			alert(idConcesionaria);
@@ -203,7 +196,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},
@@ -214,10 +207,10 @@ var jConcesionaria ={
 	            dataType: "html",
 	            data: {"idConcesionaria" : idConcesionaria},
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
 		},
@@ -228,11 +221,27 @@ var jConcesionaria ={
 	            dataType: "html",
 	            data: $("#nuevaConfig").serialize(),
 	            error: function(hr){
-	                jUtils.showing("concesionarias", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("concesionarias", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
+		},
+		testing : function (){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/Testing.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
+	            }
+	        });	
 		}
 };

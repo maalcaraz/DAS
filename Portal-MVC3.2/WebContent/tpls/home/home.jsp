@@ -12,17 +12,20 @@
 
 <ul class="nav hor">
   <li class="item nav hor"><a href="#home">Home</a></li>
+  <li class="item nav hor"><a href="#about">Como es el plan </a></li>
   <li class="item nav hor"><a href="#proximasfechas"> Proximas fechas </a></li>
   <li class="item nav hor"><a href="#ganadores">Ganadores</a></li>
-  <li class="item nav hor"><a href="#concesionarias">Concesionarias Adheridas</a></li>
+  <li class="item nav hor"><a href="#concesionarias" onclick="jConcesionaria.mostrarRegistradas()">Concesionarias Adheridas</a></li>
   <li class="item nav hor"><a href="#suscribir" onclick="jConcesionaria.suscribir()">Suscribir Concesionaria</a></li>
-  <li class="item nav hor"><a href="#about">Como es el plan </a></li>
   <li class="item nav hor"><a href="#resultadosSorteo"> Resultados ultimo sorteo </a></li>
   <li class="item nav hor"><input type="button" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
 </ul>
 
 
 
-<div id="content"></div>
+<div id="site">
+	<div class="menu"> </div>
+	<div class="main" id="contenido-admin"> </div>
+</div>
 </body>
 </html>

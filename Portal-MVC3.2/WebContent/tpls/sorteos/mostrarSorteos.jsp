@@ -1,7 +1,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
+<h2>Sorteos </h2>
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>
 
 <table id="tablaSorteos" border=1>

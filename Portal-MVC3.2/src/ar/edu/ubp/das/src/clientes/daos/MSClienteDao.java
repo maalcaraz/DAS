@@ -45,15 +45,15 @@ public class MSClienteDao extends DaoImpl{
 		
 		this.connect();
 		
-		this.setProcedure("dbo.get_cliente_info(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		this.setProcedure("dbo.get_cliente_info(?, ?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		this.setParameter(1, clienteForm.getDniCliente());
+		this.setParameter(2, clienteForm.getIdConcesionaria());
 		
 		ResultSet result = this.getStatement().executeQuery();
 		ClienteForm c = new ClienteForm();
 		List<AdquiridoForm> adquiridos = new LinkedList<AdquiridoForm>();
 		result.next();
 		while(result.getRow() > 0) {
-
 				if (c.getDniCliente() == null){
 					c.setDniCliente(result.getString("dni_cliente"));
 					//no pongo id concesionaria en cliente por que puede tener muchos planes de distintas concesionarias

@@ -72,3 +72,7 @@ table{
 td {
 	padding: 15px;
 }
+
+thead {
+	font-weight: bold;
+}

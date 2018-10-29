@@ -53,7 +53,7 @@ create table concesionarias
 	direccion					varchar(100)	null,
 	telefono					char(11)		null,
 	ultima_actualizacion		date			null,
-	cant_dias_caducidad			tinyint			default 15,
+	cant_dias_caducidad			tinyint			not null default 15,
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
 	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
@@ -556,7 +556,7 @@ create view dbo.ult_transaccion as
 		group by trans.hora_fecha
 go
 
-create procedure dbo.get_cliente_info
+alter procedure dbo.get_cliente_info
 (
 	@dni_cliente		char(8),
 	@id_concesionaria	varchar(20)

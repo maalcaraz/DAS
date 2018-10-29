@@ -13,7 +13,7 @@
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
   font-size: 10pt;
-  text-align: center;
+  text-align: left;;
 }
 
 .nav.ver {
@@ -21,7 +21,7 @@
     margin: 0;
     padding: 0;
     width: 200px;
-    background-color: #55aaff;
+    background-color: #96ccd3;
     width: 250px;
 }
 
@@ -29,12 +29,19 @@
 	text-align: center;
 }
 
+.nav.tit {
+	width: 200px;
+	text-align: center;
+	color: #FFFFFF;
+    display: block;
+    padding: 8px 8px;
+}
+
 .item.nav.ver a {
     display: block;
     color: #FFFFFF;
     padding: 8px 16px;
     text-decoration: none;
-    width: 200px;
 }
 
 /* Change the link color on hover */
@@ -42,25 +49,13 @@ li a:hover {
     background-color: #555;
     color: white;
 }
-
-/* Create three unequal columns that floats next to each other */
-.column {
-    float: left;
-    padding: 10px;
-}
-
-/* Left and right column */
-.column.side {
+.menu {
+	float: left;
     width: 25%;
 }
-
 /* Middle column */
-.column.middle {
-    width: 50%;
-}
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+.main {
+	float: left;
+    width: 75%;
+    height: 100%;
 }
