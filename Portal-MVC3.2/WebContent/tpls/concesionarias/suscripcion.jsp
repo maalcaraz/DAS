@@ -41,7 +41,7 @@
 	<br>
 	<div class="container" style="background-color:#f1f1f1">
 	  <button type="button" name="suscript" onclick="jConcesionaria.insertarConcesionaria()">Suscribir</button>
-      <button type="button" name="cancelbtn" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+      <button type="button" name="cancelbtn" onclick="jLogin.cancelar(0, 'id02')" class="cancelbtn">Cancel</button>
     </div>
 </form>
 </div>

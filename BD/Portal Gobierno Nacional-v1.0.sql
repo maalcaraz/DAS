@@ -465,9 +465,6 @@ go
 
 --execute dbo.get_ultimo_ganador
 
-select *
-	from adquiridos
-go
 
 /*
 Update usado para testear ganadores
@@ -733,9 +730,19 @@ BEGIN
 	where c.id_concesionaria = @id_concesionaria
 END
 go
+
+create procedure dbo.get_ganadores
+AS
+BEGIN
+	select * from adquiridos a
+	where a.ganador_sorteo = 'S'
+END
+go
  
 /* TESTING REAL */
 
+--execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+--execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 
 
 
@@ -758,10 +765,7 @@ go
 
 */
 
-SELECT * FROM concesionarias
 
---execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
---execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 --execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
 --execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
 

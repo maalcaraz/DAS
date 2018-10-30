@@ -96,10 +96,10 @@ var jSorteos = {
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
+	                jUtils.showing("contenido", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
+	            	jUtils.showing("contenido", html);
 	            }
 	        });
 		}

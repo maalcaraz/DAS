@@ -12,8 +12,8 @@
 	<h1>Esta seguro de que quiere salir? </h1>
 
 	<span>
-	<input type="button" class="normal button" value="Si" onclick="jLogin.logout(1)">
-	<input type="button" class="normal button" value="No" onclick="jLogin.logout(0)">
+	<input type="button" class="normal button" value="Si" onclick="jLogin.logout(1, 'sure')">
+	<input type="button" class="normal button" value="No" onclick="jLogin.logout(0, 'sure')">
 	</span>
 	
 </div>
