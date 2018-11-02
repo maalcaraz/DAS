@@ -449,7 +449,7 @@ END
 go
 
 --execute dbo.get_concesionarias
-
+/*
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -462,12 +462,9 @@ BEGIN
 	and a.ganador_sorteo = 'S'
 END 
 go
-
+*/
 --execute dbo.get_ultimo_ganador
 
-select *
-	from adquiridos
-go
 
 /*
 Update usado para testear ganadores
@@ -691,24 +688,6 @@ BEGIN
 END
 go
 
-/* Caso 1: Hay sorteos pendientes 
-
-
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
-go
-
---execute dbo.get_sorteos_pendientes
-
-*/
-
-/* Caso 2: Hoy es fecha de sorteo
-
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
-go
-
-*/
 --a este proc lo podemos evitar y usar actualizar sorteo, agregando descripcion como parametro
 create procedure dbo.editar_sorteo
 (
@@ -751,3 +730,50 @@ BEGIN
 	where c.id_concesionaria = @id_concesionaria
 END
 go
+
+alter procedure dbo.get_ganadores
+AS
+BEGIN
+	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
+	from adquiridos a
+	join clientes c
+	on c.dni_cliente = a.dni_cliente
+	join concesionarias con
+	on c.id_concesionaria = con.id_concesionaria
+	where a.ganador_sorteo = 'S'
+	order by a.fecha_sorteado asc
+END
+go
+
+-- execute dbo.get_ganadores
+ 
+/* TESTING REAL */
+
+--execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+--execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+
+
+
+/* Caso 1: Hay sorteos pendientes 
+
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
+go
+
+--execute dbo.get_sorteos_pendientes
+
+*/
+
+/* Caso 2: Hoy es fecha de sorteo
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
+go
+
+*/
+
+
+--execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
+--execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
+

@@ -32,7 +32,7 @@
       </label>
     </div>
 	<div class="container" style="background-color:#f1f1f1">
-      <button type="button" name="cancelbtn" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <button type="button" name="cancelbtn" onclick="jLogin.cancelar(2, 'id01')" class="cancelbtn">Cancel</button>
       <span class="psw" >Forgot <a href="#">password?</a></span>
     </div>
     
@@ -40,7 +40,7 @@
     </form>
   </div>
 
-  <script type="text/javascript">document.getElementById('id01').style.display='block'</script>
+  <script type="text/javascript">document.getElementById('id01').style.display='block';</script>
  
 </body>
 </html>

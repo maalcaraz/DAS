@@ -30,5 +30,5 @@
 
 </form>
 
-<input type="button" value="Guardar Cambios" onclick="jConcesionaria.guardarCambios()">
+<input type="button" class="normal button" value="Guardar Cambios" onclick="jConcesionaria.guardarCambios()">
 <input type="button" value="Cancelar">
