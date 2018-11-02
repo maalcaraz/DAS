@@ -449,7 +449,7 @@ END
 go
 
 --execute dbo.get_concesionarias
-
+/*
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -462,7 +462,7 @@ BEGIN
 	and a.ganador_sorteo = 'S'
 END 
 go
-
+*/
 --execute dbo.get_ultimo_ganador
 
 
@@ -731,13 +731,21 @@ BEGIN
 END
 go
 
-create procedure dbo.get_ganadores
+alter procedure dbo.get_ganadores
 AS
 BEGIN
-	select * from adquiridos a
+	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
+	from adquiridos a
+	join clientes c
+	on c.dni_cliente = a.dni_cliente
+	join concesionarias con
+	on c.id_concesionaria = con.id_concesionaria
 	where a.ganador_sorteo = 'S'
+	order by a.fecha_sorteado asc
 END
 go
+
+-- execute dbo.get_ganadores
  
 /* TESTING REAL */
 

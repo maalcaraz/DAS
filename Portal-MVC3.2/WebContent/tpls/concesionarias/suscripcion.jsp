@@ -12,9 +12,11 @@
 
 <div class="container">
 <form class="modal-content animate" id="formSuscripcion">
+<h2>Suscripcion de Concesionaria</h2>
+<br>
 <label for="nombreConcesionaria">Nombre de la concesionaria: </label>
 <input type="text" id="nombreConcesionaria" name="nombreConcesionaria" autofocus required>
-
+<br><br>
 <label for="tipoServicio">Tipo de Servicio: </label>
 	<select id="tipoServicio" name="tipoServicio">
 		<option value="Rest"> Rest </option>
@@ -23,24 +25,25 @@
 	</select>
 	
 <br>
+<br>
 <label for="url">Url: </label>
 <input type="text" id="url" name="url" autofocus required>
-
+<br>
 <label for="cuit">Cuit: </label>
 <input type="text" id="cuit" name="cuit" autofocus required>
-
+<br>
 <label for="emailConcesionaria">Email: </label>
 <input type="text" id="emailConcesionaria" name="emailConcesionaria" autofocus required>
-
+<br>
 <label for="direccionConcesionaria">Direccion: </label>
 <input type="text" id="direccionConcesionaria" name="direccionConcesionaria" autofocus required>
-
+<br>
 <label for="telefonoConcesionaria">Telefono: </label>
 <input type="text" id="telefonoConcesionaria" name="telefonoConcesionaria" autofocus required>
 
 	<br>
 	<div class="container" style="background-color:#f1f1f1">
-	  <button type="button" name="suscript" onclick="jConcesionaria.insertarConcesionaria()">Suscribir</button>
+	  <button type="button" name="suscript" class="button suscribir" onclick="jConcesionaria.insertarConcesionaria()">Suscribir</button>
       <button type="button" name="cancelbtn" onclick="jLogin.cancelar(0, 'id02')" class="cancelbtn">Cancel</button>
     </div>
 </form>

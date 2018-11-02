@@ -10,7 +10,7 @@
 <c:set var="concesionarias" scope="request"	value="${requestScope.concesionarias}"></c:set>
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
-
+<br>
 	<div>
 	<c:if test="${!empty concesionarias}">
 	<h2>Concesionarias Adheridas</h2> <br><br> 
