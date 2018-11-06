@@ -148,7 +148,8 @@ public class ParseWsdlService {
 			NodeList nodesWithArguments = operationsWithAttributes.get(i).getChildNodes();
 			parametersList = new ArrayList<String>();;
 			for (int j = 0; j < nodesWithArguments.getLength(); j++) {
-				if(nodesWithArguments.item(j).getAttributes() != null && nodesWithArguments.item(j).getAttributes().getNamedItem("name") != null)
+				//if(nodesWithArguments.item(j).hasAttributes() && nodesWithArguments.item(j).getAttributes().getNamedItem("name") != null)
+				if(nodesWithArguments.item(j).getNodeType() == 1 && nodesWithArguments.item(j).hasAttributes())
 				{
 					parametersList.add(nodesWithArguments.item(j).getAttributes().getNamedItem("name").getNodeValue());
 				}
