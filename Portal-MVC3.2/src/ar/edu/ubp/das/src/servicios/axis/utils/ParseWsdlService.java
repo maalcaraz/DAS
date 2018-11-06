@@ -154,7 +154,7 @@ public class ParseWsdlService {
 				}
 			}
 			Operation ope = new Operation(
-					operationsWithAttributes.get(i).getNodeName(), parametersList);
+					operationsWithAttributes.get(i).getAttributes().getNamedItem("name").getNodeValue(), parametersList);
 			
 			if (!operations.contains(ope)) {
 				operations.add(ope);
