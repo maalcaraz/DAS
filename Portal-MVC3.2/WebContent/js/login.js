@@ -17,8 +17,7 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		            	$("#loginbutton").val("Iniciar Sesion");
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("site", html);
 		            }
 		        });
 			}
@@ -36,21 +35,29 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	$("#loginbutton").val("Cerrar Sesion");
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("contenido", html);
 		            }
 		        });	
 			}
 		
 		},
-		logout : function (val){
-			if (val == 1){
-				modalSalir.style.display = "none";
-				$("#menu").val(" ");
-			}
-			else {
-				modalSalir.style.display = "none";
-				
-			}
+		logout : function (val, mod){
+			if (mod != null){
+				c = document.getElementById(mod);
+				c.style.display="none"; 
+			} 
+			$.ajax({
+	            url: "./home/Home.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("site", html);
+	            }
+	        });
 		},
 		
 		acceder: function() {
@@ -67,7 +74,7 @@ var jLogin = {
 		            },
 		            success: function(html) {
 		            	modal.style.display = "none";
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("contenido", html);
 		            }
 		        });	
 		},
@@ -103,6 +110,17 @@ var jLogin = {
 	            	jUtils.showing("site", html);
 	            }
 	        });
+		},
+		cancelar : function (op, mod){
+			if (op == 2){
+				alert("Se cancelo la iniciada de sesion");
+				logged = 0 ; 
+				$('#loginbutton').val('Iniciar Sesion');
+			}
+			if (op == 0 ) {
+				alert("Se cancelo la suscripcion"); 
+			}
+			this.logout(1, mod);
 		}
 };
 
