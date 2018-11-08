@@ -16,7 +16,6 @@ drop procedure dbo.get_datos_clientes
 drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
-drop procedure dbo.get_ultimo_ganador
 drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
@@ -553,7 +552,7 @@ create view dbo.ult_transaccion as
 		group by trans.hora_fecha
 go
 
-alter procedure dbo.get_cliente_info
+create procedure dbo.get_cliente_info
 (
 	@dni_cliente		char(8),
 	@id_concesionaria	varchar(20)
@@ -774,6 +773,4 @@ go
 */
 
 
---execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
---execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/rest/Montironi/', 'Rest', 'N'
-
+select * from concesionarias

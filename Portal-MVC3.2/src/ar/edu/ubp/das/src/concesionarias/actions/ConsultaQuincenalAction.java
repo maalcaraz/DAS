@@ -58,7 +58,7 @@ public class ConsultaQuincenalAction implements Action {
 				
 					
 				// Almacenarlas en una lista
-				System.out.println("Select entrado: " + f.toString());
+				System.out.println("[ConsultaQuincenalAction]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
 				System.out.println(restResp);
@@ -89,12 +89,15 @@ public class ConsultaQuincenalAction implements Action {
 				
 				c.setItem("operacion", "insercionDatos");
 				Concesionaria.update(c);
-				/* Esto en realidad no se muestra en ningun JSP */
+				
 				request.setAttribute("transaccion", transaccion);
 				request.setAttribute("clientes", clientes);
 				request.setAttribute("planes", planes);
 				request.setAttribute("adquiridos", adquiridos);
 				request.setAttribute("cuotas", cuotas);
+				
+				request.setAttribute("concesionaria", c);
+			
 				
 			}
 			return mapping.getForwardByName("success");

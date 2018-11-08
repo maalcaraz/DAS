@@ -9,10 +9,12 @@
 <title>Testing Sync</title>
 </head>
 <body>
+<br>
 <div>Consumos: </div>
-<c:set var="consumo" scope="request" value="${ requestScope.consumos }"> </c:set>
-
-<h3>${consumo}</h3>
+<c:set var="consumos" scope="request" value="${ requestScope.consumos }"> </c:set>
+	<c:forEach var="consumo" items="${ consumos }" varStatus="status">
+		<h5>${consumo.getItem('mensaje')}</h5>
+	</c:forEach>
 
 </body>
 </html>
