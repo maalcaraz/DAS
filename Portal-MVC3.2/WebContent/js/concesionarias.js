@@ -50,7 +50,7 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	alert ("Concesionaria suscripta!");
-	            	modal.style.display = "none";
+	            	this.logout(1, modal);
 	            }
 	        });	
 		},
@@ -106,7 +106,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("content", html);
+	            	jUtils.showing("respuesta-servicio", html);
 	            }
 	        });	
 		},
@@ -124,6 +124,22 @@ var jConcesionaria ={
 	            success: function(html) {
 	            	jUtils.showing("contenido", html);
 	            	
+	            }
+	        });	
+		},
+		mostrarRegistradas : function(){
+			jUtils.executing("result");
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "./concesionarias/ConcesionariasRegistradas.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},

@@ -24,24 +24,24 @@ public class TestingSyncAction  implements Action {
 		try {
 			// hacer select de concesionarias que estan en la BD.
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-			String a = " " ;
-			System.out.println("Llegamos al action");
-		
+			
+			System.out.println("[Testing sync]Llegamos al action");
+			DynaActionForm consumos = new DynaActionForm();
 			
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			
 			
 			for (DynaActionForm f : forms){
 				// Almacenarlas en una lista
-				System.out.println("Select entrado: " + f.toString());
+				System.out.println("[Testing sync]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
-				a += "Respuesta de "+ c.getNomConcesionaria() +":";
-				System.out.println(a);
-				a += c.getWebService().Consumir("ejemplo", null);
-				
+				String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
+				mensaje += c.getWebService().Consumir("ejemplo", null);
+				System.out.println(mensaje);
+				f.setItem("mensaje", mensaje);
 			}
 			
-			request.setAttribute("consumos", a);
+			request.setAttribute("consumos", forms);
 			return mapping.getForwardByName("success");
 			// Recorrer esa lista, y de a una ir consumiendo la funcion de ejemplo.
 			
