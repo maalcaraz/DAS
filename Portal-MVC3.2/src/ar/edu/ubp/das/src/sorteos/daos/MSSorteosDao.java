@@ -113,7 +113,7 @@ public class MSSorteosDao extends DaoImpl{
 		while(result.getRow() > 0) {
 			try{
 				SorteosForm f = new SorteosForm();
-				f.setFechaSorteado(result.getString("fecha_sorteo"));
+				f.setFechaSorteado(result.getString("fecha_sorteado"));
 				f.setItem("apellidoNombre", result.getString("apellido_nombre"));
 				f.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
 				ret.add(f);

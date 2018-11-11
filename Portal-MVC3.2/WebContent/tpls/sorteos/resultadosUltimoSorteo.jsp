@@ -10,8 +10,8 @@
 		<tr>
 		<c:if test="${not empty sorteo}">
 			 <td> ${ sorteo.fechaSorteado }</td> 
-			 <td> ${ sorteo.apellidoNombre }  </td>
-			 <td> ${ sorteo.nombreConcesionaria }  </td>
+			 <td><c:out value="${sorteo.items['apellidoNombre']}"/></td>
+			 <td><c:out value="${sorteo.items['nombreConcesionaria']}"/></td>
 		</c:if>
 		<c:if test="${empty sorteo}">
 			 <td> No hay sorteos ejecutados </td> 
