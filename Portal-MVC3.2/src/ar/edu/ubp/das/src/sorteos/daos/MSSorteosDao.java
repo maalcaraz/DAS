@@ -103,6 +103,29 @@ public class MSSorteosDao extends DaoImpl{
 		this.disconnect();
 		return ret;
 	}
+	
+	public List<DynaActionForm> obtenerResultadoUltimoSorteo() throws SQLException {
+		List<DynaActionForm> ret = new LinkedList<DynaActionForm>();
+		this.connect();
+		this.setProcedure("dbo.get_ultimo_sorteo_ganador", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		ResultSet result = this.getStatement().executeQuery();
+		result.next();
+		while(result.getRow() > 0) {
+			try{
+				SorteosForm f = new SorteosForm();
+				f.setFechaSorteado(result.getString("fecha_sorteo"));
+				f.setItem("apellidoNombre", result.getString("apellido_nombre"));
+				f.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
+				ret.add(f);
+			}
+			catch(Exception ex){
+				System.out.println(ex);
+			}
+			result.next();
+		}
+		this.disconnect();
+		return ret;
+	}
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {

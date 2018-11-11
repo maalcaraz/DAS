@@ -27,5 +27,9 @@
 			<forward name="success" path="/sorteos/proximasFechas.jsp" />
 			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
+	 <action type="ResultadosUltimoSorteoAction" path="/ResultadosUltimoSorteo.do">
+			<forward name="success" path="/sorteos/resultadosUltimoSorteo.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
+	 </action>
     </action-mappings>
 </actions>

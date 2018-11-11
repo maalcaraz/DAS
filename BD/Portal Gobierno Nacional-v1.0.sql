@@ -16,6 +16,8 @@ drop procedure dbo.get_datos_clientes
 drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
+drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.get_ultimo_sorteo_ganador
 drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
@@ -448,7 +450,7 @@ END
 go
 
 --execute dbo.get_concesionarias
-/*
+
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -461,7 +463,7 @@ BEGIN
 	and a.ganador_sorteo = 'S'
 END 
 go
-*/
+
 --execute dbo.get_ultimo_ganador
 
 
@@ -647,6 +649,8 @@ BEGIN
 END
 go
 
+-- execute dbo.get_sorteos_pendientes
+
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
@@ -744,7 +748,21 @@ BEGIN
 END
 go
 
--- execute dbo.get_ganadores
+create procedure dbo.get_ultimo_sorteo_ganador
+AS
+BEGIN
+	select TOP 1 a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
+	from adquiridos a
+	join clientes c
+	on c.dni_cliente = a.dni_cliente
+	join concesionarias con
+	on c.id_concesionaria = con.id_concesionaria
+	where a.ganador_sorteo = 'S'
+	order by a.fecha_sorteado desc
+END
+go
+
+-- execute dbo.get_ultimo_sorteo_ganador
  
 /* TESTING REAL */
 
