@@ -101,6 +101,8 @@ public class Main {
 			ganador.setDniCliente(participanteGanador.getDniCliente());
 			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
 			opsSorteo.NotificarGanador(ganador);
+			System.out.println("[Main]Seteamos sorteo como NO pendiente...");
+			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo se ejecuto correctamente.", false);
 		}
 		/*
 		 * Este chequeo debe ir al final del Main para guardar el sorteo como pendiente
@@ -108,7 +110,7 @@ public class Main {
 		 */
 		if(abortarSorteo == true && sorteoActual != null ){
 			System.out.println("[Main]Seteamos sorteo como pendiente...");
-			opsSorteo.registrarSorteoPendiente(sorteoActual, "[Main]El sorteo no cumple las condiciones para ser ejecutado.");
+			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo no cumple las condiciones para ser ejecutado.", true);
 		}
 		System.out.println("[Main]Adios mundo");
 	}	
