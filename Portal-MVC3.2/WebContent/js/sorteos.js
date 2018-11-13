@@ -102,5 +102,18 @@ var jSorteos = {
 	            	jUtils.showing("contenido", html);
 	            }
 	        });
+		},
+		resultadosUltimoSorteo : function () {
+			$.ajax({
+	            url: "./sorteos/ResultadosUltimoSorteo.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.showing("contenido", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido", html);
+	            }
+	        });
 		}
 };

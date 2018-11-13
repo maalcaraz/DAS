@@ -283,17 +283,23 @@ public class OperacionesSorteo {
 		
 	}
 	
-	public void registrarSorteoPendiente(SorteoBean pendiente, String idRazon){
+	public void cambiarValorPendienteSorteo(SorteoBean pendiente, String idRazon, boolean marcarPendiente){
 		try {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
-			pendiente.setPendiente("S");
+			
+			if(marcarPendiente == true){
+				pendiente.setPendiente("S");
+			}
+			else{
+				pendiente.setPendiente("N");
+			}
 			
 			System.out.println("[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
 			sorteo.update(pendiente);
 			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
 		}
 		catch (SQLException ex){
-			System.out.println("[Ops Sorteo]Hubo un error al registrar el sorteo como pendiente. Mensaje: "+ex.getMessage());
+			System.out.println("[Ops Sorteo]Hubo un error al cambiar el valor pendiente del sorteo. Mensaje: "+ex.getMessage());
 		}
 	}
 	
