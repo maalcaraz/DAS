@@ -1,28 +1,40 @@
 use AUTOHAUS
 go
 
-drop table novedades
-drop table adquiridos
-drop table planes_modelos
-drop table cuotas
-drop table clientes
-drop table planes
-drop table vehiculos
-drop table sucursales
-drop table modelos_versiones
-drop table versiones
-drop table modelos
-drop table marcas
-drop table localidades
-drop table provincias
-drop table colores
-drop table tipos_vehiculos
-drop table nacionalidades
+/*******************************
+
+	DROPS
+
+********************************/
+
+drop table dbo.novedades
+drop table dbo.adquiridos
+drop table dbo.planes_modelos
+drop table dbo.cuotas
+drop table dbo.clientes
+drop table dbo.planes
+drop table dbo.vehiculos
+drop table dbo.sucursales
+drop table dbo.modelos_versiones
+drop table dbo.versiones
+drop table dbo.modelos
+drop table dbo.marcas
+drop table dbo.localidades
+drop table dbo.provincias
+drop table dbo.colores
+drop table dbo.tipos_vehiculos
+drop table dbo.nacionalidades
 drop procedure dbo.cancelar_ganador
---drop trigger tu_ri_cuotas_adquiridos
 drop procedure dbo.get_estados_cuentas
+drop trigger dbo.tu_ri_cuotas_adquiridos
+drop trigger dbo.tu_ri_patentes
 go
-go
+
+/*******************************
+
+	TABLES
+
+********************************/
 
 create table nacionalidades
 (
@@ -224,6 +236,13 @@ create table novedades
 )
 go
 
+/*******************************
+
+	PROCEDURES
+
+********************************/
+
+
 create procedure dbo.get_estados_cuentas
 as
 begin
@@ -243,8 +262,7 @@ begin
 end;
 go
 
-execute dbo.get_estados_cuentas
-go
+--execute dbo.get_estados_cuentas
 
 select * 
 	from clientes c
@@ -252,37 +270,6 @@ select *
 		on c.dni_cliente = ad.dni_cliente
 		join planes pl
 		on ad.id_plan = pl.id_plan
-go
-
---Trigger 
-
---1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
-
-CREATE TRIGGER tu_ri_patentes
-ON adquiridos
-FOR update
-AS
-	BEGIN
-		IF EXISTS (
-					select * from 
-					adquiridos a join vehiculos v
-					on a.nro_chasis = v.nro_chasis
-					where a.nro_chasis <> null
-					and a.fecha_entrega > getDate()
-					)
-		BEGIN
-				UPDATE v
-				SET v.nro_patente = 'AA-aaa-aa' -- actualizar. Agregamos una tabla 'patentes'?
-				FROM vehiculos v
-				where exists (
-								select * from 
-								adquiridos a join vehiculos v
-								on a.nro_chasis = v.nro_chasis
-								where a.nro_chasis <> null
-								and a.fecha_entrega > getDate()
-							)
-		END
-	END
 go
 
 CREATE PROCEDURE dbo.cancelar_ganador
@@ -370,6 +357,8 @@ go
 /*	execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
 	lo probamos con  */
 
+/*
+
 select * from adquiridos a
 where a.ganador_sorteo = 'S'
 
@@ -378,6 +367,8 @@ where cuo.dni_cliente = 25555555
 and cuo.id_plan = 303456
 go
 
+*/
+
 -- Trigger para la cancelacion de cuotas: Para que cada vez que un adquirido se declare como ganador, automaticamente se le cancelen las 
 -- cuotas restantes
 /*
@@ -385,6 +376,12 @@ go
 	- Operaciones: Update
 
 */
+
+/*******************************
+
+	TRIGGERS
+
+********************************/
 
 CREATE TRIGGER tu_ri_cuotas_adquiridos
 on adquiridos
@@ -407,5 +404,33 @@ AS
 	END
 go
 
+--Trigger 
 
-select * from clientes
+--1. Actualizacion en tabla VEHICULOS (agregar nro_patente) cuando es adquirido (en la tabla adquiridos)
+
+CREATE TRIGGER tu_ri_patentes
+ON adquiridos
+FOR update
+AS
+	BEGIN
+		IF EXISTS (
+					select * from 
+					adquiridos a join vehiculos v
+					on a.nro_chasis = v.nro_chasis
+					where a.nro_chasis <> null
+					and a.fecha_entrega > getDate()
+					)
+		BEGIN
+				UPDATE v
+				SET v.nro_patente = 'AA-aaa-aa' -- actualizar. Agregamos una tabla 'patentes'?
+				FROM vehiculos v
+				where exists (
+								select * from 
+								adquiridos a join vehiculos v
+								on a.nro_chasis = v.nro_chasis
+								where a.nro_chasis <> null
+								and a.fecha_entrega > getDate()
+							)
+		END
+	END
+go
