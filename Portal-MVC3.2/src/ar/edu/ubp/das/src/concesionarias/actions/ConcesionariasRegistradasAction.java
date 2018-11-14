@@ -48,7 +48,7 @@ public class ConcesionariasRegistradasAction implements Action {
 			return mapping.getForwardByName("success");
 		}
 		catch (Exception ex){
-			String error = "No se pudieron mostrar las concesionarias registradas debido al siguiente error: "+ex.getMessage();
+			String error = "[ConcesionariasRegistradasAction]No se pudieron mostrar las concesionarias registradas debido al siguiente error: "+ex.getMessage();
 			request.setAttribute("error", error);
 			return mapping.getForwardByName("failure");
 		}

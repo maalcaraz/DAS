@@ -15,7 +15,19 @@ import ar.edu.ubp.das.src.beans.TransaccionBean;
 public class ConcesionariaTagleWS {
 
 	public String ejemplo (){
-		String ret = "Axis Funciona";
+		System.out.println("----------------------------------------\n\n\t POST \n");
+		System.out.println("\n -->  Operacion de ejemplo para probar servicio ");
+		System.out.println("\n\n----------------------------------------\n\n");		
+		String ret = "";
+		try {
+			ret = "Axis Funciona";
+		}
+		catch (Exception ex){
+			ret = "[ConcesionariaTagleWS]Error en el consumo del servicio: "+ex.getMessage();
+		}
+        System.out.println("\n\n----------------------------------------");
+		System.out.println("\n -->  Mensaje Respuesta: "+ ret);
+        System.out.println("\n\n----------------------------------------");
 		return ret;
 	}
 	

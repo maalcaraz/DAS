@@ -28,7 +28,8 @@ public class ConsultaQuincenalAction implements Action {
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-		
+
+		LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
 		try {
 			System.out.println("Action de consulta quincenal");
 			/*
@@ -51,18 +52,22 @@ public class ConsultaQuincenalAction implements Action {
 			
 			Gson gson = new Gson();
 			TransaccionForm transaccion = null;
-			
 			String restResp = "";
 			
 			for (DynaActionForm f : forms){
 				
-					
 				// Almacenarlas en una lista
-				System.out.println("[ConsultaQuincenalAction]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
+				
+
+				System.out.println("[Consulta]NomConcesionaria: "+ c.getNomConcesionaria());
+				
 				restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
 				System.out.println(restResp);
 				restResp = c.getWebService().Consumir("getClientes", null);
+				
+				System.out.println("[Consulta quincenal -Post consumo getClientes]");
+				
 				//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
 					
 				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
@@ -80,7 +85,7 @@ public class ConsultaQuincenalAction implements Action {
 				/*Listado de Cuotas*/
 				String strCuotas = listaRetorno[3];
 				LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
-				
+				System.out.println("[Consulta Quincenal - Pre update]Hasta aca todo bien");
 				c.setAdquiridos(adquiridos);
 				c.setClientes(clientes);
 				c.setCuotas(cuotas);
@@ -88,24 +93,25 @@ public class ConsultaQuincenalAction implements Action {
 				c.setTransacForm(transaccion);
 				
 				c.setItem("operacion", "insercionDatos");
+				cons.add(c);	
 				Concesionaria.update(c);
+				System.out.println("[Consulta Quincenal - Post update]Hasta aca todo bien");
 				
-				request.setAttribute("transaccion", transaccion);
-				request.setAttribute("clientes", clientes);
-				request.setAttribute("planes", planes);
-				request.setAttribute("adquiridos", adquiridos);
-				request.setAttribute("cuotas", cuotas);
-				
-				request.setAttribute("concesionaria", c);
-			
-				
+				if (c.getNomConcesionaria().equals("Tagle")){
+					request.setAttribute("transaccion", transaccion);
+					request.setAttribute("clientes", clientes);
+					request.setAttribute("planes", planes);
+					request.setAttribute("adquiridos", adquiridos);
+					request.setAttribute("cuotas", cuotas);
+				}
 			}
-			return mapping.getForwardByName("success");
 		}
-		catch(Exception ex){
+		catch(SQLException ex){
 			String msg = "Error en Consulta Quincenal: "+ ex.getMessage();
-			request.setAttribute("error_msg", msg);
+			request.setAttribute("error", msg);
 			return mapping.getForwardByName("failure");
 		}
+		request.setAttribute("concesionarias", cons);
+		return mapping.getForwardByName("success");
 	}
 }
