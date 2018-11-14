@@ -45,7 +45,7 @@ public class ServicioRest extends ServicioImpl{
 			return restResp;
 		}
 		catch(Exception ex){
-			return "Error:"+ex.getMessage();
+			return "[Servicio Rest]Error:"+ex.getMessage();
 		}
 	}
 }

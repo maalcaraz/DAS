@@ -3,13 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-	<c:set var="concesionaria" scope="request" value="${ requestScope.concesionaria}"> </c:set>
+	<c:set var="concesionarias" scope="request" value="${ requestScope.concesionarias}"> </c:set>
 	
-	<c:set var="clientes" scope="request" value="${ concesionaria.getClientes() }"> </c:set>
-	<c:set var="transaccion" scope="request" value="${ concesionaria.getTransacciones() }"> </c:set>
-	<c:set var="planes" scope="request" value="${ concesionaria.getPlanes() }"> </c:set>
-	<c:set var="adquiridos" scope="request" value="${ concesionaria.getAdquiridos() }"> </c:set>
-	<c:set var="cuotas" scope="request" value="${ concesionaria.getCuotas() }"> </c:set>
+	<c:set var="clientes" scope="request" value="${ requestScope.clientes }"> </c:set>
+	<c:set var="transaccion" scope="request" value="${ requestScope.transaccion }"> </c:set>
+	<c:set var="planes" scope="request" value="${ requestScope.planes }"> </c:set>
+	<c:set var="adquiridos" scope="request" value="${ requestScope.adquiridos }"> </c:set>
+	<c:set var="cuotas" scope="request" value="${ requestScope.cuotas }"> </c:set>
+
+<h1> Viendo las concesionarias</h1>
+
+	<c:forEach var="concesionaria" items="${ concesionarias }" varStatus="status">
+		${ concesionaria.nomConcesionaria }
+	</c:forEach>
 
 
 <table >

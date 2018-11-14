@@ -36,8 +36,8 @@ public class TestingSyncAction  implements Action {
 				System.out.println("[Testing sync]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
-				mensaje += c.getWebService().Consumir("ejemplo", null);
-				System.out.println(mensaje);
+				mensaje += c.getWebService().Consumir("getClientes", null);//Consumir("ejemplo", null);
+				System.out.println("[Testing sync : 40]"+mensaje);
 				f.setItem("mensaje", mensaje);
 			}
 			

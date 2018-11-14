@@ -71,7 +71,7 @@ public class MSConcesionariaDao extends DaoImpl{
 			return;
 		}
 		else{
-		//-----------------------------------------------------------------
+		//----------------Actualizar datos de concesionaria ---------------------
 			ConcesionariaForm c = (ConcesionariaForm) form;
 			List<PlanForm> planes = c.getPlanes();
 			
@@ -180,7 +180,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		if (form == null){
 			// Devuelve una lista de concesionarias
-			System.out.println("Entrando por el if");
+			System.out.println("[MSConcesionariaDAO]Buscando lista de concesionarias en bd local");
 			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
@@ -197,17 +197,18 @@ public class MSConcesionariaDao extends DaoImpl{
 					//f.setCantDiasCaducidad(result.getString("cant_dias_caduc"));
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
+					
 					ret.add(f);
 				}
 				catch(Exception ex){
-					System.out.println(ex);
+					System.out.println("[Error en MSConcesionariaDAO]"+ex);
 				}
 				result.next();
 			}
 		}
 		else {
 			// Devuelve una lista de clientes
-			System.out.println("Entrando por else...");
+			System.out.println("[MSConcesionariaDAO]Buscando en bd local la lista de clientes");
 			ConcesionariaForm con =  (ConcesionariaForm) form;
 			
 			this.setProcedure("dbo.getDatosClientes(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
