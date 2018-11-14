@@ -6,7 +6,7 @@
 
 Estos son los compradores que salieron sorteados.
 Sus cuotas fueron canceladas y ahora disfrutan su primer 0km!
-
+<br>
 <c:set var="ganadores" scope="request" value="${requestScope.ganadores}"> </c:set>
 
 <table id="tablaGanadores" >

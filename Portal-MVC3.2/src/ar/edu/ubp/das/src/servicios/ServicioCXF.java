@@ -16,7 +16,6 @@ public class ServicioCXF extends ServicioImpl{
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 			/* A createClient() se le pasa como parametro la URL del servicio a ser consumido.
 			 * Para usar esa clase se importa la libreria org.apache.cxf.endpoint.Client;
-			 * 
 			 * */
 			String url = this.getUrl()+"?wsdl"; 
 		
@@ -28,12 +27,11 @@ public class ServicioCXF extends ServicioImpl{
 			 * */
 			
 			Object[] res = client.invoke(operacion, parameters);
-			System.out.println(res[0]);
+			System.out.println("[Servicio CXF] Respuesta de CXF: "+res[0]);
 			consumo = res[0].toString();
 		} 
 		catch (Exception e) {
-		
-			consumo = e.getMessage();
+			consumo = e.getMessage() + " - " ;
 		}
 		return consumo;
 	}

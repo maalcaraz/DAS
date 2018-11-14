@@ -1,6 +1,7 @@
 use portalgob
 
 
+
 /*******************************
 
 	DROPS
@@ -166,6 +167,7 @@ create table sorteos
 )
 go
 
+
 create table participantes_sorteos
 (
 	id_sorteo				varchar(30)		not null,
@@ -184,6 +186,7 @@ create table usuarios
 	check (tipo_usuario in ('admin', 'cliente', 'sistema'))
 )
 go
+
 
 
 create table novedades
@@ -295,6 +298,7 @@ go
 --execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
+
 create procedure dbo.loginUsuario
 (
 	@username		varchar(max) = null,
@@ -349,6 +353,20 @@ create procedure dbo.insertar_cliente
 )
 AS
 	BEGIN
+		if exists (
+					Select * from clientes c
+					where c.id_concesionaria = @id_concesionaria
+					and c.dni_cliente = @dni_cliente
+					)
+		update c
+		set c.apellido_nombre = @apellido_nombre,
+			c.edad = @edad,
+			c.domicilio = @domicilio,
+			c.email =  @email
+		from clientes c
+		where c.dni_cliente = @dni_cliente
+		and c.id_concesionaria = @id_concesionaria
+		ELSE
 		insert into clientes(dni_cliente, id_concesionaria, apellido_nombre, edad, domicilio, email)
 		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email)
 	END
@@ -366,8 +384,22 @@ create procedure dbo.insertar_plan
 )
 AS
 	BEGIN
-		insert into planes (id_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan, id_concesionaria)
-		values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
+		if exists (
+					Select * from planes p
+					where p.id_plan = @id_plan
+					and p.id_concesionaria = @id_concesionaria
+					)
+			update p
+			set p.descripcion = @descripcion,
+				p.cant_cuotas = @cant_cuotas,
+				p.entrega_pactada = @entrega_pactada,
+				p.financiacion = @financiacion,
+				p.dueño_plan = @dueño_plan
+			from planes p
+			where p.id_plan = @id_plan;
+		ELSE
+			insert into planes
+			values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
 	END
 go
 
@@ -384,6 +416,20 @@ create procedure dbo.insertar_adquirido
 )
 AS
 	BEGIN
+		if exists (
+					Select * from adquiridos ad
+					where ad.id_plan = @id_plan
+					and ad.id_concesionaria = @id_concesionaria
+					)
+			update ad
+			set ad.cancelado = @cancelado,
+				ad.ganador_sorteo = @ganador_sorteo,
+				ad.fecha_sorteado = @fecha_sorteado,
+				ad.fecha_entrega = @fecha_entrega,
+				ad.nro_chasis = @nro_chasis
+			from adquiridos ad
+			where ad.id_plan = @id_plan
+		ELSE
 		insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis)
 		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis)
 	END
@@ -401,8 +447,26 @@ create procedure dbo.insertar_cuota
 )
 AS
 	BEGIN
-		insert into cuotas
-		values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
+		if exists (
+					select * from cuotas c
+					where c.dni_cliente = @dni_cliente
+					and c.id_concesionaria = @id_concesionaria
+					and c.id_plan = @id_plan
+					and c.id_cuota = @id_cuota
+						)
+			update c 
+			set c.importe = @importe,
+				c.fecha_vencimiento = @fecha_vencimiento,
+				c.pagó = @pagó
+			from cuotas c
+			where c.dni_cliente = @dni_cliente
+			and c.id_concesionaria = @id_concesionaria
+			and c.id_plan = @id_plan
+			and c.id_cuota = @id_cuota
+
+		else
+			insert into cuotas
+			values(@id_cuota, @dni_cliente, @id_plan, @id_concesionaria, @importe, @fecha_vencimiento, @pagó)
 	END
 go
 
@@ -416,13 +480,13 @@ create procedure dbo.insertar_transaccion
 )
 AS
 	BEGIN
-		
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
 		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
 	END
 go
 
 --execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
+
 
 create procedure dbo.insertar_concesionaria
 (
@@ -471,8 +535,7 @@ BEGIN
 END
 go
 
---execute dbo.get_concesionarias
-
+/*
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -484,7 +547,7 @@ BEGIN
 					)
 	and a.ganador_sorteo = 'S'
 END 
-go
+*/
 
 --execute dbo.get_ultimo_ganador
 
@@ -538,6 +601,7 @@ BEGIN
 END
 go
 
+
 create procedure dbo.eliminar_concesionaria
 (
 	@id_concesionaria	char(8)
@@ -547,6 +611,7 @@ BEGIN
 	delete c
 		from concesionarias c
 		where c.id_concesionaria = @id_concesionaria
+		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia.
 END
 go
 
@@ -729,6 +794,7 @@ BEGIN
 END
 go
 
+
 create procedure dbo.get_ganadores
 AS
 BEGIN
@@ -758,12 +824,13 @@ END
 go
 
 
+
+--execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 /*******************************
 
 	TESTING
 
 ********************************/
-
 
 /*******************************
 
@@ -771,9 +838,12 @@ go
 
 ********************************/
 
---execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
---execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
-
+/*
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
+execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
+*/
 
 /*******************************
 

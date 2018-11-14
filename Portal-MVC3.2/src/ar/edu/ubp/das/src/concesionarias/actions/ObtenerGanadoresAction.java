@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.src.ganadores.daos.MSGanadoresDao;
 
 public class ObtenerGanadoresAction implements Action{

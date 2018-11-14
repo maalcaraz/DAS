@@ -46,6 +46,9 @@ public class ServicioAxis2 extends ServicioImpl {
 		try {
 			consumo = SoapMessageUtil.outputSoapMessage(response);
 			System.out.println("Response: " + consumo);
+			
+			
+			
 		} 
 		catch (SOAPException | IOException e) {
 			e.printStackTrace();
