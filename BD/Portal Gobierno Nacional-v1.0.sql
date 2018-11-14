@@ -1,6 +1,14 @@
 use portalgob
 
-drop view dbo.ult_transaccion
+
+
+/*******************************
+
+	DROPS
+
+********************************/
+
+drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -43,6 +51,13 @@ drop table concesionarias
 drop table novedades
 
 go
+
+
+/*******************************
+
+	TABLES
+
+********************************/
 
 
 create table concesionarias
@@ -88,7 +103,6 @@ create table clientes
 	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
 )
 go
-
 
 create table adquiridos
 (
@@ -153,14 +167,6 @@ create table sorteos
 )
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,descripcion)
-values ('s1', '3-03-2003', '3-03-2008', ''),
-	   ('s2','4-04-2004','4-04-2005', ''),
-	   ('s3','5-05-2005','5-06-2005', ''),
-	   ('s4','6-06-2006','6-07-2006', ''),
-	   ('s5','7-07-2007','7-08-2007', '')
-go
-
 
 create table participantes_sorteos
 (
@@ -181,12 +187,7 @@ create table usuarios
 )
 go
 
-insert into usuarios(id_usuario, pass, tipo_usuario)
-values ('admin', 'intel123', 'admin'),
-	   ('pepe', 'pepepass', 'cliente'),
-	   ('23432255', 'pablopass', 'cliente'),
-	   ('25555555', 'juanpass', 'cliente')
-go
+
 
 create table novedades
 (
@@ -195,6 +196,58 @@ create table novedades
 	CONSTRAINT PK__novedades__END primary key(id_novedad)
 )
 go
+
+create table logs -- agregar a la BD del portal
+(
+	tipoLog		char(5) not null,
+	horaLog		datetime,
+	usuario		varchar(100),
+	check (tipoLog in ('LOGIN','ERROR')),
+	CONSTRAINT PK__logs__END primary key(tipoLog, horaLog)
+)
+go
+
+/*******************************
+
+	INSERTS
+
+********************************/
+
+
+insert into usuarios(id_usuario, pass, tipo_usuario)
+values ('admin', 'intel123', 'admin'),
+	   ('pepe', 'pepepass', 'cliente'),
+	   ('23432255', 'pablopass', 'cliente'),
+	   ('25555555', 'juanpass', 'cliente')
+go
+
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,descripcion)
+values ('s1', '3-03-2003', '3-03-2008', ''),
+	   ('s2','4-04-2004','4-04-2005', ''),
+	   ('s3','5-05-2005','5-06-2005', ''),
+	   ('s4','6-06-2006','6-07-2006', ''),
+	   ('s5','7-07-2007','7-08-2007', '')
+go
+
+/*******************************
+
+	VIEWS
+
+********************************/
+
+create view dbo.ult_transaccion as
+	select max (trans.hora_fecha) as ult_transaccion_gc
+		from transacciones trans
+		where trans.id_transaccion LIKE 'GC%'
+		group by trans.hora_fecha
+go
+
+/*******************************
+
+	PROCEDURES
+
+********************************/
+
 
 create procedure dbo.validar_usuarios
 (
@@ -245,15 +298,6 @@ go
 --execute dbo.validar_usuarios 'pepe', 'pepepass'
 --execute dbo.validar_usuarios 'admin', 'intel123'
 
-create table logs -- agregar a la BD del portal
-(
-	tipoLog		char(5) not null,
-	horaLog		datetime,
-	usuario		varchar(100),
-	check (tipoLog in ('LOGIN','ERROR')),
-	CONSTRAINT PK__logs__END primary key(tipoLog, horaLog)
-)
-go
 
 create procedure dbo.loginUsuario
 (
@@ -443,22 +487,6 @@ go
 
 --execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
-select CONVERT (datetime, '2018-05-28 23:52:53.413')
-go
-
-select convert(date, '1897-05-05')
-go
-
-select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
-go 
- 
-select getdate()
-go
-
-select * from concesionarias
-
-select FORMAT(getDate(), 'dd-MM-yyyy')
-go
 
 create procedure dbo.insertar_concesionaria
 (
@@ -493,7 +521,6 @@ AS
 	END
 go
 
-
 /*
 insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia, aprobada)
 values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N')
@@ -507,7 +534,7 @@ BEGIN
 	 from concesionarias c
 END
 go
- --execute dbo.get_concesionarias
+
 /*
 create procedure dbo.get_ultimo_ganador
 AS 
@@ -520,18 +547,6 @@ BEGIN
 					)
 	and a.ganador_sorteo = 'S'
 END 
-go*/
-
---execute dbo.get_ultimo_ganador
-
-/*
-Update usado para testear ganadores
-
-update a
-	set a.ganador_sorteo = 'S',
-	a.fecha_sorteado = '2007-07-07'
-	from adquiridos a
-	where dni_cliente = 25555555
 */
 
 --execute dbo.get_ultimo_ganador
@@ -586,6 +601,7 @@ BEGIN
 END
 go
 
+
 create procedure dbo.eliminar_concesionaria
 (
 	@id_concesionaria	char(8)
@@ -597,13 +613,6 @@ BEGIN
 		where c.id_concesionaria = @id_concesionaria
 		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia.
 END
-go
-                                                                                                 
-create view dbo.ult_transaccion as
-	select max (trans.hora_fecha) as ult_transaccion_gc
-		from transacciones trans
-		where trans.id_transaccion LIKE 'GC%'
-		group by trans.hora_fecha
 go
 
 create procedure dbo.get_cliente_info
@@ -687,7 +696,6 @@ BEGIN
 	and cli1_cuo_pagas.cuotas_pagas < @max_cuotas_pagas
 END
 go
-
 
 --execute dbo.get_participantes 'AH123456', 24, 1
 
@@ -786,7 +794,8 @@ BEGIN
 END
 go
 
-alter procedure dbo.get_ganadores
+
+create procedure dbo.get_ganadores
 AS
 BEGIN
 	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
@@ -814,23 +823,57 @@ BEGIN
 END
 go
 
--- execute dbo.get_ultimo_sorteo_ganador
- 
-/* TESTING REAL */
 
-/*execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+
+--execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+/*******************************
+
+	TESTING
+
+********************************/
+
+/*******************************
+
+	INSERTAR CONCESIONARIA
+
+********************************/
+
+/*
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
 execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 */
+
+/*******************************
+
+	SORTEOS PENDIENTES
+
+********************************/
+
 /* Caso 1: Hay sorteos pendientes 
 
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-values ('123asadf', '02-03-2018', '02-03-2018', 'S', 'Testeando pendientes')
+values ('123asadf', '11-11-2018', '11-13-2018', 'N', 'Testeando pendientes')
 go
 
+insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis)
+values(303456, 25555555, 'tagle', 'N', 'S', '11-11-2018', null, 0)
+go
+
+UPDATE adquiridos
+SET fecha_sorteado = '11-11-2018', ganador_sorteo= 'S'
+WHERE dni_cliente = 25555555;
+
 --execute dbo.get_sorteos_pendientes
+
+
+/*******************************
+
+	HOY ES FECHA DE SORTEO?
+
+********************************/
 
 */
 
@@ -840,6 +883,37 @@ insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
 values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
 go
 
+
+/*******************************
+
+	MISCELANEOS.( Hay que acomodar)
+
+********************************/
+
+/*
+Update usado para testear ganadores
+
+update a
+	set a.ganador_sorteo = 'S',
+	a.fecha_sorteado = '2007-07-07'
+	from adquiridos a
+	where dni_cliente = 25555555
 */
 
-select * from concesionarias
+select CONVERT (datetime, '2018-05-28 23:52:53.413')
+go
+
+select convert(date, '1897-05-05')
+go
+
+select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
+go 
+ 
+select getdate()
+go
+
+select FORMAT(getDate(), 'dd-MM-yyyy')
+go
+
+
+*/
