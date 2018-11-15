@@ -19,7 +19,7 @@ Sus cuotas fueron canceladas y ahora disfrutan su primer 0km!
 		<tr> 
 			 <td> ${ ganador.getItem('fechaSorteado') }</td> 
 			 <td> ${ ganador.getItem('nombre') }</td>
-			 <td> ${ ganador.getItem('concesionaria') }</td> 
+			 <td> ${ ganador.getItem('nombreConcesionaria') }</td> 
 		</tr> 
 	</c:forEach>
 	</tbody>

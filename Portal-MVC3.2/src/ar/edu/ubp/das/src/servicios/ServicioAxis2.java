@@ -59,7 +59,7 @@ public class ServicioAxis2 extends ServicioImpl {
 	        Node node = nodes.item(0);
 	        returnContent = node != null ? node.getTextContent() : "";
 
-	        System.out.println(returnContent);
+	        System.out.println("Return de AXIS " + returnContent);
 		} 
 		catch (SOAPException e) {
 			e.printStackTrace();

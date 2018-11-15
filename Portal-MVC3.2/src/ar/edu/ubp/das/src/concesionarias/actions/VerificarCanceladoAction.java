@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import ar.edu.ubp.das.mvc.action.Action;
 import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
+import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 import ar.edu.ubp.das.src.ganadores.daos.MSGanadoresDao;
@@ -31,23 +35,27 @@ public class VerificarCanceladoAction implements Action {
 			System.out.println("Llegamos al action de verificar");
 				String idPortal = "PORTALGOB";
 				/*En base al idConcesionaria, hay que recuperar el ws de esa concesionaria y consumir el servicio*/
-				/*String idConcesionaria = request.getParameter("idConcesionaria");
-				String dniCliente = request.getParameter("dniCliente");
-				String idPlan = request.getParameter("idPlan");*/
+				/*String idConcesionaria = request.getParameter("idConcesionaria");*/
+				String dniCliente = request.getParameter("dniVerificar");
+				String idPlan = request.getParameter("idPlan");
 				String restResp = "";
+				TransaccionForm transaccion = null;
+				Gson gson = new Gson();
 				
 				MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ganadores");
 				LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Ganadores.select(null);
 				System.out.println(forms);
+				/*
 				String dniCliente = forms.get(0).getItem("dni_cliente");
-				String idPlan = forms.get(0).getItem("id_plan");
-				String idConcesionaria = forms.get(0).getItem("id_concesionaria");
+				String idPlan = forms.get(0).getItem("id_plan");*/
+				String idConcesionaria = forms.get(0).getItem("idConcesionaria");
+				String nombreConcesionaria = forms.get(0).getItem("nombreConcesionaria");
 						
 				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 				parameters.add(new BasicNameValuePair("dni_cliente" , dniCliente));
 		      	parameters.add(new BasicNameValuePair("id_plan" , idPlan));
-		      	System.out.println("Idconcesionaria: " +idConcesionaria);
+		      	System.out.println("Idconcesionaria: " + idConcesionaria);
 		      	MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 				
 		      	
@@ -58,13 +66,18 @@ public class VerificarCanceladoAction implements Action {
 				List<DynaActionForm> formsC =  Concesionaria.select(null);
 				for (DynaActionForm f : formsC){
 					ConcesionariaForm c = (ConcesionariaForm) f;
-					System.out.println("Verificando cancelado en la concesionaria "+ idConcesionaria);
 					if (c.getIdConcesionaria().equals(idConcesionaria)){
-						System.out.println("Verificando cancelado en la concesionaria "+ idConcesionaria);
+						System.out.println("Verificando cancelado en la concesionaria "+ c.getNomConcesionaria());
 						restResp = c.getWebService().Consumir("verificarCancelado", parameters);
 					}
 				}
+				
+				
+				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
+				
 				request.setAttribute("respuesta", restResp);
+				
+				
 
 				return mapping.getForwardByName("success");
 			}
