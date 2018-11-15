@@ -535,7 +535,7 @@ BEGIN
 END
 go
 
-/*
+
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -547,7 +547,7 @@ BEGIN
 					)
 	and a.ganador_sorteo = 'S'
 END 
-*/
+
 
 --execute dbo.get_ultimo_ganador
 
@@ -798,7 +798,7 @@ go
 create procedure dbo.get_ganadores
 AS
 BEGIN
-	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
+	select a.fecha_sorteado, c.apellido_nombre, a.id_plan, con.nombre_concesionaria, con.id_concesionaria
 	from adquiridos a
 	join clientes c
 	on c.dni_cliente = a.dni_cliente

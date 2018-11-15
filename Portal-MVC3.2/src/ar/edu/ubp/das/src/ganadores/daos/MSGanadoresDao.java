@@ -47,7 +47,8 @@ public class MSGanadoresDao  extends DaoImpl {
 			DynaActionForm ad = new DynaActionForm();
 			ad.setItem("fechaSorteado",result.getString("fecha_sorteado"));
 			ad.setItem("nombre", result.getString("apellido_nombre"));
-			ad.setItem("concesionaria", result.getString("nombre_concesionaria"));
+			ad.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
+			ad.setItem("idConcesionaria", result.getString("id_concesionaria"));
 			ganadores.add(ad);
 			result.next();
 		}

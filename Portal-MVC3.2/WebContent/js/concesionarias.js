@@ -82,7 +82,7 @@ var jConcesionaria ={
 	            url: "./concesionarias/VerificarCancelado.do",
 	            type: "post",
 	            dataType: "html",
-	            
+	            data: $("#verificarCanceladoForm").serialize(),
 	            error: function(hr){
 	                jUtils.hiding("result");
 	                jUtils.showing("message", hr.responseText);
