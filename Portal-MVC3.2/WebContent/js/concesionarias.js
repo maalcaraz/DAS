@@ -91,19 +91,22 @@ var jConcesionaria ={
 	            }
 	        });	
 		},
-		testingSyncro : function(){
+		testingSyncro : function(idConcesionaria){
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/TestingSync.do",
 	            type: "post",
 	            dataType: "html",
+	            data: {"idConcesionaria" : idConcesionaria},
 	            error: function(hr){
 	                jUtils.hiding("result");
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("respuesta-servicio", html);
+	            	nomDiv = "respuesta-"+idConcesionaria;
+	            	alert (nomDiv);
+	            	jUtils.showing(nomDiv, html);
 	            }
 	        });	
 		},
