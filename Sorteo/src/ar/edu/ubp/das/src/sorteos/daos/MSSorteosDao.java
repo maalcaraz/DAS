@@ -96,7 +96,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println(ex);
+				System.out.println("[MSSorteosDao]Error en hoy_es_fecha_de_sorteo: "+ex.getMessage());
 			}
 			result.next();
 		}

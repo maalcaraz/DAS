@@ -35,7 +35,7 @@ public class Main {
 			{
 				System.out.println("[Main]Hoy no es fecha de sorteo. Cancelando ejecucion...");
 				abortarSorteo = true;
-				System.out.println("[Main]El error en ejecucion da porque el programa en este punto ya deberia terminarse...");
+				//System.out.println("[Main]El error en ejecucion da porque el programa en este punto ya deberia terminarse...");
 			}
 		}
 		else

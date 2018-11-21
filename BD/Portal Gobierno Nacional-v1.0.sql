@@ -1,6 +1,5 @@
 use portalgob
-
-
+go
 
 /*******************************
 
@@ -8,7 +7,7 @@ use portalgob
 
 ********************************/
 
-drop view	   dbo.ult_transaccion
+--drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -16,7 +15,7 @@ drop procedure dbo.insertar_cuota
 drop procedure dbo.insertar_novedad
 drop procedure dbo.insertar_plan
 drop procedure dbo.insertar_transaccion
-drop procedure dbo.insertar_concesionaria
+--drop procedure dbo.insertar_concesionaria
 drop procedure dbo.loginUsuario
 drop procedure dbo.get_concesionarias
 drop procedure dbo.insertar_sorteo
@@ -32,7 +31,7 @@ drop procedure dbo.insertar_usuario
 drop procedure dbo.eliminar_concesionaria
 drop procedure dbo.get_cliente_info
 drop procedure dbo.hoy_es_fecha_de_sorteo
-drop procedure dbo.actualizar_sorteo
+--drop procedure dbo.actualizar_sorteo
 drop procedure dbo.eliminar_sorteo
 drop procedure dbo.editar_sorteo
 drop procedure dbo.reconfigurar_concesionaria
@@ -188,8 +187,6 @@ create table usuarios
 )
 go
 
-
-
 create table novedades
 (
 	id_novedad				integer			not null identity(1,1),
@@ -222,13 +219,14 @@ values ('admin', 'intel123', 'admin'),
 	   ('25555555', 'juanpass', 'cliente')
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,descripcion)
-values ('s1', '3-03-2003', '3-03-2008', ''),
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+values ('s1','3-03-2003','3-03-2008', ''),
 	   ('s2','4-04-2004','4-04-2005', ''),
 	   ('s3','5-05-2005','5-06-2005', ''),
 	   ('s4','6-06-2006','6-07-2006', ''),
 	   ('s5','7-07-2007','7-08-2007', '')
 go
+
 
 /*******************************
 
@@ -236,7 +234,7 @@ go
 
 ********************************/
 
-create view dbo.ult_transaccion as
+alter view dbo.ult_transaccion as
 	select max (trans.hora_fecha) as ult_transaccion_gc
 		from transacciones trans
 		where trans.id_transaccion LIKE 'GC%'
@@ -482,14 +480,17 @@ create procedure dbo.insertar_transaccion
 AS
 	BEGIN
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
-		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT(datetime, @hora_fecha))
 	END
 go
 
 --execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
+select * from transacciones
+go
 
-create procedure dbo.insertar_concesionaria
+
+alter procedure dbo.insertar_concesionaria
 (
 	@id_concesionaria				varchar(20),	
 	@nombre_concesionaria			varchar(30),
@@ -537,7 +538,7 @@ END
 go
 
 
-create procedure dbo.get_ultimo_ganador
+alter procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
@@ -570,10 +571,10 @@ go
 create procedure dbo.get_sorteos
 AS
 BEGIN
-	select * from sorteos
+	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_proximo, 'dd-MM-yyyy') as fecha_proximo, pendiente, descripcion
+	from sorteos s
 END
 go
-
 -- execute dbo.get_sorteos
 
 create procedure dbo.aprobar_concesionaria
@@ -712,19 +713,20 @@ go
 
 -- execute dbo.get_sorteos_pendientes
 
-create procedure dbo.hoy_es_fecha_de_sorteo
+alter procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
 	select *
 	from sorteos s
 	where s.pendiente is null
-	and s.fecha_sorteo = FORMAT(getDate(), 'dd-MM-yyyy')
+	and s.fecha_sorteo = convert(date, getDate())
 END
 go
 
+--select * from sorteos
 --execute dbo.hoy_es_fecha_de_sorteo
 
-create procedure dbo.actualizar_sorteo
+alter procedure dbo.actualizar_sorteo
 (
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
@@ -878,7 +880,14 @@ execute dbo.get_sorteos_pendientes
 /* Caso 2: Hoy es fecha de sorteo
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
+values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
+go
+execute dbo.get_sorteos
+select * from sorteos
+
+select getDate()
+
+execute dbo.hoy_es_fecha_de_sorteo
 go
 */
 
@@ -910,6 +919,9 @@ execute dbo.get_ultimo_ganador
 	select convert(date, '1897-05-05')
 	go
 
+	select convert(date, getDate())
+	go
+
 	select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
 	go 
  
@@ -917,6 +929,9 @@ execute dbo.get_ultimo_ganador
 	go
 
 	select FORMAT(getDate(), 'dd-MM-yyyy')
+	go
+
+	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
 */
 
