@@ -59,7 +59,6 @@ public class ClientesResource {
         transaccion.setIdConcesionaria(idConcesionaria);
         transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
         
-        
 			try {
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
 				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);

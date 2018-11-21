@@ -24,7 +24,8 @@ drop procedure dbo.get_datos_clientes
 drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
-drop procedure dbo.get_ultimo_ganador
+--drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.get_ganadores
 drop procedure dbo.get_ultimo_sorteo_ganador
 drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
@@ -535,7 +536,7 @@ BEGIN
 END
 go
 
-/*
+
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -547,7 +548,7 @@ BEGIN
 					)
 	and a.ganador_sorteo = 'S'
 END 
-*/
+go
 
 --execute dbo.get_ultimo_ganador
 
@@ -824,8 +825,6 @@ END
 go
 
 
-
---execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 /*******************************
 
 	TESTING
@@ -851,7 +850,7 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 
 ********************************/
 
-/* Caso 1: Hay sorteos pendientes 
+/* Caso 1: Hay sorteos pendientes
 
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
@@ -866,8 +865,9 @@ UPDATE adquiridos
 SET fecha_sorteado = '11-11-2018', ganador_sorteo= 'S'
 WHERE dni_cliente = 25555555;
 
---execute dbo.get_sorteos_pendientes
 
+execute dbo.get_sorteos_pendientes
+*/
 
 /*******************************
 
@@ -875,45 +875,59 @@ WHERE dni_cliente = 25555555;
 
 ********************************/
 
-*/
-
 /* Caso 2: Hoy es fecha de sorteo
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
 values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
 go
-
+*/
 
 /*******************************
 
-	MISCELANEOS.( Hay que acomodar)
+	AUN NO HAY GANADORES REGISTRADOS?
 
 ********************************/
 
+
 /*
-Update usado para testear ganadores
+	Update usado para testear ganadores
 
 update a
 	set a.ganador_sorteo = 'S',
 	a.fecha_sorteado = '2007-07-07'
 	from adquiridos a
 	where dni_cliente = 25555555
-*/
+	and 
 
-select CONVERT (datetime, '2018-05-28 23:52:53.413')
-go
+execute dbo.get_ultimo_ganador
 
-select convert(date, '1897-05-05')
-go
 
-select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
-go 
+
+
+	select CONVERT (datetime, '2018-05-28 23:52:53.413')
+	go
+
+	select convert(date, '1897-05-05')
+	go
+
+	select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
+	go 
  
-select getdate()
-go
+	select getdate()
+	go
 
-select FORMAT(getDate(), 'dd-MM-yyyy')
-go
-
-
+	select FORMAT(getDate(), 'dd-MM-yyyy')
+	go
 */
+
+select * from concesionarias
+select * from clientes
+
+
+
+update a
+	set a.ganador_sorteo = 'S',
+	a.fecha_sorteado = '2007-07-07'
+	from adquiridos a
+	where dni_cliente = 25555555
+	and a.id_concesionaria = 'Colcar2023979636'

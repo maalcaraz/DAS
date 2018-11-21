@@ -26,7 +26,6 @@ public class TestingSyncAction  implements Action {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			
 			System.out.println("[Testing sync]Llegamos al action");
-			DynaActionForm consumos = new DynaActionForm();
 			
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			

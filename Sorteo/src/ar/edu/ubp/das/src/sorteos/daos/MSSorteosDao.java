@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;

@@ -124,6 +124,7 @@ public class ConcesionariaColcarWS {
 				 * actualiza valores en la tabla Clientes
 				 * */
 				if (idConcesionaria.contains("Colcar")){
+					System.out.println("[Concesionaria Colcar]El ganador es cliente de esta concesionaria");
 					dao.update(adquirido);
 					mensajeRespuesta = "Se ha cancelado la cuenta del cliente ganador del sorteo";
 				}

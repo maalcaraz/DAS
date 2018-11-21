@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;Concesionaria-Tagle-Axis&apos;" deleteContents="false" description="Delete resource &apos;Concesionaria-Tagle-Axis&apos;" element1="/Concesionaria-Tagle-Axis" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1541550395941"/>
-</session>
