@@ -39,38 +39,43 @@ public class VerificarCanceladoAction implements Action {
 				
 				MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ganadores");
 				LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Ganadores.select(null);
-				System.out.println("[VerificarCanceladoAction]Listado de ganadores: "+forms);
 				
-				DynaActionForm g = forms.get(0);
-				String dniCliente = g.getItem("dniCliente"); // forms.get(0).getItem("dni_cliente");
-				String idPlan = g.getItem("idPlan");//forms.get(0).getItem("id_plan");
-				String idConcesionaria = g.getItem("idConcesionaria"); //forms.get(0).getItem("concesionaria");
-				
-				System.out.println("[VerificarCanceladoAction]Ultimo ganador: "+ dniCliente + " - " + idPlan);
-						
-				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
-				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
-				parameters.add(new BasicNameValuePair("dni_cliente" , dniCliente));
-		      	parameters.add(new BasicNameValuePair("id_plan" , idPlan));
-		      	System.out.println("[VerificarCanceladoAction]Idconcesionaria: " +idConcesionaria);
-		      	MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-				
-		      	
-				List<DynaActionForm> formsC =  Concesionaria.select(null);
-				for (DynaActionForm f : formsC){
-					ConcesionariaForm c = (ConcesionariaForm) f;
-					//System.out.println("[VerificarCanceladoAction]Verificando cancelado en la concesionaria "+ idConcesionaria);
-					if (c.getIdConcesionaria().equals(idConcesionaria)){
-						System.out.println("[VerificarCanceladoAction]Verificando cancelado en la concesionaria "+ idConcesionaria);
-						restResp = c.getWebService().Consumir("verificarCancelado", parameters);
+				if (forms.isEmpty()){
+					restResp = "Aun no hay ganadores registrados";
+				}
+				else{
+					DynaActionForm g = forms.get(0);
+					String dniCliente = g.getItem("dniCliente"); // forms.get(0).getItem("dni_cliente");
+					String idPlan = g.getItem("idPlan");//forms.get(0).getItem("id_plan");
+					String idConcesionaria = g.getItem("idConcesionaria"); //forms.get(0).getItem("concesionaria");
+					
+					System.out.println("[VerificarCanceladoAction]Ultimo ganador: "+ dniCliente + " - " + idPlan);
+							
+					List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+					parameters.add(new BasicNameValuePair("id_portal" , idPortal));
+					parameters.add(new BasicNameValuePair("dni_cliente" , dniCliente));
+			      	parameters.add(new BasicNameValuePair("id_plan" , idPlan));
+			      	System.out.println("[VerificarCanceladoAction]Idconcesionaria: " +idConcesionaria);
+			      	MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
+					
+			      	
+					List<DynaActionForm> formsC =  Concesionaria.select(null);
+					for (DynaActionForm f : formsC){
+						ConcesionariaForm c = (ConcesionariaForm) f;
+						//System.out.println("[VerificarCanceladoAction]Verificando cancelado en la concesionaria "+ idConcesionaria);
+						if (c.getIdConcesionaria().equals(idConcesionaria)){
+							System.out.println("[VerificarCanceladoAction]Verificando cancelado en la concesionaria "+ idConcesionaria);
+							restResp = c.getWebService().Consumir("verificarCancelado", parameters);
+						}
 					}
 				}
+				
 				request.setAttribute("consumo", restResp);
 
 				return mapping.getForwardByName("success");
 			}
 	        catch(Exception ex) {
-	        	response.setStatus(400);
+	        	//response.setStatus(400);
 	        	request.setAttribute("error", ex.getMessage());
 				return mapping.getForwardByName("failure");
 	        }
