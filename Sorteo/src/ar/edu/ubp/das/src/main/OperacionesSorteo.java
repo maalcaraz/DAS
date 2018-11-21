@@ -90,7 +90,7 @@ public class OperacionesSorteo {
 						}
 					}
 					else{
-						System.out.println("[Conc]Aun no hay ganadores registrados.");
+						System.out.println("[Conc]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 					}
 				} 
 				catch (SQLException e) {
@@ -122,14 +122,19 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
 	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
 	      	
-			for (Bean c : listadoConcesionarias ){
-				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
-				if (restResp.equals("")){
-					
+	      	if (listadoConcesionarias.isEmpty()){
+	      		System.out.println("[OpsSorteo]Aun no hay concesionarias registradas...");
+	      	}
+	      	else {
+	      		for (Bean c : listadoConcesionarias ){
+					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+					System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
+					String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+					if (restResp.equals("")){
+						
+					}
 				}
-			}
-
+	      	}
 		}
 		catch(RuntimeException | SQLException ex ){
 			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ex.getMessage());
@@ -156,7 +161,7 @@ public class OperacionesSorteo {
 			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				System.out.println("ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
+				System.out.println("[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 				
 				int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
 				System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);

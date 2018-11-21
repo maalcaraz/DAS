@@ -15,7 +15,7 @@ public class ServicioFactory {
 		String nom = "Servicio"+nombreServicio;
 		
 		nom =  "ar.edu.ubp.das.src.servicios." + nom;
-		System.out.println("[ServicioFactory]"+nom);
+		//System.out.println("[ServicioFactory] "+nom);
 		ServicioImpl s = ServicioImpl.class.cast(Class.forName(nom).newInstance());
 		return s;
 	}

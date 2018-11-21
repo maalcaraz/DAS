@@ -16,19 +16,15 @@ public class Main {
 		/*
 		 * Bean para representar el sorteo que se va a ejecutar. Puede ser uno nuevo o uno pendiente.
 		 */
-
 		SorteoBean sorteoActual = null;
 		/* 
 		 * AbortarSorteo variable a utilizar para chequear estado de ejecucion
 		 * y eventualmente guardar sorteo como pendiente
 		 */
 		boolean abortarSorteo = false;
-		
 		sorteoActual = opsSorteo.consultarPendientes();
-		
 		if(sorteoActual == null){
 			System.out.println("[Main]No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
-			
 			sorteoActual = opsSorteo.obtenerSorteoHoy();
 			
 			if(sorteoActual == null)

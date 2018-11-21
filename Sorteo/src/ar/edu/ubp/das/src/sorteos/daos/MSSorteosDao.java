@@ -72,7 +72,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println(ex);
+				System.out.println("[MSSorteosDao]Error en obtencion de sorteos pendientes: "+ex.getMessage());
 			}
 			result.next();
 		}

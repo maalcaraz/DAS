@@ -537,6 +537,8 @@ BEGIN
 END
 go
 
+--execute dbo.get_concesionarias
+
 
 alter procedure dbo.get_ultimo_ganador
 AS 
@@ -713,7 +715,7 @@ go
 
 -- execute dbo.get_sorteos_pendientes
 
-alter procedure dbo.hoy_es_fecha_de_sorteo
+create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
 	select *
@@ -843,6 +845,7 @@ go
 execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
+execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 */
 
