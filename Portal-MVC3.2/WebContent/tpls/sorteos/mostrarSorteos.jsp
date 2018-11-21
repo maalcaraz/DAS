@@ -17,3 +17,4 @@
 </table>
 
 <input type="button" onclick="jSorteos.eliminarSorteos()" value="Eliminar">
+<input type="button" onclick="jSorteos.agregarSorteo()" value="Agregar Sorteo">
