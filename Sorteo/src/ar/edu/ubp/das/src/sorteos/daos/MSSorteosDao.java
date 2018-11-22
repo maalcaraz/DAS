@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
@@ -73,7 +72,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println(ex);
+				System.out.println("[MSSorteosDao]Error en obtencion de sorteos pendientes: "+ex.getMessage());
 			}
 			result.next();
 		}
@@ -97,7 +96,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println(ex);
+				System.out.println("[MSSorteosDao]Error en hoy_es_fecha_de_sorteo: "+ex.getMessage());
 			}
 			result.next();
 		}

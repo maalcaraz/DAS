@@ -24,7 +24,10 @@
 				<b>Telefono:</b> ${ concesionaria.telefono } <br>
 				<b>Email:</b> ${ concesionaria.email } <br>
 				<b>Ultima actualizacion:</b> ${ concesionaria.ultimaActualizacion } <br>
-			<input type="button" class="normal button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
+			<input type="button" class="normal button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
+			<input type="button" value="Test Connection" onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')">
+			
+			<div id="respuesta-${ concesionaria.idConcesionaria }"></div> 
 			</div> 
 		</c:forEach>
 	</c:if>

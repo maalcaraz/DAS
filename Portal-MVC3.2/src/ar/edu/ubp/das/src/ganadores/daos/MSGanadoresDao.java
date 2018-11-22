@@ -7,7 +7,6 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 
 public class MSGanadoresDao  extends DaoImpl {
 
@@ -40,15 +39,17 @@ public class MSGanadoresDao  extends DaoImpl {
 		
 		this.connect();
 		List<DynaActionForm> ganadores = new LinkedList<DynaActionForm>();
-		this.setProcedure("dbo.get_ganadores", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		//this.setProcedure("dbo.get_ganadores", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+		this.setProcedure("dbo.get_ultimo_ganador");
 		ResultSet result = this.getStatement().executeQuery();
 		result.next();
 		while(result.getRow() > 0) {
 			DynaActionForm ad = new DynaActionForm();
-			ad.setItem("fechaSorteado",result.getString("fecha_sorteado"));
-			ad.setItem("nombre", result.getString("apellido_nombre"));
-			ad.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
+			ad.setItem("idPlan",result.getString("id_plan"));
+			ad.setItem("dniCliente", result.getString("dni_cliente"));
 			ad.setItem("idConcesionaria", result.getString("id_concesionaria"));
+			ad.setItem("fechaSorteado", result.getString("fecha_sorteado"));
 			ganadores.add(ad);
 			result.next();
 		}

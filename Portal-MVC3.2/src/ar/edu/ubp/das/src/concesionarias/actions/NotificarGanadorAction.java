@@ -24,9 +24,8 @@ public class NotificarGanadorAction implements Action {
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
-		/* En base al proceso de sorteo, aca van a llegar losd atos del ganador.
+		/* En base al proceso de sorteo, aca van a llegar los datos del ganador.
 		 * Esos datos se van a enviar a cada una de las concesionarias
-		 * 
 		 * */
 		
 		
@@ -44,25 +43,24 @@ public class NotificarGanadorAction implements Action {
 		parameters.add(new BasicNameValuePair("nombre_apellido", nomCliente));
 		parameters.add(new BasicNameValuePair("id_plan", idPlan));
 		parameters.add(new BasicNameValuePair("fecha_sorteo", fechaSorteo));
-		
-		
-		
+		System.out.println("[NotificarGanadorAction]Pre try... ");
 		try {
 	      	// Hay que buscarla en la lista de concesionarias, invocar el webService y devolver el consumo
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-			//String a = " " ;
-			System.out.println("Llegamos al action de notificar");
-			String restResp = "";
+			
 			
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			for (DynaActionForm f : forms){
+				String restResp = "";
 				ConcesionariaForm c = (ConcesionariaForm) f;
+				System.out.println("###############################################################");
+				System.out.println("[NotificarGanadorAction]Concesionaria: "+ c.getNomConcesionaria());
 				restResp += c.getWebService().Consumir("notificarGanador", parameters);
-				
+				System.out.println("[NotificarGanadorAction]Respuesta: "+ restResp);
+				f.setItem("mensaje", restResp);
 			}
 			
-			request.setAttribute("error", restResp);
-	    	
+			request.setAttribute("consumos", forms);
 	       
         }
         catch(Exception ex) {
@@ -70,8 +68,6 @@ public class NotificarGanadorAction implements Action {
         	request.setAttribute("error", ex.getMessage());
         	
         }
-		
-		
 		return null;
 	}
 

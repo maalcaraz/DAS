@@ -24,21 +24,20 @@ public class TestingSyncAction  implements Action {
 		try {
 			// hacer select de concesionarias que estan en la BD.
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-			
-			System.out.println("[Testing sync]Llegamos al action");
-			DynaActionForm consumos = new DynaActionForm();
+			String idConcesionaria =  request.getParameter("idConcesionaria");
+			System.out.println("[Testing sync]Probando conexion de concesionaria "+idConcesionaria);
 			
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			
 			
 			for (DynaActionForm f : forms){
-				// Almacenarlas en una lista
 				System.out.println("[Testing sync]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
-				String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
-				mensaje += c.getWebService().Consumir("ejemplo", null);//Consumir("ejemplo", null);
-				System.out.println("[Testing sync : 40]"+mensaje);
-				f.setItem("mensaje", mensaje);
+				if (c.getIdConcesionaria().equals(idConcesionaria)){
+					String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
+					mensaje += c.getWebService().Consumir("ejemplo", null);//Consumir("ejemplo", null);
+					f.setItem("mensaje", mensaje);
+				}
 			}
 			
 			request.setAttribute("consumos", forms);

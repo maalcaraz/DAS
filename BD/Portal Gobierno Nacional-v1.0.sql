@@ -1,6 +1,5 @@
 use portalgob
-
-
+go
 
 /*******************************
 
@@ -25,6 +24,7 @@ drop procedure dbo.get_participantes
 drop procedure dbo.get_sorteos
 drop procedure dbo.get_sorteos_pendientes
 drop procedure dbo.get_ultimo_ganador
+drop procedure dbo.get_ganadores
 drop procedure dbo.get_ultimo_sorteo_ganador
 drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
@@ -188,7 +188,6 @@ create table usuarios
 go
 
 
-
 create table novedades
 (
 	id_novedad				integer			not null identity(1,1),
@@ -221,8 +220,9 @@ values ('admin', 'intel123', 'admin'),
 	   ('25555555', 'juanpass', 'cliente')
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo,descripcion)
-values ('s1', '3-03-2003', '3-03-2008', ''),
+
+insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+values ('s1','3-03-2003','3-03-2008', ''),
 	   ('s2','4-04-2004','4-04-2005', ''),
 	   ('s3','5-05-2005','5-06-2005', ''),
 	   ('s4','6-06-2006','6-07-2006', ''),
@@ -481,7 +481,7 @@ create procedure dbo.insertar_transaccion
 AS
 	BEGIN
 		insert into transacciones(id_transaccion, id_concesionaria, estado_transaccion, mensaje_respuesta, hora_fecha)
-		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT (datetime, @hora_fecha))
+		values(@id_transaccion, @id_concesionaria, @estado_transaccion, @mensaje_respuesta, CONVERT(datetime, @hora_fecha))
 	END
 go
 
@@ -546,10 +546,8 @@ BEGIN
 								from sorteos s	
 					)
 	and a.ganador_sorteo = 'S'
-END 
-
-
---execute dbo.get_ultimo_ganador
+END
+go
 
 create procedure dbo.insertar_sorteo
 (
@@ -569,11 +567,11 @@ go
 create procedure dbo.get_sorteos
 AS
 BEGIN
-	select * from sorteos
+	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_proximo, 'dd-MM-yyyy') as fecha_proximo, pendiente, descripcion
+	from sorteos s
 END
 go
 
--- execute dbo.get_sorteos
 
 create procedure dbo.aprobar_concesionaria
 (
@@ -717,11 +715,10 @@ BEGIN
 	select *
 	from sorteos s
 	where s.pendiente is null
-	and s.fecha_sorteo = FORMAT(getDate(), 'dd-MM-yyyy')
+	and s.fecha_sorteo = convert(date, getDate())
 END
 go
 
---execute dbo.hoy_es_fecha_de_sorteo
 
 create procedure dbo.actualizar_sorteo
 (
@@ -824,8 +821,6 @@ END
 go
 
 
-
---execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 /*******************************
 
 	TESTING
@@ -842,6 +837,7 @@ go
 execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
+execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 */
 
@@ -851,7 +847,7 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 
 ********************************/
 
-/* Caso 1: Hay sorteos pendientes 
+/* Caso 1: Hay sorteos pendientes
 
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
@@ -866,8 +862,9 @@ UPDATE adquiridos
 SET fecha_sorteado = '11-11-2018', ganador_sorteo= 'S'
 WHERE dni_cliente = 25555555;
 
---execute dbo.get_sorteos_pendientes
 
+execute dbo.get_sorteos_pendientes
+*/
 
 /*******************************
 
@@ -875,45 +872,72 @@ WHERE dni_cliente = 25555555;
 
 ********************************/
 
-*/
 
 /* Caso 2: Hoy es fecha de sorteo
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('1234asadf', FORMAT(getDate(), 'dd-MM-yyyy'), '02-03-2018', 'Testeando fecha es hoy')
+values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
 go
+execute dbo.get_sorteos
+select * from sorteos
 
+select getDate()
+
+execute dbo.hoy_es_fecha_de_sorteo
+go
+*/
 
 /*******************************
 
-	MISCELANEOS.( Hay que acomodar)
+	AUN NO HAY GANADORES REGISTRADOS?
 
 ********************************/
 
 /*
-Update usado para testear ganadores
+	Update usado para testear ganadores
 
 update a
 	set a.ganador_sorteo = 'S',
 	a.fecha_sorteado = '2007-07-07'
 	from adquiridos a
 	where dni_cliente = 25555555
-*/
+	and 
+execute dbo.get_ultimo_ganador
 
-select CONVERT (datetime, '2018-05-28 23:52:53.413')
-go
 
-select convert(date, '1897-05-05')
-go
 
-select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
-go 
+	select CONVERT (datetime, '2018-05-28 23:52:53.413')
+	go
+
+	select convert(date, '1897-05-05')
+	go
+
+	select convert(date, getDate())
+	go
+
+	select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
+	go 
  
-select getdate()
-go
 
-select FORMAT(getDate(), 'dd-MM-yyyy')
-go
+	select getdate()
+	go
 
 
+	select FORMAT(getDate(), 'dd-MM-yyyy')
+	go
+
+	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
+	go
 */
+
+select * from concesionarias
+select * from clientes
+
+
+
+update a
+	set a.ganador_sorteo = 'S',
+	a.fecha_sorteado = '2007-07-07'
+	from adquiridos a
+	where dni_cliente = 25555555
+	and a.id_concesionaria = 'Colcar2023979636'

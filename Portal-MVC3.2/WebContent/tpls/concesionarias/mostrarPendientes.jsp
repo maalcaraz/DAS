@@ -16,13 +16,28 @@
 			<c:forEach var="pendiente" items="${ pendientes }" varStatus="status">
 				<div class="grid-item">
 
-					Concesionaria: ${ pendiente.nomConcesionaria }
-					<span> 
-					<input type="button" id="aprobar" name="aprobar" value="Aprobar" onclick="jConcesionaria.aprobar(&quot;${ pendiente.idConcesionaria }&quot;) "> 
-					<input type="button" id="rechazar" name="rechazar" value="Rechazar" onclick="jConcesionaria.rechazar(&quot;${ pendiente.idConcesionaria }&quot;)">
-					</span>
-				<br>
-				</div>
+					<h3> Concesionaria: ${ pendiente.nomConcesionaria } </h3>
+			<br>
+				<b>Tipo de Servicio:</b> ${ pendiente.codTecnologia } <br>
+				<b>Url:</b> ${ pendiente.urlServicio } <br>
+				<b>Direccion:</b> ${ pendiente.direccion } <br>
+				<b>Telefono:</b> ${ pendiente.telefono } <br>
+				<b>Email:</b> ${ pendiente.email } <br>
+				
+					
+				<span> 
+				<input type="button" id="aprobar" name="aprobar" value="Aprobar" onclick="jConcesionaria.aprobar(&quot;${ pendiente.idConcesionaria }&quot;) "> 
+				<input type="button" id="rechazar" name="rechazar" value="Rechazar" onclick="jConcesionaria.rechazar(&quot;${ pendiente.idConcesionaria }&quot;)">
+				<input type="button" class="normal button" value="Editar" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
+			
+				<input type="button" value="Test Connection" onclick="jConcesionaria.testingSyncro('${ pendiente.idConcesionaria }')">
+
+				
+				</span>
+			<br>
+			<div id="respuesta-${ pendiente.idConcesionaria }"></div>
+			</div>
+			
 			</c:forEach>
 		</c:if>
 		<c:if test="${empty pendientes}">
