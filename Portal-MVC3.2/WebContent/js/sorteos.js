@@ -14,18 +14,14 @@ var jSorteos = {
 		        });	
 		},
 		nuevoSorteo : function () {
-			$.ajax({
-	            url: "./sorteos/CargarSorteo.do",
-	            type: "post",
-	            dataType: "html",
-	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
-	            },
-	            success: function(html) {
-	            	
-	            	jUtils.showing("contenido-admin", html);
-	            }
-	        });	
+			var fila = 	"<tr>\
+								<td> </td>\
+								<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+								<td> </td>\
+								<td> </td>\
+								<td> </td>\
+						</tr>";
+				$("#tablaSorteos").append(fila);
 		},
 		insertar : function () {
 			alert($("#nuevaFecha").val());
