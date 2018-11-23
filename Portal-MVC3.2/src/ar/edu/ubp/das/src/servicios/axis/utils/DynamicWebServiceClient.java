@@ -62,8 +62,10 @@ public class DynamicWebServiceClient {
 		}*/
 		System.out.println("Entrando al for de parametros");
 		List<String> pn = new LinkedList<String>();
-		for (NameValuePair nv : parameters){
-			pn.add(nv.getName());
+		if(parameters != null){
+			for (NameValuePair nv : parameters){
+				pn.add(nv.getName());
+			}
 		}
 		foundOp.setParameterNames(pn);
 		
