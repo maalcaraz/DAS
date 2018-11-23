@@ -5,7 +5,7 @@
     </form-beans>
     <action-mappings>
      <action type="InsertarSorteoAction" path="/InsertarNuevo.do">
-			<forward name="success" path="/sorteos/nuevoSorteo.jsp" />
+			<forward name="success" path="/sorteos/MostrarSorteos.do" />
 	 </action>
 	 <action type="CargarSorteoAction" path="/CargarSorteo.do">
 			<forward name="success" path="/sorteos/cargarSorteo.jsp" />

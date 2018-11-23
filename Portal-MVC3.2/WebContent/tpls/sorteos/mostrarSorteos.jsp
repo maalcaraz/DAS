@@ -7,7 +7,7 @@
 <table id="tablaSorteos" border=1> <thead>
 	<tr>  
 		<td> </td> 
-		<td>  Fecha definida</td> 
+		<td>Fecha definida</td> 
 		<td>Fecha de ejecucion</td> 
 		<td>Fecha de notificacion</td>
 		<td> </td>
