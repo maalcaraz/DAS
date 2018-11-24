@@ -1,5 +1,4 @@
 var jSorteos = {
-	
 		obtenerSorteos : function (){
 			 $.ajax({
 		            url: "./sorteos/MostrarSorteos.do",
@@ -24,20 +23,26 @@ var jSorteos = {
 				$("#tablaSorteos").append(fila);
 		},
 		insertar : function () {
-			alert($("#nuevaFecha").val());
-			$.ajax({
-	            url: "./sorteos/InsertarNuevo.do",
-	            type: "post",
-	            data: {"nuevaFecha" : $("#nuevaFecha").val()},
-	            dataType: "html",
-	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
-	            },
-	            success: function(html) {
-	            	
-	            	jUtils.showing("contenido-admin", html);
-	            }
-	        });	
+			fecha = $("#nuevaFecha").val(); 
+			alert(fecha);
+			if (validarFechaSorteo()){
+				$.ajax({
+		            url: "./sorteos/InsertarNuevo.do",
+		            type: "post",
+		            data: {"nuevaFecha" : fecha},
+		            dataType: "html",
+		            error: function(hr){
+		                jUtils.showing("contenido-admin", hr.responseText);
+		            },
+		            success: function(html) {
+		            	jUtils.showing("contenido-admin", html);
+		            }
+		        });
+			}
+			else {
+				alert ("La fecha que intenta insertar no es valida");
+				$("#nuevaFecha").val("");
+			}
 		},
 		eliminarSorteos : function(){
 			var sel = [];
@@ -111,5 +116,8 @@ var jSorteos = {
 	            	jUtils.showing("contenido", html);
 	            }
 	        });
+		},
+		validarFechaSorteo : function (fecha){
+			return true;
 		}
 };

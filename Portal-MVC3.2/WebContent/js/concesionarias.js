@@ -244,6 +244,20 @@ var jConcesionaria ={
 	            }
 	        });
 		},
+		eliminarConcesionaria : function (idConcesionaria){
+			$.ajax({
+	            url: "./concesionarias/EliminarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria" : idConcesionaria},
+	            error: function(hr){
+	                jUtils.showing("contenido-admin", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
+	            }
+	        });
+		},
 		testing : function (){
 			jUtils.executing("result");
 	        jUtils.hiding("message");

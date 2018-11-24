@@ -87,7 +87,7 @@ create table planes
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
 	id_concesionaria		varchar(20)		not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
-	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias 
 )
 go
 
@@ -160,7 +160,7 @@ create table sorteos
 (
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
-	fecha_proximo		date			not null,
+	fecha_proximo		date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
 	descripcion			varchar(50)		not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
@@ -219,12 +219,12 @@ values ('admin', 'intel123', 'admin'),
 	   ('25555555', 'juanpass', 'cliente')
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('s1','3-03-2003','3-03-2008', ''),
-	   ('s2','4-04-2004','4-04-2005', ''),
-	   ('s3','5-05-2005','5-06-2005', ''),
-	   ('s4','6-06-2006','6-07-2006', ''),
-	   ('s5','7-07-2007','7-08-2007', '')
+insert into sorteos (id_sorteo, fecha_sorteo, descripcion)
+values ('s1','3-03-2003',''),
+	   ('s2','4-04-2004',''),
+	   ('s3','5-05-2005',''),
+	   ('s4','6-06-2006',''),
+	   ('s5','7-07-2007','')
 go
 
 
@@ -539,7 +539,6 @@ go
 
 --execute dbo.get_concesionarias
 
-
 alter procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -559,14 +558,13 @@ create procedure dbo.insertar_sorteo
 (
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
-	@fecha_proximo		date,
 	@pendiente			char(1),
 	@descripcion		varchar(50)
 )
 AS
 BEGIN
-	insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-	values (@id_sorteo, @fecha_sorteo, @fecha_proximo, @pendiente, @descripcion)
+	insert into sorteos (id_sorteo, fecha_sorteo, pendiente, descripcion)
+	values (@id_sorteo, @fecha_sorteo, @pendiente, @descripcion)
 END
 go
 
@@ -614,8 +612,8 @@ AS
 BEGIN
 	delete c
 		from concesionarias c
-		where c.id_concesionaria = @id_concesionaria
-		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia.
+		where c.id_concesionaria = 'AutoHaus1503004614'
+		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia
 END
 go
 
@@ -829,6 +827,26 @@ END
 go
 
 
+create TRIGGER td_ri_concesionarias
+on concesionarias
+FOR delete
+AS
+	BEGIN
+		delete cli
+		from clientes cli 
+		where cli.id_concesionaria = (	
+										select d.id_concesionaria 
+										from deleted d
+										)
+	END
+go
+
+-- execute dbo.get_concesionarias
+-- execute dbo.eliminar_concesionaria 'AutoHaus1503004614'
+-- select * from clientes
+
+
+
 /*******************************
 
 	TESTING
@@ -940,7 +958,7 @@ execute dbo.get_ultimo_ganador
 
 select * from concesionarias
 select * from clientes
-
+select * from sorteos
 
 
 update a
@@ -949,3 +967,8 @@ update a
 	from adquiridos a
 	where dni_cliente = 25555555
 	and a.id_concesionaria = 'Colcar2023979636'
+
+
+select * 
+from adquiridos ad
+where ad.ganador_sorteo = 'S'

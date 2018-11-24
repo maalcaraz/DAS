@@ -435,3 +435,4 @@ AS
 	END
 go
 
+select * from clientes

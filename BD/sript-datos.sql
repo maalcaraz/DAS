@@ -229,7 +229,15 @@ insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_p
 values(24444444, 'Maria Gonzales', 30, 'Sabattini 780', 'mariagonzales@gmail.com', 'CB', 2, '351-4444444'),
 	  (25555555, 'Juan Perez', 43, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
 	  (26666666, 'Marcos Juarez', 40, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
-	  (28888888, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3518888888')
+	  (28888888, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3518888888'),
+	  (29067894, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24229583, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (37563768, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (31076213, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30012228, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33967932, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
+	  (21111111, 'Tamara Garzon', 47, 'Rondeau 399', 'tamaragarzon@gmail.com', 'CB', 2, '351-1111111')
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
@@ -245,7 +253,7 @@ values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/intere
 	  (303458, 'Plan 70/30 cuota reducida', 'Plan 70/30 cuota reducida', 90, '3ra cuota', '84 cuotas 0% interes', 'GOB')
 	--  (303459, 120, '', 2, 2, 50)
 go
-
+/*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(111, 23432255, 303455, 5000.000, '02-02-2018', 'N'),
 	  (112, 23432255, 303455, 5000.000, '02-03-2018', 'N'),
@@ -259,13 +267,13 @@ values(111, 23432255, 303455, 5000.000, '02-02-2018', 'N'),
 	  (115, 25555555, 303456, 5000.000, '02-06-2018', 'N'),
 	  (111, 26666666, 303457, 5000.000, '02-02-2018', 'N'),
 	  (112, 27777777, 303458, 5000.000, '02-03-2018', 'N')
-go
+go*/
 
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion)
 values(303456, 25555555, 'N', 'N', '07-07-2007', null, null, 1),
 	  (303457, 26666666, 'N', 'N', null, null, null, 1),
-	  (303458, 27777777, 'N', 'N', null, null, null, 1),
-	  (303455, 23432255, 'N', 'N', null, null, null, 1)
+	  (303458, 27777777, 'N', 'N', null, null, null, 1)
+	  --(303455, 23432255, 'N', 'N', null, null, null, 1)
 go
 ;
 go
@@ -498,10 +506,17 @@ values (1, 'CB', 1, 'Sucursal Rio IV'),
 go
 
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
-values(27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
-	  (21111111, 'Tamara Garzon', 47, 'Rondeau 399', 'tamaragarzon@gmail.com', 'CB', 2, '351-1111111'),
-	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
-	  (23432255, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3517473350')
+values(23432255, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3517473350'),
+	  (24560856, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (25852618, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
+	  (31103532, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (28248271, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33162769, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (22867351, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33432133, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (25226013, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (39721315, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (35107075, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
@@ -753,6 +768,21 @@ values(1, 'NEGRO'),
 	  (9, 'AMARILLO')
 go
 
+insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
+values(25174634, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24365613, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (22872919, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33576314, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (23405390, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (34970322, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33870475, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30895845, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (21005836, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (29930123, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (32998142, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (28421744, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
+go
+
 ;
 GO
 
@@ -903,7 +933,6 @@ values  (1, 1, 'A1'),
 		(12, 7, 'Transit')
 go
 
-
 insert into versiones(id_version, descripcion)
 values (1, 'Attractive 1.4'),
 	   (2, 'Adventure 1.6'),
@@ -969,6 +998,19 @@ values(1, 'NEGRO'),
 	  (9, 'AMARILLO')
 go
 
+insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
+values(34623085, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (32480301, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (27802751, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30558609, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (29287534, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (35757422, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (34354917, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (35337920, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30726830, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (25059766, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (39704529, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
+go
 ;
 GO
 
@@ -1120,7 +1162,6 @@ values  (1, 1, 'A1'),
 		(12, 7, 'Transit')
 go
 
-
 insert into versiones(id_version, descripcion)
 values (1, 'Attractive 1.4'),
 	   (2, 'Adventure 1.6'),
@@ -1184,6 +1225,20 @@ values(1, 'NEGRO'),
 	  (7, 'GRIS ACERO'),
 	  (8, 'GRIS PETROLEO'),
 	  (9, 'AMARILLO')
+go
+
+insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
+values(24280103, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (26374653, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24834927, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24215278, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (27835283, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (32039643, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (22458775, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (34628607, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (36149183, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (35372003, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (25220710, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
 go
 
 ;

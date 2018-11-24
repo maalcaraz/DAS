@@ -216,7 +216,7 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(1, con.getIdConcesionaria());
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
-			List<ClienteForm> clientes = new LinkedList<ClienteForm>(); // esto se usa?
+			//List<ClienteForm> clientes = new LinkedList<ClienteForm>(); // esto se usa?
 			
 			while(result.getRow() > 0) {
 				ClienteForm c = new ClienteForm();
