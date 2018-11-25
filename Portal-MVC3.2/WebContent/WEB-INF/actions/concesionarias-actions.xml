@@ -17,11 +17,12 @@
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			
-			<action type="NotificarGanadorAction" path="/NotificacionGanador.do">
+			<action type="NotificarGanadorAction" path="/NotificarGanador.do">
 				<forward name="success" path="/concesionarias/notificarGanador.jsp" />
 			</action>
 			<action type="VerificarCanceladoAction" path="/VerificarCancelado.do">
 				<forward name="success" path="/concesionarias/verificarCancelado.jsp" />
+				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="ConcesionariasRegistradasAction" path="/ConcesionariasRegistradas.do">
 				<forward name="success" path="/concesionarias/mostrarRegistradas.jsp" />
@@ -52,6 +53,7 @@
 			</action>
 			<action type="TestingSyncAction" path="/TestingSync.do">
 				<forward name="success" path="/concesionarias/testingSync.jsp" />
+				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="TestingAction" path="/Testing.do">
 				<forward name="success" path="/concesionarias/testing.jsp" />

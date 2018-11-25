@@ -12,5 +12,9 @@
 				<forward name="success" path="/clientes/estadoCuenta.jsp" />
 				<forward name="failure" path="/clientes/error.jsp" />
 			</action>
+			<action type="EstadoDatosClientesAction" path="/EstadoDatosClientes.do">
+				<forward name="success" path="/clientes/EstadoDatosClientes.jsp" />
+				<forward name="failure" path="/clientes/error.jsp" />
+			</action>
     </action-mappings>
 </actions>

@@ -26,8 +26,8 @@ drop table dbo.tipos_vehiculos
 drop table dbo.nacionalidades
 drop procedure dbo.cancelar_ganador
 drop procedure dbo.get_estados_cuentas
-drop trigger dbo.tu_ri_cuotas_adquiridos
-drop trigger dbo.tu_ri_patentes
+--drop trigger dbo.tu_ri_cuotas_adquiridos
+--drop trigger dbo.tu_ri_patentes
 go
 
 /*******************************
@@ -312,8 +312,6 @@ go
 
 --execute dbo.insertar_novedad 'Hola mundo'
 
-select * from novedades
-
 
 drop procedure dbo.verificar_cancelado
 go
@@ -343,9 +341,6 @@ AS
 			
 	END
 go
-
---execute dbo.verificar_cancelado '25555555', 303456
---execute dbo.verificar_cancelado '27777777', 303458
 
 Select * 
 	from clientes c
@@ -434,3 +429,10 @@ AS
 		END
 	END
 go
+
+
+/* VERIFICAR CANCELADO */
+
+
+--execute dbo.verificar_cancelado '25555555', 303456
+--execute dbo.verificar_cancelado '27777777', 303458

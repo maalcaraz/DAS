@@ -1,11 +1,9 @@
 package ar.edu.ubp.das.src.main;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +36,7 @@ public class OperacionesSorteo {
 	/*
 	 * Obtiene ganador de el ultimo sorteo y pregunta en concesionaria
 	 * correspondiente si se cancelo.
+	 * 
 	 */
 	public AdquiridoBean verificarCancelado(){
 		
@@ -91,15 +90,12 @@ public class OperacionesSorteo {
 						}
 					}
 					else{
-						System.out.println("[Conc]Aun no hay ganadores registrados. dbo.ultimo_ganador retorno null");
+						System.out.println("[Conc]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 					}
-					
-					
 				} 
 				catch (SQLException e) {
-					
 					e.printStackTrace();
-					System.out.println(e.getMessage());
+					System.out.println("[Ops Sorteo]Catch clause: "+e.getMessage());
 				}
 		return adqBean;
 	}
@@ -126,14 +122,19 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
 	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
 	      	
-			for (Bean c : listadoConcesionarias ){
-				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
-				if (restResp.equals("")){
-					
+	      	if (listadoConcesionarias.isEmpty()){
+	      		System.out.println("[OpsSorteo]Aun no hay concesionarias registradas...");
+	      	}
+	      	else {
+	      		for (Bean c : listadoConcesionarias ){
+					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+					System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
+					String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+					if (restResp.equals("")){
+						
+					}
 				}
-			}
-
+	      	}
 		}
 		catch(RuntimeException | SQLException ex ){
 			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ex.getMessage());
@@ -160,7 +161,7 @@ public class OperacionesSorteo {
 			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				System.out.println("ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
+				System.out.println("[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 				
 				int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
 				System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
@@ -243,6 +244,10 @@ public class OperacionesSorteo {
 		try {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendientes = sorteo.select(null);
+			
+			if (pendientes.isEmpty()){
+				System.out.println("[Ops Sorteo]No existen sorteos pendientes registrados");
+			}
 			/*
 			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
 			 */	
@@ -277,7 +282,7 @@ public class OperacionesSorteo {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("[Ops Sorteo]"+e.getMessage());
+			System.out.println("[Ops Sorteo] Error en checkeo si hoy es sorteo: "+e.getMessage());
 		}
 		return sorteoPorEjecutar;
 		

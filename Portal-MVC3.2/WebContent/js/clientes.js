@@ -32,5 +32,22 @@ var jClientes ={
 		            	jUtils.showing("contenido-admin", html);
 		            }
 		        });
-		       }
+		       },
+		       datosTodosClientes : function(){
+					jUtils.executing("result");
+			        jUtils.hiding("message");
+			        $.ajax({
+			            url: "./clientes/EstadoDatosClientes.do",
+			            type: "post",
+			            dataType: "html",
+			            error: function(hr){
+			                jUtils.hiding("result");
+			                jUtils.showing("message", hr.responseText);
+			            },
+			            success: function(html) {
+			            	jUtils.showing("contenido-admin", html);
+			            }
+			        });
+			       }
+		   
 };

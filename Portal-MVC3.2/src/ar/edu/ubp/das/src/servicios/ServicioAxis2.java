@@ -1,13 +1,9 @@
 package ar.edu.ubp.das.src.servicios;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -20,7 +16,6 @@ import org.xml.sax.SAXException;
 import ar.edu.ubp.das.src.servicios.axis.utils.DynamicWebServiceClient;
 import ar.edu.ubp.das.src.servicios.axis.utils.ParseWsdlService;
 import ar.edu.ubp.das.src.servicios.axis.utils.ServiceDetail;
-import ar.edu.ubp.das.src.servicios.axis.utils.SoapMessageUtil;
 
 public class ServicioAxis2 extends ServicioImpl {
 
@@ -36,14 +31,15 @@ public class ServicioAxis2 extends ServicioImpl {
 		
 		try {
 			ServicioConcesionaria = parseService.parse(url);
+			
 		} 
 		catch (SAXException | IOException | ParserConfigurationException e) {
-			
-			e.printStackTrace();
+			System.out.println("[Servicio Axis]Error en parseo del servicio: "+e.getMessage());
 		}
 		
 		SOAPMessage response = null;
 		try {
+			
 			response = dynamicClient.invokeOperation(ServicioConcesionaria, operacion, parameters);
 		} 
 		catch (SOAPException | IOException e) {
@@ -62,9 +58,8 @@ public class ServicioAxis2 extends ServicioImpl {
 	        System.out.println("Return de AXIS " + returnContent);
 		} 
 		catch (SOAPException e) {
-			e.printStackTrace();
+			System.out.println("[Servicio Axis]No se pudo realizar el consumo por el error: "+e.getMessage());
 		}
-		
 		return returnContent;
 	}
 
