@@ -205,6 +205,17 @@ create table logs -- agregar a la BD del portal
 )
 go
 
+create table ganadores
+(
+	id_sorteo			varchar(30)		not null,
+	apellido_nombre			char(30)		not null,
+	nombre_concesionaria	varchar(30)		not null,
+	vehiculo_adq			varchar(20)		null,
+	CONSTRAINT PK__ganadores__END primary key (id_sorteo,apellido_nombre),
+	CONSTRAINT FK__ganadores_sorteos__END foreign key (id_sorteo) references sorteos
+)
+go
+
 /*******************************
 
 	INSERTS

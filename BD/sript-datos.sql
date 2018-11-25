@@ -226,18 +226,18 @@ values (1, 'CB', 1, 'Sucursal Rio IV'),
 go
 
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
-values(24444444, 'Maria Gonzales', 30, 'Sabattini 780', 'mariagonzales@gmail.com', 'CB', 2, '351-4444444'),
-	  (25555555, 'Juan Perez', 43, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
-	  (26666666, 'Marcos Juarez', 40, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
-	  (28888888, 'Pablo Alcaraz', 20, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3518888888'),
-	  (29067894, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (24229583, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (37563768, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (31076213, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (30012228, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (33967932, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+values(24444444, 'Maria Gonzales', 37, 'Sabattini 780', 'mariagonzales@gmail.com', 'CB', 2, '351-4444444'),
+	  (25555555, 'Juan Perez', 36, 'Av. Siempre Viva 123', 'juanperez@gmail.com', 'CB', 2, '351-7777777'),
+	  (26666666, 'Marcos Juarez', 35, 'Belgrano 450', 'marcosjuarez@gmail.com', 'CB', 2, '351-6666666'),
+	  (28888888, 'Pablo Alcaraz', 33, 'Potel 6883', 'pabloalcaraz@gmail.com', 'CB', 2, '3518888888'),
+	  (29067894, 'Nombre Testing', 32, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24229583, 'Nombre Testing', 37, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (37563768, 'Nombre Testing', 24, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (31076213, 'Nombre Testing', 30, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30012228, 'Nombre Testing', 31, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33967932, 'Nombre Testing', 28, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
 	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'pedroramirez@gmail.com', 'CB', 2, '351-5777777'),
-	  (21111111, 'Tamara Garzon', 47, 'Rondeau 399', 'tamaragarzon@gmail.com', 'CB', 2, '351-1111111')
+	  (21111111, 'Tamara Garzon', 40, 'Rondeau 399', 'tamaragarzon@gmail.com', 'CB', 2, '351-1111111')
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)

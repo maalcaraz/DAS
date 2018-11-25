@@ -236,6 +236,7 @@ create table novedades
 )
 go
 
+
 /*******************************
 
 	PROCEDURES
