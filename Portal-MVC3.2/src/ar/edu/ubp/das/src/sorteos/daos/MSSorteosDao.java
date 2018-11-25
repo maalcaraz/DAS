@@ -33,7 +33,7 @@ public class MSSorteosDao extends DaoImpl{
         	
     		String idSorteo = sorteo.getIdSorteo();
     		
-    		String fechaProximo = sorteo.getFechaProximo();
+    		String fechaProximo = sorteo.getfechaEjecucion();
     		
     		this.setProcedure("dbo.insertar_sorteo(?, ?, ?, ?, ?)");
     		this.setParameter(1, idSorteo);
@@ -92,7 +92,7 @@ public class MSSorteosDao extends DaoImpl{
 				SorteosForm f = new SorteosForm();
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
-				f.setFechaProximo(result.getString("fecha_proximo"));
+				f.setfechaEjecucion(result.getString("fecha_ejecucion"));
 				ret.add(f);
 			}
 			catch(Exception ex){

@@ -25,7 +25,7 @@ var jSorteos = {
 		insertar : function () {
 			fecha = $("#nuevaFecha").val(); 
 			alert(fecha);
-			if (validarFechaSorteo()){
+			if (this.validarFechaSorteo(fecha)){
 				$.ajax({
 		            url: "./sorteos/InsertarNuevo.do",
 		            type: "post",
@@ -117,7 +117,9 @@ var jSorteos = {
 	            }
 	        });
 		},
-		validarFechaSorteo : function (fecha){
+		validarFechaSorteo : function(fecha){
+			var d = new Date();
+			
 			return true;
 		}
 };

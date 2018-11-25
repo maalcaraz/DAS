@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h2>Sorteos </h2>
@@ -14,7 +13,12 @@
 	</tr> </thead>
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
 		<tr> 
-			 <td> <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }> </td>
+			 <td>
+			 <c:if test=" ${ sorteo.fechaEjecucion } " var="name" scope="scope">
+			 </c:if>
+			 
+			  <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
+			 </td>
 			 <td> ${ sorteo.fechaSorteado }  </td> 
 			 <td> ${ sorteo.fechaEjecucion } </td> 
 			 <td> - </td> 

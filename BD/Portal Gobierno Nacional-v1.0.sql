@@ -8,7 +8,6 @@ go
 ********************************/
 
 drop table ganadores
-
 --drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
@@ -89,7 +88,7 @@ create table planes
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
 	id_concesionaria		varchar(20)		not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
-	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias 
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias on delete cascade
 )
 go
 
@@ -102,7 +101,7 @@ create table clientes
 	domicilio				char(20)		null,
 	email					varchar(50)		not null,
 	CONSTRAINT PK__clientes__END primary key(dni_cliente, id_concesionaria),
-	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
+	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias on delete cascade
 )
 go
 
@@ -118,7 +117,7 @@ create table adquiridos
 	nro_chasis				varchar(15)		null,
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
 	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes
+	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes on delete cascade
 )
 go
 
@@ -133,7 +132,7 @@ create table cuotas
 	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
+	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes on delete cascade
 )
 go
 
@@ -846,8 +845,8 @@ BEGIN
 END
 go
 
-
-create TRIGGER td_ri_concesionarias
+/*
+drop TRIGGER td_ri_concesionarias
 on concesionarias
 FOR delete
 AS
@@ -859,12 +858,10 @@ AS
 										from deleted d
 										)
 	END
-go
+go*/
 
 -- execute dbo.get_concesionarias
 -- execute dbo.eliminar_concesionaria 'AutoHaus1503004614'
--- select * from clientes
-
 
 
 /*******************************

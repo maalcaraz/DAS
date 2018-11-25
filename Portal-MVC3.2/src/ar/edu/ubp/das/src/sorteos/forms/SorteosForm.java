@@ -8,7 +8,7 @@ public class SorteosForm extends DynaActionForm{
 	
 	private String idSorteo;
 	private String fechaSorteado;
-	private String fechaProximo;
+	private String fechaEjecucion;
 	
 	
 	public String getIdSorteo() {
@@ -27,11 +27,11 @@ public class SorteosForm extends DynaActionForm{
 		this.fechaSorteado = fechaSorteado;
 	}
 
-	public String getFechaProximo() {
-		return fechaProximo;
+	public String getfechaEjecucion() {
+		return fechaEjecucion;
 	}
 
-	public void setFechaProximo(String fechaProximo) {
-		this.fechaProximo = fechaProximo;
+	public void setfechaEjecucion(String fechaEjecucion) {
+		this.fechaEjecucion = fechaEjecucion;
 	}
 }

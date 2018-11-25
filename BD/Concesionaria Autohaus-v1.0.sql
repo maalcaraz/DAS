@@ -198,8 +198,6 @@ create table cuotas
 )
 go
 
-
-
 create table adquiridos
 (
 	id_plan					integer			not null, 

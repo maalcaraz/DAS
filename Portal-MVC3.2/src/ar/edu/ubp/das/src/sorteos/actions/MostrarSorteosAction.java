@@ -42,8 +42,8 @@ public class MostrarSorteosAction implements Action{
 		List<SorteosForm> sorteosList = new LinkedList<SorteosForm>();
 		for (DynaActionForm s : sorteos.select(null)){
 			SorteosForm f = (SorteosForm) s;
-			if (f.getFechaProximo() == null){
-				f.setFechaProximo("-");
+			if (f.getfechaEjecucion() == null){
+				f.setfechaEjecucion("-");
 			}
 			sorteosList.add(f);
 		}
