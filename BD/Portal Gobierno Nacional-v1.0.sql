@@ -7,6 +7,8 @@ go
 
 ********************************/
 
+drop table ganadores
+
 --drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
@@ -160,7 +162,7 @@ create table sorteos
 (
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
-	fecha_proximo		date			null,
+	fecha_ejecucion		date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
 	descripcion			varchar(50)		not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
@@ -582,7 +584,7 @@ go
 create procedure dbo.get_sorteos
 AS
 BEGIN
-	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_proximo, 'dd-MM-yyyy') as fecha_proximo, pendiente, descripcion
+	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, pendiente, descripcion
 	from sorteos s
 END
 go
@@ -812,6 +814,13 @@ go
 create procedure dbo.get_ganadores
 AS
 BEGIN
+	select * 
+		from ganadores g
+		join sorteos s
+		on g.id_sorteo = s.id_sorteo
+		order by s.fecha_ejecucion
+
+/*
 	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
 	from adquiridos a
 	join clientes c
@@ -819,7 +828,7 @@ BEGIN
 	join concesionarias con
 	on c.id_concesionaria = con.id_concesionaria
 	where a.ganador_sorteo = 'S'
-	order by a.fecha_sorteado asc
+	order by a.fecha_sorteado asc*/
 END
 go
 
@@ -887,7 +896,7 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 /* Caso 1: Hay sorteos pendientes
 
 
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, pendiente, descripcion)
 values ('123asadf', '11-11-2018', '11-13-2018', 'N', 'Testeando pendientes')
 go
 
@@ -911,7 +920,7 @@ execute dbo.get_sorteos_pendientes
 
 /* Caso 2: Hoy es fecha de sorteo
 
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
 go
 execute dbo.get_sorteos

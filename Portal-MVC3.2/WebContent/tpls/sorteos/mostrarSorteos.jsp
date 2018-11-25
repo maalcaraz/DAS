@@ -16,7 +16,7 @@
 		<tr> 
 			 <td> <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }> </td>
 			 <td> ${ sorteo.fechaSorteado }  </td> 
-			 <td> ${ sorteo.fechaProximo } </td> 
+			 <td> ${ sorteo.fechaEjecucion } </td> 
 			 <td> - </td> 
 			 <td> 
 			 <input type="button" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar"> 
