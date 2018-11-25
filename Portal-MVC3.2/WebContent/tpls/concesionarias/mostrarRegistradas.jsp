@@ -11,9 +11,9 @@
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
 
+	<h2>Concesionarias Registradas</h2> <br><br> 
 	<div>
 	<c:if test="${!empty concesionarias}">
-	<h2>Concesionarias Registradas</h2> <br><br> 
 		<c:forEach var="concesionaria" items="${ concesionarias }" varStatus="status">
 		
 			<div class="grid-item">
@@ -32,5 +32,8 @@
 			</div> 
 		</c:forEach>
 	</c:if>
+	<c:if test="${empty concesionarias}">
+			Aun no existen concesionarias registradas
+		</c:if>
 	</div>
 

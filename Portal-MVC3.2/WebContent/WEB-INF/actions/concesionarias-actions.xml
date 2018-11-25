@@ -63,7 +63,7 @@
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="EliminarConcesionariaAction" path="/EliminarConcesionaria.do">
-				<forward name="success" path="/concesionarias/eliminarConcesionaria.jsp" />
+				<forward name="success" path="/concesionarias/ConcesionariasRegistradas.do" />
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
     </action-mappings>

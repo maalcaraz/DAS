@@ -31,7 +31,7 @@ public class ConsultaQuincenalAction implements Action {
 
 		LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
 		try {
-			System.out.println("Action de consulta quincenal");
+			System.out.println("[ConsultaQuincenal]Action de consulta quincenal");
 			/*
 			 * Logica de sesion. Luego de implementarla donde sea necesaria se evaluara removerla a otro paquete
 			 * para no duplicar codigo
@@ -84,6 +84,7 @@ public class ConsultaQuincenalAction implements Action {
 				LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
 				/*Listado de Cuotas*/
 				String strCuotas = listaRetorno[3];
+				System.out.println("[ConsultaQuincenalAction]String de cuotas: "+strCuotas);
 				LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
 				System.out.println("[Consulta Quincenal - Pre update]Hasta aca todo bien");
 				c.setAdquiridos(adquiridos);

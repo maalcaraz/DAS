@@ -161,7 +161,6 @@ var jConcesionaria ={
 	        });	
 		},
 		aprobar : function (idConcesionaria){
-			alert(idConcesionaria);
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({

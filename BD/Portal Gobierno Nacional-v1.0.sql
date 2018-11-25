@@ -63,7 +63,7 @@ go
 
 create table concesionarias
 (
-	id_concesionaria			varchar(20)			not null,
+	id_concesionaria			varchar(20)		not null,
 	nombre_concesionaria		varchar(30)		not null,
 	cuit						char(9)			not null,
 	email						varchar(50)		null,	
@@ -618,14 +618,13 @@ go
 
 create procedure dbo.eliminar_concesionaria
 (
-	@id_concesionaria	char(8)
+	@id_concesionaria			varchar(20)		
 )
 AS
 BEGIN
 	delete c
 		from concesionarias c
-		where c.id_concesionaria = 'AutoHaus1503004614'
-		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia
+		where c.id_concesionaria = @id_concesionaria
 END
 go
 
@@ -860,9 +859,6 @@ AS
 	END
 go*/
 
--- execute dbo.get_concesionarias
--- execute dbo.eliminar_concesionaria 'AutoHaus1503004614'
-
 
 /*******************************
 
@@ -976,6 +972,8 @@ execute dbo.get_ultimo_ganador
 select * from concesionarias
 select * from clientes
 select * from sorteos
+-- execute dbo.get_concesionarias
+-- execute dbo.eliminar_concesionaria 'Montironi705993369'
 
 
 update a

@@ -168,7 +168,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.setProcedure("dbo.eliminar_concesionaria(?)");
 		this.setParameter(1, form.getItem("id_concesionaria"));
 		
-		this.executeQuery();
+		this.executeUpdate();
 		this.disconnect();
 		
 	}
