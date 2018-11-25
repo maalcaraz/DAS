@@ -211,17 +211,29 @@ public class MSConcesionariaDao extends DaoImpl{
 			System.out.println("[MSConcesionariaDAO]Buscando en bd local la lista de clientes");
 			ConcesionariaForm con =  (ConcesionariaForm) form;
 			
-			this.setProcedure("dbo.getDatosClientes(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			this.setProcedure("dbo.get_datos_clientes(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			
 			this.setParameter(1, con.getIdConcesionaria());
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
-			List<ClienteForm> clientes = new LinkedList<ClienteForm>(); // esto se usa?
 			
 			while(result.getRow() > 0) {
 				ClienteForm c = new ClienteForm();
 				c.setDniCliente(result.getString("dni_cliente"));
 				c.setNomCliente(result.getString("apellido_nombre"));
+				c.setEdad(result.getString("edad"));
+				c.setDomicilio(result.getString("domicilio"));
+				c.setEmailCliente(result.getString("email"));
+				c.setItem("idPlan", result.getString("id_plan"));
+				c.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
+				c.setItem("nroChasis", result.getString("nro_chasis"));
+				c.setItem("fechaEntrega", result.getString("fecha_entrega"));
+				c.setItem("cancelado", result.getString("cancelado"));
+				c.setItem("ganador", result.getString("ganador_sorteo"));
+				c.setItem("cantCuotas", result.getString("cant_cuotas"));
+				c.setItem("cuotasPagas", result.getString("cuotas_pagas"));
+				c.setItem("cuotasSinPagar", result.getString("cuotas_sin_pagar"));
+
 				//clientes.add(c);
 				ret.add(c);
 				result.next();

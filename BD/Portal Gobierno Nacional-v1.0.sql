@@ -647,7 +647,7 @@ END
 go
 
 --execute dbo.get_cliente_info 25555555, 'AutoHaus1503004614'
-
+/*
 create procedure dbo.get_datos_clientes
 (
 	@id_concesionaria			varchar(20)
@@ -657,6 +657,39 @@ BEGIN
 	Select *
 		from clientes c
 		where c.id_concesionaria = @id_concesionaria
+END
+go
+*/
+
+create procedure dbo.get_datos_clientes
+(
+	@id_concesionaria			varchar(20)
+)
+AS 
+BEGIN
+	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, conc.nombre_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
+	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	from clientes cli 
+	join adquiridos ad
+	on cli.dni_cliente = ad.dni_cliente
+	and cli.id_concesionaria = ad.id_concesionaria
+	join concesionarias conc
+	on ad.id_concesionaria = conc.id_concesionaria
+	join planes pla 
+	on pla.id_plan = ad.id_plan
+	and pla.id_concesionaria = ad.id_concesionaria
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad1
+			left join cuotas cuo
+			on cuo.id_plan = ad1.id_plan
+			where ad1.id_concesionaria = @id_concesionaria
+			and cuo.id_concesionaria = @id_concesionaria
+			group by ad1.dni_cliente, ad1.id_plan
+			) cli1_cuo_pagas
+	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
+	and cli1_cuo_pagas.id_plan = ad.id_plan,
+	ult_transaccion
+	where cli.id_concesionaria = @id_concesionaria
 END
 go
 
