@@ -5,7 +5,7 @@ import ar.edu.ubp.das.src.db.Bean;
 public class SorteoBean implements Bean{
 	private String idSorteo;
 	private String fechaSorteado;
-	private String fechaProximo;
+	private String fechaEjecucion;
 	private String pendiente;
 	
 
@@ -25,12 +25,12 @@ public class SorteoBean implements Bean{
 		this.fechaSorteado = fechaSorteado;
 	}
 
-	public String getFechaProximo() {
-		return fechaProximo;
+	public String getFechaEjecucion() {
+		return fechaEjecucion;
 	}
 
-	public void setFechaProximo(String fechaProximo) {
-		this.fechaProximo = fechaProximo;
+	public void setFechaEjecucion(String fechaEjecucion) {
+		this.fechaEjecucion = fechaEjecucion;
 	}
 	public String getPendiente() {
 		return pendiente;

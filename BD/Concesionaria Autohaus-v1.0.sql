@@ -198,8 +198,6 @@ create table cuotas
 )
 go
 
-
-
 create table adquiridos
 (
 	id_plan					integer			not null, 
@@ -235,6 +233,7 @@ create table novedades
 	CONSTRAINT PK__novedades__END primary key(id_novedad)
 )
 go
+
 
 /*******************************
 
@@ -435,3 +434,4 @@ AS
 	END
 go
 
+select * from clientes

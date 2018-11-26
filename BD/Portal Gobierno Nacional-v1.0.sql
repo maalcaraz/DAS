@@ -7,7 +7,13 @@ go
 
 ********************************/
 
+<<<<<<< HEAD
 drop view	   dbo.ult_transaccion
+=======
+drop procedure dbo.registrar_ganador
+drop table ganadores
+--drop view	   dbo.ult_transaccion
+>>>>>>> desarrollo-alcaraz
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -62,7 +68,7 @@ go
 
 create table concesionarias
 (
-	id_concesionaria			varchar(20)			not null,
+	id_concesionaria			varchar(20)		not null,
 	nombre_concesionaria		varchar(30)		not null,
 	cuit						char(9)			not null,
 	email						varchar(50)		null,	
@@ -87,7 +93,7 @@ create table planes
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
 	id_concesionaria		varchar(20)		not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
-	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias on delete cascade
 )
 go
 
@@ -100,7 +106,7 @@ create table clientes
 	domicilio				char(20)		null,
 	email					varchar(50)		not null,
 	CONSTRAINT PK__clientes__END primary key(dni_cliente, id_concesionaria),
-	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
+	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias on delete cascade
 )
 go
 
@@ -116,7 +122,7 @@ create table adquiridos
 	nro_chasis				varchar(15)		null,
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
 	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes
+	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes on delete cascade
 )
 go
 
@@ -131,7 +137,7 @@ create table cuotas
 	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
+	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes on delete cascade
 )
 go
 
@@ -160,7 +166,7 @@ create table sorteos
 (
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
-	fecha_proximo		date			not null,
+	fecha_ejecucion		date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
 	descripcion			varchar(50)		not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
@@ -206,6 +212,17 @@ create table logs -- agregar a la BD del portal
 )
 go
 
+create table ganadores
+(
+	id_sorteo				varchar(30)		not null,
+	apellido_nombre			char(30)		not null,
+	nombre_concesionaria	varchar(30)		not null,
+	vehiculo_adq			varchar(20)		null,
+	CONSTRAINT PK__ganadores__END primary key (id_sorteo,apellido_nombre),
+	CONSTRAINT FK__ganadores_sorteos__END foreign key (id_sorteo) references sorteos
+)
+go
+
 /*******************************
 
 	INSERTS
@@ -220,13 +237,12 @@ values ('admin', 'intel123', 'admin'),
 	   ('25555555', 'juanpass', 'cliente')
 go
 
-
-insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
-values ('s1','3-03-2003','3-03-2008', ''),
-	   ('s2','4-04-2004','4-04-2005', ''),
-	   ('s3','5-05-2005','5-06-2005', ''),
-	   ('s4','6-06-2006','6-07-2006', ''),
-	   ('s5','7-07-2007','7-08-2007', '')
+insert into sorteos (id_sorteo, fecha_sorteo, descripcion)
+values ('s1','3-03-2003',''),
+	   ('s2','4-04-2004',''),
+	   ('s3','5-05-2005',''),
+	   ('s4','6-06-2006',''),
+	   ('s5','7-07-2007','')
 go
 
 /*******************************
@@ -535,8 +551,7 @@ BEGIN
 END
 go
 
-
-create procedure dbo.get_ultimo_ganador
+alter procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
@@ -553,21 +568,24 @@ create procedure dbo.insertar_sorteo
 (
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
-	@fecha_proximo		date,
 	@pendiente			char(1),
 	@descripcion		varchar(50)
 )
 AS
 BEGIN
-	insert into sorteos (id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
-	values (@id_sorteo, @fecha_sorteo, @fecha_proximo, @pendiente, @descripcion)
+	if not exists (select * from sorteos s
+					where s.fecha_sorteo = @fecha_sorteo)
+	begin
+		insert into sorteos (id_sorteo, fecha_sorteo, pendiente, descripcion)
+		values (@id_sorteo, @fecha_sorteo, @pendiente, @descripcion)
+	end
 END
 go
 
 create procedure dbo.get_sorteos
 AS
 BEGIN
-	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_proximo, 'dd-MM-yyyy') as fecha_proximo, pendiente, descripcion
+	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, pendiente, descripcion
 	from sorteos s
 END
 go
@@ -602,14 +620,13 @@ go
 
 create procedure dbo.eliminar_concesionaria
 (
-	@id_concesionaria	char(8)
+	@id_concesionaria			varchar(20)		
 )
 AS
 BEGIN
 	delete c
 		from concesionarias c
 		where c.id_concesionaria = @id_concesionaria
-		-- GUARDA CON LA PROPAGACION!!!!!! A la hora de eliminar una concesionaria, deberiamos borrar los datos de los clientes que tenia.
 END
 go
 
@@ -745,25 +762,30 @@ go
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
-	select *
+	select s.id_sorteo, format(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, format(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, s.pendiente, s.descripcion
 	from sorteos s
 	where s.pendiente is null
 	and s.fecha_sorteo = convert(date, getDate())
 END
 go
 
+--select * from sorteos
+--execute dbo.hoy_es_fecha_de_sorteo
+--select convert(date, getDate())
 
 create procedure dbo.actualizar_sorteo
 (
 	@id_sorteo			varchar(30),
-	@fecha_sorteo		date,
-	@pendiente			char(1)
+	@fecha_sorteo		varchar(20),
+	@pendiente			char(1),
+	@fecha_ejecucion	varchar(20)
 )
 AS
 BEGIN
 	UPDATE s
-	SET pendiente	 = @pendiente,
-		fecha_sorteo = @fecha_sorteo
+	SET s.pendiente	 = @pendiente,
+		s.fecha_sorteo = convert(date, @fecha_sorteo, 105),
+		s.fecha_ejecucion = convert(date, @fecha_ejecucion, 105)
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END
@@ -828,7 +850,14 @@ go
 create procedure dbo.get_ganadores
 AS
 BEGIN
-	select a.fecha_sorteado, c.apellido_nombre, a.id_plan, con.nombre_concesionaria, con.id_concesionaria
+	select * 
+		from ganadores g
+		join sorteos s
+		on g.id_sorteo = s.id_sorteo
+		order by s.fecha_ejecucion
+
+/*
+	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
 	from adquiridos a
 	join clientes c
 	on c.dni_cliente = a.dni_cliente
@@ -836,6 +865,7 @@ BEGIN
 	on c.id_concesionaria = con.id_concesionaria
 	where a.ganador_sorteo = 'S'
 	order by a.fecha_sorteado asc
+*/
 END
 go
 
@@ -852,6 +882,46 @@ BEGIN
 	order by a.fecha_sorteado desc
 END
 go
+
+
+create procedure dbo.registrar_ganador
+(
+	@id_sorteo				varchar(30),
+	@dni_cliente			char(8)	,
+	@id_concesionaria		varchar(20)
+)
+AS
+BEGIN
+	declare @n_concesionaria varchar(30), 
+			@nombre_ganador char(30)
+	select @n_concesionaria = (select c.nombre_concesionaria 
+								from concesionarias c
+								where c.id_concesionaria = @id_concesionaria
+							  ), 
+		   @nombre_ganador = (select cli.apellido_nombre
+							 from clientes cli
+							 where cli.dni_cliente = @dni_cliente
+							)
+	insert into ganadores (id_sorteo, apellido_nombre, nombre_concesionaria, vehiculo_adq)
+	values(@id_sorteo, @nombre_ganador, @n_concesionaria, '')
+END
+go
+
+/*
+drop TRIGGER td_ri_concesionarias
+on concesionarias
+FOR delete
+AS
+	BEGIN
+		delete cli
+		from clientes cli 
+		where cli.id_concesionaria = (	
+										select d.id_concesionaria 
+										from deleted d
+										)
+	END
+go
+*/
 
 
 /*******************************
@@ -883,7 +953,7 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 /* Caso 1: Hay sorteos pendientes
 
 
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, pendiente, descripcion)
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, pendiente, descripcion)
 values ('123asadf', '11-11-2018', '11-13-2018', 'N', 'Testeando pendientes')
 go
 
@@ -908,7 +978,7 @@ execute dbo.get_sorteos_pendientes
 
 /* Caso 2: Hoy es fecha de sorteo
 
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_proximo, descripcion)
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
 go
 execute dbo.get_sorteos
@@ -937,7 +1007,37 @@ update a
 	and 
 execute dbo.get_ultimo_ganador
 
+*/
 
+/*******************************
+
+	HAPPY PATH
+
+********************************/
+
+/*
+* No hay sorteos pendientes
+execute dbo.get_sorteos_pendientes
+
+* Hoy es fecha de sorteos
+execute dbo.hoy_es_fecha_de_sorteo
+
+* No hay ganadores por cancelar
+
+* Hay concesionarias registradas
+execute dbo.get_concesionarias
+
+* Hay participantes para el sorteo
+execute dbo.get_participantes 'Montironi705993369', 16, 4
+
+*/
+
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
+values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
+go
 
 	select CONVERT (datetime, '2018-05-28 23:52:53.413')
 	go
@@ -961,11 +1061,12 @@ execute dbo.get_ultimo_ganador
 
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
-*/
-
+/*
 select * from concesionarias
 select * from clientes
-
+select * from cuotas
+select * from sorteos
+-- execute dbo.eliminar_concesionaria 'Montironi705993369'
 
 
 update a
@@ -974,3 +1075,14 @@ update a
 	from adquiridos a
 	where dni_cliente = 25555555
 	and a.id_concesionaria = 'Colcar2023979636'
+
+
+select * 
+from adquiridos ad
+where ad.ganador_sorteo = 'S'
+
+execute dbo.get_ganadores
+select * from ganadores
+
+select * from sorteos
+*/

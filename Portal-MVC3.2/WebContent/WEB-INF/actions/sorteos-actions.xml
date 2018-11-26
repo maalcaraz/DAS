@@ -5,23 +5,28 @@
     </form-beans>
     <action-mappings>
      <action type="InsertarSorteoAction" path="/InsertarNuevo.do">
-			<forward name="success" path="/sorteos/nuevoSorteo.jsp" />
+			<forward name="success" path="/sorteos/MostrarSorteos.do" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="CargarSorteoAction" path="/CargarSorteo.do">
 			<forward name="success" path="/sorteos/cargarSorteo.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="MostrarSorteosAction" path="/MostrarSorteos.do">
 			<forward name="success" path="/sorteos/mostrarSorteos.jsp" />
 			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="EliminarSorteosAction" path="/EliminarSorteos.do">
-			<forward name="success" path="/sorteos/eliminarSorteos.jsp" />
+			<forward name="success" path="/sorteos/MostrarSorteos.do" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="EditarSorteoAction" path="/EditarSorteo.do">
 			<forward name="success" path="/sorteos/editarSorteo.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="GuardarSorteoAction" path="/GuardarSorteo.do">
 			<forward name="success" path="/sorteos/guardarSorteo.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="ProximasFechasAction" path="/ProximasFechas.do">
 			<forward name="success" path="/sorteos/proximasFechas.jsp" />

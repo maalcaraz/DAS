@@ -161,7 +161,6 @@ var jConcesionaria ={
 	        });	
 		},
 		aprobar : function (idConcesionaria){
-			alert(idConcesionaria);
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
@@ -236,6 +235,20 @@ var jConcesionaria ={
 	            type: "post",
 	            dataType: "html",
 	            data: $("#nuevaConfig").serialize(),
+	            error: function(hr){
+	                jUtils.showing("contenido-admin", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("contenido-admin", html);
+	            }
+	        });
+		},
+		eliminarConcesionaria : function (idConcesionaria){
+			$.ajax({
+	            url: "./concesionarias/EliminarConcesionaria.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idConcesionaria" : idConcesionaria},
 	            error: function(hr){
 	                jUtils.showing("contenido-admin", hr.responseText);
 	            },

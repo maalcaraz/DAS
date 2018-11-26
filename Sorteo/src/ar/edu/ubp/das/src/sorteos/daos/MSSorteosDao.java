@@ -39,11 +39,12 @@ public class MSSorteosDao extends DaoImpl{
 		SorteoBean sorteo = (SorteoBean) form;
 		this.connect();
 		
-		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?)");
+		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?, ?)");
 		System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
 		this.setParameter(1, sorteo.getIdSorteo());
 		this.setParameter(2, sorteo.getFechaSorteado());
 		this.setParameter(3, sorteo.getPendiente());
+		this.setParameter(4, sorteo.getFechaEjecucion());
 		this.executeUpdate();
 		this.disconnect();
 	}
@@ -67,7 +68,7 @@ public class MSSorteosDao extends DaoImpl{
 				SorteoBean f = new SorteoBean();
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
-				f.setFechaProximo(result.getString("fecha_proximo"));
+				f.setFechaEjecucion(result.getString("fecha_ejecucion"));
 				f.setPendiente(result.getString("pendiente"));
 				ret.add(f);
 			}
@@ -92,7 +93,7 @@ public class MSSorteosDao extends DaoImpl{
 				SorteoBean f = new SorteoBean();
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
-				f.setFechaProximo(result.getString("fecha_proximo"));
+				f.setFechaEjecucion(result.getString("fecha_ejecucion"));
 				ret.add(f);
 			}
 			catch(Exception ex){

@@ -168,7 +168,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.setProcedure("dbo.eliminar_concesionaria(?)");
 		this.setParameter(1, form.getItem("id_concesionaria"));
 		
-		this.executeQuery();
+		this.executeUpdate();
 		this.disconnect();
 		
 	}
@@ -216,7 +216,9 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(1, con.getIdConcesionaria());
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
-			
+
+			//List<ClienteForm> clientes = new LinkedList<ClienteForm>(); // esto se usa?
+
 			while(result.getRow() > 0) {
 				ClienteForm c = new ClienteForm();
 				c.setDniCliente(result.getString("dni_cliente"));

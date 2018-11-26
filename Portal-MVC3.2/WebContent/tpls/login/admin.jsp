@@ -19,7 +19,6 @@
 		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> Concesionarias por aprobar </a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarRegistradas()" href="#"> Concesionarias registradas </a></li>
 		  <li class="item nav ver" > <a onclick="jSorteos.obtenerSorteos()" href="#">Fechas de sorteo </a></li>
-		  <li class="item nav ver" > <a onclick="jSorteos.nuevoSorteo()" href="#"> Nuevo sorteo   </a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.testing()" href="#">Testing </a> </li>
 		  <li class="item nav ver" > <a onclick="jClientes.datosTodosClientes()" href="#">Estado Cuentas Clientes </a> </li>
 		</ul>

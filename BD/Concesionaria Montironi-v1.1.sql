@@ -434,3 +434,6 @@ AS
 		END
 	END
 go
+
+select *
+from cuotas

@@ -33,10 +33,10 @@
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="AprobarConcesionariaAction" path="/AprobarConcesionaria.do">
-				<forward name="success" path="/concesionarias/aprobarConcesionaria.jsp" />
+				<forward name="success" path="/concesionarias/ConcesionariasPendientes.do" />
 			</action>
 			<action type="RechazarConcesionariaAction" path="/RechazarConcesionaria.do">
-				<forward name="success" path="/concesionarias/rechazarConcesionaria.jsp" />
+				<forward name="success" path="/concesionarias/ConcesionariasPendientes.do" />
 			</action>
 			<action type="MostrarAdheridasAction" path="/MostrarAdheridas.do">
 				<forward name="success" path="/concesionarias/mostrarAdheridas.jsp" />
@@ -60,6 +60,10 @@
 			</action>
 			<action type="ObtenerGanadoresAction" path="/ObtenerGanadores.do">
 				<forward name="success" path="/concesionarias/ganadores.jsp" />
+				<forward name="failure" path="/concesionarias/error.jsp" />
+			</action>
+			<action type="EliminarConcesionariaAction" path="/EliminarConcesionaria.do">
+				<forward name="success" path="/concesionarias/ConcesionariasRegistradas.do" />
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
     </action-mappings>
