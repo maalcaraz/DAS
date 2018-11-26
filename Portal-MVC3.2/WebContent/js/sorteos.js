@@ -16,15 +16,12 @@ var jSorteos = {
 			var fila = 	"<tr>\
 								<td> </td>\
 								<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
-								<td> </td>\
-								<td> </td>\
-								<td> </td>\
+								<td colspan='3' > <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
 						</tr>";
 				$("#tablaSorteos").append(fila);
 		},
 		insertar : function () {
 			fecha = $("#nuevaFecha").val(); 
-			alert(fecha);
 			if (this.validarFechaSorteo(fecha)){
 				$.ajax({
 		            url: "./sorteos/InsertarNuevo.do",
@@ -64,18 +61,14 @@ var jSorteos = {
 	        });	
 		},
 		editarSorteo : function (idSorteo) {
-			$.ajax({
-	            url: "./sorteos/EditarSorteo.do",
-	            type: "post",
-	            dataType: "html",
-	            data: {"idSorteo": idSorteo},
-	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
-	            },
-	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
-	            }
-	        });
+			var fila = 	"<td> </td>\
+				<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+				<td> <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
+				<td> </td>\
+				<td> </td>";
+			var id = document.getElementById(idSorteo);
+			$(id).deleteCell(0);
+			$("#"+idSorteo+"").innerHTML = fila;
 		},
 		guardarSorteo : function () {
 			$.ajax({
@@ -118,8 +111,15 @@ var jSorteos = {
 	        });
 		},
 		validarFechaSorteo : function(fecha){
-			var d = new Date();
-			
-			return true;
+			var partes = (fecha || '').split('-');
+			var fechaGenerada = new Date(partes[2], --partes[1], partes[0]);
+			    
+			    if (partes.length == 3 && fechaGenerada
+			     && partes[0] == fechaGenerada.getDate()
+			     && partes[1] == fechaGenerada.getMonth()
+			     && partes[2] == fechaGenerada.getFullYear()) {
+			        return true;
+			    }
+			    return false;
 		}
 };

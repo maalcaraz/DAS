@@ -573,8 +573,12 @@ create procedure dbo.insertar_sorteo
 )
 AS
 BEGIN
-	insert into sorteos (id_sorteo, fecha_sorteo, pendiente, descripcion)
-	values (@id_sorteo, @fecha_sorteo, @pendiente, @descripcion)
+	if not exists (select * from sorteos s
+					where s.fecha_sorteo = @fecha_sorteo)
+	begin
+		insert into sorteos (id_sorteo, fecha_sorteo, pendiente, descripcion)
+		values (@id_sorteo, @fecha_sorteo, @pendiente, @descripcion)
+	end
 END
 go
 
