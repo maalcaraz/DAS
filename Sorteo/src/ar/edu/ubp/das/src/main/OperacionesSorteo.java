@@ -293,10 +293,16 @@ public class OperacionesSorteo {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			
 			if(marcarPendiente == true){
+				System.out.println("[OpsSorteo]Entrando a marcar como pendiente");
 				pendiente.setPendiente("S");
 			}
 			else{
 				pendiente.setPendiente("N");
+				System.out.println("[OpsSorteo]Entrando a marcar como NO pendiente");
+				Date fechaEjecucion = new Date();
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				pendiente.setFechaEjecucion(parser.format(fechaEjecucion));
+				System.out.println("[OpsSorteo]formato de la fecha: "+parser.format(fechaEjecucion));
 			}
 			
 			System.out.println("[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());

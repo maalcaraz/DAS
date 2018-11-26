@@ -7,6 +7,7 @@ go
 
 ********************************/
 
+drop procedure dbo.registrar_ganador
 drop table ganadores
 --drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
@@ -208,7 +209,7 @@ go
 
 create table ganadores
 (
-	id_sorteo			varchar(30)		not null,
+	id_sorteo				varchar(30)		not null,
 	apellido_nombre			char(30)		not null,
 	nombre_concesionaria	varchar(30)		not null,
 	vehiculo_adq			varchar(20)		null,
@@ -498,9 +499,6 @@ go
 
 --execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
 
-select * from transacciones
-go
-
 
 alter procedure dbo.insertar_concesionaria
 (
@@ -727,7 +725,7 @@ go
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
-	select *
+	select s.id_sorteo, format(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, format(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, s.pendiente, s.descripcion
 	from sorteos s
 	where s.pendiente is null
 	and s.fecha_sorteo = convert(date, getDate())
@@ -736,18 +734,21 @@ go
 
 --select * from sorteos
 --execute dbo.hoy_es_fecha_de_sorteo
+--select convert(date, getDate())
 
 alter procedure dbo.actualizar_sorteo
 (
 	@id_sorteo			varchar(30),
-	@fecha_sorteo		date,
-	@pendiente			char(1)
+	@fecha_sorteo		varchar(20),
+	@pendiente			char(1),
+	@fecha_ejecucion	varchar(20)
 )
 AS
 BEGIN
 	UPDATE s
-	SET pendiente	 = @pendiente,
-		fecha_sorteo = @fecha_sorteo
+	SET s.pendiente	 = @pendiente,
+		s.fecha_sorteo = convert(date, @fecha_sorteo, 105),
+		s.fecha_ejecucion = convert(date, @fecha_ejecucion, 105)
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END
@@ -826,7 +827,8 @@ BEGIN
 	join concesionarias con
 	on c.id_concesionaria = con.id_concesionaria
 	where a.ganador_sorteo = 'S'
-	order by a.fecha_sorteado asc*/
+	order by a.fecha_sorteado asc
+*/
 END
 go
 
@@ -844,6 +846,30 @@ BEGIN
 END
 go
 
+
+create procedure dbo.registrar_ganador
+(
+	@id_sorteo				varchar(30),
+	@dni_cliente			char(8)	,
+	@id_concesionaria		varchar(20)
+)
+AS
+BEGIN
+	declare @n_concesionaria varchar(30), 
+			@nombre_ganador char(30)
+	select @n_concesionaria = (select c.nombre_concesionaria 
+								from concesionarias c
+								where c.id_concesionaria = @id_concesionaria
+							  ), 
+		   @nombre_ganador = (select cli.apellido_nombre
+							 from clientes cli
+							 where cli.dni_cliente = @dni_cliente
+							)
+	insert into ganadores (id_sorteo, apellido_nombre, nombre_concesionaria, vehiculo_adq)
+	values(@id_sorteo, @nombre_ganador, @n_concesionaria, '')
+END
+go
+
 /*
 drop TRIGGER td_ri_concesionarias
 on concesionarias
@@ -857,7 +883,8 @@ AS
 										from deleted d
 										)
 	END
-go*/
+go
+*/
 
 
 /*******************************
@@ -931,7 +958,6 @@ go
 
 ********************************/
 
-
 /*
 	Update usado para testear ganadores
 
@@ -944,7 +970,37 @@ update a
 
 execute dbo.get_ultimo_ganador
 
+*/
 
+/*******************************
+
+	HAPPY PATH
+
+********************************/
+
+/*
+* No hay sorteos pendientes
+execute dbo.get_sorteos_pendientes
+
+* Hoy es fecha de sorteos
+execute dbo.hoy_es_fecha_de_sorteo
+
+* No hay ganadores por cancelar
+
+* Hay concesionarias registradas
+execute dbo.get_concesionarias
+
+* Hay participantes para el sorteo
+execute dbo.get_participantes 'Montironi705993369', 16, 4
+
+*/
+
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
+values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
+go
 
 
 	select CONVERT (datetime, '2018-05-28 23:52:53.413')
@@ -967,12 +1023,11 @@ execute dbo.get_ultimo_ganador
 
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
-*/
-
+/*
 select * from concesionarias
 select * from clientes
+select * from cuotas
 select * from sorteos
--- execute dbo.get_concesionarias
 -- execute dbo.eliminar_concesionaria 'Montironi705993369'
 
 
@@ -987,3 +1042,9 @@ update a
 select * 
 from adquiridos ad
 where ad.ganador_sorteo = 'S'
+
+execute dbo.get_ganadores
+select * from ganadores
+
+select * from sorteos
+*/

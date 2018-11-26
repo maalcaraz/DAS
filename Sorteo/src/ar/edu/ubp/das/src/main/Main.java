@@ -1,11 +1,14 @@
 package ar.edu.ubp.das.src.main;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
+import ar.edu.ubp.das.src.db.DaoFactory;
+import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
 
 public class Main {
 
@@ -96,6 +99,21 @@ public class Main {
 			AdquiridoBean ganador = new AdquiridoBean();
 			ganador.setDniCliente(participanteGanador.getDniCliente());
 			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
+			//ganador.setIdSorteo(sorteoActual.getIdSorteo());
+			/*Registro del ganador en la base de datos local */
+			try {
+				MSGanadoresDao Ganador = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
+				participanteGanador.setIdSorteo(sorteoActual.getIdSorteo());
+				Ganador.insert(participanteGanador);
+			} 
+			catch (SQLException e) {
+				System.out.println("ERROR --> [Main]No se pudo registrar el ganador en la base de datos local: "+ e.getMessage());
+				// errores++?
+			}
+			
+			/*Actualizacion de datos del sorteo: Seteo de fecha de ejecucion*/
+			
+			
 			opsSorteo.NotificarGanador(ganador);
 			System.out.println("[Main]Seteamos sorteo como NO pendiente...");
 			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo se ejecuto correctamente.", false);
