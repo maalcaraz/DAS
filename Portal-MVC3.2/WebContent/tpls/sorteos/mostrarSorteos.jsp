@@ -13,18 +13,29 @@
 	</tr> </thead>
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
 		<tr> 
-			 <td>
-			 <c:if test=" ${ sorteo.fechaEjecucion } " var="name" scope="scope">
-			 </c:if>
+			 <c:if test="${ sorteo.fechaEjecucion eq '-' }">
+				 <td>
+				  <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
+				 </td>
+				 <td> ${ sorteo.fechaSorteado }  </td> 
+				 <td> ${ sorteo.fechaEjecucion } </td> 
+				 <td> - </td> 
+				 <td> 
+				 <input type="button" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar"> 
+				  </td> 
 			 
-			  <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
+			 </c:if>
+			 <c:if test="${ sorteo.fechaEjecucion ne '-'}">
+			 <td>
+			  <input type="checkbox" id=${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo } disabled>
 			 </td>
 			 <td> ${ sorteo.fechaSorteado }  </td> 
 			 <td> ${ sorteo.fechaEjecucion } </td> 
 			 <td> - </td> 
 			 <td> 
-			 <input type="button" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar"> 
-			 </td> 
+			 <input type="button" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar" disabled> 
+			  </td> 
+			 </c:if>
 		</tr> 
 	</c:forEach>
 </table>
