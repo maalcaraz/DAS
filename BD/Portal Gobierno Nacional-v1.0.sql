@@ -787,6 +787,8 @@ BEGIN
 END
 go
 
+--execute dbo.actualizar_sorteo
+
 create procedure dbo.eliminar_sorteo
 (
 	@id_sorteo			varchar(30)

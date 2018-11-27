@@ -97,6 +97,8 @@ public class MSConcesionariaDao extends DaoImpl{
 					ParticipanteBean cli = new ParticipanteBean();
 					cli.setIdConcesionaria(result.getString("id_concesionaria"));
 					cli.setDniCliente(result.getString("dni_cliente"));
+					cli.setApellidoNombre(result.getString("apellido_nombre"));
+					cli.setIdPlan(result.getString("id_plan"));
 					ret.add(cli);
 				}
 				catch(Exception ex){

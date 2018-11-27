@@ -1,6 +1,8 @@
 package ar.edu.ubp.das.src.main;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
@@ -61,7 +63,7 @@ public class Main {
 			{
 				//Tenemos que notificar cancelacion pendiente
 				// Algunos argumentos pendientes, chequear funcionamiento
-				opsSorteo.NotificarGanador(ultimoGanador);
+				opsSorteo.NotificarGanador(ultimoGanador, null); // CAMBIAR
 				abortarSorteo = true;
 			}
 			
@@ -95,10 +97,17 @@ public class Main {
 			ParticipanteBean participanteGanador = (ParticipanteBean)participantes.get(iGanador);
 			
 			System.out.println( "[Main]El ganador es " + participanteGanador.getDniCliente());
+			Date fechaEjecucion = new Date();
+			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+			sorteoActual.setFechaEjecucion(parser.format(fechaEjecucion)); 
 			
 			AdquiridoBean ganador = new AdquiridoBean();
 			ganador.setDniCliente(participanteGanador.getDniCliente());
 			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
+			ganador.setIdPlan(participanteGanador.getIdPlan());
+			ganador.setFechaSorteado(sorteoActual.getFechaEjecucion());
+			
+			String nombre = participanteGanador.getApellidoNombre();
 			//ganador.setIdSorteo(sorteoActual.getIdSorteo());
 			/*Registro del ganador en la base de datos local */
 			try {
@@ -112,9 +121,9 @@ public class Main {
 			}
 			
 			/*Actualizacion de datos del sorteo: Seteo de fecha de ejecucion*/
+			 
+			opsSorteo.NotificarGanador(ganador, nombre);
 			
-			
-			opsSorteo.NotificarGanador(ganador);
 			System.out.println("[Main]Seteamos sorteo como NO pendiente...");
 			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo se ejecuto correctamente.", false);
 		}

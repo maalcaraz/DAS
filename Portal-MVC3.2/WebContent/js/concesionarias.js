@@ -180,7 +180,6 @@ var jConcesionaria ={
 	        });	
 		},
 		rechazar : function(idConcesionaria){
-			alert(idConcesionaria);
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
@@ -193,7 +192,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-		            alert("Se rechazo!");
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		},

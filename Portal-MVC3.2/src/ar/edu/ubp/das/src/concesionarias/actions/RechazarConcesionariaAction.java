@@ -23,7 +23,7 @@ public class RechazarConcesionariaAction implements Action{
 		
 		
 		DynaActionForm d = new DynaActionForm();
-		d.setItem("idConcesionaria", idConcesionaria);
+		d.setItem("id_concesionaria", idConcesionaria);
 		Concesionaria.delete(d);
 		
 		return mapping.getForwardByName("success");

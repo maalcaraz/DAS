@@ -7,6 +7,20 @@ public class ParticipanteBean implements Bean{
 	private String dniCliente;
 	private String idConcesionaria;
 	private String idSorteo;
+	private String apellidoNombre;
+	public String getApellidoNombre() {
+		return apellidoNombre;
+	}
+	public void setApellidoNombre(String apellidoNombre) {
+		this.apellidoNombre = apellidoNombre;
+	}
+	public String getIdPlan() {
+		return idPlan;
+	}
+	public void setIdPlan(String idPlan) {
+		this.idPlan = idPlan;
+	}
+	private String idPlan;
 	
 	public String getDniCliente() {
 		return dniCliente;
