@@ -6,6 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos,clientes" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin,home,page,messages" />	
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 </head>
 <title>Admin</title>
 </head>
@@ -16,11 +19,11 @@
 	<br>
 		<ul class="nav ver"> 
 		  <li class="nav tit"> <h3> Menu - Admin </h3> </li>
-		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> Concesionarias por aprobar </a></li>
-		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarRegistradas()" href="#"> Concesionarias registradas </a></li>
-		  <li class="item nav ver" > <a onclick="jSorteos.obtenerSorteos()" href="#">Fechas de sorteo </a></li>
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> <fmt:message key="concesionarias_por_aprobar" bundle="${etq}"></a></li>
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarRegistradas()" href="#"><fmt:message key="concesionarias_registradas" bundle="${etq}"></a></li>
+		  <li class="item nav ver" > <a onclick="jSorteos.obtenerSorteos()" href="#"><fmt:message key="fechas_de_sorteo" bundle="${etq}"></a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.testing()" href="#">Testing </a> </li>
-		  <li class="item nav ver" > <a onclick="jClientes.datosTodosClientes()" href="#">Estado Cuentas Clientes </a> </li>
+		  <li class="item nav ver" > <a onclick="jClientes.datosTodosClientes()" href="#"><fmt:message key="estados_cuentas_clientes" bundle="${etq}"></a> </li>
 		</ul>
 	</div>
 <br>

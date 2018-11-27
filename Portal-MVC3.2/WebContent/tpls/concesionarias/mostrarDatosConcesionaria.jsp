@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos"></script>
@@ -17,11 +18,11 @@
 	<c:forEach var="cliente" items="${clientes }" varStatus="status">
 		<div class="grid-item">
 	
-		Dni: ${cliente.dniCliente}
-		Nombre: ${cliente.nomCliente}
-		Edad: ${cliente.edad }
-		Domicilio: ${cliente.domicilio }
-		Email: ${cliente.emailCliente }
+		<fmt:message key="dni" bundle="${etq}"> ${cliente.dniCliente}
+		<fmt:message key="nombre" bundle="${etq}"> ${cliente.nomCliente}
+		<fmt:message key="edad" bundle="${etq}">${cliente.edad }
+		<fmt:message key="domicilio" bundle="${etq}"> ${cliente.domicilio }
+		<fmt:message key="email" bundle="${etq}">${cliente.emailCliente }
 					
 		</div>
 	</c:forEach>

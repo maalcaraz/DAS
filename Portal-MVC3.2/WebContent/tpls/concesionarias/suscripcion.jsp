@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,12 +15,12 @@
 
 <div class="container">
 <form class="modal-content animate" id="formSuscripcion">
-<h2>Suscripcion de Concesionaria</h2>
+<h2><fmt:message key="suscripcion_de_concesionaria" bundle="${etq}"></h2>
 <br>
-<label for="nombreConcesionaria">Nombre de la concesionaria: </label>
+<label for="nombreConcesionaria"><fmt:message key="nombre_de_la_concesionaria" bundle="${etq}">: </label>
 <input type="text" id="nombreConcesionaria" name="nombreConcesionaria" autofocus required>
 <br><br>
-<label for="tipoServicio">Tipo de Servicio: </label>
+<label for="tipoServicio"><fmt:message key="tipo_de_servicio" bundle="${etq}">: </label>
 	<select id="tipoServicio" name="tipoServicio">
 		<option value="Rest"> Rest </option>
 		<option value="CXF"> CXF </option>
@@ -26,25 +29,25 @@
 	
 <br>
 <br>
-<label for="url">Url: </label>
+<label for="url"><fmt:message key="url" bundle="${etq}">: </label>
 <input type="text" id="url" name="url" autofocus required>
 <br>
-<label for="cuit">Cuit: </label>
+<label for="cuit"><fmt:message key="cuit" bundle="${etq}">: </label>
 <input type="text" id="cuit" name="cuit" autofocus required>
 <br>
-<label for="emailConcesionaria">Email: </label>
+<label for="emailConcesionaria"><fmt:message key="email" bundle="${etq}">: </label>
 <input type="text" id="emailConcesionaria" name="emailConcesionaria" autofocus required>
 <br>
-<label for="direccionConcesionaria">Direccion: </label>
+<label for="direccionConcesionaria"><fmt:message key="direccion" bundle="${etq}">: </label>
 <input type="text" id="direccionConcesionaria" name="direccionConcesionaria" autofocus required>
 <br>
-<label for="telefonoConcesionaria">Telefono: </label>
+<label for="telefonoConcesionaria"><fmt:message key="telefono" bundle="${etq}">: </label>
 <input type="text" id="telefonoConcesionaria" name="telefonoConcesionaria" autofocus required>
 
 	<br>
 	<div class="container" style="background-color:#f1f1f1">
-	  <button type="button" name="suscript" class="button suscribir" onclick="jConcesionaria.insertarConcesionaria()">Suscribir</button>
-      <button type="button" name="cancelbtn" onclick="jLogin.cancelar(0, 'id02')" class="cancelbtn">Cancel</button>
+	  <button type="button" name="suscript" class="button suscribir" onclick="jConcesionaria.insertarConcesionaria()"><fmt:message key="suscribir" bundle="${etq}"></button>
+      <button type="button" name="cancelbtn" onclick="jLogin.cancelar(0, 'id02')" class="cancelbtn"><fmt:message key="cancelar" bundle="${etq}"></button>
     </div>
 </form>
 </div>
