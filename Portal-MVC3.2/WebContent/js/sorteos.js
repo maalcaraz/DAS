@@ -67,8 +67,7 @@ var jSorteos = {
 				<td> </td>\
 				<td> </td>";
 			var id = document.getElementById(idSorteo);
-			$(id).deleteCell(0);
-			$("#"+idSorteo+"").innerHTML = fila;
+			$(id).innerHTML = fila;
 		},
 		guardarSorteo : function () {
 			$.ajax({

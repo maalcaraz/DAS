@@ -17,8 +17,8 @@ Sus cuotas fueron canceladas y ahora disfrutan su primer 0km!
 	<tbody>
 	<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
 		<tr> 
-			 <td> ${ ganador.getItem('fechaSorteado') }</td> 
-			 <td> ${ ganador.getItem('nombre') }</td>
+			 <td> ${ ganador.getItem('fechaSorteo') }</td> 
+			 <td> ${ ganador.getItem('apellidoNombre') }</td>
 			 <td> ${ ganador.getItem('nombreConcesionaria') }</td> 
 		</tr> 
 	</c:forEach>

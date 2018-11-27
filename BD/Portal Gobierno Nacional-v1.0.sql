@@ -7,13 +7,9 @@ go
 
 ********************************/
 
-<<<<<<< HEAD
-drop view	   dbo.ult_transaccion
-=======
 drop procedure dbo.registrar_ganador
 drop table ganadores
---drop view	   dbo.ult_transaccion
->>>>>>> desarrollo-alcaraz
+drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -551,7 +547,7 @@ BEGIN
 END
 go
 
-alter procedure dbo.get_ultimo_ganador
+create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
