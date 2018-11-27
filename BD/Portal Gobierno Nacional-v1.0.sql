@@ -7,13 +7,10 @@ go
 
 ********************************/
 
-<<<<<<< HEAD
 drop view	   dbo.ult_transaccion
-=======
 drop procedure dbo.registrar_ganador
 drop table ganadores
 --drop view	   dbo.ult_transaccion
->>>>>>> desarrollo-alcaraz
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -120,6 +117,7 @@ create table adquiridos
 	fecha_sorteado			date			null,
 	fecha_entrega			date			null,
 	nro_chasis				varchar(15)		null,
+	fecha_compra_plan		date			not null default getDate(), 
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
 	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
 	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes on delete cascade
@@ -551,7 +549,7 @@ BEGIN
 END
 go
 
-alter procedure dbo.get_ultimo_ganador
+create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
@@ -745,7 +743,7 @@ BEGIN
 END
 go
 
---execute dbo.get_participantes 'AH123456', 24, 1
+--execute dbo.get_participantes 'AutoHaus1503004614',4, 1
 
 create procedure dbo.get_sorteos_pendientes
 AS
@@ -1067,7 +1065,6 @@ select * from clientes
 select * from cuotas
 select * from sorteos
 -- execute dbo.eliminar_concesionaria 'Montironi705993369'
-
 
 update a
 	set a.ganador_sorteo = 'S',

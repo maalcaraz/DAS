@@ -208,6 +208,7 @@ create table adquiridos
 	fecha_entrega			date			null,
 	nro_chasis				varchar(15)		null,
 	sucursal_suscripcion	smallint		not null,
+	fecha_compra_plan		date			not null default getDate(), 
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente),
 	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan) references planes,
 	CONSTRAINT FK__adquiridos_vehiculos__END foreign key(nro_chasis) references vehiculos,
