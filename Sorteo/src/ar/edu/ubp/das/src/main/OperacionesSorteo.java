@@ -101,12 +101,12 @@ public class OperacionesSorteo {
 	}
 	
 	
-	public void NotificarGanador(AdquiridoBean ganador){
-		
+	public String NotificarGanador(AdquiridoBean ganador, String nom){
 		
 		String idPortal = "PORTALGOB";
-		System.out.println("[Ops Sorteo]Entrando en Informar cancelado pendiente");
-		
+		String respuesta = "";
+		System.out.println("[Ops Sorteo]Entrando en Notificar ganador");
+		System.out.println("[Ops Sorteo]Los datos que vienen del sorteo son: "+ganador.getDniCliente() +"-"+ ganador.getFechaSorteado());
 		try {
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
@@ -117,9 +117,9 @@ public class OperacionesSorteo {
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
-			//Ver como poner estos dos datos que faltan
-			parameters.add(new BasicNameValuePair("nombre_apellido" , ""));
-			parameters.add(new BasicNameValuePair("fecha_sorteo" , ""));
+			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
+			parameters.add(new BasicNameValuePair("nombre_apellido" , nom));
+			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteado()));
 	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
 	      	
 	      	if (listadoConcesionarias.isEmpty()){
@@ -129,17 +129,18 @@ public class OperacionesSorteo {
 	      		for (Bean c : listadoConcesionarias ){
 					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 					System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
-					String restResp = concesionaria.getWebService().Consumir("notificarGanador", parameters);
-					if (restResp.equals("")){
+					respuesta = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+					if (respuesta.equals("")){
 						
 					}
 				}
 	      	}
+	      	
 		}
 		catch(RuntimeException | SQLException ex ){
 			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ex.getMessage());
 		}
-		
+		return respuesta;
 	}
 	
 	/*
@@ -299,10 +300,9 @@ public class OperacionesSorteo {
 			else{
 				pendiente.setPendiente("N");
 				System.out.println("[OpsSorteo]Entrando a marcar como NO pendiente");
-				Date fechaEjecucion = new Date();
-				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
-				pendiente.setFechaEjecucion(parser.format(fechaEjecucion));
-				System.out.println("[OpsSorteo]formato de la fecha: "+parser.format(fechaEjecucion));
+				
+				//System.out.println("[OpsSorteo]formato de la fecha de ejecucion: "+parser.format(fechaEjecucion));
+				System.out.println("[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
 			}
 			
 			System.out.println("[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());

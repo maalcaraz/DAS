@@ -67,7 +67,7 @@ public class MSClientesDao extends DaoImpl {
 	
 	@Override
 	public List<Bean> select() throws SQLException {
-		// TODO Auto-generated method stub
+	
 		List<Bean> concesionariaTablas = new ArrayList<Bean>();
 		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
 		List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();

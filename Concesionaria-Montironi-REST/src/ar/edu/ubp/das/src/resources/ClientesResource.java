@@ -40,7 +40,7 @@ public class ClientesResource {
 		System.out.println("\n -->  Obtener clientes no envia parametros");
 		System.out.println("\n\n----------------------------------------\n\n");
 		
-		String idConcesionaria = "AH123456";
+		String idConcesionaria = "AutoHaus1503004614";
 		Date horaFechaTransaccion = new Date();
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
@@ -146,7 +146,7 @@ public class ClientesResource {
         	 * -------- Si el ganador es un cliente de esta concesionaria, 
         	 * 			actualiza valores en la tabla Clientes y Adquiridos --------*/
         	
-        	if (idConcesionaria.contains("AutoHaus")){
+        	if (idConcesionaria.contains("Montironi")){
         		dao.update(adquirido);
         		mensajeRespuesta = "Se ha cancelado la cuenta del cliente ganador del sorteo";
         	}

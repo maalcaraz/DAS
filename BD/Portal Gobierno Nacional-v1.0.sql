@@ -10,7 +10,6 @@ go
 drop view	   dbo.ult_transaccion
 drop procedure dbo.registrar_ganador
 drop table ganadores
---drop view	   dbo.ult_transaccion
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -788,6 +787,8 @@ BEGIN
 	where s.id_sorteo = @id_sorteo
 END
 go
+
+--execute dbo.actualizar_sorteo
 
 create procedure dbo.eliminar_sorteo
 (

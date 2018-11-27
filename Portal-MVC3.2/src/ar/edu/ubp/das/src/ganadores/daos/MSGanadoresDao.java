@@ -41,15 +41,15 @@ public class MSGanadoresDao  extends DaoImpl {
 		List<DynaActionForm> ganadores = new LinkedList<DynaActionForm>();
 		//this.setProcedure("dbo.get_ganadores", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-		this.setProcedure("dbo.get_ultimo_ganador");
+		this.setProcedure("dbo.get_ganadores");
 		ResultSet result = this.getStatement().executeQuery();
 		result.next();
 		while(result.getRow() > 0) {
 			DynaActionForm ad = new DynaActionForm();
-			ad.setItem("idPlan",result.getString("id_plan"));
-			ad.setItem("dniCliente", result.getString("dni_cliente"));
-			ad.setItem("idConcesionaria", result.getString("id_concesionaria"));
-			ad.setItem("fechaSorteado", result.getString("fecha_sorteado"));
+			//ad.setItem("idPlan",result.getString("id_plan"));
+			ad.setItem("apellidoNombre", result.getString("apellido_nombre"));
+			ad.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
+			ad.setItem("fechaSorteo", result.getString("fecha_sorteo"));
 			ganadores.add(ad);
 			result.next();
 		}

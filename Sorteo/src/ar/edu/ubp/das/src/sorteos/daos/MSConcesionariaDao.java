@@ -2,7 +2,6 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -101,13 +100,12 @@ public class MSConcesionariaDao extends DaoImpl{
 					ParticipanteBean cli = new ParticipanteBean();
 					cli.setIdConcesionaria(result.getString("id_concesionaria"));
 					cli.setDniCliente(result.getString("dni_cliente"));
-					
 					/*
 					 * Calculamos cuantos meses pasaron desde que el cliente compro el plan con la diferencia
 					 * entre fecha_compra_plan y la fecha actual. Si la cantidad de meses que pasaron es mayor
 					 * a las cuotas pagas entonces el cliente no esta al dia
 					 */
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
+					
 					LocalDate fechaCompraPlan = LocalDate.parse(result.getString("fecha_compra_plan"));
 					LocalDate fechaActual = LocalDate.now();
 
@@ -117,6 +115,9 @@ public class MSConcesionariaDao extends DaoImpl{
 					if(mesesDesdeQueComproPlan <= cuotasPagas){
 						ret.add(cli);
 					}
+					cli.setApellidoNombre(result.getString("apellido_nombre"));
+					cli.setIdPlan(result.getString("id_plan"));
+					ret.add(cli);
 				}
 				catch(Exception ex){
 					System.out.println(ex);
