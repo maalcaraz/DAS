@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<html lang="en">
+<html>
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
+	
 <head>
   <title><fmt:message key="bienvenido" bundle="${etq}"></fmt:message></title>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +29,7 @@
 		<label for="pwd"><fmt:message key="pass" bundle="${etq}"></fmt:message>:</label>
 		<input type="password" id="pwd" name="pwd" placeholder="Enter password" required >
 		   
-		<button type="button" name="login" onclick="jLogin.acceder()"><fmt:message key="ingresar" bundle="${etq}"></fmt:message></button>
+		<button type="button" name="login" onclick="jLogin.acceder()"><fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message></button>
 		<button type="button" name="registrar" onclick="jLogin.primerIngreso()"><fmt:message key="registrarse" bundle="${etq}"></fmt:message></button>
       <label>
         <input type="checkbox" checked="checked" name="remember"><fmt:message key="recordarme" bundle="${etq}"></fmt:message>

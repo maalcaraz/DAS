@@ -9,6 +9,10 @@
 	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	
+	<fmt:setLocale value="en"/>
+	<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
+	
 </head>
 <title>Admin</title>
 </head>
@@ -19,7 +23,7 @@
 	<br>
 		<ul class="nav ver"> 
 		  <li class="nav tit"> <h3> Menu - Admin </h3> </li>
-		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> <fmt:message key="concesionarias_por_aprobar" bundle="${etq}"></fmt:message></a></li>
+		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarPendientes()" href="#"> <fmt:message key="concesionarias_pendientes" bundle="${etq}"></fmt:message></a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.mostrarRegistradas()" href="#"><fmt:message key="concesionarias_registradas" bundle="${etq}"></fmt:message></a></li>
 		  <li class="item nav ver" > <a onclick="jSorteos.obtenerSorteos()" href="#"><fmt:message key="fechas_de_sorteo" bundle="${etq}"></fmt:message></a></li>
 		  <li class="item nav ver" > <a onclick="jConcesionaria.testing()" href="#">Testing </a> </li>

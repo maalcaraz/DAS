@@ -26,7 +26,7 @@
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.mostrarAdheridas()"><fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.suscribir()"><fmt:message key="suscribir_concesionaria" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#resultadosSorteo" onclick="jSorteos.resultadosUltimoSorteo()"><fmt:message key="historico" bundle="${etq}"></fmt:message></a></li>
-  <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>"> </li>
+  <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>" > </li>
 </ul>
 
 <div id="contenido"> 

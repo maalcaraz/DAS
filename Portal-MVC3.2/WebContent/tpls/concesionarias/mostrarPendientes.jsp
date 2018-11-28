@@ -8,10 +8,14 @@
 <link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
 </head>
 
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
+
+
 <c:set var="concesionarias" scope="request"	value="${requestScope.concesionarias}"></c:set>
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
-<h2><fmt:message key="concesionarias_por_aprobar" bundle="${etq}"></fmt:message></h2>
+<h2><fmt:message key="concesionarias_pendientes" bundle="${etq}"></fmt:message></h2>
 	<div>
 		<c:if test="${!empty pendientes}">
 			<c:forEach var="pendiente" items="${ pendientes }" varStatus="status">
@@ -31,7 +35,7 @@
 				<input type="button" id="rechazar" name="rechazar" value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.rechazar(&quot;${ pendiente.idConcesionaria }&quot;)">
 				<input type="button" class="normal button" value="<fmt:message key="editar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')"> 
 			
-				<input type="button" value="Test Connection" onclick="jConcesionaria.testingSyncro('${ pendiente.idConcesionaria }')">
+				<input type="button" value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.testingSyncro('${ pendiente.idConcesionaria }')">
 
 				
 				</span>
