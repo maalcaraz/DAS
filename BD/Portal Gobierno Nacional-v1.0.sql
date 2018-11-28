@@ -548,9 +548,24 @@ BEGIN
 END
 go
 
+/*
+IMPORTANTEE HACER EL JOIN POR NOMBRE CON CLIENTE SE
+TIENE QUE ARREGLAR!
+POSIBLE SOLUCION: AGREGAR DNI A GANADORES
+*/
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
+	select TOP 1* 
+		from ganadores g
+		join sorteos s
+		on g.id_sorteo = s.id_sorteo
+		join clientes c
+		on c.apellido_nombre = g.apellido_nombre
+		join adquiridos a
+		on c.dni_cliente = a.dni_cliente
+		order by s.fecha_ejecucion DESC
+/*
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
 	from adquiridos a
 	where a.fecha_sorteado = (
@@ -558,6 +573,7 @@ BEGIN
 								from sorteos s	
 					)
 	and a.ganador_sorteo = 'S'
+	*/
 END
 go
 
@@ -1083,4 +1099,10 @@ execute dbo.get_ganadores
 select * from ganadores
 
 select * from sorteos
+
+update S
+	set s.pendiente = NULL
+	from sorteos s
+	where s.id_sorteo = '1234asadf'
+
 */

@@ -47,6 +47,7 @@ public class OperacionesSorteo {
 				//idportal harcodeado por ahora 
 				String idPortal = "PORTALGOB";
 				AdquiridoBean adqBean = null;
+				Gson gson = new Gson();
 				
 				try {
 					MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
@@ -80,7 +81,11 @@ public class OperacionesSorteo {
 
 						}
 						
-						if(restResp.equals("{Cancelado: SI}")){
+						TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+						
+						String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+						
+						if(listaRetorno[0].equals("{Cancelado: SI}")){
 							response = true;
 							adqBean.setCancelado("true");
 						}
