@@ -14,17 +14,17 @@
 <br>
 	<div>
 	<c:if test="${!empty concesionarias}">
-	<h2><fmt:message key="concesionarias_adheridas" bundle="${etq}"></h2> <br><br> 
+	<h2><fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message></h2> <br><br> 
 		<c:forEach var="concesionaria" items="${ concesionarias }" varStatus="status">
 		
 			<div class="grid-item">
 			<h3>${ concesionaria.nomConcesionaria } </h3>
-				<b><fmt:message key="tipo_de_servicio" bundle="${etq}"></b> ${ concesionaria.codTecnologia } <br>
-				<b><fmt:message key="url" bundle="${etq}"></b> ${ concesionaria.urlServicio } <br>
-				<b><fmt:message key="direccion" bundle="${etq}"></b> ${ concesionaria.direccion } <br>
-				<b><fmt:message key="telefono" bundle="${etq}"></b> ${ concesionaria.telefono } <br>
-				<b><fmt:message key="email" bundle="${etq}"></b> ${ concesionaria.email } <br>
-				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></b> ${ concesionaria.ultimaActualizacion } <br> 
+				<b><fmt:message key="tipo_de_servicio" bundle="${etq}"></fmt:message></b> ${ concesionaria.codTecnologia } <br>
+				<b><fmt:message key="url" bundle="${etq}"></fmt:message></b> ${ concesionaria.urlServicio } <br>
+				<b><fmt:message key="direccion" bundle="${etq}"></fmt:message></b> ${ concesionaria.direccion } <br>
+				<b><fmt:message key="telefono" bundle="${etq}"></fmt:message></b> ${ concesionaria.telefono } <br>
+				<b><fmt:message key="email" bundle="${etq}"></fmt:message></b> ${ concesionaria.email } <br>
+				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message></b> ${ concesionaria.ultimaActualizacion } <br> 
 			</div> 
 		</c:forEach>
 	</c:if>

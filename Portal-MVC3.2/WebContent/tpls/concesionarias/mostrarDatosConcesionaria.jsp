@@ -18,11 +18,11 @@
 	<c:forEach var="cliente" items="${clientes }" varStatus="status">
 		<div class="grid-item">
 	
-		<fmt:message key="dni" bundle="${etq}"> ${cliente.dniCliente}
-		<fmt:message key="nombre" bundle="${etq}"> ${cliente.nomCliente}
-		<fmt:message key="edad" bundle="${etq}">${cliente.edad }
-		<fmt:message key="domicilio" bundle="${etq}"> ${cliente.domicilio }
-		<fmt:message key="email" bundle="${etq}">${cliente.emailCliente }
+		<fmt:message key="dni" bundle="${etq}"></fmt:message> ${cliente.dniCliente}
+		<fmt:message key="nombre" bundle="${etq}"></fmt:message> ${cliente.nomCliente}
+		<fmt:message key="edad" bundle="${etq}"></fmt:message>${cliente.edad }
+		<fmt:message key="domicilio" bundle="${etq}"></fmt:message> ${cliente.domicilio }
+		<fmt:message key="email" bundle="${etq}"></fmt:message>${cliente.emailCliente }
 					
 		</div>
 	</c:forEach>

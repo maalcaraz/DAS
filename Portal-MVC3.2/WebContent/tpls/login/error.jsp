@@ -18,6 +18,6 @@
 
 <c:set var="mensajeError" scope="request"	value="${requestScope.error}"></c:set>
 
-<h2> <fmt:message key="mensaje_error" bundle="${etq}">: ${ mensajeError } </h2>
+<h2> <fmt:message key="mensaje_error" bundle="${etq}"></fmt:message>: ${ mensajeError } </h2>
 
 </body>
