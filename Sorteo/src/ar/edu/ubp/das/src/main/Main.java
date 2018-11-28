@@ -63,7 +63,7 @@ public class Main {
 			{
 				//Tenemos que notificar cancelacion pendiente
 				// Algunos argumentos pendientes, chequear funcionamiento
-				opsSorteo.NotificarGanador(ultimoGanador, null); // CAMBIAR
+				opsSorteo.NotificarGanador(ultimoGanador); // CAMBIAR
 				abortarSorteo = true;
 			}
 			
@@ -107,7 +107,6 @@ public class Main {
 			ganador.setIdPlan(participanteGanador.getIdPlan());
 			ganador.setFechaSorteado(sorteoActual.getFechaEjecucion());
 			
-			String nombre = participanteGanador.getApellidoNombre();
 			//ganador.setIdSorteo(sorteoActual.getIdSorteo());
 			/*Registro del ganador en la base de datos local */
 			try {
@@ -122,7 +121,7 @@ public class Main {
 			
 			/*Actualizacion de datos del sorteo: Seteo de fecha de ejecucion*/
 			 
-			opsSorteo.NotificarGanador(ganador, nombre);
+			opsSorteo.NotificarGanador(ganador);
 			
 			System.out.println("[Main]Seteamos sorteo como NO pendiente...");
 			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo se ejecuto correctamente.", false);

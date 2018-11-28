@@ -1,5 +1,6 @@
 package ar.edu.ubp.das.src.resources;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -40,7 +41,7 @@ public class ClientesResource {
 		System.out.println("\n -->  Obtener clientes no envia parametros");
 		System.out.println("\n\n----------------------------------------\n\n");
 		
-		String idConcesionaria = "AutoHaus1503004614";
+		String idConcesionaria = "Montironi705993369";
 		Date horaFechaTransaccion = new Date();
 		java.util.Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
@@ -54,8 +55,6 @@ public class ClientesResource {
         String respuestaServicio = null;
         
         TransaccionBean transaccion = new TransaccionBean();
-        
-        
         String stringRespuesta = "";
         
         transaccion.setId_transaccion(idTransaccion);
@@ -99,7 +98,6 @@ public class ClientesResource {
 	public Response notificarGanador(@FormParam("id_portal") String idPortal,
 								  	 @FormParam("id_concesionaria") String idConcesionaria,
 									 @FormParam("dni_cliente") String dniCliente, 
-									 @FormParam("nombre_apellido") String nombreApellido,
 									 @FormParam("id_plan") String idPlan,
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		
@@ -108,7 +106,6 @@ public class ClientesResource {
 		System.out.println("\n -->  IdPortal: "+idPortal);
 		System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
 		System.out.println("\n -->  DniCliente: "+dniCliente);
-		System.out.println("\n -->  Nombre y Apellido: "+nombreApellido);
 		System.out.println("\n -->  IdPlan: "+idPlan);
 		System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
 		System.out.println("\n\n----------------------------------------\n\n");
@@ -117,9 +114,9 @@ public class ClientesResource {
 		 * ----------------- Esta operacion retorna un mensaje indicando el estado de la operacion ----------------
 		 * 	*/
 		Date horaFechaTransaccion = new Date(); 
-		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		Date utilDate = new java.util.Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
-		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
 		
 		String idTransaccion = "NG-"+horaFechaTransaccion.hashCode(); 
 		System.out.println("----------------------------------------\n\n\t NOTIFICAR GANADOR\n");
@@ -152,7 +149,7 @@ public class ClientesResource {
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
-        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
+        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ dniCliente + " de la concesionaria "+ idConcesionaria;
         		ConcesionariaBean concesionaria = new ConcesionariaBean();
         		concesionaria.setNovedad(novedad);
         		dao.insert(concesionaria);

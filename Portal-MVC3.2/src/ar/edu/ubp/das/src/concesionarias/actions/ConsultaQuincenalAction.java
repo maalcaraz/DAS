@@ -59,52 +59,54 @@ public class ConsultaQuincenalAction implements Action {
 				// Almacenarlas en una lista
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				
-
-				System.out.println("[Consulta]NomConcesionaria: "+ c.getNomConcesionaria());
-				
-				restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
-				System.out.println(restResp);
-				restResp = c.getWebService().Consumir("getClientes", null);
-				
-				System.out.println("[Consulta quincenal -Post consumo getClientes]");
-				
-				//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
+				if (c.getAprobada().equals("S")){
+					System.out.println("[Consulta]NomConcesionaria: "+ c.getNomConcesionaria());
 					
-				transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
-				
-				String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-				/*Listado de Clientes*/
-				String strClientes = listaRetorno[0] + "]";
-				LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
-				/*Listado de Planes*/
-				String strPlanes = listaRetorno[1] + "]";
-				LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
-				/*Listado de Aquiridos*/
-				String strAdquiridos = listaRetorno[2] + "]";
-				LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
-				/*Listado de Cuotas*/
-				String strCuotas = listaRetorno[3];
-				System.out.println("[ConsultaQuincenalAction]String de cuotas: "+strCuotas);
-				LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
-				System.out.println("[Consulta Quincenal - Pre update]Hasta aca todo bien");
-				c.setAdquiridos(adquiridos);
-				c.setClientes(clientes);
-				c.setCuotas(cuotas);
-				c.setPlanes(planes);
-				c.setTransacForm(transaccion);
-				
-				c.setItem("operacion", "insercionDatos");
-				cons.add(c);	
-				Concesionaria.update(c);
-				System.out.println("[Consulta Quincenal - Post update]Hasta aca todo bien");
-				
-				if (c.getNomConcesionaria().equals("Tagle")){
-					request.setAttribute("transaccion", transaccion);
-					request.setAttribute("clientes", clientes);
-					request.setAttribute("planes", planes);
-					request.setAttribute("adquiridos", adquiridos);
-					request.setAttribute("cuotas", cuotas);
+					restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
+					System.out.println(restResp);
+					restResp = c.getWebService().Consumir("getClientes", null);
+					
+					System.out.println("[Consulta quincenal -Post consumo getClientes]");
+					
+					//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
+						
+					transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
+					
+					String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+					/*Listado de Clientes*/
+					String strClientes = listaRetorno[0] + "]";
+					LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
+					/*Listado de Planes*/
+					String strPlanes = listaRetorno[1] + "]";
+					LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
+					/*Listado de Aquiridos*/
+					String strAdquiridos = listaRetorno[2] + "]";
+					LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
+					/*Listado de Cuotas*/
+					String strCuotas = listaRetorno[3];
+					System.out.println("[ConsultaQuincenalAction]String de cuotas: "+strCuotas);
+					LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
+					System.out.println("[Consulta Quincenal - Pre update]Hasta aca todo bien");
+					c.setAdquiridos(adquiridos);
+					c.setClientes(clientes);
+					c.setCuotas(cuotas);
+					c.setPlanes(planes);
+					c.setTransacForm(transaccion);
+					
+					c.setItem("operacion", "insercionDatos");
+					cons.add(c);	
+					Concesionaria.update(c);
+					System.out.println("[Consulta Quincenal - Post update]Hasta aca todo bien");
+					
+					if (c.getNomConcesionaria().equals("Tagle")){
+						request.setAttribute("transaccion", transaccion);
+						request.setAttribute("clientes", clientes);
+						request.setAttribute("planes", planes);
+						request.setAttribute("adquiridos", adquiridos);
+						request.setAttribute("cuotas", cuotas);
+					}
 				}
+				
 			}
 		}
 		catch(SQLException ex){
