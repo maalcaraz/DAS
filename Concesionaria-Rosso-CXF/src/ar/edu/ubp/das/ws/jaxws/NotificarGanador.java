@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_portal", "id_concesionaria", "dni_cliente", "nombre_apellido", "id_plan", "fecha_sorteo"})
+@XmlType(name = "notificarGanador", namespace = "http://ws.das.ubp.edu.ar/", propOrder = {"id_portal", "id_concesionaria", "dni_cliente", "id_plan", "fecha_sorteo"})
 
 public class NotificarGanador {
 
@@ -25,8 +25,6 @@ public class NotificarGanador {
     private java.lang.String id_concesionaria;
     @XmlElement(name = "dni_cliente")
     private java.lang.String dni_cliente;
-    @XmlElement(name = "nombre_apellido")
-    private java.lang.String nombre_apellido;
     @XmlElement(name = "id_plan")
     private java.lang.String id_plan;
     @XmlElement(name = "fecha_sorteo")
@@ -54,14 +52,6 @@ public class NotificarGanador {
 
       public void setDniCliente(java.lang.String newArg1)  {
           this.dni_cliente = newArg1;
-      }
-
-      public java.lang.String getNombreApellido() {
-          return this.nombre_apellido;
-      }
-
-      public void setNombreApellido(java.lang.String newArg2)  {
-          this.nombre_apellido = newArg2;
       }
 
   	public java.lang.String getId_plan() {

@@ -77,7 +77,6 @@ public class OperacionesSorteo {
 								System.out.println("[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
 								restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
 							}
-
 						}
 						
 						if(restResp.equals("{Cancelado: SI}")){
@@ -101,7 +100,7 @@ public class OperacionesSorteo {
 	}
 	
 	
-	public String NotificarGanador(AdquiridoBean ganador, String nom){
+	public String NotificarGanador(AdquiridoBean ganador){
 		
 		String idPortal = "PORTALGOB";
 		String respuesta = "";
@@ -118,7 +117,6 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
-			parameters.add(new BasicNameValuePair("nombre_apellido" , nom));
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteado()));
 	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
 	      	
@@ -162,74 +160,77 @@ public class OperacionesSorteo {
 			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
 			for (Bean c : listadoConcesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-				System.out.println("[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 				
-				int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
-				System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
-				
-				LinkedList<ClienteBean> clientes;
-				LinkedList<PlanBean> planes;
-				LinkedList<AdquiridoBean> adquiridos;
-				LinkedList<CuotaBean> cuotas;
-				System.out.println("[Ops Sorteo]Entrando al if de actualizacion de datos");
-				if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > 15) ){
-					System.out.println("[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
-					try {
-						/* Esto hace falta a la hora de preguntar si el sorteo es hoy
-						java.util.Date utilDate = new java.util.Date(); //fecha actual
-						long lnMilisegundos = utilDate.getTime();
-						java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-						concesionaria.setUltimaActualizacion(sqlTimestamp.toString());
-						System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
-						*/
-						
-						// llamar a consultaQuincenal
-						String restResp = concesionaria.getWebService().Consumir("getClientes", null);
+				if (concesionaria.getAprobada().equals("S")){
+					System.out.println("[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 					
+					int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
+					System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
+					
+					LinkedList<ClienteBean> clientes;
+					LinkedList<PlanBean> planes;
+					LinkedList<AdquiridoBean> adquiridos;
+					LinkedList<CuotaBean> cuotas;
+					System.out.println("[Ops Sorteo]Entrando al if de actualizacion de datos");
+					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > 15) ){
+						System.out.println("[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
+						try {
+							/* Esto hace falta a la hora de preguntar si el sorteo es hoy
+							java.util.Date utilDate = new java.util.Date(); //fecha actual
+							long lnMilisegundos = utilDate.getTime();
+							java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+							concesionaria.setUltimaActualizacion(sqlTimestamp.toString());
+							System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
+							*/
+							
+							// llamar a consultaQuincenal
+							String restResp = concesionaria.getWebService().Consumir("getClientes", null);
 						
-						TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
-						
-						String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-						/*Listado de Clientes*/
-						String strClientes = listaRetorno[0] + "]";
-						clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
-						/*Listado de Planes*/
-						String strPlanes = listaRetorno[1] + "]";
-						planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
-						/*Listado de Aquiridos*/
-						String strAdquiridos = listaRetorno[2] + "]";
-						adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
-						/*Listado de Cuotas*/
-						String strCuotas = listaRetorno[3];
-						cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
-						
-						// tambien arrancar con la logica de la fechade ultima actualizacion
-						concesionaria.setClientes(clientes);
-						concesionaria.setAdquiridos(adquiridos);
-						concesionaria.setCuotas(cuotas);
-						concesionaria.setPlanes(planes);
-						
-						
-						// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
-					 }
-		 			catch (Exception ex)
-		 			{
-		 			 	//Guardar sorteo como pendiente (ex.getMessage());
-		 			   //return;
-		 				System.out.println("[Ops Sorteo]El presente sorteo se guarda como pendiente");
-		 			}
-				}
-				else{
-					System.out.println("[Ops Sorteo]No hay que actualizar los datos");
-					/*No hace falta actualizar los datos*/
-				}
-				participantesC = Concesionaria.select(c);
-				for (Bean b : participantesC){
-					ParticipanteBean p = (ParticipanteBean) b;
-					participantesSorteo.add(p);
-				}
-				if (participantesSorteo.isEmpty()){
-					System.out.println("[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
+							
+							TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+							
+							String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+							/*Listado de Clientes*/
+							String strClientes = listaRetorno[0] + "]";
+							clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteBean>>(){}.getType() );
+							/*Listado de Planes*/
+							String strPlanes = listaRetorno[1] + "]";
+							planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanBean>>(){}.getType() );
+							/*Listado de Aquiridos*/
+							String strAdquiridos = listaRetorno[2] + "]";
+							adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoBean>>(){}.getType() );
+							/*Listado de Cuotas*/
+							String strCuotas = listaRetorno[3];
+							cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
+							
+							// tambien arrancar con la logica de la fechade ultima actualizacion
+							concesionaria.setClientes(clientes);
+							concesionaria.setAdquiridos(adquiridos);
+							concesionaria.setCuotas(cuotas);
+							concesionaria.setPlanes(planes);
+							
+							
+							// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
+						 }
+			 			catch (Exception ex)
+			 			{
+			 			 	//Guardar sorteo como pendiente (ex.getMessage());
+			 			   //return;
+			 				System.out.println("[Ops Sorteo]El presente sorteo se guarda como pendiente");
+			 			}
+					}
+					else{
+						System.out.println("[Ops Sorteo]No hay que actualizar los datos");
+						/*No hace falta actualizar los datos*/
+					}
+					participantesC = Concesionaria.select(c);
+					for (Bean b : participantesC){
+						ParticipanteBean p = (ParticipanteBean) b;
+						participantesSorteo.add(p);
+					}
+					if (participantesSorteo.isEmpty()){
+						System.out.println("[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
+					}
 				}
 			}
 		}

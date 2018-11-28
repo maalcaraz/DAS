@@ -1028,11 +1028,20 @@ execute dbo.get_concesionarias
 
 * Hay participantes para el sorteo
 execute dbo.get_participantes 'Montironi705993369', 16, 4
+execute dbo.get_participantes 'Colcar2023979636', 16, 4
+execute dbo.get_participantes 'AutoHaus1503004614', 16, 4
+execute dbo.get_participantes 'Rosso79149714', 16, 4
 
 */
 
 execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+go
 execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+go
+execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
+go
+execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
+go
 
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
