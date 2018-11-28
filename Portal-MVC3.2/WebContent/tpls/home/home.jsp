@@ -18,7 +18,7 @@
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.obtenerGanadores()">Ganadores</a></li>
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.mostrarAdheridas()">Concesionarias Adheridas</a></li>
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.suscribir()">Suscribir Concesionaria</a></li>
-  <li class="item nav hor"><a href="#resultadosSorteo" onclick="jSorteos.resultadosUltimoSorteo()"> Resultados ultimo sorteo </a></li>
+  <!--  <li class="item nav hor"><a href="#resultadosSorteo" onclick="jSorteos.resultadosUltimoSorteo()"> Resultados ultimo sorteo </a></li> -->
   <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="Iniciar Sesion"> </li>
 </ul>
 
