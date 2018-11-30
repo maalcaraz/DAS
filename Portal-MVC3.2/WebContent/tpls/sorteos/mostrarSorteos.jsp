@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<fmt:setLocale value="en"/>
-<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
 <h2><fmt:message key="sorteos" bundle="${etq}"></fmt:message>"> </h2>
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>

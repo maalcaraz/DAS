@@ -2,8 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
+
 <br>
-<h2><fmt:message key="GANADORES" bundle="${etq}"></fmt:message></h2>
+<h2><fmt:message key="ganadores" bundle="${etq}"></fmt:message></h2>
 
 <fmt:message key="frase_ganadores" bundle="${etq}"></fmt:message>
 

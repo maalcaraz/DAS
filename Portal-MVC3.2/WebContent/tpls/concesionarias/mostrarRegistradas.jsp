@@ -8,9 +8,8 @@
 <link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
 </head>
 
-<fmt:setLocale value="en"/>
-<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
-
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
 <c:set var="concesionarias" scope="request"	value="${requestScope.concesionarias}"></c:set>
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>

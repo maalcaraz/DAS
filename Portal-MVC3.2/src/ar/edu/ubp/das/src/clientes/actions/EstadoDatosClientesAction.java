@@ -16,14 +16,14 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
-import ar.edu.ubp.das.portal.forms.CuotaForm;
-import ar.edu.ubp.das.portal.forms.PlanForm;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.clientes.daos.MSClienteDao;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
+import ar.edu.ubp.das.src.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.src.portal.forms.ClienteForm;
+import ar.edu.ubp.das.src.portal.forms.CuotaForm;
+import ar.edu.ubp.das.src.portal.forms.PlanForm;
+import ar.edu.ubp.das.src.portal.forms.TransaccionForm;
 
 public class EstadoDatosClientesAction implements Action {
 

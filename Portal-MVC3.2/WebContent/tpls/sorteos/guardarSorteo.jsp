@@ -1,1 +1,0 @@
-Sorteo actualizado con exito!

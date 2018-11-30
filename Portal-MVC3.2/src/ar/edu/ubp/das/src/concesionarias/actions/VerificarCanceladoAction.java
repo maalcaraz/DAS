@@ -19,11 +19,11 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 import ar.edu.ubp.das.src.ganadores.daos.MSGanadoresDao;
+import ar.edu.ubp.das.src.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.src.portal.forms.TransaccionForm;
 
 public class VerificarCanceladoAction implements Action {
 

@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos" ></script>
+	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,concesionarias,sorteos" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,login,sorteos" />
 	
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	
-<fmt:setLocale value="en"/>
-<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 	
 <title><fmt:message key="home" bundle="${etq}"></fmt:message> </title>
 </head>
@@ -27,6 +27,8 @@
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.suscribir()"><fmt:message key="suscribir_concesionaria" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#resultadosSorteo" onclick="jSorteos.resultadosUltimoSorteo()"><fmt:message key="historico" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>" > </li>
+  <li class="item nav hor"><button value="&nbsp;" class="spanish" onclick="jPortal.lang('es')"></button></li>
+  <li class="item nav hor"><button value="&nbsp;" class="english" onclick="jPortal.lang('en')"></button></li>
 </ul>
 
 <div id="contenido"> 
@@ -34,7 +36,7 @@
 	<div class="main" id="contenido-admin"> 
 	
 		      <img src="/img/ford.png" alt="New York">
-		      </br>
+		      <br>
 			  <fmt:message key="frase_home" bundle="${etq}"></fmt:message>
 		      <p>El Gobierno Nacional lanza el plan "SorteAR" con el fin de facilitar la adquisicion de tu primer 0km.</p>
 		      <p> Este plan nacional que consiste en la cancelacion completa de aquellos compradores que hayan pagado entre 24 y 36 cuotas en alguna de las concesionarias adheridas a este plan. </p>
@@ -42,7 +44,6 @@
 	</div>
 </div>
 	  
-	
 </div>
 </body>
 </html>

@@ -9,6 +9,8 @@
 <script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos"></script>
 <link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
 </head>
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
 <c:set var="concesionaria" scope="request"	value="${requestScope.concesionaria}"></c:set>
 <c:set var="clientes" scope="request"	value="${requestScope.clientes}"></c:set>

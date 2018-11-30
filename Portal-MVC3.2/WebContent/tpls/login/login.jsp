@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
-<fmt:setLocale value="en"/>
-<fmt:setBundle basename="ar.edu.ubp.das.src.login.properties.messages" var="etq"/>
-	
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
+
 <head>
   <title><fmt:message key="bienvenido" bundle="${etq}"></fmt:message></title>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
