@@ -36,6 +36,13 @@ public class TestingSyncAction  implements Action {
 				if (c.getIdConcesionaria().equals(idConcesionaria)){
 					String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
 					mensaje += c.getWebService().Consumir("ejemplo", null);//Consumir("ejemplo", null);
+					if (mensaje.contains("funciona")){
+						System.out.println("[Testing sync]El servicio de "+idConcesionaria+" funciona");
+						mensaje = "Conectado";
+					}
+					else {
+						mensaje = "No conectado"; // Agregar tag para internacionalizar
+					}
 					f.setItem("mensaje", mensaje);
 				}
 			}

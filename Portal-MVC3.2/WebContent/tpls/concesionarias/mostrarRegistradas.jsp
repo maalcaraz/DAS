@@ -30,9 +30,7 @@
 				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.ultimaActualizacion } <br>
 			<input type="button" class="normal button" value="<fmt:message key="editar" bundle="${etq}"></fmt:message> " onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
 			<input type="button" class="normal button" value="<fmt:message key="eliminar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.eliminarConcesionaria('${ concesionaria.idConcesionaria }')">
-			<input type="button" value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')">
-			
-			<div id="respuesta-${ concesionaria.idConcesionaria }"></div> 
+			<input type="button" value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')"> <div id="respuesta-${ concesionaria.idConcesionaria }"></div> 
 			</div> 
 		</c:forEach>
 	</c:if>

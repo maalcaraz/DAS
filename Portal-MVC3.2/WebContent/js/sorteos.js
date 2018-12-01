@@ -15,7 +15,7 @@ var jSorteos = {
 		nuevoSorteo : function () {
 			var fila = 	"<tr>\
 								<td> </td>\
-								<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+								<td> <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
 								<td colspan='3' > <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
 						</tr>";
 				$("#tablaSorteos").append(fila);
