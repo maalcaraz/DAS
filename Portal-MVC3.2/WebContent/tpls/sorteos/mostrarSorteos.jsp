@@ -3,7 +3,7 @@
 <fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
-<h2><fmt:message key="sorteos" bundle="${etq}"></fmt:message>"> </h2>
+<h2><fmt:message key="sorteos" bundle="${etq}"></fmt:message> </h2>
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>
 
 <table id="tablaSorteos" border=1> <thead>
@@ -39,4 +39,4 @@
 </table>
 
 <input type="button" class="normal button" onclick="jSorteos.nuevoSorteo()" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
-<input type="button" class="normal button" onclick="jSorteos.eliminarSorteos()" value="<fmt:message key="eliminar" bundle="${etq}"></fmt:message>">">
+<input type="button" class="normal button" onclick="jSorteos.eliminarSorteos()" value="<fmt:message key="eliminar" bundle="${etq}"></fmt:message>">

@@ -111,12 +111,12 @@ var jSorteos = {
 		},
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
-			var fechaGenerada = new Date(partes[2], --partes[1], partes[0]);
-			    
-			    if (partes.length == 3 && fechaGenerada
-			     && partes[0] == fechaGenerada.getDate()
-			     && partes[1] == fechaGenerada.getMonth()
-			     && partes[2] == fechaGenerada.getFullYear()) {
+			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
+			var hoy = new Date();
+			console.log("hoy:"+hoy);
+			    console.log("Generada: "+fechaGenerada);
+			    if (fechaGenerada &&
+			     fechaGenerada >= hoy  ) {
 			        return true;
 			    }
 			    return false;
