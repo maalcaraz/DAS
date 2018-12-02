@@ -18,7 +18,7 @@
 		<tr id="${ sorteo.idSorteo }"> 
 			 <c:if test="${ sorteo.fechaEjecucion eq '-' }">
 				 <td>
-				  <input type="checkbox" id="cb"${ sorteo.idSorteo } value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
+				  <input type="checkbox" value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
 				 </td>
 				 <td> ${ sorteo.fechaSorteado }  </td> 
 				 <td> ${ sorteo.fechaEjecucion } </td> 

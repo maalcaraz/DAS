@@ -30,7 +30,7 @@ drop procedure dbo.get_ganadores
 drop procedure dbo.get_ultimo_sorteo_ganador
 drop procedure dbo.aprobar_concesionaria
 drop procedure dbo.insertar_usuario
-drop procedure dbo.eliminar_concesionaria
+drop procedure dbo.rechazar_concesionaria
 drop procedure dbo.get_cliente_info
 drop procedure dbo.hoy_es_fecha_de_sorteo
 drop procedure dbo.actualizar_sorteo
@@ -74,7 +74,7 @@ create table concesionarias
 	cant_dias_caducidad			tinyint			not null default 15,
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
-	aprobada					char(1)			check (aprobada in ('S', 'N')) default 'N'
+	aprobada					char(1)			check (aprobada in ('S', 'N', 'P')) default 'N'
 	CONSTRAINT PK__concesionarias__END primary key(id_concesionaria)
 )
 go
@@ -89,7 +89,7 @@ create table planes
 	dueño_plan				char(3)			not null check(dueño_plan in ('GOB','CON')),
 	id_concesionaria		varchar(20)		not null,	
 	CONSTRAINT PK__planes__END primary key(id_plan, id_concesionaria),
-	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias on delete cascade
+	CONSTRAINT FK__planes_concesionarias__END foreign key (id_concesionaria) references concesionarias
 )
 go
 
@@ -102,7 +102,7 @@ create table clientes
 	domicilio				char(20)		null,
 	email					varchar(50)		not null,
 	CONSTRAINT PK__clientes__END primary key(dni_cliente, id_concesionaria),
-	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias on delete cascade
+	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
 )
 go
 
@@ -118,7 +118,7 @@ create table adquiridos
 	nro_chasis				varchar(15)		null,
 	CONSTRAINT PK__adquiridos__END primary key (id_plan, dni_cliente, id_concesionaria),
 	CONSTRAINT FK__adquiridos_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes on delete cascade
+	CONSTRAINT FK__adquiridos_clientes__END foreign key (dni_cliente, id_concesionaria) references clientes
 )
 go
 
@@ -133,7 +133,7 @@ create table cuotas
 	pagó					char(1)			check (pagó in ('N', 'S'))	DEFAULT 'S',
 	CONSTRAINT PK__cuotas__END primary key (id_cuota, dni_cliente, id_plan, id_concesionaria),
 	CONSTRAINT FK__cuotas_planes__END foreign key(id_plan, id_concesionaria) references planes,
-	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes on delete cascade
+	CONSTRAINT FK__cuotas_clientes__END foreign key(dni_cliente, id_concesionaria) references clientes
 )
 go
 
@@ -606,15 +606,16 @@ END
 go
 
 
-create procedure dbo.eliminar_concesionaria
+create procedure dbo.rechazar_concesionaria
 (
 	@id_concesionaria			varchar(20)		
 )
 AS
 BEGIN
-	delete c
-		from concesionarias c
-		where c.id_concesionaria = @id_concesionaria
+	UPDATE c
+	SET aprobada = 'N'
+	FROM concesionarias c
+	where c.id_concesionaria = @id_concesionaria
 END
 go
 
@@ -764,7 +765,7 @@ go
 create procedure dbo.actualizar_sorteo
 (
 	@id_sorteo			varchar(30),
-	@fecha_sorteo		varchar(20),
+	@fecha_sorteo		date,
 	@pendiente			char(1),
 	@fecha_ejecucion	varchar(20)
 )
@@ -772,7 +773,7 @@ AS
 BEGIN
 	UPDATE s
 	SET s.pendiente	 = @pendiente,
-		s.fecha_sorteo = convert(date, @fecha_sorteo, 105),
+		s.fecha_sorteo = @fecha_sorteo,
 		s.fecha_ejecucion = convert(date, @fecha_ejecucion, 105)
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
@@ -1066,7 +1067,7 @@ select * from concesionarias
 select * from clientes
 select * from cuotas
 select * from sorteos
--- execute dbo.eliminar_concesionaria 'Montironi705993369'
+-- execute dbo.rechazar_concesionaria 'Montironi705993369'
 
 
 update a
