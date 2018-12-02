@@ -39,11 +39,11 @@ public class ClientesResource {
 		System.out.println("\n -->  Obtener clientes no envia parametros");
 		System.out.println("\n\n----------------------------------------\n\n");
 		
-		String idConcesionaria = "AH123456";
+		String idConcesionaria = "AutoHaus1503004614";
 		Date horaFechaTransaccion = new Date();
-		java.util.Date utilDate = new java.util.Date(); //fecha actual
+		Date utilDate = new Date(); //fecha actual
 		long lnMilisegundos = utilDate.getTime();
-		java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
+		Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
 		System.out.println(sqlTimestamp);
 		String idTransaccion = "GC-"+horaFechaTransaccion.hashCode(); 
 		System.out.println("----------------------------------------\n\n\t OBTENER DATOS DE CLIENTES\n");
@@ -95,7 +95,6 @@ public class ClientesResource {
 	public Response notificarGanador(@FormParam("id_portal") String idPortal,
 								  	 @FormParam("id_concesionaria") String idConcesionaria,
 									 @FormParam("dni_cliente") String dniCliente, 
-									 @FormParam("nombre_apellido") String nombreApellido,
 									 @FormParam("id_plan") String idPlan,
 									 @FormParam("fecha_sorteo") String fechaSorteo) {		
 		
@@ -104,7 +103,6 @@ public class ClientesResource {
 		System.out.println("\n -->  IdPortal: "+idPortal);
 		System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
 		System.out.println("\n -->  DniCliente: "+dniCliente);
-		System.out.println("\n -->  Nombre y Apellido: "+nombreApellido);
 		System.out.println("\n -->  IdPlan: "+idPlan);
 		System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
 		System.out.println("\n\n----------------------------------------\n\n");
@@ -144,7 +142,7 @@ public class ClientesResource {
         	}
         	else{ 
         		/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
-        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
+        		String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ dniCliente + " de la concesionaria "+ idConcesionaria;
         		ConcesionariaBean concesionaria = new ConcesionariaBean();
         		concesionaria.setNovedad(novedad);
         		dao.insert(concesionaria);

@@ -1,14 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
-<h2>Sorteos </h2>
+<h2><fmt:message key="sorteos" bundle="${etq}"></fmt:message> </h2>
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>
 
 <table id="tablaSorteos" border=1> <thead>
 	<tr>  
 		<td> </td> 
-		<td>Fecha definida</td> 
-		<td>Fecha de ejecucion</td> 
-		<td>Fecha de notificacion</td>
+		<td><fmt:message key="fecha_definida" bundle="${etq}"></fmt:message></td> 
+		<td><fmt:message key="fecha_ejecucion" bundle="${etq}"></fmt:message></td> 
+		<td><fmt:message key="fecha_notificacion" bundle="${etq}"></fmt:message></td>
 		<td> </td>
 	</tr> </thead>
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
@@ -23,7 +26,6 @@
 				 <td> 
 				 <input type="button" class="normal button" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar"> 
 				  </td> 
-			 
 			 </c:if>
 			 <c:if test="${ sorteo.fechaEjecucion ne '-'}">
 			 <td></td>
@@ -36,5 +38,5 @@
 	</c:forEach>
 </table>
 
-<input type="button" class="normal button" onclick="jSorteos.nuevoSorteo()" value="Agregar Sorteo">
-<input type="button" class="normal button" onclick="jSorteos.eliminarSorteos()" value="Eliminar">
+<input type="button" class="normal button" onclick="jSorteos.nuevoSorteo()" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
+<input type="button" class="normal button" onclick="jSorteos.eliminarSorteos()" value="<fmt:message key="eliminar" bundle="${etq}"></fmt:message>">

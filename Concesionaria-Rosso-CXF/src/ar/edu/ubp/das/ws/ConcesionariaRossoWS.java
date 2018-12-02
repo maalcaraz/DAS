@@ -87,7 +87,6 @@ public class ConcesionariaRossoWS {
 	public String notificarGanador(@WebParam(name = "id_portal") String idPortal,
 								   @WebParam(name = "id_concesionaria") String idConcesionaria, 
 								   @WebParam(name = "dni_cliente") String dniCliente, 
-								   @WebParam(name = "nombre_apellido") String nombreApellido,
 								   @WebParam(name = "id_plan") String idPlan,
 								   @WebParam(name = "fecha_sorteo") String fechaSorteo) throws Exception {        
 		
@@ -95,7 +94,6 @@ public class ConcesionariaRossoWS {
 		System.out.println("\n -->  IdPortal: "+idPortal);
 		System.out.println("\n -->  IdConcesionaria: "+idConcesionaria);
 		System.out.println("\n -->  DniCliente: "+dniCliente);
-		System.out.println("\n -->  Nombre y Apellido: "+nombreApellido);
 		System.out.println("\n -->  IdPlan: "+idPlan);
 		System.out.println("\n -->  Fecha de Sorteo: "+ fechaSorteo);
 		System.out.println("\n\n----------------------------------------\n\n");
@@ -131,7 +129,7 @@ public class ConcesionariaRossoWS {
 			}
 			else{ 
 				/*Si el ganador es un cliente de otra concesionaria, crea una entrada en la tabla Novedades*/
-				String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ nombreApellido + " de la concesionaria "+ idConcesionaria;
+				String novedad = "El ganador del sorteo de la fecha "+ fechaSorteo + " es "+ dniCliente + " de la concesionaria "+ idConcesionaria;
         		ConcesionariaBean concesionaria = new ConcesionariaBean();
         		concesionaria.setNovedad(novedad);
         		dao.insert(concesionaria);

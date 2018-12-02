@@ -24,33 +24,33 @@ public class InsertarSorteoAction implements Action{
 		
 		String fechaSorteo = request.getParameter("nuevaFecha");
 		String fechaEjecucion =  "";
-		
+		System.out.println("FechaSorteo entra como parametro: "+fechaSorteo);
 		Date hoy = new Date();
 		Date nuevaFechaDate = null;
 		
-        SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date date;
 			date = parser.parse(fechaSorteo);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
 		    String formattedDate = formatter.format(date);
-		    System.out.println("[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
+		    System.out.println("[InsertarSorteoAction]Fecha actualizacion formateada: "+ formattedDate);
 		    nuevaFechaDate = formatter.parse(formattedDate);
 		} 
 		catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
-        if (nuevaFechaDate.compareTo(hoy) <= 0){ //si la nueva fecha es menor o igual a hoy, no se deberia insertar
+        if (nuevaFechaDate.compareTo(hoy) == 0){ //si la nueva fecha es menor o igual a hoy, no se deberia insertar
         	System.out.println("Nueva Fecha Date: "+nuevaFechaDate.toString());
         	System.out.println("Hoy Date: "+hoy.toString());
-        	System.out.println("NO SE PUEDE INSERTAR ESA FECHA QUE INTENTA INSERTARRRR");
+        	System.out.println("[InsertarSorteoAction]La fecha que intenta insertar ya existe.");
         }
         else{
         	System.out.println("Nueva Fecha Date: "+nuevaFechaDate.toString());
         	System.out.println("Hoy Date: "+hoy.toString());
         	SorteosForm sorteo = new SorteosForm();
-    		sorteo.setIdSorteo("s"+ nuevaFechaDate.toString());
+    		sorteo.setIdSorteo("s"+ nuevaFechaDate.hashCode());
     		sorteo.setFechaSorteado(fechaSorteo);
     		sorteo.setfechaEjecucion(fechaEjecucion);
     		
@@ -59,7 +59,7 @@ public class InsertarSorteoAction implements Action{
     			Sorteos.insert(sorteo);
     		}
     		catch (SQLException ex){
-    			System.out.println(ex.getMessage());
+    			System.out.println("[InsertarSorteoAction]"+ex.getMessage());
     			return mapping.getForwardByName("failure");
     		}
         }

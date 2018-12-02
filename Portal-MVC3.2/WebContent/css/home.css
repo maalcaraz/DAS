@@ -65,3 +65,14 @@ td{
 #site{
 	background-color: #96ccd3;
 }
+.spanish{
+	background-image: url(/img/spa.png);
+	background-size: cover;
+	border-radius: 50%;
+	background-position: center, top;
+}
+.english{
+	background-image: url(/img/eng.png);
+	background-size: cover;
+	border-radius: 50%;
+}

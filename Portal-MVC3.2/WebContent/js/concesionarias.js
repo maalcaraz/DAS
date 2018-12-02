@@ -105,7 +105,6 @@ var jConcesionaria ={
 	            },
 	            success: function(html) {
 	            	nomDiv = "respuesta-"+idConcesionaria;
-	            	alert (nomDiv);
 	            	jUtils.showing(nomDiv, html);
 	            }
 	        });	

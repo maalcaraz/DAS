@@ -15,7 +15,7 @@ var jSorteos = {
 		nuevoSorteo : function () {
 			var fila = 	"<tr>\
 								<td> </td>\
-								<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+								<td> <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
 								<td colspan='3' > <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
 						</tr>";
 				$("#tablaSorteos").append(fila);
@@ -111,12 +111,12 @@ var jSorteos = {
 		},
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
-			var fechaGenerada = new Date(partes[2], --partes[1], partes[0]);
-			    
-			    if (partes.length == 3 && fechaGenerada
-			     && partes[0] == fechaGenerada.getDate()
-			     && partes[1] == fechaGenerada.getMonth()
-			     && partes[2] == fechaGenerada.getFullYear()) {
+			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
+			var hoy = new Date();
+			console.log("hoy:"+hoy);
+			    console.log("Generada: "+fechaGenerada);
+			    if (fechaGenerada &&
+			     fechaGenerada >= hoy  ) {
 			        return true;
 			    }
 			    return false;

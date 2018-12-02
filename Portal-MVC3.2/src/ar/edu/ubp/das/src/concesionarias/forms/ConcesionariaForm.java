@@ -3,11 +3,11 @@ package ar.edu.ubp.das.src.concesionarias.forms;
 import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
-import ar.edu.ubp.das.portal.forms.CuotaForm;
-import ar.edu.ubp.das.portal.forms.PlanForm;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
+import ar.edu.ubp.das.src.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.src.portal.forms.ClienteForm;
+import ar.edu.ubp.das.src.portal.forms.CuotaForm;
+import ar.edu.ubp.das.src.portal.forms.PlanForm;
+import ar.edu.ubp.das.src.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.servicios.Servicio;
 import ar.edu.ubp.das.src.servicios.ServicioFactory;
 
