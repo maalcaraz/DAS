@@ -8,7 +8,9 @@
   <xs:element name="verificarCancelado" type="tns:verificarCancelado"/>
   <xs:element name="verificarCanceladoResponse" type="tns:verificarCanceladoResponse"/>
   <xs:complexType name="getClientes">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id_portal" type="xs:string"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getClientesResponse">
     <xs:sequence>

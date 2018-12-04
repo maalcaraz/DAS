@@ -72,7 +72,7 @@ public class ConsultaQuincenalAction implements Action {
 					
 					restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
 					System.out.println(restResp);
-					restResp = c.getWebService().Consumir("getClientes", null);
+					restResp = c.getWebService().Consumir("getClientes", parameters);
 					
 					System.out.println("[Consulta quincenal -Post consumo getClientes]");
 					
