@@ -234,14 +234,6 @@ values ('admin', 'intel123', 'admin'),
 	   ('25555555', 'juanpass', 'cliente')
 go
 
-insert into sorteos (id_sorteo, fecha_sorteo, descripcion)
-values ('s1','3-03-2003',''),
-	   ('s2','4-04-2004',''),
-	   ('s3','5-05-2005',''),
-	   ('s4','6-06-2006',''),
-	   ('s5','7-07-2007','')
-go
-
 /*******************************
 
 	VIEWS
@@ -589,8 +581,8 @@ BEGIN
 	if not exists (select * from sorteos s
 					where s.fecha_sorteo = @fecha_sorteo)
 	begin
-		insert into sorteos (id_sorteo, fecha_sorteo, pendiente, descripcion)
-		values (@id_sorteo, @fecha_sorteo, @pendiente, @descripcion)
+		insert into sorteos (id_sorteo, fecha_sorteo, fecha_ejecucion, pendiente, descripcion)
+		values (@id_sorteo, @fecha_sorteo, null, @pendiente, @descripcion)
 	end
 END
 go
@@ -1059,9 +1051,10 @@ go
 execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
 
+/* ESTE YA NO HACE FALTA, Ya esta bien implementado
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
-go
+go*/
 
 	select CONVERT (datetime, '2018-05-28 23:52:53.413')
 	go

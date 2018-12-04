@@ -12,8 +12,8 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
 import ar.edu.ubp.das.src.clientes.daos.MSClienteDao;
+import ar.edu.ubp.das.src.portal.forms.ClienteForm;
 
 public class EstadoCuentaAction implements Action {
 

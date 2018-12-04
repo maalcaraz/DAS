@@ -7,8 +7,8 @@ import java.util.List;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
+import ar.edu.ubp.das.src.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.src.portal.forms.ClienteForm;
 
 public class MSClienteDao extends DaoImpl{
 

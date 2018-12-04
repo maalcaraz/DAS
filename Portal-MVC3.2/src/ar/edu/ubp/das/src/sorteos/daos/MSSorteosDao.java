@@ -23,7 +23,7 @@ public class MSSorteosDao extends DaoImpl{
 	public void insert(DynaActionForm form) throws SQLException {
 		
 		SorteosForm sorteo = (SorteosForm) form;
-        SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         this.connect();
         try {
         	
@@ -33,14 +33,12 @@ public class MSSorteosDao extends DaoImpl{
         	
     		String idSorteo = sorteo.getIdSorteo();
     		
-    		String fechaProximo = sorteo.getfechaEjecucion();
     		
-    		this.setProcedure("dbo.insertar_sorteo(?, ?, ?, ?, ?)");
+    		this.setProcedure("dbo.insertar_sorteo(?, ?, ?, ?)");
     		this.setParameter(1, idSorteo);
     		this.setParameter(2, fecha);
-    		this.setParameter(3, fechaProximo);
-    		this.setNull(4, java.sql.Types.CHAR);
-    		this.setParameter(5, "Una descripcion");
+    		this.setNull(3, java.sql.Types.CHAR);
+    		this.setParameter(4, "Una descripcion");
     		
         }
         catch(ParseException ex){

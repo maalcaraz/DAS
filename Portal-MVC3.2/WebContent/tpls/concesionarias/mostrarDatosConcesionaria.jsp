@@ -3,11 +3,14 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos"></script>
 <link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
 </head>
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
 <c:set var="concesionaria" scope="request"	value="${requestScope.concesionaria}"></c:set>
 <c:set var="clientes" scope="request"	value="${requestScope.clientes}"></c:set>
@@ -17,11 +20,11 @@
 	<c:forEach var="cliente" items="${clientes }" varStatus="status">
 		<div class="grid-item">
 	
-		Dni: ${cliente.dniCliente}
-		Nombre: ${cliente.nomCliente}
-		Edad: ${cliente.edad }
-		Domicilio: ${cliente.domicilio }
-		Email: ${cliente.emailCliente }
+		<fmt:message key="dni" bundle="${etq}"></fmt:message> ${cliente.dniCliente}
+		<fmt:message key="nombre" bundle="${etq}"></fmt:message> ${cliente.nomCliente}
+		<fmt:message key="edad" bundle="${etq}"></fmt:message>${cliente.edad }
+		<fmt:message key="domicilio" bundle="${etq}"></fmt:message> ${cliente.domicilio }
+		<fmt:message key="email" bundle="${etq}"></fmt:message>${cliente.emailCliente }
 					
 		</div>
 	</c:forEach>

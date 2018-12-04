@@ -1,11 +1,16 @@
 package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,13 +20,13 @@ import ar.edu.ubp.das.mvc.action.ActionMapping;
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
-import ar.edu.ubp.das.portal.forms.AdquiridoForm;
-import ar.edu.ubp.das.portal.forms.ClienteForm;
-import ar.edu.ubp.das.portal.forms.CuotaForm;
-import ar.edu.ubp.das.portal.forms.PlanForm;
-import ar.edu.ubp.das.portal.forms.TransaccionForm;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
+import ar.edu.ubp.das.src.portal.forms.AdquiridoForm;
+import ar.edu.ubp.das.src.portal.forms.ClienteForm;
+import ar.edu.ubp.das.src.portal.forms.CuotaForm;
+import ar.edu.ubp.das.src.portal.forms.PlanForm;
+import ar.edu.ubp.das.src.portal.forms.TransaccionForm;
 
 public class ConsultaQuincenalAction implements Action {
 
@@ -30,6 +35,9 @@ public class ConsultaQuincenalAction implements Action {
 			HttpServletResponse response) throws SQLException, RuntimeException {
 
 		LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
+		String idPortal = "PORTALGOB";
+		List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+		parameters.add(new BasicNameValuePair("id_portal", idPortal));
 		try {
 			System.out.println("[ConsultaQuincenal]Action de consulta quincenal");
 			/*
@@ -64,7 +72,7 @@ public class ConsultaQuincenalAction implements Action {
 					
 					restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
 					System.out.println(restResp);
-					restResp = c.getWebService().Consumir("getClientes", null);
+					restResp = c.getWebService().Consumir("getClientes", parameters);
 					
 					System.out.println("[Consulta quincenal -Post consumo getClientes]");
 					

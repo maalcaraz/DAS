@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <html>
 <head>
@@ -17,6 +18,6 @@
 
 <c:set var="mensajeError" scope="request"	value="${requestScope.error}"></c:set>
 
-<h2> Se ha detectado el siguiente error: ${ mensajeError } </h2>
+<h2> <fmt:message key="mensaje_error" bundle="${etq}"></fmt:message>: ${ mensajeError } </h2>
 
 </body>
