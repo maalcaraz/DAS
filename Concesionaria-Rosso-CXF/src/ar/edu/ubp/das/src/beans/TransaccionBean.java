@@ -11,7 +11,6 @@ public class TransaccionBean implements Bean {
 	private String estadoTransaccion;
 	private String mensajeRespuesta;
 	private String horaFechaTransaccion;
-	private String retorno;
 	private String idConcesionaria;
 	
 	
@@ -41,19 +40,14 @@ public class TransaccionBean implements Bean {
 		return true;
 	}
 
+
+
+
 	@Override
 	public String toString() {
 		return "TransaccionBean [idTransaccion=" + idTransaccion + ", estadoTransaccion=" + estadoTransaccion
 				+ ", mensajeRespuesta=" + mensajeRespuesta + ", horaFechaTransaccion=" + horaFechaTransaccion
-				+ ", retorno=" + retorno + ", idConcesionaria=" + idConcesionaria + "]";
-	}
-	
-	public String getRetorno() {
-		return retorno;
-	}
-
-	public void setRetorno(String retorno) {
-		this.retorno = retorno;
+				+ ", idConcesionaria=" + idConcesionaria + "]";
 	}
 
 	public String getIdConcesionaria() {
