@@ -14,12 +14,19 @@
 	</tr>
 	</thead>
 	<tbody>
+	<c:if test="${not empty ganadores}">
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
 		<tr> 
 			 <td> ${ sorteo.idSorteo }</td> 
 			 <td> ${ sorteo.fechaSorteado }  </td> 
 		</tr> 
 	</c:forEach>
+	</c:if>
+
+		<c:if test="${empty ganadores}">
+			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
+			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
+		</c:if>
 	</tbody>
 </table>
 
