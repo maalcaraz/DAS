@@ -14,8 +14,6 @@
 
 <fmt:message key="frase_ganadores" bundle="${etq}"></fmt:message>
 
-Estos son los compradores que salieron sorteados. Sus cuotas fueron
-canceladas y ahora disfrutan su primer 0km!
 <br>
 <c:set var="ganadores" scope="request" value="${requestScope.ganadores}">
 </c:set>
@@ -43,9 +41,9 @@ canceladas y ahora disfrutan su primer 0km!
 			</c:forEach>
 		</c:if>
 		<c:if test="${empty ganadores}">
-			<td>No hay sorteos ejecutados</td>
-			<td>No hay sorteos ejecutados</td>
-			<td>No hay sorteos ejecutados</td>
+			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
+			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
+			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
 		</c:if>
 	</tbody>
 </table>
