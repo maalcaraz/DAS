@@ -24,14 +24,15 @@ public class GuardarConfiguracionAction implements Action{
 			ConcesionariaForm nuevaConfiguracion = new ConcesionariaForm(request.getParameter("tipoServicio"));
 			
 			nuevaConfiguracion.setItem("operacion", "configurar");
-			nuevaConfiguracion.setIdConcesionaria((String)request.getAttribute("idConcesionaria"));
+			nuevaConfiguracion.setIdConcesionaria(request.getParameter("idConcesionaria"));
 			nuevaConfiguracion.setCodTecnologia(request.getParameter("tipoServicio"));
 			nuevaConfiguracion.getWebService().setUrl(request.getParameter("url"));
 			nuevaConfiguracion.setCuit(request.getParameter("cuit"));
-			nuevaConfiguracion.setEmail(request.getParameter("email"));
-			nuevaConfiguracion.setDireccion(request.getParameter("direccion"));
-			nuevaConfiguracion.setTelefono(request.getParameter("telefono"));
-			
+			nuevaConfiguracion.setEmail(request.getParameter("emailConcesionaria"));
+			nuevaConfiguracion.setDireccion(request.getParameter("dir"));
+			nuevaConfiguracion.setTelefono(request.getParameter("tel"));
+			System.out.println("[GuardarConfigAction]dias: "+ request.getParameter("diasCaducidad"));
+			nuevaConfiguracion.setCantDiasCaducidad(request.getParameter("diasCaducidad"));
 			Concesionaria.update(nuevaConfiguracion);
 		}
 		catch (Exception ex){

@@ -814,13 +814,13 @@ go
 create procedure dbo.reconfigurar_concesionaria
 (
 	@id_concesionaria				varchar(20),
+	@cod_tecnologia					varchar(10),
 	@url_servicio					varchar(100),
 	@cuit							char(9),
 	@email							varchar(50),
 	@direccion						varchar(100),
 	@telefono						char(11),
-	@cant_dias_caducidad			tinyint,
-	@cod_tecnologia					varchar(10)
+	@cant_dias_caducidad			integer
 )
 AS
 BEGIN

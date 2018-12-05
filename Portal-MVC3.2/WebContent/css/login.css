@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 
+body{
+	background-color: #f2f2f2;
+}
+
  /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -17,7 +21,7 @@
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
+    background-color: #f2f2f2;
     margin: 5px auto; /* 15% from the top and centered */
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -66,25 +70,6 @@
 img.avatar {
     width: 30%;
 	height: 30%;
-}
-
-input[type=text]{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-input[type=password]{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
 }
 
 button{

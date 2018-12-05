@@ -212,25 +212,45 @@ var jConcesionaria ={
 	        });	
 		},
 		editarConcesionaria : function (idConcesionaria){
-			$.ajax({
-	            url: "./concesionarias/ConfigurarConcesionaria.do",
-	            type: "post",
-	            dataType: "html",
-	            data: {"idConcesionaria" : idConcesionaria},
-	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
-	            },
-	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
-	            }
-	        });
+			var cuit = "<b>Cuit:</b>\
+				<input type=\"text\" name=\"cuit\" size=\"10\" required>";
+			document.getElementById("cuit-"+idConcesionaria+"").innerHTML = cuit;
+			
+			var ts = "<b>Tipo de servicio: </b> \
+			        <select name=\"tipoServicio\">\
+						<option value=\"Rest\"> Rest </option>\
+						<option value=\"CXF\"> CXF </option>\
+						<option value=\"Axis2\"> Axis </option>\
+					</select>";
+			document.getElementById("ts-"+idConcesionaria+"").innerHTML = ts;
+			
+			var dir = "<b>Direccion:</b>\
+						<input type=\"text\" name=\"dir\" size=\"30\" required>";
+			document.getElementById("dir-"+idConcesionaria+"").innerHTML = dir;
+			
+			var tel = "<b> Telefono: </b>\
+				<input type=\"number\" name=\"tel\" min=\"0000000000\" max=\"9999999999\" required>";
+			document.getElementById("tel-"+idConcesionaria+"").innerHTML = tel;
+			
+			var dias = "<b> Dias Caducidad: </b>\
+				<input type=\"number\" name=\"diasCaducidad\" min=\"0\" max=\"100\" required>";
+			document.getElementById("dias-"+idConcesionaria+"").innerHTML = dias;
+			
+			var em = "<b> Email: </b>\
+			<input type=\"email\" name=\"emailConcesionaria\" required>";
+			document.getElementById("em-"+idConcesionaria+"").innerHTML = em;
+			
+			var boton = '<fmt:message key=\"guardar\" bundle=\"${etq}\"> </fmt:message>';
+			$("#config-"+idConcesionaria+"").val(boton);
+			document.getElementById("config-"+idConcesionaria+"").setAttribute("onClick", "jConcesionaria.guardarCambios('"+idConcesionaria+"')");
+			
 		},
-		guardarCambios : function () {
+		guardarCambios : function (idConcesionaria) {
 			$.ajax({
 	            url: "./concesionarias/GuardarConfiguracion.do",
 	            type: "post",
 	            dataType: "html",
-	            data: $("#nuevaConfig").serialize(),
+	            data: $("#configurarForm-"+idConcesionaria+"").serialize(),
 	            error: function(hr){
 	                jUtils.showing("contenido-admin", hr.responseText);
 	            },

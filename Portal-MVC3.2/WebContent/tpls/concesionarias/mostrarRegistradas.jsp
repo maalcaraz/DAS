@@ -28,17 +28,23 @@
 			
 			
 			<div class="grid-item">
-			<h3>${ concesionaria.nomConcesionaria } - Estado: ${ estado } </h3>
-				<b><fmt:message key="tipo_de_servicio" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.codTecnologia } <br>
-				<b><fmt:message key="direccion" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.direccion } <br>
-				<b><fmt:message key="telefono" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.telefono } <br>
-				<b><fmt:message key="email" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.email } <br>
-				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.ultimaActualizacion } <br>
+			<h3>${ concesionaria.nomConcesionaria } </h3>
+			<form id="configurarForm-${ concesionaria.idConcesionaria }">
+			<input type="hidden" name="idConcesionaria" value="${ concesionaria.idConcesionaria }">
+			<input type="hidden" name="url" value="${ concesionaria.urlServicio }">
+				<b><fmt:message key="estado" bundle="${etq}"></fmt:message>:</b> ${ estado } <br>
+				 <div class="editable" id="ts-${ concesionaria.idConcesionaria }"> <b><fmt:message key="tipo_de_servicio" bundle="${etq}"></fmt:message></b>:${ concesionaria.codTecnologia } </div>
+				 <div class="editable" id="cuit-${ concesionaria.idConcesionaria }"> <b><fmt:message key="cuit" bundle="${etq}"></fmt:message>:</b>${ concesionaria.cuit } </div>
+				 <div class="editable" id="dir-${ concesionaria.idConcesionaria }"> <b><fmt:message key="direccion" bundle="${etq}"></fmt:message>:</b>${ concesionaria.direccion } </div>
+				 <div class="editable" id="tel-${ concesionaria.idConcesionaria }"> <b><fmt:message key="telefono" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.telefono } </div>
+				 <div class="editable" id="em-${ concesionaria.idConcesionaria }"> <b><fmt:message key="email" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.email } </div>
+				 <div class="editable" id="dias-${ concesionaria.idConcesionaria }"> <b><fmt:message key="dias" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.cantDiasCaducidad } </div>
+				 <div class="editable"> <b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.ultimaActualizacion } </div><br>
 			<input type="button" class="normal button" value="<fmt:message key="aprobar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.aprobar('${ concesionaria.idConcesionaria }')">
 			<input type="button" class="normal button" value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.rechazar('${ concesionaria.idConcesionaria }')">
-			<input type="button" class="normal button" value="<fmt:message key="editar" bundle="${etq}"></fmt:message> " onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
+			<input type="button" id="config-${ concesionaria.idConcesionaria }" class="normal button" value="<fmt:message key="configurar" bundle="${etq}"></fmt:message> " onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
 			<input type="button" value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')"> <div id="respuesta-${ concesionaria.idConcesionaria }"></div>
-			 
+			</form>
 			</div> 
 		</c:forEach>
 	</c:if>
