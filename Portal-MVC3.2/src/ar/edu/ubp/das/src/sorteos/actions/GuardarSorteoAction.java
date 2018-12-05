@@ -18,16 +18,13 @@ public class GuardarSorteoAction implements Action{
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		String idSorteo = request.getParameter("idSorteo");
-		System.out.println("[GuardarSorteoAction]Id del nuevo sorteo: " + idSorteo);
-		String descripcion = request.getParameter("nuevaDescripcion");
-		System.out.println("[GuardarSorteoAction]Descripcion del nuevo sorteo: "+ descripcion);
-		String fechaSorteo = request.getParameter("nuevaFecha");
-		System.out.println("[GuardarSorteoAction]Nueva fecha: "+fechaSorteo);
+		String nuevaFecha = request.getParameter("nuevaFecha");
+		System.out.println("[GuardarSorteoAction]Nueva fecha: "+nuevaFecha);
 		MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
 		DynaActionForm sorteo = new DynaActionForm();
 		sorteo.setItem("idSorteo", idSorteo);
-		sorteo.setItem("descripcion", descripcion);
-		sorteo.setItem("fechaSorteo", fechaSorteo);
+		sorteo.setItem("descripcion", "");
+		sorteo.setItem("fechaSorteo", nuevaFecha);
 		sorteos.update(sorteo);
 		
 		return mapping.getForwardByName("success");

@@ -39,7 +39,7 @@ public class ValidarUsuarioAction implements Action{
 		
 		session.setAttribute( "usuario",  form.getItem( "usuario" ) );
 		//Seteando tiempo de sesion a 4 minutos para testear
-		session.setMaxInactiveInterval(4*60);
+		session.setMaxInactiveInterval(10*60);
 		
 		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
 		case 0: //dao.insert(daf);

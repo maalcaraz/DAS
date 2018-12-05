@@ -28,15 +28,11 @@
 				<forward name="success" path="/concesionarias/mostrarRegistradas.jsp" />
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
-			<action type="ConcesionariasPendientesAction" path="/ConcesionariasPendientes.do">
-				<forward name="success" path="/concesionarias/mostrarPendientes.jsp" />
-				<forward name="failure" path="/concesionarias/error.jsp" />
-			</action>
 			<action type="AprobarConcesionariaAction" path="/AprobarConcesionaria.do">
-				<forward name="success" path="/concesionarias/ConcesionariasPendientes.do" />
+				<forward name="success" path="/concesionarias/ConcesionariasRegistradas.do" />
 			</action>
 			<action type="RechazarConcesionariaAction" path="/RechazarConcesionaria.do">
-				<forward name="success" path="/concesionarias/ConcesionariasPendientes.do" />
+				<forward name="success" path="/concesionarias/ConcesionariasRegistradas.do" />
 				<forward name="failure" path="/concesionarias/error.jsp" />
 			</action>
 			<action type="MostrarAdheridasAction" path="/MostrarAdheridas.do">
@@ -46,11 +42,8 @@
 			<action type="MostrarDatosConcesionariaAction" path="/MostrarDatosConcesionaria.do">
 				<forward name="success" path="/concesionarias/mostrarDatosConcesionaria.jsp" />
 			</action>
-			<action type="ConfigurarConcesionariaAction" path="/ConfigurarConcesionaria.do">
-				<forward name="success" path="/concesionarias/configurarConcesionaria.jsp" />
-			</action>
 			<action type="GuardarConfiguracionAction" path="/GuardarConfiguracion.do">
-				<forward name="success" path="/concesionarias/guardarConfiguracion.jsp" />
+				<forward name="success" path="/concesionarias/ConcesionariasRegistradas.do" />
 			</action>
 			<action type="TestingSyncAction" path="/TestingSync.do">
 				<forward name="success" path="/concesionarias/testingSync.jsp" />

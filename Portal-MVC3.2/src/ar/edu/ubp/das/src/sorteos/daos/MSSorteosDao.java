@@ -52,7 +52,7 @@ public class MSSorteosDao extends DaoImpl{
 	@Override
 	public void update(DynaActionForm form) throws SQLException {
 		this.connect();
-		SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date fechaAux;
 		try {
 			fechaAux = parser.parse(form.getItem("fechaSorteo"));
