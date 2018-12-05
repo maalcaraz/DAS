@@ -212,10 +212,11 @@ go
 create table ganadores
 (
 	id_sorteo				varchar(30)		not null,
+	dni_cliente				char(8)			not null,
 	apellido_nombre			char(30)		not null,
 	nombre_concesionaria	varchar(30)		not null,
 	vehiculo_adq			varchar(20)		null,
-	CONSTRAINT PK__ganadores__END primary key (id_sorteo,apellido_nombre),
+	CONSTRAINT PK__ganadores__END primary key (id_sorteo, dni_cliente),
 	CONSTRAINT FK__ganadores_sorteos__END foreign key (id_sorteo) references sorteos
 )
 go
@@ -548,14 +549,12 @@ POSIBLE SOLUCION: AGREGAR DNI A GANADORES
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
-	select TOP 1* 
+	select TOP 1 * 
 		from ganadores g
 		join sorteos s
 		on g.id_sorteo = s.id_sorteo
 		join clientes c
-		on c.apellido_nombre = g.apellido_nombre
-		join adquiridos a
-		on c.dni_cliente = a.dni_cliente
+		on c.dni_cliente = g.dni_cliente
 		order by s.fecha_ejecucion DESC
 /*
 	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
@@ -910,8 +909,8 @@ BEGIN
 							 from clientes cli
 							 where cli.dni_cliente = @dni_cliente
 							)
-	insert into ganadores (id_sorteo, apellido_nombre, nombre_concesionaria, vehiculo_adq)
-	values(@id_sorteo, @nombre_ganador, @n_concesionaria, '')
+	insert into ganadores (id_sorteo, apellido_nombre, dni_cliente, nombre_concesionaria, vehiculo_adq)
+	values(@id_sorteo, @nombre_ganador, @dni_cliente, @n_concesionaria, '')
 END
 go
 
@@ -1108,4 +1107,4 @@ update S
 	from sorteos s
 	where s.id_sorteo = '1234asadf'
 
-*/
+*/                  

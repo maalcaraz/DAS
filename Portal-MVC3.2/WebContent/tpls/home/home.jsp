@@ -22,10 +22,11 @@
   <li class="item nav hor"><a href="#" onclick="jLogin.logout(1, null)"><fmt:message key="home" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#about"><fmt:message key="about" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#proximasfechas" onclick="jSorteos.proximasFechas()"><fmt:message key="proximas_fechas" bundle="${etq}"></fmt:message></a></li>
-  <li class="item nav hor"><a href="#" onclick="jConcesionaria.obtenerGanadores()"><fmt:message key="ganadores" bundle="${etq}"></fmt:message></a></li>
+  <!-- <li class="item nav hor"><a href="#" onclick="jConcesionaria.obtenerGanadores()"><fmt:message key="ganadores" bundle="${etq}"></fmt:message></a></li>
+   -->
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.mostrarAdheridas()"><fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><a href="#" onclick="jConcesionaria.suscribir()"><fmt:message key="suscribir_concesionaria" bundle="${etq}"></fmt:message></a></li>
-  <li class="item nav hor"><a href="#resultadosSorteo" onclick="jSorteos.resultadosUltimoSorteo()"><fmt:message key="historico" bundle="${etq}"></fmt:message></a></li>
+  <li class="item nav hor"><a href="#resultadosSorteo" onclick="jConcesionaria.obtenerGanadores()"><fmt:message key="historico" bundle="${etq}"></fmt:message></a></li>
   <li class="item nav hor"><input type="button" class="boton" id="loginbutton" name="loginbutton" onclick="jLogin.login()" value="<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>" > </li>
   <li class="item nav hor"><button value="&nbsp;" class="spanish" onclick="jPortal.lang('es')"></button></li>
   <li class="item nav hor"><button value="&nbsp;" class="english" onclick="jPortal.lang('en')"></button></li>
