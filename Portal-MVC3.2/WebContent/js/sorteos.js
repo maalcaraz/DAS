@@ -16,6 +16,8 @@ var jSorteos = {
 			var fila = 	"<tr>\
 								<td> </td>\
 								<td> <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+								<td> </td>\
+								<td> </td>\
 								<td colspan='3' > <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
 						</tr>";
 				$("#tablaSorteos").append(fila);
@@ -61,20 +63,24 @@ var jSorteos = {
 	        });	
 		},
 		editarSorteo : function (idSorteo) {
-			var fila = 	"<td> </td>\
-				<td> <input type='text' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
-				<td> <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
-				<td> </td>\
-				<td> </td>";
 			var id = document.getElementById(idSorteo);
-			$(id).innerHTML = fila;
+			var fila = 	"<td> </td>\
+				<td> <input type='date' name='nuevaFecha' id='nuevaFecha' size='11' maxlength='10'/> </td> \
+				<td> </td>\
+				<td> </td>\
+				<td> <input type='button' class='normal button' onclick='jSorteos.guardarSorteo(\""+idSorteo+"\")' value='Guardar'>  </td>";
+			id.innerHTML = fila;
+			
 		},
-		guardarSorteo : function () {
+		guardarSorteo : function (idSorteo) {
+			var nuevaFecha = $("#nuevaFecha").val();
+			alert("idSorteo: "+ idSorteo);
+			alert("nuevaFecha: "+nuevaFecha);
 			$.ajax({
 	            url: "./sorteos/GuardarSorteo.do",
 	            type: "post",
 	            dataType: "html",
-	            data: $("#nuevoSorteoForm").serialize(),
+	            data: {"idSorteo": idSorteo, "nuevaFecha": nuevaFecha},
 	            error: function(hr){
 	                jUtils.showing("contenido-admin", hr.responseText);
 	            },

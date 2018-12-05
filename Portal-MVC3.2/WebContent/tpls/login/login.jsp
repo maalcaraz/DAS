@@ -24,10 +24,10 @@
     </div>
     <div class="container">
 		<label for="user"><fmt:message key="usuario" bundle="${etq}"></fmt:message>:</label>
-		<input type="text" id="user" name="user" placeholder="Enter username" autofocus required>
+		<input type="text" id="user" name="user" class="login input" placeholder="Enter username" autofocus required>
 		   
 		<label for="pwd"><fmt:message key="pass" bundle="${etq}"></fmt:message>:</label>
-		<input type="password" id="pwd" name="pwd" placeholder="Enter password" required >
+		<input type="password" id="pwd" name="pwd" class="login input" placeholder="Enter password" required >
 		   
 		<button type="button" name="login" onclick="jLogin.acceder()"><fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message></button>
 		<button type="button" name="registrar" onclick="jLogin.primerIngreso()"><fmt:message key="registrarse" bundle="${etq}"></fmt:message></button>

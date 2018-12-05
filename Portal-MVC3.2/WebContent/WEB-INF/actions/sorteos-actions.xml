@@ -25,7 +25,7 @@
 			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="GuardarSorteoAction" path="/GuardarSorteo.do">
-			<forward name="success" path="/sorteos/guardarSorteo.jsp" />
+			<forward name="success" path="/sorteos/MostrarSorteos.do" />
 			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
 	 <action type="ProximasFechasAction" path="/ProximasFechas.do">

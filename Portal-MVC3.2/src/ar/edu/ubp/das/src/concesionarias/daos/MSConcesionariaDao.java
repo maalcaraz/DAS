@@ -58,13 +58,13 @@ public class MSConcesionariaDao extends DaoImpl{
 			ConcesionariaForm c = (ConcesionariaForm) form;
 			this.setProcedure("dbo.reconfigurar_concesionaria(?,?,?,?,?,?,?,?)");
 			this.setParameter(1, c.getIdConcesionaria());
-			this.setParameter(2, c.getWebService().getUrl());
-			this.setParameter(3, c.getCuit());
-			this.setParameter(4, c.getEmail());
-			this.setParameter(5, c.getDireccion());
-			this.setParameter(6, c.getTelefono());
-			this.setParameter(7, c.getCantDiasCaducidad());
-			this.setParameter(8, c.getCodTecnologia());
+			this.setParameter(2, c.getCodTecnologia());
+			this.setParameter(3, c.getWebService().getUrl());
+			this.setParameter(4, c.getCuit());
+			this.setParameter(5, c.getEmail());
+			this.setParameter(6, c.getDireccion());
+			this.setParameter(7, c.getTelefono());
+			this.setParameter(8, Integer.parseInt(c.getCantDiasCaducidad()));
 			
 			this.executeUpdate();
 			this.disconnect();
@@ -165,7 +165,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		this.connect();
 		
-		this.setProcedure("dbo.eliminar_concesionaria(?)");
+		this.setProcedure("dbo.rechazar_concesionaria(?)");
 		this.setParameter(1, form.getItem("id_concesionaria"));
 		
 		this.executeUpdate();
@@ -194,10 +194,10 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
 					f.setDireccion(result.getString("direccion"));
 					f.setTelefono(result.getString("telefono"));
-					//f.setCantDiasCaducidad(result.getString("cant_dias_caduc"));
+					f.setEmail(result.getString("email"));
+					f.setCantDiasCaducidad(result.getString("cant_dias_caducidad"));
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
-					
 					ret.add(f);
 				}
 				catch(Exception ex){
@@ -241,7 +241,6 @@ public class MSConcesionariaDao extends DaoImpl{
 				result.next();
 			}
 			//con.setClientes(clientes);
-			
 		}
 		
 		this.disconnect();

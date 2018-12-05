@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.config.ForwardConfig;
 import ar.edu.ubp.das.mvc.db.DaoFactory;
 import ar.edu.ubp.das.src.concesionarias.daos.MSConcesionariaDao;
-import ar.edu.ubp.das.src.concesionarias.forms.ConcesionariaForm;
 
 public class ConcesionariasRegistradasAction implements Action {
 
@@ -38,12 +36,7 @@ public class ConcesionariasRegistradasAction implements Action {
 		}
 		try {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
-			List<DynaActionForm> cAux = Concesionaria.select(null);
-			List<ConcesionariaForm> concesionarias = new LinkedList<ConcesionariaForm>();
-			for (DynaActionForm c : cAux){
-				ConcesionariaForm c1 = (ConcesionariaForm) c;
-				if (c1.getAprobada().equals("S")) concesionarias.add(c1);
-			}
+			List<DynaActionForm> concesionarias = Concesionaria.select(null);
 			request.setAttribute("concesionarias", concesionarias);
 			return mapping.getForwardByName("success");
 		}
