@@ -6,7 +6,7 @@ var jLogin = {
 			
 			if (logged == 1){
 				logged = 0;
-				jUtils.executing("result");
+				jUtils.executing("site");
 		        jUtils.hiding("message");
 		        $.ajax({
 		            url: "./login/Logout.do",
@@ -23,7 +23,7 @@ var jLogin = {
 			}
 			else {
 				logged = 1;
-		        jUtils.executing("result");
+		        jUtils.executing("contenido");
 		        jUtils.hiding("message");
 		        $.ajax({
 		            url: "./login/Login.do",
@@ -46,6 +46,7 @@ var jLogin = {
 				c = document.getElementById(mod);
 				c.style.display="none"; 
 			} 
+			jUtils.executing("site");
 			$.ajax({
 	            url: "./home/Home.do",
 	            type: "post",
@@ -61,7 +62,7 @@ var jLogin = {
 		},
 		
 		acceder: function() {
-			 jUtils.executing("result");
+			 jUtils.executing("contenido");
 		        jUtils.hiding("message");
 		        $.ajax({
 		            url: "./login/validarUsuario.do",
@@ -79,7 +80,7 @@ var jLogin = {
 		        });	
 		},
 		primerIngreso : function () {
-			jUtils.executing("result");
+			jUtils.executing("site");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./login/ingresarRegistro.do",
@@ -95,7 +96,7 @@ var jLogin = {
 	        });
 		},
 		registrar : function (){
-			jUtils.executing("result");
+			jUtils.executing("site");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./login/registrarUsuario.do",

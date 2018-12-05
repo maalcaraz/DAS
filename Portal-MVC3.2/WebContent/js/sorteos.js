@@ -1,5 +1,6 @@
 var jSorteos = {
 		obtenerSorteos : function (){
+			jUtils.executing("contenido-admin");
 			 $.ajax({
 		            url: "./sorteos/MostrarSorteos.do",
 		            type: "post",
@@ -25,6 +26,7 @@ var jSorteos = {
 		insertar : function () {
 			fecha = $("#nuevaFecha").val(); 
 			if (this.validarFechaSorteo(fecha)){
+				jUtils.executing("contenido-admin");
 				$.ajax({
 		            url: "./sorteos/InsertarNuevo.do",
 		            type: "post",
@@ -49,6 +51,7 @@ var jSorteos = {
 				sel.push($(this).val());
 			});
 			alert(sel);
+			jUtils.executing("contenido-admin");
 			$.ajax({
 	            url: "./sorteos/EliminarSorteos.do",
 	            type: "post",
@@ -76,6 +79,7 @@ var jSorteos = {
 			var nuevaFecha = $("#nuevaFecha").val();
 			alert("idSorteo: "+ idSorteo);
 			alert("nuevaFecha: "+nuevaFecha);
+			jUtils.executing("contenido-admin");
 			$.ajax({
 	            url: "./sorteos/GuardarSorteo.do",
 	            type: "post",
@@ -90,6 +94,7 @@ var jSorteos = {
 	        });
 		},
 		proximasFechas : function () {
+			jUtils.executing("contenido");
 			$.ajax({
 	            url: "./sorteos/ProximasFechas.do",
 	            type: "post",
@@ -103,6 +108,7 @@ var jSorteos = {
 	        });
 		},
 		resultadosUltimoSorteo : function () {
+			jUtils.executing("contenido");
 			$.ajax({
 	            url: "./sorteos/ResultadosUltimoSorteo.do",
 	            type: "post",

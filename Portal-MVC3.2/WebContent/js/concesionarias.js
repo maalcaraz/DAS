@@ -2,7 +2,7 @@ var modal = document.getElementById('id02');
 var jConcesionaria ={
 		
 		getClientes : function(){
-			jUtils.executing("result");
+			jUtils.executing("detalle-clientes");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/ConsultaQuincenal.do",
@@ -19,7 +19,7 @@ var jConcesionaria ={
 			
 		},
 		suscribir : function (){
-			jUtils.executing("result");
+			jUtils.executing("contenido");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/Suscripcion.do",
@@ -56,7 +56,7 @@ var jConcesionaria ={
 		},
 		
 		notificarConcesionaria : function (){
-			jUtils.executing("result");
+			jUtils.executing("respuestaNotificar");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/NotificarGanador.do",
@@ -74,7 +74,7 @@ var jConcesionaria ={
 		},
 		
 		verificarCancelado : function (){
-			jUtils.executing("result");
+			jUtils.executing("respuestaCancelado");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/VerificarCancelado.do",
@@ -92,7 +92,8 @@ var jConcesionaria ={
 	        });	
 		},
 		testingSyncro : function(idConcesionaria){
-			jUtils.executing("result");
+			nomDiv = "respuesta-"+idConcesionaria;
+			jUtils.executing(nomDiv);
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/TestingSync.do",
@@ -110,7 +111,7 @@ var jConcesionaria ={
 	        });	
 		},
 		mostrarAdheridas : function(){
-			jUtils.executing("result");
+			jUtils.executing("contenido");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/MostrarAdheridas.do",
@@ -127,7 +128,7 @@ var jConcesionaria ={
 	        });	
 		},
 		mostrarRegistradas : function(){
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/ConcesionariasRegistradas.do",
@@ -142,25 +143,8 @@ var jConcesionaria ={
 	            }
 	        });	
 		},
-		mostrarPendientes : function () {
-			jUtils.executing("result");
-	        jUtils.hiding("message");
-	        $.ajax({
-	            url: "./concesionarias/ConcesionariasPendientes.do",
-	            type: "post",
-	            dataType: "html",
-	            error: function(hr){
-	                jUtils.hiding("result");
-	                jUtils.showing("message", hr.responseText);
-	            },
-	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
-	            	
-	            }
-	        });	
-		},
 		aprobar : function (idConcesionaria){
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/AprobarConcesionaria.do",
@@ -177,7 +161,7 @@ var jConcesionaria ={
 	        });	
 		},
 		rechazar : function(idConcesionaria){
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/RechazarConcesionaria.do",
@@ -195,7 +179,7 @@ var jConcesionaria ={
 		},
 		getDatosConcesionaria : function(idConcesionaria){
 			alert(idConcesionaria);
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./concesionarias/MostrarDatosConcesionaria.do",
