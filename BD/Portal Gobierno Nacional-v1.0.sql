@@ -784,14 +784,14 @@ create procedure dbo.actualizar_sorteo
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
 	@pendiente			char(1),
-	@fecha_ejecucion	varchar(20)
+	@fecha_ejecucion	date
 )
 AS
 BEGIN
 	UPDATE s
 	SET s.pendiente	 = @pendiente,
 		s.fecha_sorteo = @fecha_sorteo,
-		s.fecha_ejecucion = convert(date, @fecha_ejecucion, 105)
+		s.fecha_ejecucion = @fecha_ejecucion
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END

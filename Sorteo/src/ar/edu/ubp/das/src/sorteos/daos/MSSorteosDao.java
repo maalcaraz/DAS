@@ -2,6 +2,8 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,13 +40,34 @@ public class MSSorteosDao extends DaoImpl{
 		
 		SorteoBean sorteo = (SorteoBean) form;
 		this.connect();
-		
 		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?, ?)");
-		System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
-		this.setParameter(1, sorteo.getIdSorteo());
-		this.setParameter(2, sorteo.getFechaSorteado());
-		this.setParameter(3, sorteo.getPendiente());
-		this.setParameter(4, sorteo.getFechaEjecucion());
+		
+		
+		
+		try{
+		
+			SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date fechaAuxSorteado;
+			java.util.Date fechaAuxEjecucion;
+			fechaAuxSorteado = parser.parse(sorteo.getFechaSorteado());
+			fechaAuxEjecucion = parser.parse(sorteo.getFechaEjecucion());
+			
+			
+			java.sql.Date fechaSorteado = new java.sql.Date(fechaAuxSorteado.getTime());
+			java.sql.Date fechaEjecucion = new java.sql.Date(fechaAuxEjecucion.getTime());
+			
+
+			System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
+			this.setParameter(1, sorteo.getIdSorteo());
+			this.setParameter(2, fechaSorteado);
+			this.setParameter(3, sorteo.getPendiente());
+			this.setParameter(4, fechaEjecucion);
+			
+		}
+		catch(ParseException e){
+			System.out.println("[SorteoDAO]Error parseando fecha: "+e.getMessage());
+		}
+		
 		this.executeUpdate();
 		this.disconnect();
 	}
