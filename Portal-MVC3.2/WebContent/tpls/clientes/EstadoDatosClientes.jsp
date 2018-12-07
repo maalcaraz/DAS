@@ -7,12 +7,17 @@
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages"
 	var="etq" />
 
-
 <c:set var="concesionarias" scope="request"
 	value="${ requestScope.concesionarias}">
 </c:set>
 
-<h1>Clientes</h1>
+<c:set var="hay_clientes" scope="request"
+	value="${ requestScope.hay_clientes}">
+</c:set>
+
+<h1><fmt:message key="clientes" bundle="${etq}"></fmt:message></h1>
+
+<c:if test="${hay_clientes}">
 <table>
 	<thead>
 		<tr>
@@ -33,7 +38,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:if test="${not empty concesionarias}">
 			<c:forEach var="concesionaria" items="${ concesionarias }">
 
 				<c:forEach var="cliente" items="${ concesionaria.clientes }">
@@ -55,11 +59,15 @@
 					</tr>
 				</c:forEach>
 			</c:forEach>
-		</c:if>
-		<c:if test="${empty concesionarias}">
+		<c:if test="${empty concesionaria.clientes}">
 			<c:forEach begin="0" end="13">
     			<td>-</td>
 			</c:forEach>
 		</c:if>
 	</tbody>
 </table>
+</c:if>
+
+<c:if test="${not hay_clientes}">
+<fmt:message key="no_hay_clientes" bundle="${etq}"></fmt:message>
+</c:if>
