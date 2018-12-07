@@ -45,28 +45,36 @@ public class EstadoDatosClientesAction implements Action {
 					TransaccionForm transaccion = null;
 					String restResp = "";
 					LinkedList<ClienteForm> clientesInsertar;
+					boolean hayClientes = false;
 					
 					for (DynaActionForm f : forms){
 						
 						// Almacenarlas en una lista
 						
 						ConcesionariaForm c = (ConcesionariaForm) f;
-						LinkedList<DynaActionForm> clientes = (LinkedList<DynaActionForm>) Concesionaria.select(c);
-						
-						clientesInsertar = new LinkedList<ClienteForm>();
-						
-						for(DynaActionForm cli : clientes){
-							ClienteForm cliente = (ClienteForm) cli;
+						if(c.getAprobada().equals("S"))
+						{
+							LinkedList<DynaActionForm> clientes = (LinkedList<DynaActionForm>) Concesionaria.select(c);
 							
-							clientesInsertar.add(cliente);
+							clientesInsertar = new LinkedList<ClienteForm>();
+							
+							if(!clientes.isEmpty()){
+								hayClientes = true;
+								for(DynaActionForm cli : clientes){
+									ClienteForm cliente = (ClienteForm) cli;
+									
+									clientesInsertar.add(cliente);
+								}
+							}
+							c.setClientes(clientesInsertar);
+
+							System.out.println("[Consulta]NomConcesionaria: "+ c.getIdConcesionaria());
+
+							cons.add(c);
 						}
-						c.setClientes(clientesInsertar);
-
-						System.out.println("[Consulta]NomConcesionaria: "+ c.getIdConcesionaria());
-
-						cons.add(c);
 					}
 					
+					request.setAttribute("hay_clientes", hayClientes);
 					request.setAttribute("concesionarias", cons);
 					
 				} 

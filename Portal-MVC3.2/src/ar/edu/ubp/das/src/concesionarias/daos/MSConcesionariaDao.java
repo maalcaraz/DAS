@@ -228,8 +228,8 @@ public class MSConcesionariaDao extends DaoImpl{
 				c.setEmailCliente(result.getString("email"));
 				c.setItem("idPlan", result.getString("id_plan"));
 				c.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
-				c.setItem("nroChasis", result.getString("nro_chasis"));
-				c.setItem("fechaEntrega", result.getString("fecha_entrega"));
+				c.setItem("nroChasis", (result.getString("nro_chasis") == null) ? "-" : (result.getString("nro_chasis")));
+				c.setItem("fechaEntrega", (result.getString("fecha_entrega") == null) ? "-" : (result.getString("fecha_entrega")));
 				c.setItem("cancelado", result.getString("cancelado"));
 				c.setItem("ganador", result.getString("ganador_sorteo"));
 				c.setItem("cantCuotas", result.getString("cant_cuotas"));

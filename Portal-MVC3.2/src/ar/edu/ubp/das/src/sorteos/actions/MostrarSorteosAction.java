@@ -42,9 +42,11 @@ public class MostrarSorteosAction implements Action{
 		List<SorteosForm> sorteosList = new LinkedList<SorteosForm>();
 		for (DynaActionForm s : sorteos.select(null)){
 			SorteosForm f = (SorteosForm) s;
+			/*
 			if (f.getfechaEjecucion() == null){
 				f.setfechaEjecucion("-");
 			}
+			*/
 			sorteosList.add(f);
 		}
 		request.setAttribute("sorteos", sorteosList);
