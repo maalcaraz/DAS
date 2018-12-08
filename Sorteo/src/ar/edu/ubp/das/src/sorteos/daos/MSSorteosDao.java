@@ -42,26 +42,32 @@ public class MSSorteosDao extends DaoImpl{
 		this.connect();
 		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?, ?)");
 		
-		
-		
 		try{
 		
-			SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 			java.util.Date fechaAuxSorteado;
-			java.util.Date fechaAuxEjecucion;
+			java.util.Date fechaAuxEjecucion = null ;
 			fechaAuxSorteado = parser.parse(sorteo.getFechaSorteado());
-			fechaAuxEjecucion = parser.parse(sorteo.getFechaEjecucion());
+			java.sql.Date fechaDefinida = new java.sql.Date(fechaAuxSorteado.getTime());
 			
 			
-			java.sql.Date fechaSorteado = new java.sql.Date(fechaAuxSorteado.getTime());
-			java.sql.Date fechaEjecucion = new java.sql.Date(fechaAuxEjecucion.getTime());
-			
-
+			if (sorteo.getFechaEjecucion() != null){
+				
+				fechaAuxEjecucion = parser.parse(sorteo.getFechaEjecucion());
+				java.sql.Date fechaEjecucion = new java.sql.Date(fechaAuxEjecucion.getTime());
+				this.setParameter(1, sorteo.getIdSorteo());
+				this.setParameter(2, fechaDefinida);
+				this.setParameter(3, sorteo.getPendiente());
+				this.setParameter(4, fechaEjecucion);
+			}
+			else{
+				this.setParameter(1, sorteo.getIdSorteo());
+				this.setParameter(2, fechaDefinida);
+				this.setParameter(3, sorteo.getPendiente());
+				this.setNull(4, java.sql.Types.DATE);
+			}
 			System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
-			this.setParameter(1, sorteo.getIdSorteo());
-			this.setParameter(2, fechaSorteado);
-			this.setParameter(3, sorteo.getPendiente());
-			this.setParameter(4, fechaEjecucion);
+			
 			
 		}
 		catch(ParseException e){

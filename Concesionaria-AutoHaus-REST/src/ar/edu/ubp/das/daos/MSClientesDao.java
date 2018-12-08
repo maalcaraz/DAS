@@ -66,7 +66,7 @@ public class MSClientesDao extends DaoImpl {
 	}
 	
 	@Override
-	public List<Bean> select() throws SQLException {
+	public List<Bean> select(Bean form) throws SQLException {
 	
 		List<Bean> concesionariaTablas = new ArrayList<Bean>();
 		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
@@ -81,11 +81,13 @@ public class MSClientesDao extends DaoImpl {
 		PlanBean planRecuperado;
 		CuotaBean cuotaRecuperada;
 		
+		PlanBean plan = (PlanBean) form;
+		
 		/* Operaciones en BD*/
 		this.connect();
 		
-		this.setProcedure("dbo.get_estados_cuentas()", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		
+		this.setProcedure("dbo.get_estados_cuentas(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		this.setParameter(1, plan.getDuenoPlan());
         ResultSet result = this.getStatement().executeQuery();
         
 /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
