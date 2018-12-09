@@ -26,7 +26,9 @@
 				<b><fmt:message key="direccion" bundle="${etq}"></fmt:message></b>: ${ concesionaria.direccion } <br>
 				<b><fmt:message key="telefono" bundle="${etq}"></fmt:message></b>: ${ concesionaria.telefono } <br>
 				<b><fmt:message key="email" bundle="${etq}"></fmt:message></b>: ${ concesionaria.email } <br>
-				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message></b>: ${ concesionaria.ultimaActualizacion } <br> 
+				<fmt:parseDate pattern="dd-MM-yyyy" value="${ concesionaria.ultimaActualizacion } " var="date" />
+				<b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message></b>
+					: <fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /> <br> 
 			</div> 
 		</c:forEach>
 	</c:if>

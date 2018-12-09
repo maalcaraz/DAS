@@ -39,7 +39,8 @@
 				 <div class="editable" id="tel-${ concesionaria.idConcesionaria }"> <b><fmt:message key="telefono" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.telefono } </div>
 				 <div class="editable" id="em-${ concesionaria.idConcesionaria }"> <b><fmt:message key="email" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.email } </div>
 				 <div class="editable" id="dias-${ concesionaria.idConcesionaria }"> <b><fmt:message key="dias" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.cantDiasCaducidad } </div>
-				 <div class="editable"> <b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.ultimaActualizacion } </div><br>
+				 <fmt:parseDate pattern="dd-MM-yyyy" value="${ concesionaria.ultimaActualizacion } " var="date" />
+				 <div class="editable"> <b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> <fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></div><br>
 			<input type="button" class="normal button" value="<fmt:message key="aprobar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.aprobar('${ concesionaria.idConcesionaria }')">
 			<input type="button" class="normal button" value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.rechazar('${ concesionaria.idConcesionaria }')">
 			<input type="button" id="config-${ concesionaria.idConcesionaria }" class="normal button" value="<fmt:message key="configurar" bundle="${etq}"></fmt:message> " onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">

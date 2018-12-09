@@ -12,11 +12,13 @@
 	<fmt:message key="ganadores" bundle="${etq}"></fmt:message>
 </h2>
 
-<fmt:message key="frase_ganadores" bundle="${etq}"></fmt:message>
-
 <br>
 <c:set var="ganadores" scope="request" value="${requestScope.ganadores}">
 </c:set>
+
+<c:if test="${not empty ganadores}">
+
+<fmt:message key="frase_ganadores" bundle="${etq}"></fmt:message>
 
 <table id="tablaGanadores">
 	<thead>
@@ -30,20 +32,18 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:if test="${not empty ganadores}">
 			<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
 				<tr>
-					<td>${ ganador.getItem('fechaSorteo') }</td>
+					<!--<td>${ ganador.getItem('fechaSorteo') }</td>-->
+					<fmt:parseDate pattern="dd-MM-yyyy" value="${ ganador.getItem('fechaSorteo') }" var="date" />
+					<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 					<td>${ ganador.getItem('apellidoNombre') }</td>
 					<td>${ ganador.getItem('nombreConcesionaria') }</td>
-
 				</tr>
 			</c:forEach>
-		</c:if>
-		<c:if test="${empty ganadores}">
-			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
-			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
-			<td><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></td>
-		</c:if>
 	</tbody>
 </table>
+</c:if>
+<c:if test="${empty ganadores}">
+			<h3><fmt:message key="no_hay_sorteos" bundle="${etq}"></fmt:message></h3>
+</c:if>

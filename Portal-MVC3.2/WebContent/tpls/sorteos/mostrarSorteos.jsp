@@ -20,7 +20,10 @@
 				 <td>
 				  <input type="checkbox" value=${ sorteo.idSorteo } name=${ sorteo.idSorteo }>
 				 </td>
-				 <td> ${ sorteo.fechaSorteado }  </td> 
+				 <!--  <td> ${ sorteo.fechaSorteado }  </td>  -->
+				 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaSorteado}" var="date" />
+			 	 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
+				
 				 <td> ${ sorteo.fechaEjecucion } </td> 
 				 <td> - </td> 
 				 <td> 
@@ -29,8 +32,12 @@
 			 </c:if>
 			 <c:if test="${ sorteo.fechaEjecucion ne '-'}">
 			 <td></td>
-			 <td> ${ sorteo.fechaSorteado }  </td> 
-			 <td> ${ sorteo.fechaEjecucion } </td> 
+			 <!--  <td> ${ sorteo.fechaSorteado }  </td>  -->
+			 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaSorteado}" var="date" />
+			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
+			 <!-- <td> ${ sorteo.fechaEjecucion } </td> -->
+			 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaEjecucion}" var="date" />
+			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 			 <td> - </td> 
 			 <td> </td> 
 			 </c:if>
