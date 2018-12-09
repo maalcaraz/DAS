@@ -1176,16 +1176,16 @@ go
 
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
-	--	(2, 'BMW', 'GER'),
+		(2, 'BMW', 'GER'),
 		(3, 'Chevrolet', 'USA'),
-	--	(4, 'Mazda', 'JAP'),
-	--	(5, 'Mercedes Benz', 'GER' ),
-	--	(6, 'Mitsubishi', 'JAP'),
-	--	(7, 'Nissan', 'JAP'),
-	--	(8, 'Peugeot', 'FRA'),
-	--	(9, 'Chrysler/Jeep/Dodge', 'USA'),
-	--	(10, 'Citroen', 'FRA'),
-	--	(11, 'Fiat', 'ITA'),
+		(4, 'Mazda', 'JAP'),
+		(5, 'Mercedes Benz', 'GER' ),
+		(6, 'Mitsubishi', 'JAP'),
+		(7, 'Nissan', 'JAP'),
+		(8, 'Peugeot', 'FRA'),
+		(9, 'Chrysler/Jeep/Dodge', 'USA'),
+		(10, 'Citroen', 'FRA'),
+		(11, 'Fiat', 'ITA'),
 		(12, 'Ford', 'USA'),
 		(13, 'Volkswagen', 'GER')
 go
