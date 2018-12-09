@@ -2,7 +2,7 @@ var modal = document.getElementById('id02');
 var jClientes ={
 		
 		estadoCuenta : function(){
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
 	            url: "./clientes/EstadoCuenta.do",
@@ -18,7 +18,7 @@ var jClientes ={
 	        });
 	       },
 	       datosCliente : function(){
-				jUtils.executing("result");
+				jUtils.executing("contenido-admin");
 		        jUtils.hiding("message");
 		        $.ajax({
 		            url: "./clientes/DatosCliente.do",
@@ -34,7 +34,7 @@ var jClientes ={
 		        });
 		       },
 		       datosTodosClientes : function(){
-					jUtils.executing("result");
+					jUtils.executing("contenido-admin");
 			        jUtils.hiding("message");
 			        $.ajax({
 			            url: "./clientes/EstadoDatosClientes.do",
@@ -49,5 +49,4 @@ var jClientes ={
 			            }
 			        });
 			       }
-		   
 };

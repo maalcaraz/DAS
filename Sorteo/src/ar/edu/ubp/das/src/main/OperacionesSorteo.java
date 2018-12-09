@@ -107,15 +107,17 @@ public class OperacionesSorteo {
 	
 	public String NotificarGanador(AdquiridoBean ganador){
 		
-		String idPortal = "PORTALGOB";
+		String idPortal = "GOB";
 		String respuesta = "";
-		System.out.println("[Ops Sorteo]Entrando en Notificar ganador");
 		System.out.println("[Ops Sorteo]Los datos que vienen del sorteo son: "+ganador.getDniCliente() +"-"+ ganador.getFechaSorteado());
 		try {
-			
+
+			System.out.println("[Ops Sorteo]Entrando en Notificar ganador");
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
 			List<Bean> listadoConcesionarias = Concesionaria.select(null);
 			Gson gson = new Gson();
+			
+			
 			
 			System.out.println("[Ops Sorteo]Entrando a recorrer concesionarias...");
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
@@ -131,10 +133,12 @@ public class OperacionesSorteo {
 	      	else {
 	      		for (Bean c : listadoConcesionarias ){
 					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-					System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
-					respuesta = concesionaria.getWebService().Consumir("notificarGanador", parameters);
-					if (respuesta.equals("")){
-						
+					if (concesionaria.getAprobada().equals("S")){
+						System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
+						respuesta = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+						if (respuesta.equals("")){
+							
+						}
 					}
 				}
 	      	}
@@ -291,6 +295,7 @@ public class OperacionesSorteo {
 			e.printStackTrace();
 			System.out.println("[Ops Sorteo] Error en checkeo si hoy es sorteo: "+e.getMessage());
 		}
+		System.out.println("[OpsSorteo]Sorteo Por ejecutar:"+sorteoPorEjecutar);
 		return sorteoPorEjecutar;
 		
 	}
@@ -306,8 +311,6 @@ public class OperacionesSorteo {
 			else{
 				pendiente.setPendiente("N");
 				System.out.println("[OpsSorteo]Entrando a marcar como NO pendiente");
-				
-				//System.out.println("[OpsSorteo]formato de la fecha de ejecucion: "+parser.format(fechaEjecucion));
 				System.out.println("[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
 			}
 			

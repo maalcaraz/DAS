@@ -91,8 +91,8 @@ public class MSConcesionariaDao extends DaoImpl{
 			ConcesionariaBean concesionaria = (ConcesionariaBean) bean;
 			this.setProcedure("dbo.get_participantes(?, ?, ?)");
 			this.setParameter(1, concesionaria.getIdConcesionaria());
-			this.setParameter(2, 16);//26); Maximo
-			this.setParameter(3, 4);//40); Minimo
+			this.setParameter(2, 36); // Maximo
+			this.setParameter(3, 24); // Minimo
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
 			while(result.getRow() > 0) {

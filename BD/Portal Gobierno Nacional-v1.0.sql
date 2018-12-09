@@ -745,17 +745,15 @@ BEGIN
 	and cli1_cuo_pagas.id_plan = ad.id_plan,
 	ult_transaccion
 	where cli.id_concesionaria = @id_concesionaria
-	and cli1_cuo_pagas.cuotas_pagas > @min_cuotas_pagas
-	and cli1_cuo_pagas.cuotas_pagas < @max_cuotas_pagas
+	and cli1_cuo_pagas.cuotas_pagas >= @min_cuotas_pagas
+	and cli1_cuo_pagas.cuotas_pagas <= @max_cuotas_pagas
 END
 go
-
---execute dbo.get_participantes 'AutoHaus1503004614',4, 1
 
 create procedure dbo.get_sorteos_pendientes
 AS
 BEGIN
-	select *
+	select s.id_sorteo, format(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, format(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, s.pendiente, s.descripcion
 	from sorteos s
 	where s.pendiente = 'S'
 	ORDER BY s.fecha_sorteo ASC
@@ -783,14 +781,14 @@ create procedure dbo.actualizar_sorteo
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
 	@pendiente			char(1),
-	@fecha_ejecucion	varchar(20)
+	@fecha_ejecucion	date
 )
 AS
 BEGIN
 	UPDATE s
 	SET s.pendiente	 = @pendiente,
 		s.fecha_sorteo = @fecha_sorteo,
-		s.fecha_ejecucion = convert(date, @fecha_ejecucion, 105)
+		s.fecha_ejecucion = @fecha_ejecucion
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END
@@ -984,9 +982,9 @@ execute dbo.get_sorteos_pendientes
 
 
 /* Caso 2: Hoy es fecha de sorteo
-
+*/
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
-values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
+values ('1234asadf', getDate(), null, 'Testeando fecha es hoy')
 go
 execute dbo.get_sorteos
 select * from sorteos
@@ -995,7 +993,7 @@ select getDate()
 
 execute dbo.hoy_es_fecha_de_sorteo
 go
-*/
+
 
 /*******************************
 
@@ -1039,6 +1037,24 @@ execute dbo.get_participantes 'Montironi705993369', 16, 4
 execute dbo.get_participantes 'Colcar2023979636', 16, 4
 execute dbo.get_participantes 'AutoHaus1503004614', 16, 4
 execute dbo.get_participantes 'Rosso79149714', 16, 4
+
+
+* Participantes de los valores limite
+
+
+execute dbo.get_participantes 'Montironi705993369', 38, 22
+execute dbo.get_participantes 'AutoHaus1503004614', 38, 22
+
+
+
+select count (*) 
+from cuotas c
+where c.pagó = 'S'
+and c.id_concesionaria = 'AutoHaus1503004614'
+and c.dni_cliente = 24444444
+
+select * from adquiridos
+
 
 */
 

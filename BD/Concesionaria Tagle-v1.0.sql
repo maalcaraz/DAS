@@ -245,6 +245,9 @@ go
 
 
 create procedure dbo.get_estados_cuentas
+(
+	@id_duenio_plan		char(3)
+)
 as
 begin
    select c.dni_cliente, c.apellido_nombre, c.edad, c.domicilio, c.email, c.telefono, c.id_localidad, c.cod_provincia,
@@ -259,11 +262,12 @@ begin
 	full join cuotas cuo
 	on cuo.dni_cliente = ad.dni_cliente
 	and cuo.id_plan = ad.id_plan
+	where pl.dueño_plan = @id_duenio_plan
     order by c.dni_cliente, pl.id_plan
 end;
 go
 
---execute dbo.get_estados_cuentas
+--execute dbo.get_estados_cuentas 'GOB'
 
 select * 
 	from clientes c
@@ -276,7 +280,7 @@ go
 CREATE PROCEDURE dbo.cancelar_ganador
 (
 	@dni_cliente		char(8),
-	@fecha_sorteo		varchar(8),
+	@fecha_sorteo		varchar(10),
 	@id_plan			integer
 )
 AS
@@ -287,7 +291,7 @@ BEGIN
 				and ad.id_plan = @id_plan 
 			  )
 	UPDATE a
-		SET a.fecha_sorteado = convert(varchar(8), @fecha_sorteo, 108), 
+		SET a.fecha_sorteado = convert(date, @fecha_sorteo, 105), 
 			a.ganador_sorteo = 'S', -- Cambiamos su estado a ganador
 			a.cancelado = 'S'		-- Especificamos que ya estan canceladas sus cuotas
 		FROM adquiridos a		
@@ -435,3 +439,13 @@ AS
 		END
 	END
 go
+
+select * from clientes
+select * from planes
+select * from cuotas
+
+select * 
+	from adquiridos ad
+	join planes p
+	on ad.id_plan = ad.id_plan
+	where p.dueño_plan = 'GOB'

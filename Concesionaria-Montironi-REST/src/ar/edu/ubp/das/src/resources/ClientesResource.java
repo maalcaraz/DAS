@@ -17,6 +17,7 @@ import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
 
 
@@ -65,8 +66,12 @@ public class ClientesResource {
         
         
 			try {
+
+				PlanBean plan = new PlanBean();
+					
+				plan.setDuenoPlan("GOB");
 				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
-				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select().get(0);
+				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select(plan).get(0);
 				
 				String jsonClientes = gson.toJson(concesionaria.getClientes());
 				gson = new Gson();

@@ -244,6 +244,9 @@ go
 
 
 create procedure dbo.get_estados_cuentas
+(
+	@id_duenio_plan		char(3)
+)
 as
 begin
    select c.dni_cliente, c.apellido_nombre, c.edad, c.domicilio, c.email, c.telefono, c.id_localidad, c.cod_provincia,
@@ -258,11 +261,12 @@ begin
 	full join cuotas cuo
 	on cuo.dni_cliente = ad.dni_cliente
 	and cuo.id_plan = ad.id_plan
+	where pl.dueño_plan = @id_duenio_plan
     order by c.dni_cliente, pl.id_plan
 end;
 go
 
---execute dbo.get_estados_cuentas
+--execute dbo.get_estados_cuentas 'GOB'
 
 select * 
 	from clientes c
@@ -438,4 +442,9 @@ go
 select * from clientes
 select * from planes
 select * from cuotas
-select * from adquiridos
+
+select * 
+	from adquiridos ad
+	join planes p
+	on ad.id_plan = ad.id_plan
+	where p.dueño_plan = 'GOB'
