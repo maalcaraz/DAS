@@ -1,11 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <br>
-<h2>Sorteos </h2>
+
 <c:set var="sorteos" scope="request" value="${requestScope.sorteos}"> </c:set>
 <fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 
+<h2><fmt:message key="sorteos" bundle="${etq}"></fmt:message> </h2>
 <table id="tablaSorteos" border=1>
 	<thead>
 	<tr> 
@@ -14,16 +15,17 @@
 	</tr>
 	</thead>
 	<tbody>
-	<c:if test="${not empty ganadores}">
+	<c:if test="${not empty sorteos}">
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
-		<tr> 
-			 <td> ${ sorteo.idSorteo }</td> 
-			 <td> ${ sorteo.fechaSorteado }  </td> 
+		<tr>
+			 <td>${ sorteo.idSorteo }</td>
+			 <fmt:parseDate pattern="dd-MM-yyyy" value="${ sorteo.fechaSorteado }" var="date" />
+			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 		</tr> 
 	</c:forEach>
 	</c:if>
 
-		<c:if test="${empty ganadores}">
+		<c:if test="${empty sorteos}">
 			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
 			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
 		</c:if>

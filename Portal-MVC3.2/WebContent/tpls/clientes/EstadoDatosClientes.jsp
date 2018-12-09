@@ -53,7 +53,13 @@
 						<td>${ cliente.getItem("cuotasPagas") }</td>
 						<td>${ cliente.getItem("cuotasSinPagar") }</td>
 						<td>${ cliente.getItem("nroChasis") }</td>
-						<td>${ cliente.getItem("fechaEntrega") }</td>
+						<c:if test="${ cliente.getItem('fechaEntrega') eq '-' }">
+							<td>${ cliente.getItem("fechaEntrega") }</td>
+						</c:if>
+						<c:if test="${ cliente.getItem('fechaEntrega') ne '-'}">
+							<fmt:parseDate pattern="dd-MM-yyyy" value="${ cliente.getItem('fechaEntrega') }" var="date" />
+							<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
+						</c:if>
 						<td>${ cliente.getItem("cancelado") }</td>
 						<td>${ cliente.getItem("ganador") }</td>
 					</tr>
