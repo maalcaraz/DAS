@@ -13,10 +13,11 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 		AdquiridoBean adq = new AdquiridoBean();
 		// falta id portal
+		
 		adq.setIdPlan(result.getString("id_plan"));
 		adq.setDniCliente(result.getString("dni_cliente"));
 		adq.setIdConcesionaria(result.getString("id_concesionaria"));
@@ -52,7 +53,7 @@ public class MSGanadoresDao  extends DaoImpl {
 	public List<Bean> select(Bean bean) throws SQLException {
 		
 		this.connect();
-		this.setProcedure("dbo.get_ultimo_ganador()");
+		this.setProcedure("dbo.get_ganadores()");
 		List<Bean> ganadores = this.executeQuery();			
 		this.disconnect();
 		if (ganadores.isEmpty()){ /*Modificar. Sacar estas dos lineas*/

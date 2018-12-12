@@ -35,7 +35,7 @@
 			<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
 				<tr>
 					<!--<td>${ ganador.getItem('fechaSorteo') }</td>-->
-					<fmt:parseDate pattern="dd-MM-yyyy" value="${ ganador.getItem('fechaSorteo') }" var="date" />
+					<fmt:parseDate pattern="yyyy-MM-dd" value="${ ganador.getItem('fechaSorteo') }" var="date" />
 					<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 					<td>${ ganador.getItem('apellidoNombre') }</td>
 					<td>${ ganador.getItem('nombreConcesionaria') }</td>

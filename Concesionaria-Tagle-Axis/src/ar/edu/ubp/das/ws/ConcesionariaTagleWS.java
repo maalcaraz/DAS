@@ -37,7 +37,6 @@ public class ConcesionariaTagleWS {
 		String idPortalAprobado = "PORTALGOB";
 		String respuestaServicio = null;
 		TransaccionBean transaccion = new TransaccionBean();
-		String mensajeRespuesta = "";
 		Gson gson = new Gson();
 		
 		if(idPortal.equals(idPortalAprobado)){

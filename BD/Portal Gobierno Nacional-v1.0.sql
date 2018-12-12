@@ -165,7 +165,7 @@ create table sorteos
 	fecha_sorteo		date			not null,
 	fecha_ejecucion		date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
-	descripcion			varchar(50)		not null,
+	descripcion			varchar(200)	not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
 )
 go
@@ -781,14 +781,16 @@ create procedure dbo.actualizar_sorteo
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
 	@pendiente			char(1),
-	@fecha_ejecucion	date
+	@fecha_ejecucion	date,
+	@razon				varchar(200)
 )
 AS
 BEGIN
 	UPDATE s
 	SET s.pendiente	 = @pendiente,
 		s.fecha_sorteo = @fecha_sorteo,
-		s.fecha_ejecucion = @fecha_ejecucion
+		s.fecha_ejecucion = @fecha_ejecucion,
+		s.descripcion = @razon
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END
@@ -859,6 +861,8 @@ BEGIN
 		from ganadores g
 		join sorteos s
 		on g.id_sorteo = s.id_sorteo
+		join adquiridos a 
+		on g.dni_cliente = a.dni_cliente
 		order by s.fecha_ejecucion
 
 /*
@@ -873,6 +877,8 @@ BEGIN
 */
 END
 go
+
+-- execute dbo.get_ganadores
 
 create procedure dbo.get_ultimo_sorteo_ganador
 AS
@@ -982,10 +988,10 @@ execute dbo.get_sorteos_pendientes
 
 
 /* Caso 2: Hoy es fecha de sorteo
-*/
+
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), null, 'Testeando fecha es hoy')
-go
+go*/
 execute dbo.get_sorteos
 select * from sorteos
 
@@ -1066,8 +1072,8 @@ execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'i
 go
 execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
-execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
-go
+--execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
+--go
 
 /* ESTE YA NO HACE FALTA, Ya esta bien implementado
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)

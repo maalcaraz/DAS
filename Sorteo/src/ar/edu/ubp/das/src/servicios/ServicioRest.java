@@ -45,7 +45,8 @@ public class ServicioRest extends ServicioImpl{
 			return restResp;
 		}
 		catch(Exception ex){
-			return "Error:"+ex.getMessage();
+			System.out.println("[ServicioRest]Hubo un error al realizar el consumo: "+ ex.getMessage());
+			return "Error: "+ex.getMessage();
 		}
 	}
 }

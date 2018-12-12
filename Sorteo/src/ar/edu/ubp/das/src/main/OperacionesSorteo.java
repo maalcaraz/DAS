@@ -29,7 +29,7 @@ import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 
 public class OperacionesSorteo {
-	
+	public static String idPortal = "PORTALGOB";
 	public OperacionesSorteo(){
 		
 	}
@@ -38,116 +38,110 @@ public class OperacionesSorteo {
 	 * correspondiente si se cancelo.
 	 * 
 	 */
-	public AdquiridoBean verificarCancelado(){
-		
-		//Accion de verificar cancelado
-				
+	public AdquiridoBean verificarCancelado(){ /* Por que esta operacion retorna un adquirido? */
+		System.out.println("[OpsSorteo]--------------->VERIFICAR CANCELADO");
 				String restResp = "";
-				boolean response = false;
-				//idportal harcodeado por ahora 
 				String idPortal = "PORTALGOB";
+				/*
+				 * Por ahora, idPortal esta hardcodeado
+				 */
 				AdquiridoBean adqBean = null;
 				Gson gson = new Gson();
+				List<Bean> ganadores = null;
+				List<Bean> concesionarias = null;
 				
-				try {
-					MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
-					/*
-					 *  Ganadores.select devuelve una lista con solo el primer elemento 
-					 */
-					List<Bean> listaUltimoGanador =  Ganadores.select(null);
+					ganadores = obtenerGanadores();
 					
-					if (listaUltimoGanador != null){ // asi pasa la primer vuelta
-						adqBean = (AdquiridoBean) listaUltimoGanador.get(0);
-						
+					if (ganadores != null){ // asi pasa la primer vuelta
+						adqBean = (AdquiridoBean) ganadores.get(0);
+						System.out.println("\t[OpsSorteo]El ganador a verificar es: "+adqBean.toString());
 						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 						parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 						parameters.add(new BasicNameValuePair("dni_cliente" , adqBean.getDniCliente()));
 				      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
 						
-						MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
-						List<Bean> listadoConcesionarias = Concesionaria.select(null);
-						
 						String concAdqBean = adqBean.getIdConcesionaria();
-						
-						for (Bean c : listadoConcesionarias ){
-							ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-							
-							// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
-							
-							if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
-								System.out.println("[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
-								restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
+						concesionarias = obtenerConcesionarias(null);
+						if ( concesionarias != null){
+							for (Bean c : concesionarias ){
+								ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+								// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
+								if (concesionaria.getAprobada().equals("S")){
+									if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
+										System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
+										
+										try{
+											restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
+											TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+											String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+											if(listaRetorno[0].equals("{Cancelado: SI}")){
+												System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
+												adqBean.setCancelado("true");
+											}
+											else{
+												adqBean.setCancelado("false");
+											}
+										}
+										catch(Exception ex){
+											System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
+											adqBean.setCancelado("false");
+											return null;
+										}
+									}
+								}
 							}
-						}
-						
-						TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
-						
-						String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-						
-						if(listaRetorno[0].equals("{Cancelado: SI}")){
-							response = true;
-							adqBean.setCancelado("true");
-						}
-						else
-						{
-							adqBean.setCancelado("false");
 						}
 					}
 					else{
-						System.out.println("[Conc]Aun no hay ganadores registrados. No hay que verificar cancelacion");
+						System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 					}
-				} 
-				catch (SQLException e) {
-					e.printStackTrace();
-					System.out.println("[Ops Sorteo]Catch clause: "+e.getMessage());
-				}
 		return adqBean;
 	}
 	
 	
-	public String NotificarGanador(AdquiridoBean ganador){
-		
-		String idPortal = "GOB";
+	public boolean NotificarGanador(AdquiridoBean ganador){
 		String respuesta = "";
-		System.out.println("[Ops Sorteo]Los datos que vienen del sorteo son: "+ganador.getDniCliente() +"-"+ ganador.getFechaSorteado());
+		List<Bean> concesionarias = obtenerConcesionarias(null);
+		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
+		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteado());
 		try {
-
-			System.out.println("[Ops Sorteo]Entrando en Notificar ganador");
-			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
-			List<Bean> listadoConcesionarias = Concesionaria.select(null);
-			Gson gson = new Gson();
-			
-			
-			
-			System.out.println("[Ops Sorteo]Entrando a recorrer concesionarias...");
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteado()));
 	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
+	      	/*
+	      	 * Obtencion desde la BD local de la lista de concesionarias registradas
+	      	 */
 	      	
-	      	if (listadoConcesionarias.isEmpty()){
-	      		System.out.println("[OpsSorteo]Aun no hay concesionarias registradas...");
+	      	if (concesionarias.isEmpty()){
+	      		System.out.println("\t[OpsSorteo]Aun no hay concesionarias registradas...");
 	      	}
 	      	else {
-	      		for (Bean c : listadoConcesionarias ){
+	      		for (Bean c : concesionarias ){
 					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 					if (concesionaria.getAprobada().equals("S")){
-						System.out.println("[OpsSorteo]Concesionaria: "+concesionaria.getNomConcesionaria());
+						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+concesionaria.getNomConcesionaria());
 						respuesta = concesionaria.getWebService().Consumir("notificarGanador", parameters);
-						if (respuesta.equals("")){
-							
+						Gson gson = new Gson();
+						TransaccionBean t = gson.fromJson(respuesta, new TypeToken<TransaccionBean>(){}.getType());						
+						if (t.getEstadoTransaccion().equals("Failed")){
+							/*
+							 * Se setea el sorteo como pendiente
+							 */
+							System.out.println("\t[OpsSorteo]Fallo la notificacion de la concesionaria");
+							return false;
 						}
 					}
 				}
 	      	}
-	      	
 		}
-		catch(RuntimeException | SQLException ex ){
-			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ex.getMessage());
+		catch(RuntimeException ex ){
+			System.out.println("\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: "+ex.getMessage());
+			return false;
 		}
-		return respuesta;
+		return true;
 	}
 	
 	/*
@@ -156,33 +150,31 @@ public class OperacionesSorteo {
 	 * Devuelve lista con de participantes para sorteo
 	 */
 	public List<Bean> consultaConcesionarias(){
-		System.out.println("[Ops Sorteo]Entrando en Consulta de Concesionarias");
+		System.out.println("\t[Ops Sorteo]Entrando en Consulta de Concesionarias");
 		List<Bean> participantesC = null;
-		
+		List<Bean> concesionarias = null;
 		try {
-			
-			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
-			List<Bean> listadoConcesionarias = Concesionaria.select(null);
+			concesionarias = obtenerConcesionarias(null);
 			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			Gson gson = new Gson();
 			
-			System.out.println("[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
-			for (Bean c : listadoConcesionarias ){
+			System.out.println("\t[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
+			for (Bean c : concesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				
 				if (concesionaria.getAprobada().equals("S")){
-					System.out.println("[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
+					System.out.println("\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 					
 					int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
-					System.out.println("[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
+					System.out.println("\t[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
 					
 					LinkedList<ClienteBean> clientes;
 					LinkedList<PlanBean> planes;
 					LinkedList<AdquiridoBean> adquiridos;
 					LinkedList<CuotaBean> cuotas;
-					System.out.println("[Ops Sorteo]Entrando al if de actualizacion de datos");
+					System.out.println("\t[Ops Sorteo]Entrando al if de actualizacion de datos");
 					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > 15) ){
-						System.out.println("[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
+						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
 						try {
 							/* Esto hace falta a la hora de preguntar si el sorteo es hoy
 							java.util.Date utilDate = new java.util.Date(); //fecha actual
@@ -192,7 +184,6 @@ public class OperacionesSorteo {
 							System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
 							*/
 							
-							// llamar a consultaQuincenal
 							String restResp = concesionaria.getWebService().Consumir("getClientes", null);
 						
 							
@@ -221,30 +212,29 @@ public class OperacionesSorteo {
 							
 							// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
 						 }
-			 			catch (Exception ex)
-			 			{
+			 			catch (Exception ex){
 			 			 	//Guardar sorteo como pendiente (ex.getMessage());
 			 			   //return;
-			 				System.out.println("[Ops Sorteo]El presente sorteo se guarda como pendiente");
+			 				System.out.println("\t[Ops Sorteo]El presente sorteo se guarda como pendiente");
 			 			}
 					}
 					else{
-						System.out.println("[Ops Sorteo]No hay que actualizar los datos");
+						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");
 						/*No hace falta actualizar los datos*/
 					}
-					participantesC = Concesionaria.select(c);
+					participantesC = obtenerConcesionarias(concesionaria);
 					for (Bean b : participantesC){
 						ParticipanteBean p = (ParticipanteBean) b;
 						participantesSorteo.add(p);
 					}
 					if (participantesSorteo.isEmpty()){
-						System.out.println("[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
+						System.out.println("\t[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
 					}
 				}
 			}
 		}
-		catch(RuntimeException | SQLException ex ){
-			System.out.println("[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
+		catch(RuntimeException ex ){
+			System.out.println("\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
 		}
 		return participantesC;
 	}
@@ -257,7 +247,7 @@ public class OperacionesSorteo {
 			pendientes = sorteo.select(null);
 			
 			if (pendientes.isEmpty()){
-				System.out.println("[Ops Sorteo]No existen sorteos pendientes registrados");
+				System.out.println("\t[Ops Sorteo]No existen sorteos pendientes registrados");
 			}
 			/*
 			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
@@ -268,19 +258,16 @@ public class OperacionesSorteo {
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
+			System.out.println("\t[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
 		}
 		return sorteoPorEjecutar;
 	}
-	
 	
 	public SorteoBean obtenerSorteoHoy(){
 		
 		List<Bean> sorteosHoy = null;
 		SorteoBean sorteoPorEjecutar =  null;
-		
 		try {
-			
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			sorteosHoy = sorteo.obtenerSorteoActual();
 			
@@ -290,14 +277,13 @@ public class OperacionesSorteo {
 			if(sorteosHoy != null && !sorteosHoy.isEmpty()){
 				sorteoPorEjecutar =  (SorteoBean) sorteosHoy.get(0);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("[Ops Sorteo] Error en checkeo si hoy es sorteo: "+e.getMessage());
+			System.out.println("\t[Ops Sorteo] Error en checkeo si hoy es sorteo: "+e.getMessage());
 		}
-		System.out.println("[OpsSorteo]Sorteo Por ejecutar:"+sorteoPorEjecutar);
+		System.out.println("\t[OpsSorteo]Sorteo Por ejecutar:"+sorteoPorEjecutar);
 		return sorteoPorEjecutar;
-		
 	}
 	
 	public void cambiarValorPendienteSorteo(SorteoBean pendiente, String idRazon, boolean marcarPendiente){
@@ -305,21 +291,24 @@ public class OperacionesSorteo {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			
 			if(marcarPendiente == true){
-				System.out.println("[OpsSorteo]Entrando a marcar como pendiente");
+				System.out.println("\t[OpsSorteo]Entrando a marcar como pendiente");
+				pendiente.setFechaEjecucion(null);
 				pendiente.setPendiente("S");
+				pendiente.setRazon(idRazon);
 			}
 			else{
 				pendiente.setPendiente("N");
-				System.out.println("[OpsSorteo]Entrando a marcar como NO pendiente");
-				System.out.println("[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
+				System.out.println("\t[OpsSorteo]Entrando a marcar como NO pendiente");
+				System.out.println("\t[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
+				pendiente.setRazon(idRazon);
 			}
 			
-			System.out.println("[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
+			System.out.println("\t[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
 			sorteo.update(pendiente);
 			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
 		}
 		catch (SQLException ex){
-			System.out.println("[Ops Sorteo]Hubo un error al cambiar el valor pendiente del sorteo. Mensaje: "+ex.getMessage());
+			System.out.println("\t[Ops Sorteo]Hubo un error al cambiar el valor pendiente del sorteo. Mensaje: "+ex.getMessage());
 		}
 	}
 	
@@ -334,7 +323,7 @@ public class OperacionesSorteo {
 			date = parser.parse(fechaUltimaActualizacion);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
 		    String formattedDate = formatter.format(date);
-		    System.out.println("[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
+		    System.out.println("\t[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
 		    ultimaActualizacion = formatter.parse(formattedDate);
 		} 
 		catch (ParseException e) {
@@ -346,4 +335,31 @@ public class OperacionesSorteo {
         double dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
         return ((int) dias);
     }
+	
+	
+	public List<Bean> obtenerGanadores (){
+		try{
+			/*
+			 *  Ganadores.select() devuelve una lista de ganadores del sorteo 
+			 */
+			MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
+			return Ganadores.select(null);
+		}
+		catch(SQLException ex){
+			System.out.println("\t[OpsSorteo]No se pudieron obtener ganadores. Error: "+ ex.getMessage());
+			return null;
+		}
+	}
+	public List<Bean> obtenerConcesionarias(ConcesionariaBean c){
+		
+		try {
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
+			return Concesionaria.select(c);
+			
+		}
+		catch(SQLException ex){
+			System.out.println("\t[OpsSorteo]No se pudieron obtener las concesionarias");
+		}
+		return null;
+	}
 }	
