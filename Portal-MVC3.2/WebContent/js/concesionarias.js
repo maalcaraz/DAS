@@ -5,7 +5,7 @@ var jConcesionaria ={
 			jUtils.executing("detalle-clientes");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/ConsultaQuincenal.do",
+	            url: "/concesionarias/ConsultaQuincenal.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -22,7 +22,7 @@ var jConcesionaria ={
 			jUtils.executing("contenido");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/Suscripcion.do",
+	            url: "/concesionarias/Suscripcion.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -40,7 +40,7 @@ var jConcesionaria ={
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/InsertarConcesionaria.do",
+	            url: "/concesionarias/InsertarConcesionaria.do",
 	            type: "post",
 	            dataType: "html",
 	            data: $("#formSuscripcion").serialize(),
@@ -59,7 +59,7 @@ var jConcesionaria ={
 			jUtils.executing("respuestaNotificar");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/NotificarGanador.do",
+	            url: "/concesionarias/NotificarGanador.do",
 	            type: "post",
 	            dataType: "html",
 	            data: $("#formNotificar").serialize(),
@@ -77,7 +77,7 @@ var jConcesionaria ={
 			jUtils.executing("respuestaCancelado");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/VerificarCancelado.do",
+	            url: "/concesionarias/VerificarCancelado.do",
 	            type: "post",
 	            dataType: "html",
 	            data: $("#verificarCanceladoForm").serialize(),
@@ -96,7 +96,7 @@ var jConcesionaria ={
 			jUtils.executing(nomDiv);
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/TestingSync.do",
+	            url: "/concesionarias/TestingSync.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"idConcesionaria" : idConcesionaria},
@@ -111,10 +111,10 @@ var jConcesionaria ={
 	        });	
 		},
 		mostrarAdheridas : function(){
-			jUtils.executing("contenido");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/MostrarAdheridas.do",
+	            url: "/concesionarias/MostrarAdheridas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -122,7 +122,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido", html);
+	            	jUtils.showing("contenido-admin", html);
 	            	
 	            }
 	        });	
@@ -131,7 +131,7 @@ var jConcesionaria ={
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/ConcesionariasRegistradas.do",
+	            url: "/concesionarias/ConcesionariasRegistradas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -147,7 +147,7 @@ var jConcesionaria ={
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/AprobarConcesionaria.do",
+	            url: "/concesionarias/AprobarConcesionaria.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"idConcesionaria": idConcesionaria},
@@ -164,7 +164,7 @@ var jConcesionaria ={
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/RechazarConcesionaria.do",
+	            url: "/concesionarias/RechazarConcesionaria.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"idConcesionaria": idConcesionaria},
@@ -182,7 +182,7 @@ var jConcesionaria ={
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/MostrarDatosConcesionaria.do",
+	            url: "/concesionarias/MostrarDatosConcesionaria.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"idConcesionaria": idConcesionaria},
@@ -231,7 +231,7 @@ var jConcesionaria ={
 		},
 		guardarCambios : function (idConcesionaria) {
 			$.ajax({
-	            url: "./concesionarias/GuardarConfiguracion.do",
+	            url: "/concesionarias/GuardarConfiguracion.do",
 	            type: "post",
 	            dataType: "html",
 	            data: $("#configurarForm-"+idConcesionaria+"").serialize(),
@@ -245,7 +245,7 @@ var jConcesionaria ={
 		},
 		eliminarConcesionaria : function (idConcesionaria){
 			$.ajax({
-	            url: "./concesionarias/EliminarConcesionaria.do",
+	            url: "/concesionarias/EliminarConcesionaria.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"idConcesionaria" : idConcesionaria},
@@ -261,7 +261,7 @@ var jConcesionaria ={
 			jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/Testing.do",
+	            url: "/concesionarias/Testing.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -277,10 +277,10 @@ var jConcesionaria ={
 			modal.style.display = "none";
 		},
 		obtenerGanadores : function (){
-			jUtils.executing("result");
+			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./concesionarias/ObtenerGanadores.do",
+	            url: "/concesionarias/ObtenerGanadores.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -288,7 +288,7 @@ var jConcesionaria ={
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });	
 		}

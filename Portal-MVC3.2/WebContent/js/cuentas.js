@@ -3,7 +3,7 @@ var jCuentas = {
 	        jUtils.executing("result");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./cuentas/Buscar.do",
+	            url: "/cuentas/Buscar.do",
 	            type: "post",
 	            dataType: "html",
 	            data:$("#form").serialize(),

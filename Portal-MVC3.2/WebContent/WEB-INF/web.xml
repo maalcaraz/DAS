@@ -19,8 +19,18 @@
   </context-param>
   <context-param>
     <param-name>action.default.path</param-name>
-    <param-value>/home/Home.do</param-value>
+    <param-value>/login/Login.do</param-value>
   </context-param>
+  <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>ar.edu.ubp.das.SessionFilter.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/home/*</url-pattern>
+        <url-pattern>/clientes/*</url-pattern>
+        <url-pattern>/concesionarias/*</url-pattern>
+  </filter-mapping>
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
