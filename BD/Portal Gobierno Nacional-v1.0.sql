@@ -988,10 +988,10 @@ execute dbo.get_sorteos_pendientes
 
 
 /* Caso 2: Hoy es fecha de sorteo
-*/
+
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
 values ('1234asadf', getDate(), null, 'Testeando fecha es hoy')
-go
+go*/
 execute dbo.get_sorteos
 select * from sorteos
 

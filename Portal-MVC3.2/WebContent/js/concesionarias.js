@@ -224,8 +224,8 @@ var jConcesionaria ={
 			<input type=\"email\" name=\"emailConcesionaria\" required>";
 			document.getElementById("em-"+idConcesionaria+"").innerHTML = em;
 			
-			var boton = '<fmt:message key=\"guardar\" bundle=\"${etq}\"> </fmt:message>';
-			$("#config-"+idConcesionaria+"").val(boton);
+			var boton = ' <fmt:message key=\"guardar\" bundle=\"${etq}\"> </fmt:message>';
+			document.getElementById("config-"+idConcesionaria+"").value = "Guardar";
 			document.getElementById("config-"+idConcesionaria+"").setAttribute("onClick", "jConcesionaria.guardarCambios('"+idConcesionaria+"')");
 			
 		},

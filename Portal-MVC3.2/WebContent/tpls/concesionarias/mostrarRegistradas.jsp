@@ -41,8 +41,13 @@
 				 <div class="editable" id="dias-${ concesionaria.idConcesionaria }"> <b><fmt:message key="dias" bundle="${etq}"></fmt:message>:</b> ${ concesionaria.cantDiasCaducidad } </div>
 				 <fmt:parseDate pattern="dd-MM-yyyy" value="${ concesionaria.ultimaActualizacion } " var="date" />
 				 <div class="editable"> <b><fmt:message key="ultima_actualizacion" bundle="${etq}"></fmt:message>:</b> <fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></div><br>
-			<input type="button" class="normal button" value="<fmt:message key="aprobar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.aprobar('${ concesionaria.idConcesionaria }')">
-			<input type="button" class="normal button" value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.rechazar('${ concesionaria.idConcesionaria }')">
+			<c:if test="${ concesionaria.aprobada eq 'S'}">
+				<input type="button" class="normal button" value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.rechazar('${ concesionaria.idConcesionaria }')">
+			</c:if>
+			<c:if test="${ concesionaria.aprobada eq 'N'}">
+				<input type="button" class="normal button" value="<fmt:message key="aprobar" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.aprobar('${ concesionaria.idConcesionaria }')">
+			</c:if>
+			
 			<input type="button" id="config-${ concesionaria.idConcesionaria }" class="normal button" value="<fmt:message key="configurar" bundle="${etq}"></fmt:message> " onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
 			<input type="button" value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>" onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')"> <div id="respuesta-${ concesionaria.idConcesionaria }"></div>
 			</form>
