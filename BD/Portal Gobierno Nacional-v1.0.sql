@@ -165,7 +165,7 @@ create table sorteos
 	fecha_sorteo		date			not null,
 	fecha_ejecucion		date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
-	descripcion			varchar(50)		not null,
+	descripcion			varchar(200)	not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
 )
 go
@@ -781,14 +781,16 @@ create procedure dbo.actualizar_sorteo
 	@id_sorteo			varchar(30),
 	@fecha_sorteo		date,
 	@pendiente			char(1),
-	@fecha_ejecucion	date
+	@fecha_ejecucion	date,
+	@razon				varchar(200)
 )
 AS
 BEGIN
 	UPDATE s
 	SET s.pendiente	 = @pendiente,
 		s.fecha_sorteo = @fecha_sorteo,
-		s.fecha_ejecucion = @fecha_ejecucion
+		s.fecha_ejecucion = @fecha_ejecucion,
+		s.descripcion = @razon
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END
@@ -859,6 +861,8 @@ BEGIN
 		from ganadores g
 		join sorteos s
 		on g.id_sorteo = s.id_sorteo
+		join adquiridos a 
+		on g.dni_cliente = a.dni_cliente
 		order by s.fecha_ejecucion
 
 /*
@@ -873,6 +877,8 @@ BEGIN
 */
 END
 go
+
+-- execute dbo.get_ganadores
 
 create procedure dbo.get_ultimo_sorteo_ganador
 AS

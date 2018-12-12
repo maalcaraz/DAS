@@ -1,23 +1,10 @@
 package ar.edu.ubp.das.src.servicios;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.apache.http.NameValuePair;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import ar.edu.ubp.das.src.servicios.axis.utils.DynamicWebServiceClient;
-import ar.edu.ubp.das.src.servicios.axis.utils.ParseWsdlService;
-import ar.edu.ubp.das.src.servicios.axis.utils.ServiceDetail;
 
 public class ServicioAxis2 extends ServicioImpl {
 

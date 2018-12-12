@@ -43,15 +43,16 @@
 	
 	</div>
 	
-
+	<div class="grid-item"> <h2> Verificar cancelado </h2> \
 	<form id="verificarCanceladoForm" >
-	<div class="grid-item"> <h2> Verificar cancelado </h2> 
-	<label for="dniVerificar"> Dni:  </label>
-	<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
-	<label for="idPlan"> Identificador de plan:  </label>
-	<input type="text" id="idPlan" name="idPlan"><br><br>
-<button id="verificar" onclick="jConcesionaria.verificarCancelado()" name="verificar"> Verificar cancelado </button>
-<br><br>
+	
+	
+		<label for="dniVerificar"> Dni:  </label>
+		<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
+		<label for="idPlan"> Identificador de plan:  </label>
+		<input type="text" id="idPlan" name="idPlan"><br><br>
+		<button id="verificar" onclick="jConcesionaria.verificarCancelado()" name="verificar"> Verificar cancelado </button>
+		<br><br>
 	</form>
 	<div id="respuestaCancelado"> </div>
 	

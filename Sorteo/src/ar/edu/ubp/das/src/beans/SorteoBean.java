@@ -7,7 +7,16 @@ public class SorteoBean implements Bean{
 	private String fechaSorteado;
 	private String fechaEjecucion;
 	private String pendiente;
+	private String razon;
 	
+
+	public String getRazon() {
+		return razon;
+	}
+
+	public void setRazon(String razon) {
+		this.razon = razon;
+	}
 
 	public String getIdSorteo() {
 		return idSorteo;

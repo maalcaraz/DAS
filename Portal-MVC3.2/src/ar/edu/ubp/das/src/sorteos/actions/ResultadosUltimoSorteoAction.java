@@ -1,8 +1,6 @@
 package ar.edu.ubp.das.src.sorteos.actions;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +22,7 @@ public class ResultadosUltimoSorteoAction implements Action {
 
 			SorteosForm sorteo = null;
 			List<DynaActionForm> sorteosList = null;
-			Date hoy = new Date();
+			
 			
 			try {
 				MSSorteosDao Sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");

@@ -25,7 +25,7 @@ var jSorteos = {
 		},
 		insertar : function () {
 			fecha = $("#nuevaFecha").val(); 
-			if (this.validarFechaSorteo(fecha)){
+			if (this.validarFechaSorteo(fecha) == true){
 				jUtils.executing("contenido-admin");
 				$.ajax({
 		            url: "./sorteos/InsertarNuevo.do",
@@ -123,14 +123,14 @@ var jSorteos = {
 		},
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
-			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
 			var hoy = new Date();
-			console.log("hoy:"+hoy);
-			    console.log("Generada: "+fechaGenerada);
-			    if (fechaGenerada &&
-			     fechaGenerada >= hoy  ) {
-			        return true;
-			    }
-			    return false;
+			hoy = new Date(hoy.getDate(), hoy.getMonth()+1, hoy.getFullYear());
+			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
+			console.log("Fecha de hoy:"+hoy.getDate());
+			console.log("Fecha generada: "+fechaGenerada.getDate());
+			if (fechaGenerada && (fechaGenerada > hoy )  ) {
+				return true;
+			}
+			return false;
 		}
 };
