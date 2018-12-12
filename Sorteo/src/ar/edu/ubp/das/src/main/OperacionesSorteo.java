@@ -66,25 +66,27 @@ public class OperacionesSorteo {
 							for (Bean c : concesionarias ){
 								ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 								// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
-								if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
-									System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
-									
-									try{
-										restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
-										TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
-										String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-										if(listaRetorno[0].equals("{Cancelado: SI}")){
-											System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
-											adqBean.setCancelado("true");
+								if (concesionaria.getAprobada().equals("S")){
+									if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
+										System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
+										
+										try{
+											restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
+											TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+											String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+											if(listaRetorno[0].equals("{Cancelado: SI}")){
+												System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
+												adqBean.setCancelado("true");
+											}
+											else{
+												adqBean.setCancelado("false");
+											}
 										}
-										else{
+										catch(Exception ex){
+											System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
 											adqBean.setCancelado("false");
+											return null;
 										}
-									}
-									catch(Exception ex){
-										System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
-										adqBean.setCancelado("false");
-										return null;
 									}
 								}
 							}

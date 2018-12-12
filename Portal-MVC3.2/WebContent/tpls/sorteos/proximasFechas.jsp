@@ -10,15 +10,14 @@
 <table id="tablaSorteos" border=1>
 	<thead>
 	<tr> 
-		<td><fmt:message key="proximas_fechas" bundle="${etq}"></fmt:message></td> 
-		<td><fmt:message key="fecha_sorteado" bundle="${etq}"></fmt:message></td> 
+		
+		<td><fmt:message key="fecha_sorteo" bundle="${etq}"></fmt:message></td> 
 	</tr>
 	</thead>
 	<tbody>
 	<c:if test="${not empty sorteos}">
 	<c:forEach var="sorteo" items="${ sorteos }" varStatus="status">
 		<tr>
-			 <td>${ sorteo.idSorteo }</td>
 			 <fmt:parseDate pattern="dd-MM-yyyy" value="${ sorteo.fechaSorteado }" var="date" />
 			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 		</tr> 
@@ -26,7 +25,6 @@
 	</c:if>
 
 		<c:if test="${empty sorteos}">
-			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
 			<td><fmt:message key="no_hay_fecha_definida" bundle="${etq}"></fmt:message></td>
 		</c:if>
 	</tbody>
