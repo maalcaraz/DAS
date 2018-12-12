@@ -1,7 +1,7 @@
 var jPortal = {
 		lang : function(lang){
 			$.ajax({
-	            url: "./portal/Internacionalizar.do",
+	            url: "/portal/Internacionalizar.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"lang": lang},

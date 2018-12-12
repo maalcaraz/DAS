@@ -2,7 +2,7 @@ var jSorteos = {
 		obtenerSorteos : function (){
 			jUtils.executing("contenido-admin");
 			 $.ajax({
-		            url: "./sorteos/MostrarSorteos.do",
+		            url: "/sorteos/MostrarSorteos.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
@@ -94,16 +94,16 @@ var jSorteos = {
 	        });
 		},
 		proximasFechas : function () {
-			jUtils.executing("contenido");
+			jUtils.executing("contenido-admin");
 			$.ajax({
-	            url: "./sorteos/ProximasFechas.do",
+	            url: "/sorteos/ProximasFechas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("contenido", hr.responseText);
+	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido", html);
+	            	jUtils.showing("contenido-admin", html);
 	            }
 	        });
 		},

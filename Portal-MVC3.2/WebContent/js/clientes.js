@@ -5,7 +5,7 @@ var jClientes ={
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./clientes/EstadoCuenta.do",
+	            url: "/clientes/EstadoCuenta.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -21,7 +21,7 @@ var jClientes ={
 				jUtils.executing("contenido-admin");
 		        jUtils.hiding("message");
 		        $.ajax({
-		            url: "./clientes/DatosCliente.do",
+		            url: "/clientes/DatosCliente.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
@@ -37,7 +37,7 @@ var jClientes ={
 					jUtils.executing("contenido-admin");
 			        jUtils.hiding("message");
 			        $.ajax({
-			            url: "./clientes/EstadoDatosClientes.do",
+			            url: "/clientes/EstadoDatosClientes.do",
 			            type: "post",
 			            dataType: "html",
 			            error: function(hr){

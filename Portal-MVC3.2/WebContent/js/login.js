@@ -1,14 +1,14 @@
 var modal = document.getElementById('id01');
 var modalSalir = document.getElementById('sure');
-var logged;
+/*var logged;*/
 var jLogin = {
-		login: function() {
+		login: function(logged) {
 			
 			if (logged == 1){
 				logged = 0;
 		        jUtils.hiding("message");
 		        $.ajax({
-		            url: "./login/Logout.do",
+		            url: "/login/Logout.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
@@ -24,7 +24,7 @@ var jLogin = {
 				logged = 1;
 		        jUtils.hiding("message");
 		        $.ajax({
-		            url: "./login/Login.do",
+		            url: "/login/Login.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
@@ -43,9 +43,17 @@ var jLogin = {
 			if (mod != null){
 				c = document.getElementById(mod);
 				c.style.display="none"; 
-			} 
+			}
+			if(val == 1){
+				window.location.replace("/login/Login.do");
+			}
+			else{
+				jUtils.hiding("result");
+				window.location.replace("/home/Home.do");
+			}
+			/*
 			$.ajax({
-	            url: "./home/Home.do",
+	            url: "/home/Home.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -56,12 +64,13 @@ var jLogin = {
 	            	jUtils.showing("site", html);
 	            }
 	        });
+	        */
 		},
 		
 		acceder: function() {
 		        jUtils.hiding("message");
 		        $.ajax({
-		            url: "./login/validarUsuario.do",
+		            url: "/login/validarUsuario.do",
 		            type: "post",
 		            dataType: "html",
 		            data: $("#form").serialize(),
@@ -70,8 +79,8 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		            	modal.style.display = "none";
-		            	jUtils.showing("contenido", html);
+		            	/*modal.style.display = "none";*/
+		            	window.location.replace("/home/Home.do");
 		            }
 		        });	
 		},
@@ -79,7 +88,7 @@ var jLogin = {
 			jUtils.executing("site");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./login/ingresarRegistro.do",
+	            url: "/login/ingresarRegistro.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
@@ -95,7 +104,7 @@ var jLogin = {
 			jUtils.executing("site");
 	        jUtils.hiding("message");
 	        $.ajax({
-	            url: "./login/registrarUsuario.do",
+	            url: "/login/registrarUsuario.do",
 	            type: "post",
 	            dataType: "html",
 	            data: $("#form_registro").serialize(),
