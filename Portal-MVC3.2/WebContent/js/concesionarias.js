@@ -196,8 +196,11 @@ var jConcesionaria ={
 	        });	
 		},
 		editarConcesionaria : function (idConcesionaria){
+			var previousText = document.getElementById("cuit-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			
 			var cuit = "<b>Cuit:</b>\
-				<input type=\"text\" name=\"cuit\" size=\"10\" required>";
+				<input type=\"text\" name=\"cuit\" value=\"" + previousText +"\" size=\"10\" required>";
 			document.getElementById("cuit-"+idConcesionaria+"").innerHTML = cuit;
 			
 			var ts = "<b>Tipo de servicio: </b> \
@@ -208,20 +211,34 @@ var jConcesionaria ={
 					</select>";
 			document.getElementById("ts-"+idConcesionaria+"").innerHTML = ts;
 			
+			previousText = document.getElementById("dir-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			
 			var dir = "<b>Direccion:</b>\
-						<input type=\"text\" name=\"dir\" size=\"30\" required>";
+						<input type=\"text\" name=\"dir\" value=\"" + previousText +"\" size=\"30\" required>";
 			document.getElementById("dir-"+idConcesionaria+"").innerHTML = dir;
 			
+			previousText = document.getElementById("tel-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			var previousNumber = parseInt(previousText, 10);
+			
 			var tel = "<b> Telefono: </b>\
-				<input type=\"number\" name=\"tel\" min=\"0000000000\" max=\"9999999999\" required>";
+				<input type=\"number\" name=\"tel\" value=\"" + previousNumber +"\" min=\"0000000000\" max=\"9999999999\" required>";
 			document.getElementById("tel-"+idConcesionaria+"").innerHTML = tel;
 			
+			previousText = document.getElementById("dias-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			previousNumber = parseInt(previousText, 10);
+			
 			var dias = "<b> Dias Caducidad: </b>\
-				<input type=\"number\" name=\"diasCaducidad\" min=\"0\" max=\"100\" required>";
+				<input type=\"number\" name=\"diasCaducidad\" value=\"" + previousNumber +"\" min=\"0\" max=\"100\" required>";
 			document.getElementById("dias-"+idConcesionaria+"").innerHTML = dias;
 			
+			previousText = document.getElementById("em-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			
 			var em = "<b> Email: </b>\
-			<input type=\"email\" name=\"emailConcesionaria\" required>";
+			<input type=\"email\" name=\"emailConcesionaria\" value=\"" + previousText +"\" required>";
 			document.getElementById("em-"+idConcesionaria+"").innerHTML = em;
 			
 			var boton = ' <fmt:message key=\"guardar\" bundle=\"${etq}\"> </fmt:message>';
