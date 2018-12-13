@@ -111,6 +111,7 @@ public class MSClientesDao extends DaoImpl {
         	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
         	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
+        	adquiridoRecuperado.setFechaCompraPlan(result.getString("fecha_compra_plan"));
         	if (!adquiridos.contains(adquiridoRecuperado)){
         		adquiridos.add(adquiridoRecuperado);
         	}
