@@ -122,6 +122,19 @@ var jSorteos = {
 	        });
 		},
 		validarFechaSorteo : function(fecha){
+			
+			var varDate = new Date(fecha); 
+			var today = new Date();
+			var returnValue = false;
+
+			if(varDate >= today) {
+				returnValue = true;
+			}
+			else{
+				returnValue =  false;
+			}
+			return returnValue;
+			/*
 			var partes = (fecha || '').split('-');
 			var hoy = new Date();
 			hoy = new Date(hoy.getDate(), hoy.getMonth()+1, hoy.getFullYear());
@@ -132,5 +145,6 @@ var jSorteos = {
 				return true;
 			}
 			return false;
+			*/
 		}
 };
