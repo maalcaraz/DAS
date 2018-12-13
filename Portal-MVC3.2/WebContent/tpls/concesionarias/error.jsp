@@ -8,7 +8,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos" ></script>
-	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin,home,page,messages" />	
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin,home,page,messages" />
+	
+	
+	<fmt:setLocale value="${ sessionScope.lang }" scope="session" />
+	<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq" />
+
+	
 </head>
 <body>
 
@@ -17,6 +23,6 @@
 
 <c:set var="mensajeError" scope="request"	value="${requestScope.error}"></c:set>
 
-<h2> <fmt:message key="error_message" bundle="${etq}"></fmt:message>${ mensajeError } </h2>
+<h2> <fmt:message key="mensaje_error" bundle="${etq}"> </fmt:message>${ mensajeError } </h2>
 
 </body>

@@ -658,6 +658,7 @@ BEGIN
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan
+			and cuo.dni_cliente = ad1.dni_cliente
 			where ad1.dni_cliente = @dni_cliente
 			and ad1.id_concesionaria = @id_concesionaria
 			and cuo.id_concesionaria = @id_concesionaria
@@ -671,7 +672,7 @@ BEGIN
 END
 go
 
---execute dbo.get_cliente_info 25555555, 'AutoHaus1503004614'
+--execute dbo.get_cliente_info 28451965, 'Tagle80567923'
 /*
 create procedure dbo.get_datos_clientes
 (
@@ -707,6 +708,7 @@ BEGIN
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan
+			and cuo.dni_cliente = ad1.dni_cliente
 			where ad1.id_concesionaria = @id_concesionaria
 			and cuo.id_concesionaria = @id_concesionaria
 			group by ad1.dni_cliente, ad1.id_plan
@@ -740,6 +742,7 @@ BEGIN
 			from adquiridos ad1
 			left join cuotas cuo
 			on cuo.id_plan = ad1.id_plan
+			and cuo.dni_cliente = ad1.dni_cliente
 			and ad1.id_concesionaria = @id_concesionaria
 			and cuo.id_concesionaria = @id_concesionaria
 			group by ad1.dni_cliente, ad1.id_plan
@@ -1045,7 +1048,7 @@ execute dbo.get_concesionarias
 execute dbo.get_participantes 'Montironi705993369', 16, 4
 execute dbo.get_participantes 'Colcar2023979636', 16, 4
 execute dbo.get_participantes 'AutoHaus1503004614', 16, 4
-execute dbo.get_participantes 'Tagle80567923', 56, 4
+execute dbo.get_participantes 'Tagle80567923', 36, 24
 
 
 * Participantes de los valores limite
@@ -1134,3 +1137,4 @@ update S
 	where s.id_sorteo = '1234asadf'
 
 */
+

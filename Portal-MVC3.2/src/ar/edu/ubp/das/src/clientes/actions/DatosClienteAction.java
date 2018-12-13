@@ -36,9 +36,9 @@ public class DatosClienteAction implements Action{
 		try {
 			ClienteForm clienteForm = new ClienteForm();
 			
-			clienteForm.setDniCliente(Integer.toString(25555555));
-			System.out.println("[DatosClienteAction]"+session.getAttribute( "usuario" ).toString());
-			clienteForm.setIdConcesionaria("AutoHaus1503004614"); // --> Por ahora hardcodeado
+			//clienteForm.setDniCliente(Integer.toString(25555555));
+			//System.out.println("[DatosClienteAction]"+session.getAttribute( "usuario" ).toString());
+			//clienteForm.setIdConcesionaria("AutoHaus1503004614"); // --> Por ahora hardcodeado
 			
 			
 			MSClienteDao cliente = (MSClienteDao)DaoFactory.getDao("Cliente", "clientes");

@@ -4,8 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <fmt:setLocale value="${ sessionScope.lang }" scope="session" />
-<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages"
-	var="etq" />
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq" />
 
 <br>
 <h2>
