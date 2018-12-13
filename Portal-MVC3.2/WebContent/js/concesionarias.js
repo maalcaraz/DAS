@@ -196,6 +196,14 @@ var jConcesionaria ={
 	        });	
 		},
 		editarConcesionaria : function (idConcesionaria){
+			
+			var previousText = document.getElementById("url-"+idConcesionaria+"").textContent;
+			previousText = previousText.substring(previousText.indexOf(":") + 1);
+			
+			var url = "<b>Url:</b>\
+				<input type=\"text\" name=\"url\" value=\"" + previousText +"\" size=\"40\" required>";
+			document.getElementById("url-"+idConcesionaria+"").innerHTML = url;
+			
 			var previousText = document.getElementById("cuit-"+idConcesionaria+"").textContent;
 			previousText = previousText.substring(previousText.indexOf(":") + 1);
 			
@@ -215,7 +223,7 @@ var jConcesionaria ={
 			previousText = previousText.substring(previousText.indexOf(":") + 1);
 			
 			var dir = "<b>Direccion:</b>\
-						<input type=\"text\" name=\"dir\" value=\"" + previousText +"\" size=\"30\" required>";
+						<input type=\"text\" name=\"dir\" value=\"" + previousText +"\" size=\"40\" required>";
 			document.getElementById("dir-"+idConcesionaria+"").innerHTML = dir;
 			
 			previousText = document.getElementById("tel-"+idConcesionaria+"").textContent;
