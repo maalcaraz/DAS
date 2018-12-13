@@ -107,7 +107,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 			List<AdquiridoForm> adquiridos = c.getAdquiridos();
 			
-			this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?)");
+			this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
 			for (AdquiridoForm a : adquiridos){
 				
@@ -119,6 +119,7 @@ public class MSConcesionariaDao extends DaoImpl{
 				this.setParameter(6, a.getFechaSorteado());
 				this.setParameter(7, a.getFechaEntrega());
 				this.setParameter(8, a.getNroChasis());
+				this.setParameter(9, a.getFechaCompraPlan());
 				this.executeUpdate();
 			}
 		
