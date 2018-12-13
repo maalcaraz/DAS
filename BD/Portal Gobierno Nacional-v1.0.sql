@@ -418,13 +418,15 @@ create procedure dbo.insertar_adquirido
 	@ganador_sorteo			char(1),
 	@fecha_sorteado			date,
 	@fecha_entrega			date,
-	@nro_chasis				varchar(15)
+	@nro_chasis				varchar(15),
+	@fecha_compra_plan		date
 )
 AS
 	BEGIN
 		if exists (
 					Select * from adquiridos ad
 					where ad.id_plan = @id_plan
+					and ad.dni_cliente = @dni_cliente
 					and ad.id_concesionaria = @id_concesionaria
 					)
 			update ad
@@ -432,12 +434,13 @@ AS
 				ad.ganador_sorteo = @ganador_sorteo,
 				ad.fecha_sorteado = @fecha_sorteado,
 				ad.fecha_entrega = @fecha_entrega,
-				ad.nro_chasis = @nro_chasis
+				ad.nro_chasis = @nro_chasis,
+				ad.fecha_compra_plan = @fecha_compra_plan
 			from adquiridos ad
 			where ad.id_plan = @id_plan
 		ELSE
-		insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis)
-		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis)
+		insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, fecha_compra_plan)
+		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis, @fecha_compra_plan)
 	END
 go
 
@@ -715,7 +718,7 @@ BEGIN
 END
 go
 
--- execute dbo.get_datos_clientes 'AutoHaus1503004614'
+-- execute dbo.get_datos_clientes 'Tagle80567923'
 
 create procedure dbo.get_participantes
 (
@@ -1073,7 +1076,6 @@ go
 execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
 execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
---go
 
 /* ESTE YA NO HACE FALTA, Ya esta bien implementado
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
@@ -1131,4 +1133,4 @@ update S
 	from sorteos s
 	where s.id_sorteo = '1234asadf'
 
-*/                  
+*/
