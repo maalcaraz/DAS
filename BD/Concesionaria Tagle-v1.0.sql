@@ -436,6 +436,7 @@ go
 /*		INSERTS		 		 */
 /*****************************/
 
+/*
 
 insert into nacionalidades(cod_nacionalidad, nom_nacionalidad)
 values  ('GER', 'Alemana'),
@@ -1305,3 +1306,4 @@ go
 ;
 GO
 
+*/
