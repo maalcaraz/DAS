@@ -280,7 +280,7 @@ go
 CREATE PROCEDURE dbo.cancelar_ganador
 (
 	@dni_cliente		char(8),
-	@fecha_sorteo		varchar(10),
+	@fecha_sorteo		date,
 	@id_plan			integer
 )
 AS
@@ -291,7 +291,7 @@ BEGIN
 				and ad.id_plan = @id_plan 
 			  )
 	UPDATE a
-		SET a.fecha_sorteado = convert(date, @fecha_sorteo, 105), 
+		SET a.fecha_sorteado = @fecha_sorteo, 
 			a.ganador_sorteo = 'S', -- Cambiamos su estado a ganador
 			a.cancelado = 'S'		-- Especificamos que ya estan canceladas sus cuotas
 		FROM adquiridos a		

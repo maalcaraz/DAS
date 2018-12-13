@@ -20,7 +20,7 @@ public class ServicioAxis2 extends ServicioImpl {
 			 * Para usar esa clase se importa la libreria org.apache.cxf.endpoint.Client;
 			 * */
 			String url = this.getUrl()+"?wsdl"; 
-			System.out.println("[Servicio CXF]URL: "+ url);
+			System.out.println("[Servicio Axis]URL: "+ url);
 		
 			Client client = dcf.createClient(url);
 			/* el metodo invoke() toma como parametros
@@ -28,7 +28,6 @@ public class ServicioAxis2 extends ServicioImpl {
 			 * 2. Los parametros que usa la operacion.
 			 * Retorna lo que devuelve el servicio.
 			 * */
-			System.out.println("[Servicio CXF]Aca no llega...");
 			Object[] res = null;
 			if (parameters!= null){
 				Object[] o = new String[parameters.size()];
@@ -37,17 +36,15 @@ public class ServicioAxis2 extends ServicioImpl {
 					o[i] = parameters.get(i).getValue();
 				}
 				res = client.invoke(operacion, o);
-				
 			}
 			else {
 				res = client.invoke(operacion, parameters);
 			}
-			System.out.println("[Servicio CXF] Respuesta de CXF: "+res[0]);
+			System.out.println("[Servicio Axis] Respuesta de Axis: "+res[0]);
 			consumo = res[0].toString();
 		} 
 		catch (Exception e) {
-			consumo = "[Servicio CXF - Catch clause]Salto la excepcion: "+ e.getMessage() ;
-			e.printStackTrace();
+			consumo = "[Servicio Axis]Error en conexion: "+ e.getMessage() ;
 		}
 		return consumo;
 	}

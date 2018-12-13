@@ -109,8 +109,9 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
+			parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteado()));
-	      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
+	      	
 	      	/*
 	      	 * Obtencion desde la BD local de la lista de concesionarias registradas
 	      	 */

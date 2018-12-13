@@ -64,6 +64,6 @@
 <h2>Prueba de sincronicidad de Concesionarias</h2>
 
 <input type="button" id="sync" value="Verificar" onclick="jConcesionaria.testingSyncro()">
-<div id="respuesta-servicio">
+<div id="respuesta-servicio"></div>
 
 </div>

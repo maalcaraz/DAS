@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ar.edu.ubp.das.mvc.action.Action;
 import ar.edu.ubp.das.mvc.action.ActionMapping;
@@ -25,7 +24,7 @@ public class DatosClienteAction implements Action{
 		 * la primera vez que se logea.
 		 */
 		//Session para obtener dni de cliente para buscar info en BD
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		String forward = "failure";
 		
 		/*
@@ -53,10 +52,8 @@ public class DatosClienteAction implements Action{
 
 			forward = "success";
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
+		} 
+		catch (Exception e) {
 			String msg = "Error en Consulta Cliente: "+ e.getMessage();
 			request.setAttribute("error",msg);
 			forward = "failure";

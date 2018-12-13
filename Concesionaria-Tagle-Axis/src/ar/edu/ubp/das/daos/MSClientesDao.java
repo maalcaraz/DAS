@@ -2,7 +2,10 @@ package ar.edu.ubp.das.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,15 +46,27 @@ public class MSClientesDao extends DaoImpl {
 	public void update(Bean form) throws SQLException {
 		this.connect();
 		AdquiridoBean ganador = (AdquiridoBean) form;
-		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
-	/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
-		int dni = Integer.parseInt(ganador.getDniCliente());
-		int idPlan = Integer.parseInt(ganador.getIdPlan());
 		
-		this.setParameter(1, dni);
-		this.setParameter(2, ganador.getFechaSorteado());
-		this.setParameter(3, idPlan);
-		this.executeUpdate();
+		try {
+			
+			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+			Date fechaAuxEjecucion = parser.parse(ganador.getFechaSorteado());
+			java.sql.Date fechaSorteo = new java.sql.Date(fechaAuxEjecucion.getTime());
+			
+			this.setProcedure("dbo.cancelar_ganador(?,?,?)");
+			/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
+				int dni = Integer.parseInt(ganador.getDniCliente());
+				int idPlan = Integer.parseInt(ganador.getIdPlan());
+				
+				this.setParameter(1, dni);
+				this.setParameter(2, fechaSorteo);
+				this.setParameter(3, idPlan);
+				this.executeUpdate();
+		} 
+		catch (ParseException e) {
+			System.out.println("[ClientesDao]No se pudo parsear la fecha del sorteo: "+e.getMessage());
+		}
+		
 		this.disconnect();
 	}
 
