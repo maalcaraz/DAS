@@ -292,6 +292,24 @@ public class OperacionesSorteo {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			
 			if(marcarPendiente == true){
+				if (pendiente.getFechaEjecucion()!=null){
+					if (pendiente.getFechaNotificacion() != null){
+						System.out.println("[OpsSorteo]Se pudo notificar con exito");
+						
+						
+					}
+					else{
+						System.out.println("[OpsSorteo]No se pudo realizar la notificacion con exito");
+					}
+					// si la de ejecucion es nula, obligatoriamente la de notificacion es nula.
+					
+				}
+				else{
+					System.out.println("[OpsSorteo]No se pudo ejecutar con exito");
+				}
+				
+				
+				
 				System.out.println("\t[OpsSorteo]Entrando a marcar como pendiente");
 				pendiente.setFechaEjecucion(null);
 				pendiente.setPendiente("S");
@@ -362,5 +380,14 @@ public class OperacionesSorteo {
 			System.out.println("\t[OpsSorteo]No se pudieron obtener las concesionarias");
 		}
 		return null;
+	}
+	public String setearRazon (String operacion, int intentos){
+		LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
+		nvp.add(new BasicNameValuePair("operacion", operacion));
+		nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
+		System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
+		Gson gson = new Gson();
+		
+		return gson.toJson(nvp);
 	}
 }	

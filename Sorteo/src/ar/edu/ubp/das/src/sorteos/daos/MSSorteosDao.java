@@ -41,40 +41,48 @@ public class MSSorteosDao extends DaoImpl{
 		
 		SorteoBean sorteo = (SorteoBean) form;
 		this.connect();
-		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?, ?, ?)");
+		this.setProcedure("dbo.actualizar_sorteo(?, ?, ?, ?, ?, ?)");
 		
 		try{
 		
 			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 			Date fechaAuxSorteado;
 			Date fechaAuxEjecucion = null ;
+			Date fechaAuxNotificacion = null ;
 			fechaAuxSorteado = parser.parse(sorteo.getFechaSorteado());
 			java.sql.Date fechaDefinida = new java.sql.Date(fechaAuxSorteado.getTime());
 			
+			this.setParameter(1, sorteo.getIdSorteo());
+			this.setParameter(2, fechaDefinida);
+			this.setParameter(3, sorteo.getPendiente());
 			
 			if ((sorteo.getFechaEjecucion() != null) ) {
 				
 				fechaAuxEjecucion = parser.parse(sorteo.getFechaEjecucion());
 				java.sql.Date fechaEjecucion = new java.sql.Date(fechaAuxEjecucion.getTime());
-				this.setParameter(1, sorteo.getIdSorteo());
-				this.setParameter(2, fechaDefinida);
-				this.setParameter(3, sorteo.getPendiente());
+				
+				
 				this.setParameter(4, fechaEjecucion);
-				this.setParameter(5, sorteo.getRazon());
+				
+				if (sorteo.getFechaNotificacion() != null){
+					fechaAuxNotificacion = parser.parse(sorteo.getFechaNotificacion());
+					java.sql.Date fechaNotificacion = new java.sql.Date(fechaAuxNotificacion.getTime());
+					this.setParameter(5, fechaNotificacion);
+				}
+				else{
+					this.setNull(5, java.sql.Types.DATE);
+				}
 			}
 			else{
-				this.setParameter(1, sorteo.getIdSorteo());
-				this.setParameter(2, fechaDefinida);
-				this.setParameter(3, sorteo.getPendiente());
 				this.setNull(4, java.sql.Types.DATE);
-				this.setParameter(5, sorteo.getRazon());
+				this.setNull(5, java.sql.Types.DATE);
 			}
+			this.setParameter(6, sorteo.getRazon());
 			System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
 		}
 		catch(ParseException e){
 			System.out.println("[SorteoDAO]Error parseando fecha: "+e.getMessage());
 		}
-		
 		this.executeUpdate();
 		this.disconnect();
 	}

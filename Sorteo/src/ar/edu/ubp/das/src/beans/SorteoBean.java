@@ -6,6 +6,7 @@ public class SorteoBean implements Bean{
 	private String idSorteo;
 	private String fechaSorteado;
 	private String fechaEjecucion;
+	private String fechaNotificacion;
 	private String pendiente;
 	private String razon;
 	
@@ -46,5 +47,13 @@ public class SorteoBean implements Bean{
 	}
 	public void setPendiente(String pendiente) {
 		this.pendiente = pendiente;
+	}
+	
+	public String getFechaNotificacion() {
+		return fechaNotificacion;
+	}
+
+	public void setFechaNotificacion(String fechaNotificacion) {
+		this.fechaNotificacion = fechaNotificacion;
 	}
 }

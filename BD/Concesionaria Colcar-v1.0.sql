@@ -445,7 +445,7 @@ go
 /*		INSERTS		 		 */
 /*****************************/
 
-/*
+
 use COLCAR
 
 insert into nacionalidades(cod_nacionalidad, nom_nacionalidad)
@@ -1365,4 +1365,3 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 Vuelta DATEFORMAT a default
 ***/
 
-*/

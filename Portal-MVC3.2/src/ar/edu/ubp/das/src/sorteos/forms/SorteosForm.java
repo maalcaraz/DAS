@@ -9,8 +9,18 @@ public class SorteosForm extends DynaActionForm{
 	private String idSorteo;
 	private String fechaSorteado;
 	private String fechaEjecucion;
+	private String fechaNotificacion;
 	
 	
+	
+	public String getFechaNotificacion() {
+		return fechaNotificacion;
+	}
+
+	public void setFechaNotificacion(String fechaNotificacion) {
+		this.fechaNotificacion = fechaNotificacion;
+	}
+
 	public String getIdSorteo() {
 		return idSorteo;
 	}

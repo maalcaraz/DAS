@@ -164,6 +164,7 @@ create table sorteos
 	id_sorteo			varchar(30)		not null,-- alfanumerico que adentro tenga incluida la fecha		
 	fecha_sorteo		date			not null,
 	fecha_ejecucion		date			null,
+	fecha_notificacion	date			null,
 	pendiente			char(1)			default null	check (pendiente in ('S','N', null)),
 	descripcion			varchar(200)	not null,
 	CONSTRAINT PK__sorteos__END primary key(id_sorteo)
@@ -592,7 +593,7 @@ go
 create procedure dbo.get_sorteos
 AS
 BEGIN
-	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, pendiente, descripcion
+	select s.id_sorteo, FORMAT(s.fecha_sorteo, 'dd-MM-yyyy') as fecha_sorteo, FORMAT(s.fecha_ejecucion, 'dd-MM-yyyy') as fecha_ejecucion, FORMAT(s.fecha_notificacion, 'dd-MM-yyyy') as fecha_notificacion, pendiente, descripcion
 	from sorteos s
 END
 go
@@ -788,6 +789,7 @@ create procedure dbo.actualizar_sorteo
 	@fecha_sorteo		date,
 	@pendiente			char(1),
 	@fecha_ejecucion	date,
+	@fecha_notificacion date,
 	@razon				varchar(200)
 )
 AS
@@ -796,7 +798,8 @@ BEGIN
 	SET s.pendiente	 = @pendiente,
 		s.fecha_sorteo = @fecha_sorteo,
 		s.fecha_ejecucion = @fecha_ejecucion,
-		s.descripcion = @razon
+		s.descripcion = @razon,
+		s.fecha_notificacion = @fecha_notificacion
 	FROM sorteos s
 	where s.id_sorteo = @id_sorteo
 END

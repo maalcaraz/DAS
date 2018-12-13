@@ -91,6 +91,7 @@ public class MSSorteosDao extends DaoImpl{
 				f.setIdSorteo(result.getString("id_sorteo"));
 				f.setFechaSorteado(result.getString("fecha_sorteo"));
 				f.setfechaEjecucion((result.getString("fecha_ejecucion") == null) ? "-" : (result.getString("fecha_ejecucion")));
+				f.setFechaNotificacion((result.getString("fecha_notificacion") == null) ? "-" : (result.getString("fecha_notificacion")));
 				ret.add(f);
 			}
 			catch(Exception ex){

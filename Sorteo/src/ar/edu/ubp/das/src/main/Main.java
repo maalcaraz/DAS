@@ -24,6 +24,11 @@ public class Main {
 		OperacionesSorteo opsSorteo = new OperacionesSorteo();
 		SorteoBean sorteoActual = null;
 		AdquiridoBean ganador = null;
+		
+		/*
+		 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
+		 */
+		AdquiridoBean ultimoGanador = opsSorteo.verificarCancelado();
 		/*
 		 * Bean para representar el sorteo que se va a ejecutar. Puede ser uno nuevo o uno pendiente.
 		 */
@@ -32,20 +37,19 @@ public class Main {
 		 * AbortarSorteo: variable a utilizar para chequear estado de ejecucion
 		 * y eventualmente guardar sorteo como pendiente
 		 */
-		
 		sorteoActual = opsSorteo.consultarPendientes();
 		/*
 		 * consultarPendientes: Funciona que consulta por sorteos pendientes
 		 */
 		if(sorteoActual == null){
-			System.out.println("[Main]No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
+			System.out.println("[Main:41]No hay sorteos pendientes. Procedemos a consultar si hoy es fecha de sorteo...");
 			/*
 			 * obtenerSorteoHoy: funcion que verifica si hoy es fecha de sorteo o no
 			 */
 			sorteoActual = opsSorteo.obtenerSorteoHoy();
 			if(sorteoActual == null)
 			{
-				System.out.println("[Main]Hoy no es fecha de sorteo. Cancelando ejecucion...");
+				System.out.println("[Main:48]Hoy no es fecha de sorteo. Cancelando ejecucion...");
 				/*
 				 * Como hoy no es fecha de sorteo, el programa termina.
 				 */
@@ -58,10 +62,8 @@ public class Main {
 			/*
 			 * SorteoActual = sorteoPendiente
 			 */
-			System.out.println("[Main]Hay un sorteo pendiente. Procedemos a verificar la razon...");
-			System.out.println("[Main]El sorteo pendiente tiene los datos: "+ sorteoActual.getIdSorteo() +", razon:"+ sorteoActual.getRazon());
-			
-			
+			System.out.println("[Main:61]Hay un sorteo pendiente. Procedemos a verificar la razon...");
+			System.out.println("[Main:62]El sorteo pendiente tiene los datos: "+ sorteoActual.getIdSorteo() +", razon:"+ sorteoActual.getRazon());
 			/*
 			 * Chequeando por que se puso como pendiente
 			 */
@@ -72,20 +74,27 @@ public class Main {
 			intentos = Integer.parseInt(razonPendiente.get(1).getValue()) ; // cantidad de intentos
 			
 			if (intentos >= 3){
-				System.out.println("[Main]Se alcanzo el nro maximo de intentos. Cancelamos la fecha de sorteo");
+				System.out.println("[Main:75]Se alcanzo el nro maximo de intentos. Cancelamos la fecha de sorteo");
 				System.exit(-1); // Revisar si cortaria asi.
 			}
 			
 			if (operacionFallida.equals("NotificarGanador")){
+				/*
+				 * Si la operacion fallida es notificarGanador, quiere decir que en el sorteoPendiente deberia tener
+				 * la fecha de ejecucion, pero no la fecha de notificar
+				 * 
+				 */
+				
 				//abortarSorteo = true;
 				notificar = true;
 				if (opsSorteo.verificarCancelado() == null){
 					ganador = null;
-					System.out.println("[Main]No se pudo obtener el ganador");
+					System.out.println("[Main:84]No se pudo obtener el ganador");
 					intentos++;
 					LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
-					nvp.add(new BasicNameValuePair("operacion", "ObtenerParticipantes"));
-					nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
+					nvp.add(new BasicNameValuePair("operacion", "NotificarGanador"));
+					nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
+					System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
 					
 					String jsonRazon = gson.toJson(nvp);
 					opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
@@ -100,17 +109,13 @@ public class Main {
 		
 		if((abortarSorteo == false))
 		{
-			/*
-			 * Operacion para verificar si se cancelo el ultimo ganador de un sorteo
-			 */
-			AdquiridoBean ultimoGanador = opsSorteo.verificarCancelado();
 			/* 
 			 * En la condicion se pregunta con OR porque si no hay aun ganadores registrados
 			 * se procede igual con la ejecucion del sorteo
 			 */
 			if((ultimoGanador == null) || (ultimoGanador.getCancelado().equals("true"))){ 
 				/* Preguntar por ultimoGanador.empty() */
-				System.out.println("[Main]Ultimo ganador cancelado. Podemos proceder con el sorteo");
+				System.out.println("[Main:113]Ultimo ganador cancelado. Podemos proceder con el sorteo");
 			}
 			else
 			{
@@ -118,14 +123,11 @@ public class Main {
 				 * La cancelacion esta pendiente. Hay que invocar a NotificaGanador para la concesionaria  
 				 * correspondiente.
 				 */
+				ultimoGanador.setFechaSorteado(sorteoActual.getFechaEjecucion());
 				boolean notificacion = opsSorteo.NotificarGanador(ultimoGanador); // CAMBIAR
 				if (!notificacion){
 					intentos++;
-					LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
-					nvp.add(new BasicNameValuePair("operacion", "NotificarGanador"));
-					nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
-					Gson gson = new Gson();
-					String jsonRazon = gson.toJson(nvp);
+					String jsonRazon = opsSorteo.setearRazon("NotificarGanador", intentos);
 					opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
 					//abortarSorteo = true;
 					System.exit(0);
@@ -133,14 +135,14 @@ public class Main {
 			}
 		}
 		
-		if((abortarSorteo == false) && (notificar == false))	{
+		if((abortarSorteo == false) && (notificar == false)){
 			/*
 			 * Operacion para consultar los datos de cada concesionaria y traer los clientes que cumplen las
 			 * condiciones para participar del sorteo
 			 */
 			participantes = opsSorteo.consultaConcesionarias();
 			if(participantes != null && !participantes.isEmpty()){
-				System.out.println("[Main]Procedemos a sortear...");
+				System.out.println("[Main:143]Procedemos a sortear...");
 			}
 			else{    
 				/* 
@@ -148,11 +150,8 @@ public class Main {
 				 * no es posible saber por que pudo haber fallado la consulta, y por lo tanto se setea 
 				 * el sorteo como pendiente y se aborta la ejecucion.
 				 */ 
-				LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
-				nvp.add(new BasicNameValuePair("operacion", "ObtenerParticipantes"));
-				nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
-				Gson gson = new Gson();
-				String jsonRazon = gson.toJson(nvp);
+				intentos++;
+				String jsonRazon = opsSorteo.setearRazon("ObtenerParticipantes", intentos);
 				opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
 				//abortarSorteo = true;
 				System.exit(0);
@@ -164,11 +163,11 @@ public class Main {
 			/*
 			 * EJECUCION DEL SORTEO
 			 */
-			System.out.println("[Main]Ejecucion del sorteo");
+			System.out.println("[Main:167]Ejecucion del sorteo");
 			int iGanador = (int) (Math.random() * participantes.size());
 			                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 			ParticipanteBean participanteGanador = (ParticipanteBean)participantes.get(iGanador);
-			System.out.println( "[Main]El ganador es " + participanteGanador.getDniCliente());
+			System.out.println( "[Main:171]El ganador es " + participanteGanador.getDniCliente());
 			
 			Date fechaEjecucion = new Date();
 			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
@@ -182,45 +181,41 @@ public class Main {
 			
 			/*Registro del ganador en la base de datos local */
 			try {
+				
 				MSGanadoresDao Ganador = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
 				participanteGanador.setIdSorteo(sorteoActual.getIdSorteo());
 				Ganador.insert(participanteGanador);
 				notificar = true;
 			} 
 			catch (SQLException e) {
-				System.out.println("ERROR --> [Main]No se pudo registrar el ganador en la base de datos local: "+ e.getMessage());
+				System.out.println("[Main:191]No se pudo registrar el ganador en la base de datos local: "+ e.getMessage());
 				intentos++;
-				LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
-				nvp.add(new BasicNameValuePair("operacion", "RegistrarGanador"));
-				nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
-				Gson gson = new Gson();
-				String jsonRazon = gson.toJson(nvp);
+				String jsonRazon = opsSorteo.setearRazon("RegistrarGanador", intentos);
 				opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
 				System.exit(0);
 			}
 			
 			/*Actualizacion de datos del sorteo: Seteo de fecha de ejecucion*/
-			 
 			
 		}
 		if (notificar == true){
 			if(opsSorteo.NotificarGanador(ganador) == true){
-				System.out.println("[Main]Seteamos sorteo como NO pendiente...");
+				System.out.println("[Main:209]Seteamos sorteo como NO pendiente...");
+				Date fechaNotificacion = new Date();
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				sorteoActual.setFechaNotificacion(parser.format(fechaNotificacion));
+				
 				opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo se ejecuto correctamente.", false);
 			}
 			else{
-				System.out.println("[Main]Seteamos sorteo como pendiente porque no se pudo notificar el ganador con exito...");
+				System.out.println("[Main:213]Seteamos sorteo como pendiente porque no se pudo notificar el ganador con exito...");
 				intentos++;
 				/*
 				 * Setea desde donde retomar y cuantos intentos van
 				 */
 				//String razon = "{ operacion: NotificarGanador, intentos:" +Integer.toString(intentos) + "}";
-				LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
-				nvp.add(new BasicNameValuePair("operacion", "NotificarGanador"));
-				nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
-				System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
-				Gson gson = new Gson();
-				String jsonRazon = gson.toJson(nvp);
+				
+				String jsonRazon = opsSorteo.setearRazon("NotificarGanador", intentos);
 				opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true); // Esta linea queda al pedo si no se corta el programa inmediatamente despues
 				// abortarSorteo = true;
 				System.exit(0);
