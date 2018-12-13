@@ -36,6 +36,7 @@ public class ConsultaQuincenalAction implements Action {
 
 		LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
 		String idPortal = "PORTALGOB";
+		String consumo = "Fallo";
 		List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 		parameters.add(new BasicNameValuePair("id_portal", idPortal));
 		try {
@@ -114,14 +115,16 @@ public class ConsultaQuincenalAction implements Action {
 						request.setAttribute("cuotas", cuotas);
 					}
 				}
-				
+				consumo = "OK";
 			}
 		}
 		catch(SQLException ex){
 			String msg = "Error en Consulta Quincenal: "+ ex.getMessage();
+			request.setAttribute("consumo", msg);
 			request.setAttribute("error", msg);
 			return mapping.getForwardByName("failure");
 		}
+		request.setAttribute("consumo", consumo);
 		request.setAttribute("concesionarias", cons);
 		return mapping.getForwardByName("success");
 	}

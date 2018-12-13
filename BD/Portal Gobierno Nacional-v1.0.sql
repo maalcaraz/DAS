@@ -1042,7 +1042,7 @@ execute dbo.get_concesionarias
 execute dbo.get_participantes 'Montironi705993369', 16, 4
 execute dbo.get_participantes 'Colcar2023979636', 16, 4
 execute dbo.get_participantes 'AutoHaus1503004614', 16, 4
-execute dbo.get_participantes 'Rosso79149714', 16, 4
+execute dbo.get_participantes 'Tagle80567923', 56, 4
 
 
 * Participantes de los valores limite
@@ -1072,7 +1072,7 @@ execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'i
 go
 execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
---execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
+execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 --go
 
 /* ESTE YA NO HACE FALTA, Ya esta bien implementado
