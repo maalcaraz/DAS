@@ -122,29 +122,15 @@ var jSorteos = {
 	        });
 		},
 		validarFechaSorteo : function(fecha){
-			
-			var varDate = new Date(fecha); 
-			var today = new Date();
-			var returnValue = false;
-
-			if(varDate >= today) {
-				returnValue = true;
-			}
-			else{
-				returnValue =  false;
-			}
-			return returnValue;
-			/*
 			var partes = (fecha || '').split('-');
 			var hoy = new Date();
-			hoy = new Date(hoy.getDate(), hoy.getMonth()+1, hoy.getFullYear());
+			hoy = new Date(hoy.getDay(), hoy.getMonth()+1, hoy.getFullYear());
 			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
 			console.log("Fecha de hoy:"+hoy.getDate());
 			console.log("Fecha generada: "+fechaGenerada.getDate());
-			if (fechaGenerada && (fechaGenerada > hoy )  ) {
+			if (fechaGenerada && (fechaGenerada.getDate() >= hoy.getDate())  ) {
 				return true;
 			}
-			return false;
-			*/
+			else return false;
 		}
 };
