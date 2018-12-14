@@ -26,6 +26,7 @@ import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoFactory;
 import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
+import ar.edu.ubp.das.src.sorteos.daos.MSParticipanteDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 
 public class OperacionesSorteo {
@@ -170,10 +171,12 @@ public class OperacionesSorteo {
 	 * en caso negativo obtiene los datos y actualiza BD de sorteo.
 	 * Devuelve lista con de participantes para sorteo
 	 */
-	public List<Bean> consultaConcesionarias(){
+	public List<ConcesionariaBean> consultaConcesionarias(){
 		System.out.println("\t[Ops Sorteo]Entrando en Consulta de Concesionarias");
 		List<Bean> participantesC = null;
 		List<Bean> concesionarias = null;
+		List<ConcesionariaBean> resultados = new LinkedList<ConcesionariaBean>();
+		
 		
 		try {
 			concesionarias = obtenerConcesionarias(null);
@@ -241,17 +244,16 @@ public class OperacionesSorteo {
 							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));		
 							insertarConcesionarias(concesionaria);
 							
-							// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
+							 
 						 }
 			 			catch (Exception ex){
-			 			 	//Guardar sorteo como pendiente (ex.getMessage());
-			 			   //return;
-			 				System.out.println("\t[Ops Sorteo]El presente sorteo se guarda como pendiente");
+			 				System.out.println("\t[Ops Sorteo]Pasar a la siguiente consulta");
+			 				resultados.add(concesionaria);
+			 				continue;
 			 			}
 					}
 					else{
-						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");
-						/*No hace falta actualizar los datos*/
+						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");			
 					}
 					participantesC = obtenerConcesionarias(concesionaria);
 					for (Bean b : participantesC){
@@ -261,13 +263,14 @@ public class OperacionesSorteo {
 					if (participantesSorteo.isEmpty()){
 						System.out.println("\t[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
 					}
+					// aca habria que hacer un insert del dao participantes
 				}
 			}
 		}
 		catch(RuntimeException ex ){
 			System.out.println("\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
 		}
-		return participantesC;
+		return resultados;
 	}
 	
 	public SorteoBean consultarPendientes(){
@@ -420,13 +423,24 @@ public class OperacionesSorteo {
 	}
 	
 	
-	public String setearRazon (String operacion, int intentos){
+	public String setearRazon (String operacion, int intentos, List<ConcesionariaBean> conPen){
 		LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
 		nvp.add(new BasicNameValuePair("operacion", operacion));
 		nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
+		nvp.add(new BasicNameValuePair("concesionariasPendientes", conPen.toArray().toString()));
 		System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
 		Gson gson = new Gson();
 		
 		return gson.toJson(nvp);
+	}
+	
+	public List<Bean> obtenerParticipantes(){
+		try{
+			MSParticipanteDao Participantes = (MSParticipanteDao)DaoFactory.getDao("Participante", "ar.edu.ubp.das.src.sorteos");
+			return Participantes.select(null);
+		}
+		catch(Exception ex){
+			return null;
+		}
 	}
 }	

@@ -4,11 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
@@ -105,6 +109,7 @@ public class Main {
 					//ganador = opsSorteo.verificarCancelado();
 				}
 			}
+			// preguntar por operacionFallida == "Obtener Datos"
 		}
 		
 		if((abortarSorteo == false))
@@ -151,7 +156,17 @@ public class Main {
 			 * Operacion para consultar los datos de cada concesionaria y traer los clientes que cumplen las
 			 * condiciones para participar del sorteo
 			 */
-			participantes = opsSorteo.consultaConcesionarias();
+			List<ConcesionariaBean> pendientesConsulta = opsSorteo.consultaConcesionarias(); 
+			if (!pendientesConsulta.isEmpty()){
+				// setear sorteo como pendiente y retomar desde ahi.
+				intentos++;
+				String jsonRazon = opsSorteo.setearRazon("ObtenerDatos", intentos, pendientesConsulta);
+				opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
+			}
+			
+			participantes = opsSorteo.obtenerParticipantes();
+			
+			//participantes = opsSorteo.consultaConcesionarias();
 			if(participantes != null && !participantes.isEmpty()){
 				System.out.println("[Main:143]Procedemos a sortear...");
 			}

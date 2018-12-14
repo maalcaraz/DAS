@@ -9,6 +9,20 @@ public class ParticipanteBean implements Bean{
 	private String idSorteo;
 	private String apellidoNombre;
 	private String idPlan;
+	private String fechaSorteo;
+	public String getFechaSorteo() {
+		return fechaSorteo;
+	}
+	public void setFechaSorteo(String fechaSorteo) {
+		this.fechaSorteo = fechaSorteo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	private String email;
 	
 	
 	public String getApellidoNombre() {

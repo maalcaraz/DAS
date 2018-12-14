@@ -178,6 +178,9 @@ create table participantes_sorteos
 	id_sorteo				varchar(30)		not null,
 	dni_cliente				char(8)			not null,
 	id_concesionaria		varchar(20)		not null,	
+	fecha_sorteo			date			null,
+	email					varchar(30)		null,
+
 	CONSTRAINT PK__participantes_sorteos__END primary key (id_sorteo, dni_cliente, id_concesionaria)
 )
 go
