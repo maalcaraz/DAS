@@ -2,16 +2,25 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
+import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
+import ar.edu.ubp.das.src.beans.CuotaBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
+import ar.edu.ubp.das.src.beans.PlanBean;
+import ar.edu.ubp.das.src.beans.TransaccionBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
+
 
 public class MSConcesionariaDao extends DaoImpl{
 
@@ -33,10 +42,11 @@ public class MSConcesionariaDao extends DaoImpl{
 				this.setParameter(4, c.getEmail());
 				this.setParameter(5, c.getDireccion());
 				this.setParameter(6, c.getTelefono());
-				this.setParameter(7, c.getCantDiasCaducidad());
-				this.setParameter(8, c.getWebService().getUrl());
-				this.setParameter(9, c.getCodTecnologia());
-				this.setParameter(10, c.getAprobada());
+				this.setParameter(7, c.getUltimaActualizacion());
+				this.setParameter(8, c.getCantDiasCaducidad());
+				this.setParameter(9, c.getWebService().getUrl());
+				this.setParameter(10, c.getCodTecnologia());
+				this.setParameter(11, c.getAprobada());
 				this.executeUpdate();
 				this.disconnect();
 	}
@@ -46,6 +56,122 @@ public class MSConcesionariaDao extends DaoImpl{
 		/*Aca en el update, no olvidar que hay que insertar e nconcesionaria la fecha de actualizacion
 		 * de datos qu viene en la transaccion*/
 		
+		this.connect();
+		
+		ConcesionariaBean c = (ConcesionariaBean) bean;
+		
+		//----------------Actualizar datos de concesionaria ---------------------
+		List<PlanBean> planes = c.getPlanes();
+		
+		this.setProcedure("dbo.insertar_plan(?, ?, ?, ?, ?, ?, ?)");
+		
+		for (PlanBean p : planes){
+			this.setParameter(1, p.getIdPlan());
+			this.setParameter(2, p.getDescripcion());
+			this.setParameter(3, p.getCant_cuotas());
+			this.setParameter(4, p.getEntrega_pactada());
+			this.setParameter(5, p.getFinanciacion());
+			this.setParameter(6, p.getDuenoPlan());
+			this.setParameter(7, c.getIdConcesionaria());
+			this.executeUpdate();
+		}		
+		//-----------------------------------------------------------------
+	
+			List<ClienteBean> clientes = c.getClientes();
+			this.setProcedure("dbo.insertar_cliente(?, ?, ?, ?, ?, ?)");
+			for (ClienteBean cli : clientes){
+				
+				this.setParameter(1, cli.getDniCliente());
+				this.setParameter(2, c.getIdConcesionaria());
+				this.setParameter(3, cli.getNomCliente());
+				this.setParameter(4, cli.getEdad());
+				this.setParameter(5, cli.getDomicilio());
+				this.setParameter(6, cli.getEmailCliente());
+				this.executeUpdate();
+			}
+		
+		//-----------------------------------------------------------------
+		
+			List<AdquiridoBean> adquiridos = c.getAdquiridos();
+			
+			this.setProcedure("dbo.insertar_adquirido(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			for (AdquiridoBean a : adquiridos){
+				
+				this.setParameter(1, a.getIdPlan());
+				this.setParameter(2, a.getDniCliente());
+				this.setParameter(3, c.getIdConcesionaria());
+				this.setParameter(4, a.getCancelado());
+				this.setParameter(5, a.getGanadorSorteo());
+				this.setParameter(6, a.getFechaSorteado());
+				this.setParameter(7, a.getFechaEntrega());
+				this.setParameter(8, a.getNroChasis());
+				this.setParameter(9, a.getFechaCompraPlan());
+				this.executeUpdate();
+			}
+		
+		//-----------------------------------------------------------------
+	
+			List<CuotaBean> cuotas = c.getCuotas();
+			this.setProcedure("dbo.insertar_cuota(?, ?, ?, ?, ?, ?, ?)");
+			
+			for (CuotaBean cuo : cuotas){
+				
+				this.setParameter(1, cuo.getIdCuota());
+				this.setParameter(2, cuo.getDniCliente());
+				this.setParameter(3, cuo.getIdPlan());
+				this.setParameter(4, c.getIdConcesionaria());
+				this.setParameter(5, cuo.getImporte());
+				this.setParameter(6, cuo.getFechaVencimiento());
+				this.setParameter(7, cuo.getPagada());
+				this.executeUpdate();
+			}
+		//----------------------------------------------------------------
+		
+		
+			TransaccionBean transForm = c.getTransacForm();
+			
+			this.setProcedure("dbo.insertar_transaccion(?, ?, ?, ?, ?)");
+			
+			this.setParameter(1, transForm.getId_transaccion());
+			this.setParameter(2, transForm.getIdConcesionaria());
+			this.setParameter(3, transForm.getEstadoTransaccion());
+			//ver que hacemos aca por que mensaje respuesta no entra como viene no entra
+			//trae todas las tablas
+			this.setParameter(4, "Consulta Quincenal");
+			this.setParameter(5, transForm.getHoraFechaTransaccion());		
+			this.executeUpdate();
+			
+			
+			/*
+			 * Seteo Fecha Actualizacion			 * 
+			 */
+			
+			this.setProcedure("dbo.actualizar_ultima_fecha_actualizacion(?, ?)");
+			this.setParameter(1, c.getIdConcesionaria());
+			
+			if ((c.getUltimaActualizacion() != null) ) {
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				Date fechaActualizacionAux = null;
+				try {
+					fechaActualizacionAux = parser.parse(c.getUltimaActualizacion());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					System.out.println("[MSConcesionariaDAO] " + e.getMessage());
+				}
+				java.sql.Date fechaActualizacion = new java.sql.Date(fechaActualizacionAux.getTime());
+				
+				this.setParameter(2, fechaActualizacion);
+			}
+			else{
+				this.setNull(1, java.sql.Types.DATE);
+			}
+
+			this.executeUpdate();
+			
+		
+		
+		this.disconnect();
 	}
 
 	@Override
@@ -72,6 +198,11 @@ public class MSConcesionariaDao extends DaoImpl{
 					ConcesionariaBean f = new ConcesionariaBean(result.getString("cod_tecnologia"));
 					f.setIdConcesionaria(result.getString("id_concesionaria"));
 					f.setNomConcesionaria(result.getString("nombre_concesionaria"));
+					f.setCuit(result.getString("cuit"));
+					f.setEmail(result.getString("email"));
+					f.setDireccion(result.getString("direccion"));
+					f.setTelefono(result.getString("telefono"));
+					f.setCantDiasCaducidad(result.getString("cant_dias_caducidad"));
 					f.getWebService().setUrl(result.getString("url_servicio"));
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));

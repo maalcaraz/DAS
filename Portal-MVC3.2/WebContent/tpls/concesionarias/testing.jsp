@@ -67,3 +67,7 @@
 <div id="respuesta-servicio"></div>
 
 </div>
+
+<input type="button" id="testMail" value="Mandar Mail" onclick="jPortal.mandarMail()">
+<div id="respuesta-mail"></div>
+
