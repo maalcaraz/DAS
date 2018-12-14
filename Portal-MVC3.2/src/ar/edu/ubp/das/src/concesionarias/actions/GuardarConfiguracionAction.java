@@ -24,15 +24,15 @@ public class GuardarConfiguracionAction implements Action{
 			ConcesionariaForm nuevaConfiguracion = new ConcesionariaForm(request.getParameter("tipoServicio"));
 			
 			nuevaConfiguracion.setItem("operacion", "configurar");
-			nuevaConfiguracion.setIdConcesionaria(request.getParameter("idConcesionaria"));
+			nuevaConfiguracion.setIdConcesionaria(request.getParameter("idConcesionaria").trim());
 			nuevaConfiguracion.setCodTecnologia(request.getParameter("tipoServicio"));
-			nuevaConfiguracion.getWebService().setUrl(request.getParameter("url"));
-			nuevaConfiguracion.setCuit(request.getParameter("cuit"));
-			nuevaConfiguracion.setEmail(request.getParameter("emailConcesionaria"));
-			nuevaConfiguracion.setDireccion(request.getParameter("dir"));
-			nuevaConfiguracion.setTelefono(request.getParameter("tel"));
+			nuevaConfiguracion.getWebService().setUrl(request.getParameter("url").trim());
+			nuevaConfiguracion.setCuit(request.getParameter("cuit").trim());
+			nuevaConfiguracion.setEmail(request.getParameter("emailConcesionaria").trim());
+			nuevaConfiguracion.setDireccion(request.getParameter("dir").trim());
+			nuevaConfiguracion.setTelefono(request.getParameter("tel").trim());
 			System.out.println("[GuardarConfigAction]dias: "+ request.getParameter("diasCaducidad"));
-			nuevaConfiguracion.setCantDiasCaducidad(request.getParameter("diasCaducidad"));
+			nuevaConfiguracion.setCantDiasCaducidad(request.getParameter("diasCaducidad").trim());
 			Concesionaria.update(nuevaConfiguracion);
 		}
 		catch (Exception ex){
