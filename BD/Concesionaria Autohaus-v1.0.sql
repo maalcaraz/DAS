@@ -448,3 +448,5 @@ select *
 	join planes p
 	on ad.id_plan = ad.id_plan
 	where p.dueño_plan = 'GOB'
+
+

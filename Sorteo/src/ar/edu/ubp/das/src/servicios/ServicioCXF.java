@@ -11,6 +11,7 @@ public class ServicioCXF extends ServicioImpl{
 
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		String consumo = "";
+		Client client = null;
 		try {
 
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -20,13 +21,13 @@ public class ServicioCXF extends ServicioImpl{
 			String url = this.getUrl()+"?wsdl"; 
 			System.out.println("[Servicio CXF]URL: "+ url);
 		
-			Client client = dcf.createClient(url);
+			client = dcf.createClient(url);
 			/* el metodo invoke() toma como parametros
 			 * 1. El nombre de la operacion a consumir
 			 * 2. Los parametros que usa la operacion.
 			 * Retorna lo que devuelve el servicio.
 			 * */
-			System.out.println("[Servicio CXF]Aca no llega...");
+			
 			Object[] res = null;
 			if (parameters!= null){
 				Object[] o = new String[parameters.size()];
@@ -47,6 +48,8 @@ public class ServicioCXF extends ServicioImpl{
 		
 			consumo = e.getMessage();
 		}
+		if (client != null) client.destroy();
+		else consumo = "No conectado";
 		System.out.println("[ServicioCXF]Consumo: "+consumo);
 		return consumo;
 	}

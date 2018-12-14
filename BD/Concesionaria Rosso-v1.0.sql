@@ -439,13 +439,4 @@ AS
 		END
 	END
 go
-
-select * from clientes
-select * from planes
-select * from cuotas
-
-select * 
-	from adquiridos ad
-	join planes p
-	on ad.id_plan = ad.id_plan
-	where p.dueño_plan = 'GOB'
+	

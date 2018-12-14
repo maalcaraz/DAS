@@ -11,6 +11,7 @@ public class ServicioAxis2 extends ServicioImpl {
 	@Override
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		String consumo = "";
+		Client client = null;
 		try {
 			
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -18,35 +19,41 @@ public class ServicioAxis2 extends ServicioImpl {
 			 * Para usar esa clase se importa la libreria org.apache.cxf.endpoint.Client;
 			 * */
 			String url = this.getUrl()+"?wsdl"; 
-			System.out.println("[Servicio CXF]URL: "+ url);
+			System.out.println("[Servicio Axis]URL: "+ url);
 		
-			Client client = dcf.createClient(url);
+			client = dcf.createClient(url);
 			/* el metodo invoke() toma como parametros
 			 * 1. El nombre de la operacion a consumir
 			 * 2. Los parametros que usa la operacion.
 			 * Retorna lo que devuelve el servicio.
 			 * */
-			System.out.println("[Servicio CXF]Aca no llega...");
+			
 			Object[] res = null;
 			if (parameters!= null){
+				
+				System.out.println("[Axis]Consumo con parametros");
+				
 				Object[] o = new String[parameters.size()];
 				for (int i=0; i< parameters.size(); i++){
-					//System.out.println(l.getName()+ ":" + l.getValue());
+					System.out.println(parameters.get(i).getName()+ ":" + parameters.get(i).getValue());
 					o[i] = parameters.get(i).getValue();
 				}
 				res = client.invoke(operacion, o);
-				
+				System.out.println("[Axis]Post invoke" + res);
 			}
 			else {
+				System.out.println("[Axis]Consumo sin parametros");
 				res = client.invoke(operacion, parameters);
 			}
-			System.out.println("[Servicio CXF] Respuesta de CXF: "+res[0]);
+			System.out.println("[Servicio Axis] Respuesta de Axis: "+res[0]);
 			consumo = res[0].toString();
 		} 
 		catch (Exception e) {
-			consumo = "[Servicio CXF - Catch clause]Salto la excepcion: "+ e.getMessage() ;
-			e.printStackTrace();
+			consumo = "[Servicio Axis - Catch clause]Salto la excepcion: "+ e.getMessage() ;
+			
 		}
+
+		client.destroy();
 		return consumo;
 		/*
 		String returnContent = null;

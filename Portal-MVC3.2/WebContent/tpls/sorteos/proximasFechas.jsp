@@ -40,15 +40,14 @@
 				  	<fmt:parseDate pattern="dd-MM-yyyy" value="${ sorteo.fechaNotificacion }" var="date" />
 			 		<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 				  </c:if>
+				  <c:if test="${ sorteo.fechaNotificacion eq '-'}">
+				  <td> - </td>
+				  </c:if>
 			 </c:if>
-			 <c:if test="${ sorteo.fechaNotificacion eq '-'}">
+			 <c:if test="${ sorteo.fechaEjecucion eq '-'}">
 				   <td> - </td>
 				   <td> - </td>
 			 </c:if>
-			 
-			
-			 
-			 
 		</tr> 
 	</c:forEach>
 	</c:if>
