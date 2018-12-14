@@ -13,5 +13,24 @@ var jPortal = {
 	            	jUtils.showing("site", html);
 	            }
 	        });
-		}	
+		},
+		mandarMail : function(){
+			nomDiv = "respuesta-mail";
+			jUtils.executing(nomDiv);
+	        jUtils.hiding("message");
+	        $.ajax({
+	            url: "/portal/enviarMail.do",
+	            type: "post",
+	            dataType: "html",
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	nomDiv = "respuesta-mail";
+	            	jUtils.showing(nomDiv, html);
+	            }
+	        });	
+		},
+		
 };

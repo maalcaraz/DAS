@@ -30,7 +30,8 @@
 			<div class="grid-item">
 			<h3>${ concesionaria.nomConcesionaria } </h3>
 			<form id="configurarForm-${ concesionaria.idConcesionaria }">
-			<input type="hidden" name="idConcesionaria" value="${ concesionaria.idConcesionaria }"> 
+			<input type="hidden" name="idConcesionaria" value="${ concesionaria.idConcesionaria }">
+			<input type="hidden" name="ultimaActualizacion" value="${ concesionaria.ultimaActualizacion }">
 			<!-- <input type="hidden" name="url" value="${ concesionaria.urlServicio }"> -->
 				<b><fmt:message key="estado" bundle="${etq}"></fmt:message>:</b> ${ estado } <br>
 				<div class="editable" id="url-${ concesionaria.idConcesionaria }"> <b>Url</b>:${ concesionaria.urlServicio } </div>

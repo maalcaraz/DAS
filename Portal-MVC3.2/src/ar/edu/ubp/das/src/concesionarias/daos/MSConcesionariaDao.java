@@ -34,10 +34,11 @@ public class MSConcesionariaDao extends DaoImpl{
 		this.setParameter(4, c.getEmail());
 		this.setParameter(5, c.getDireccion());
 		this.setParameter(6, c.getTelefono());
-		this.setParameter(7, c.getCantDiasCaducidad());
-		this.setParameter(8, c.getWebService().getUrl());
-		this.setParameter(9, c.getCodTecnologia());
-		this.setParameter(10, c.getAprobada());
+		this.setParameter(7, c.getUltimaActualizacion());
+		this.setParameter(8, c.getCantDiasCaducidad());
+		this.setParameter(9, c.getWebService().getUrl());
+		this.setParameter(10, c.getCodTecnologia());
+		this.setParameter(11, c.getAprobada());
 		this.executeUpdate();
 		this.disconnect();
 	}

@@ -101,6 +101,7 @@ public class OperacionesSorteo {
 	
 	public boolean NotificarGanador(AdquiridoBean ganador){
 		String respuesta = "";
+		MailSender mailSender = new MailSender();
 		List<Bean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
 		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteado());
@@ -134,6 +135,25 @@ public class OperacionesSorteo {
 							System.out.println("\t[OpsSorteo]Fallo la notificacion de la concesionaria");
 							return false;
 						}
+						else{
+							
+							MSGanadoresDao GanadoresDao;
+							try {
+								GanadoresDao = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
+								
+								/*
+								 * Envio un adquirido Bean aunque es Ganadores Dao por necesito
+								 * enviar el id de concesionaria
+								 */
+								List<Bean> clientes = GanadoresDao.select(ganador);
+								ClienteBean clienteGanador = (ClienteBean)clientes.get(0);
+								mailSender.envioMailNotificacion(clienteGanador.getDniCliente(), clienteGanador.getNomCliente(), clienteGanador.getEmailCliente());
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}
 					}
 				}
 	      	}
@@ -154,6 +174,7 @@ public class OperacionesSorteo {
 		System.out.println("\t[Ops Sorteo]Entrando en Consulta de Concesionarias");
 		List<Bean> participantesC = null;
 		List<Bean> concesionarias = null;
+		
 		try {
 			concesionarias = obtenerConcesionarias(null);
 			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
@@ -173,9 +194,12 @@ public class OperacionesSorteo {
 					LinkedList<PlanBean> planes;
 					LinkedList<AdquiridoBean> adquiridos;
 					LinkedList<CuotaBean> cuotas;
+					int diasCaducidad = Integer.parseInt(concesionaria.getCantDiasCaducidad());
 					System.out.println("\t[Ops Sorteo]Entrando al if de actualizacion de datos");
-					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > 15) ){
+					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > diasCaducidad) ){
 						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
+						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+						parameters.add(new BasicNameValuePair("id_portal" , "PORTALGOB"));
 						try {
 							/* Esto hace falta a la hora de preguntar si el sorteo es hoy
 							java.util.Date utilDate = new java.util.Date(); //fecha actual
@@ -185,7 +209,7 @@ public class OperacionesSorteo {
 							System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
 							*/
 							
-							String restResp = concesionaria.getWebService().Consumir("getClientes", null);
+							String restResp = concesionaria.getWebService().Consumir("getClientes", parameters);
 						
 							
 							TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
@@ -205,11 +229,17 @@ public class OperacionesSorteo {
 							cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
 							
 							// tambien arrancar con la logica de la fechade ultima actualizacion
+							
+							Date fechaHoy = new Date();
+							SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+
 							concesionaria.setClientes(clientes);
 							concesionaria.setAdquiridos(adquiridos);
 							concesionaria.setCuotas(cuotas);
 							concesionaria.setPlanes(planes);
-							
+							concesionaria.setTransacForm(transaccion);
+							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));		
+							insertarConcesionarias(concesionaria);
 							
 							// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
 						 }
@@ -376,6 +406,20 @@ public class OperacionesSorteo {
 		}
 		return null;
 	}
+	
+	public void insertarConcesionarias(ConcesionariaBean c){
+		
+		try {
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
+			Concesionaria.update(c);
+			
+		}
+		catch(SQLException ex){
+			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de las concesionarias");
+		}
+	}
+	
+	
 	public String setearRazon (String operacion, int intentos){
 		LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
 		nvp.add(new BasicNameValuePair("operacion", operacion));
