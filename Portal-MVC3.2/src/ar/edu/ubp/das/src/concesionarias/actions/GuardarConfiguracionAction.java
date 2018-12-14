@@ -30,8 +30,9 @@ public class GuardarConfiguracionAction implements Action{
 			nuevaConfiguracion.setCuit(request.getParameter("cuit").trim());
 			nuevaConfiguracion.setEmail(request.getParameter("emailConcesionaria").trim());
 			nuevaConfiguracion.setDireccion(request.getParameter("dir").trim());
-			nuevaConfiguracion.setTelefono(request.getParameter("tel").trim());
+			nuevaConfiguracion.setTelefono(request.getParameter("tel"));
 			System.out.println("[GuardarConfigAction]dias: "+ request.getParameter("diasCaducidad"));
+			nuevaConfiguracion.setUltimaActualizacion(request.getParameter("ultimaActualizacion").trim());
 			nuevaConfiguracion.setCantDiasCaducidad(request.getParameter("diasCaducidad").trim());
 			Concesionaria.update(nuevaConfiguracion);
 		}

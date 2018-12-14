@@ -37,6 +37,7 @@ drop procedure dbo.actualizar_sorteo
 drop procedure dbo.eliminar_sorteo
 drop procedure dbo.editar_sorteo
 drop procedure dbo.reconfigurar_concesionaria
+drop procedure dbo.actualizar_ultima_fecha_actualizacion
 go
 
 drop table logs
@@ -70,7 +71,7 @@ create table concesionarias
 	email						varchar(50)		null,	
 	direccion					varchar(100)	null,
 	telefono					char(11)		null,
-	ultima_actualizacion		date			null,
+	ultima_actualizacion		date			not null default getDate(),
 	cant_dias_caducidad			tinyint			not null default 15,
 	url_servicio				varchar(100)	not null,
 	cod_tecnologia				varchar(10)		check (cod_tecnologia in ('Rest', 'CXF', 'Axis2'))		not null,
@@ -506,6 +507,7 @@ create procedure dbo.insertar_concesionaria
 	@email							varchar(50),
 	@direccion						varchar(100),
 	@telefono						char(11),
+	@ultima_actualizacion			date,
 	@cant_dias_caducidad			tinyint,
 	@url_servicio					varchar(100),
 	@cod_tecnologia					varchar(10),
@@ -514,7 +516,7 @@ create procedure dbo.insertar_concesionaria
 AS
 	BEGIN
 		insert into concesionarias
-		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, getDate(), @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
+		values(@id_concesionaria, @nombre_concesionaria, @cuit, @email, @direccion, @telefono, convert(date, @ultima_actualizacion), @cant_dias_caducidad, @url_servicio, @cod_tecnologia, @aprobada)
 	END
 go
 
@@ -862,6 +864,21 @@ BEGIN
 END
 go
 
+create procedure dbo.actualizar_ultima_fecha_actualizacion
+(
+	@id_concesionaria				varchar(20),
+	@ultima_actualizacion			date
+
+)
+AS
+BEGIN
+	update c
+	set c.ultima_actualizacion			= @ultima_actualizacion
+	from concesionarias c
+	where c.id_concesionaria = @id_concesionaria
+END
+go
+
 
 create procedure dbo.get_ganadores
 AS
@@ -1050,7 +1067,7 @@ execute dbo.get_concesionarias
 * Hay participantes para el sorteo
 execute dbo.get_participantes 'Montironi705993369', 16, 4
 execute dbo.get_participantes 'Colcar2023979636', 16, 4
-execute dbo.get_participantes 'AutoHaus1503004614', 16, 4
+execute dbo.get_participantes 'AutoHaus1503004614', 16, 2
 execute dbo.get_participantes 'Tagle80567923', 36, 24
 
 
@@ -1073,15 +1090,27 @@ select * from adquiridos
 
 */
 
-execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
+
+DECLARE @tmp DATETIME
+SET @tmp = GETDATE() -16
+execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '3511111111', @tmp , 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 go
-execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '351-2222222', 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
+
+DECLARE @tmp DATETIME
+SET @tmp = GETDATE() -16
+execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '3512222222', @tmp, 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'
 go
-execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '351-3333333', 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
+DECLARE @tmp DATETIME
+SET @tmp = GETDATE() -16
+execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'info@colcar.com', 'Av. Rivadavia 600', '3513333333', @tmp, 5, 'http://localhost:9090/ConcesionariaColcarWSPort', 'CXF', 'N'
 go
-execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
+DECLARE @tmp DATETIME
+SET @tmp = GETDATE() -16
+execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '3514444444',@tmp, '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
-execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
+DECLARE @tmp DATETIME
+SET @tmp = GETDATE() -16
+execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '3514444444',@tmp, '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 
 /* ESTE YA NO HACE FALTA, Ya esta bien implementado
 insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)

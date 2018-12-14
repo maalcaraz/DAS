@@ -6,7 +6,6 @@ import ar.edu.ubp.das.src.db.Bean;
 
 public class AdquiridoBean implements Bean{
 	
-
 	private String dniCliente;
 	private String idConcesionaria;
 	private String idPlan;
@@ -16,6 +15,7 @@ public class AdquiridoBean implements Bean{
 	private String fechaSorteado;
 	private String nroChasis;
 	private String sucursalSuscripcion;
+	private String fechaCompraPlan;
 	private LinkedList<CuotaBean> cuotas = new LinkedList<>();
 	
 	
@@ -27,6 +27,7 @@ public class AdquiridoBean implements Bean{
 		result = prime * result + ((cancelado == null) ? 0 : cancelado.hashCode());
 		result = prime * result + ((cuotas == null) ? 0 : cuotas.hashCode());
 		result = prime * result + ((dniCliente == null) ? 0 : dniCliente.hashCode());
+		result = prime * result + ((fechaCompraPlan == null) ? 0 : fechaCompraPlan.hashCode());
 		result = prime * result + ((fechaEntrega == null) ? 0 : fechaEntrega.hashCode());
 		result = prime * result + ((fechaSorteado == null) ? 0 : fechaSorteado.hashCode());
 		result = prime * result + ((ganadorSorteo == null) ? 0 : ganadorSorteo.hashCode());
@@ -60,6 +61,11 @@ public class AdquiridoBean implements Bean{
 			if (other.dniCliente != null)
 				return false;
 		} else if (!dniCliente.equals(other.dniCliente))
+			return false;
+		if (fechaCompraPlan == null) {
+			if (other.fechaCompraPlan != null)
+				return false;
+		} else if (!fechaCompraPlan.equals(other.fechaCompraPlan))
 			return false;
 		if (fechaEntrega == null) {
 			if (other.fechaEntrega != null)
@@ -104,7 +110,7 @@ public class AdquiridoBean implements Bean{
 		return "AdquiridoBean [dniCliente=" + dniCliente + ", idConcesionaria=" + idConcesionaria + ", idPlan=" + idPlan
 				+ ", cancelado=" + cancelado + ", ganadorSorteo=" + ganadorSorteo + ", fechaEntrega=" + fechaEntrega
 				+ ", fechaSorteado=" + fechaSorteado + ", nroChasis=" + nroChasis + ", sucursalSuscripcion="
-				+ sucursalSuscripcion + ", cuotas=" + cuotas + "]";
+				+ sucursalSuscripcion + ", fechaCompraPlan=" + fechaCompraPlan + ", cuotas=" + cuotas + "]";
 	}
 	
 	public String getDniCliente() {
@@ -175,6 +181,14 @@ public class AdquiridoBean implements Bean{
 
 	public void setCuotas(LinkedList<CuotaBean> cuotas) {
 		this.cuotas = cuotas;
+	}
+	
+	public String getFechaCompraPlan() {
+		return fechaCompraPlan;
+	}
+
+	public void setFechaCompraPlan(String fechaCompraPlan) {
+		this.fechaCompraPlan = fechaCompraPlan;
 	}
 
 }
