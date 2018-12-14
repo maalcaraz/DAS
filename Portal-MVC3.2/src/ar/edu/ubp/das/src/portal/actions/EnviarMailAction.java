@@ -43,7 +43,7 @@ public class EnviarMailAction implements Action {
 			getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 			generateMailMessage = new MimeMessage(getMailSession);
 			try {
-				generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("InsertarMailAEnviar"));
+				generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("maralcaraz.13@gmail.com"));
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -76,7 +76,7 @@ public class EnviarMailAction implements Action {
 			// Enter your correct gmail UserID and Password
 			// if you have 2FA enabled then provide App Specific Password
 			try {
-				transport.connect("smtp.gmail.com", "PlanSorteAR@gmail.com", "InsertarPassword");
+				transport.connect("smtp.gmail.com", "PlanSorteAR@gmail.com", "sorteo123$");
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

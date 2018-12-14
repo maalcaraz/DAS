@@ -32,7 +32,7 @@ public class ServicioCXF extends ServicioImpl{
 			if (parameters!= null){
 				Object[] o = new String[parameters.size()];
 				for (int i=0; i< parameters.size(); i++){
-					//System.out.println(l.getName()+ ":" + l.getValue());
+					System.out.println(parameters.get(i).getName()+ ":" + parameters.get(i).getValue());
 					o[i] = parameters.get(i).getValue();
 				}
 				res = client.invoke(operacion, o);

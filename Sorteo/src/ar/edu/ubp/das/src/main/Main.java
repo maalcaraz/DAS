@@ -214,6 +214,10 @@ public class Main {
 		}
 		if (notificar == true){
 			if(opsSorteo.NotificarGanador(ganador) == true){
+				
+				
+				
+				
 				System.out.println("[Main:209]Seteamos sorteo como NO pendiente...");
 				Date fechaNotificacion = new Date();
 				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");

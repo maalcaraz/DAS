@@ -2667,7 +2667,7 @@ go
 
 ;
 GO
-
+ /*
 use TAGLE
 
 insert into nacionalidades(cod_nacionalidad, nom_nacionalidad)
@@ -2677,7 +2677,7 @@ values  ('GER', 'Alemana'),
 		('USA', 'Americana'),
 		('JAP', 'Japonesa')
 go
-
+*//*
 insert into provincias(cod_provincia, nombre_provincia)
 values('BA', 'Buenos Aires'),
 	  ('CA', 'Catamarca'),
@@ -2703,7 +2703,7 @@ values('BA', 'Buenos Aires'),
 	  ('TF', 'Tierra del Fuego'),
 	  ('TU', 'Tucuman')
 go
-
+*//*
 insert into localidades(id_localidad, nombre_localidad, cod_provincia)
 values(1, 'Rio Cuarto', 'CB'),
 	  (2, 'Cordoba Capital', 'CB'),
@@ -2711,7 +2711,7 @@ values(1, 'Rio Cuarto', 'CB'),
 	  (4, 'Jesus Maria', 'CB'),
 	  (5, 'Oncativo', 'CB')
 go
-
+*//*
 insert into marcas (id_marca, nombre_marca, cod_nacionalidad)
 values  (1, 'Audi', 'GER'),
 		(2, 'BMW', 'GER'),
@@ -2727,18 +2727,18 @@ values  (1, 'Audi', 'GER'),
 		(12, 'Ford', 'USA'),
 		(13, 'Volkswagen', 'GER')
 go
-
+*//*
 insert into modelos (id_marca, id_modelo, nombre_modelo)
 values  (1, 1, 'A1'),
 		(1, 2, 'A3'),
 		(1, 3, 'A4'),
 		(1, 4, 'Q5'),
-	/*	(2, 1, '118i'),
+		(2, 1, '118i'),
 		(2, 2, '320D'),
 		(2, 3, '325i'),
 		(2, 4, '335i'),
 		(2, 5, 'X1D'),
-	*/	(3, 1, 'Agile'),
+		(3, 1, 'Agile'),
 		(3, 2, 'Astra'),
 		(3, 3, 'Aveo'),
 		(3, 4, 'Captiva'),
@@ -2758,7 +2758,7 @@ values  (1, 1, 'A1'),
 		(3, 18, 'Tracker'),
 		(3, 19, 'Vectra'),
 		(3, 20, 'Zafira'),
-	/*	(4, 1, 'B2500'),
+		(4, 1, 'B2500'),
 		(4, 2, 'C200'),
 		(5, 1, 'Sprinter'),
 		(6, 1, 'L200'),
@@ -2805,7 +2805,7 @@ values  (1, 1, 'A1'),
 		(11, 6, 'Palio'),
 		(11, 7, 'Grand Siena'),
 		(11, 8, 'Strada'),
-	*/	(12, 1, 'Fiesta'),
+		(12, 1, 'Fiesta'),
 		(12, 2, 'Focus'),
 		(12, 3, 'Ecosport'),
 		(12, 4, 'Ka'),
@@ -2813,7 +2813,7 @@ values  (1, 1, 'A1'),
 		(12, 6, 'Mondeo'),
 		(12, 7, 'Transit')
 go
-
+*/ /*
 insert into versiones(id_version, descripcion)
 values (1, 'Attractive 1.4'),
 	   (2, 'Adventure 1.6'),
@@ -2833,7 +2833,7 @@ values (1, 'Attractive 1.4'),
 	   (16, 'Working 1.4 Cabina Simple'),
 	   (17, 'Working 1.4 Cabina Doble')
 go
-
+*//*
 insert into modelos_versiones (id_marca, id_modelo, id_version)
 values(1, 1, 1), -- = Audi
 	  (1, 2, 1), -- Verificar versiones (puse todo 1).
@@ -2847,7 +2847,7 @@ values(1, 1, 1), -- = Audi
 	  (12, 2, 1),
 	  (12, 5, 1),
 	  (12, 7, 1)
-	  /*(11, 1, 1), -- 11=Fiat
+	  (11, 1, 1), -- 11=Fiat
 	  (11, 1, 2),
 	  (11, 2, 3),
 	  (11, 2, 4),
@@ -2864,9 +2864,9 @@ values(1, 1, 1), -- = Audi
 	  (11, 6, 1),
 	  (11, 6, 6),
 	  (11, 7, 1),
-	  (11, 7, 6)*/
+	  (11, 7, 6)
 go
-
+*//*
 insert into colores(id_color, nom_color)
 values(1, 'NEGRO'),
 	  (2, 'BLANCO'),
@@ -2887,7 +2887,7 @@ values(1, 'PARTICULAR'),
 	  (5, 'TRANSPORTE ESCOLAR'),
 	  (6, 'CAMION')
 go
-
+*//**//*
 
 insert into sucursales(id_sucursal, cod_provincia, id_localidad, nom_sucursal)
 values (1, 'CB', 1, 'Sucursal Rio IV'),
@@ -2896,7 +2896,7 @@ values (1, 'CB', 1, 'Sucursal Rio IV'),
 	   (4, 'CB', 4, 'Jesus Maria')
 go
 
-
+*//*
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
 values(30245785, 'juan page', 55, 'Luis Reinaudi 1100', 'email@testing.com', 'CB', 1, '3518749568'),
 	  (29485621, 'juan hendrix', 55, 'Dean Funes 975', 'email@testing.com', 'CB', 2, '3514875125'),
@@ -2910,7 +2910,7 @@ values(30245785, 'juan page', 55, 'Luis Reinaudi 1100', 'email@testing.com', 'CB
 	  (28451965, 'Sergio Davalle', 55, '9 de julio 990', 'email@testing.com', 'CB', 4, '3516524895'),
 	  (32528978, 'Roberto Lujan', 55, 'Rivadavia 1100', 'email@testing.com', 'CB', 4, '3516487598')
 go
-
+*//*
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
 values(1234, 1, 4, 1, 1, 1, 250000.000, 2018, 1, NULL),
 	  (1235, 3, 5, 1, 2, 1, 276000.000, 2017, 2, NULL),
@@ -2919,7 +2919,7 @@ values(1234, 1, 4, 1, 1, 1, 250000.000, 2018, 1, NULL),
 go
 
 
-
+*//*
 insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
 values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/interes', 'CON'), 
 	  (303456, 'Plan Nacional Chevrolet','Plan Nacional Chevrolet', 60, '5ta cuota', '84 cuotas 0% interes', 'GOB'),
@@ -2927,7 +2927,7 @@ values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/intere
 	  (303458, 'Plan 70/30 cuota reducida', 'Plan 70/30 cuota reducida', 90, '3ra cuota', '84 cuotas 0% interes', 'GOB')
 go
 
-
+*//*
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
 values(303455, 30245785, 'N', 'N', null, null, null, 1, '05-02-2016'),
 	  (303456, 29485621, 'N', 'N', null, null, null, 3, '05-05-2015'),
@@ -2942,7 +2942,7 @@ values(303455, 30245785, 'N', 'N', null, null, null, 1, '05-02-2016'),
 	  (303457, 32528978, 'N', 'N', null, null, null, 1, '05-05-2018')
 go
 
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 32528978,  303457, 5000.00, '08-11-2015', 'S'),
 	  (111, 32528978,  303457, 5000.00, '02-12-2015', 'S'),
@@ -2996,7 +2996,7 @@ values(110, 32528978,  303457, 5000.00, '08-11-2015', 'S'),
 	  (159, 32528978,  303457, 5000.00, '02-04-2019', 'N'),
 	  (160, 32528978,  303457, 5000.00, '02-05-2019', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 28451965, 303458, 5000.00, '08-11-2015', 'S'),
 	  (111, 28451965, 303458, 5000.00, '02-12-2015', 'S'),
@@ -3050,7 +3050,7 @@ values(110, 28451965, 303458, 5000.00, '08-11-2015', 'S'),
 	  (159, 28451965, 303458, 5000.00, '02-04-2019', 'N'),
 	  (160, 28451965, 303458, 5000.00, '02-05-2019', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 26451256,  303455, 5000.00, '08-11-2015', 'S'),
 	  (111, 26451256,  303455, 5000.00, '02-12-2015', 'S'),
@@ -3104,7 +3104,7 @@ values(110, 26451256,  303455, 5000.00, '08-11-2015', 'S'),
 	  (159, 26451256,  303455, 5000.00, '02-04-2019', 'N'),
 	  (160, 26451256,  303455, 5000.00, '02-05-2019', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 30245785,  303455, 5000.00, '08-11-2015', 'S'),
 	  (111, 30245785,  303455, 5000.00, '02-12-2015', 'S'),
@@ -3158,7 +3158,7 @@ values(110, 30245785,  303455, 5000.00, '08-11-2015', 'S'),
 	  (159, 30245785,  303455, 5000.00, '02-04-2019', 'N'),
 	  (160, 30245785,  303455, 5000.00, '02-05-2019', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 26555222,  303456, 5000.00, '08-11-2015', 'S'),
 	  (111, 26555222,  303456, 5000.00, '02-12-2015', 'S'),
@@ -3213,7 +3213,7 @@ values(110, 26555222,  303456, 5000.00, '08-11-2015', 'S'),
 	  (160, 26555222,  303456, 5000.00, '02-05-2019', 'N')
 go
 
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 28456987, 303458, 5000.00, '08-11-2015', 'S'),
 	  (111, 28456987, 303458, 5000.00, '02-12-2015', 'S'),
@@ -3267,7 +3267,7 @@ values(110, 28456987, 303458, 5000.00, '08-11-2015', 'S'),
 	  (159, 28456987, 303458, 5000.00, '02-04-2019', 'N'),
 	  (160, 28456987, 303458, 5000.00, '02-05-2019', 'N')
 go
-
+*//*
 
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 31256485, 303457, 5000.00, '06-15-2017', 'S'),
@@ -3322,7 +3322,7 @@ values(110, 31256485, 303457, 5000.00, '06-15-2017', 'S'),
 	  (160, 31256485, 303457, 5000.00, '07-15-2021', 'N'),
 	  (156, 31256485, 303457, 5000.00, '08-15-2021', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 33415265, 303457, 5000.00, '04-28-2016', 'S'),
 	  (111, 33415265, 303457, 5000.00, '05-28-2016', 'S'),
@@ -3376,7 +3376,7 @@ values(110, 33415265, 303457, 5000.00, '04-28-2016', 'S'),
 	  (160, 33415265, 303457, 5000.00, '05-28-2020', 'N'),
 	  (156, 33415265, 303457, 5000.00, '06-28-2020', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 35214523, 303456, 5000.00, '04-28-2015', 'S'),
 	  (111, 35214523, 303456, 5000.00, '05-28-2015', 'S'),
@@ -3430,7 +3430,7 @@ values(110, 35214523, 303456, 5000.00, '04-28-2015', 'S'),
 	  (160, 35214523, 303456, 5000.00, '05-28-2019', 'N'),
 	  (156, 35214523, 303456, 5000.00, '06-28-2019', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 28451987, 303458, 5000.00, '06-02-2017', 'S'),
 	  (111, 28451987, 303458, 5000.00, '07-02-2017', 'S'),
@@ -3484,7 +3484,7 @@ values(110, 28451987, 303458, 5000.00, '06-02-2017', 'S'),
 	  (160, 28451987, 303458, 5000.00, '07-02-2021', 'N'),
 	  (156, 28451987, 303458, 5000.00, '08-02-2021', 'N')
 go
-
+*//*
 insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 values(110, 29485621, 303456, 5000.00, '06-02-2015', 'S'),
 	  (111, 29485621, 303456, 5000.00, '07-02-2015', 'S'),
@@ -3540,5 +3540,5 @@ values(110, 29485621, 303456, 5000.00, '06-02-2015', 'S'),
 go
 
 ;
-GO
+GO*/
 
