@@ -365,6 +365,7 @@ and cuo.id_plan = 303456
 go
 
 */
+--execute dbo.verificar_cancelado 31256485, 303457
 
 -- Trigger para la cancelacion de cuotas: Para que cada vez que un adquirido se declare como ganador, automaticamente se le cancelen las 
 -- cuotas restantes

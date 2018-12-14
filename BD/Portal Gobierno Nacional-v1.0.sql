@@ -746,6 +746,7 @@ BEGIN
 			and cuo.dni_cliente = ad1.dni_cliente
 			and ad1.id_concesionaria = @id_concesionaria
 			and cuo.id_concesionaria = @id_concesionaria
+			where ad1.ganador_sorteo = 'N'
 			group by ad1.dni_cliente, ad1.id_plan
 			) cli1_cuo_pagas
 	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
