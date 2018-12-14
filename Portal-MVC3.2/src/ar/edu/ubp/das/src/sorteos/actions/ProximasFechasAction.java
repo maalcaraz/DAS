@@ -25,6 +25,12 @@ MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
 		List<SorteosForm> sorteosList = new LinkedList<SorteosForm>();
 		for (DynaActionForm s : sorteos.select(null)){
 			SorteosForm f = (SorteosForm) s;
+			if (f.getPendiente().equals("S")){
+				f.setPendiente("Pendiente");
+			}
+			if (f.getPendiente().equals("N")){
+				f.setPendiente("Sorteado");
+			}
 			sorteosList.add(f);
 		}
 		request.setAttribute("sorteos", sorteosList);
