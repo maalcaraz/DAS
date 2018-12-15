@@ -11,6 +11,7 @@ public class ServicioCXF extends ServicioImpl{
 
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		String consumo = "";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
 
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -48,6 +49,7 @@ public class ServicioCXF extends ServicioImpl{
 			consumo = e.getMessage();
 		}
 		System.out.println("[ServicioCXF]Consumo: "+consumo);
+		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}
 }

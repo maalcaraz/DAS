@@ -13,6 +13,7 @@ public class ServicioAxis2 extends ServicioImpl {
 		// TODO Auto-generated method stub
 		
 		String consumo = "";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
 			
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -46,6 +47,7 @@ public class ServicioAxis2 extends ServicioImpl {
 		catch (Exception e) {
 			consumo = "[Servicio Axis]Error en conexion: "+ e.getMessage() ;
 		}
+		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}
 }

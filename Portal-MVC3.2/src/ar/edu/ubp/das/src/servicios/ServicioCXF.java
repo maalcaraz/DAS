@@ -11,6 +11,7 @@ public class ServicioCXF extends ServicioImpl{
 
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		String consumo = "";
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
 			
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -47,6 +48,7 @@ public class ServicioCXF extends ServicioImpl{
 			consumo = "[Servicio CXF - Catch clause]Salto la excepcion: "+ e.getMessage() ;
 			e.printStackTrace();
 		}
+		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}
 }
