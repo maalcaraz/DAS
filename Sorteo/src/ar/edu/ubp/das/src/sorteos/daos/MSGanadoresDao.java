@@ -42,7 +42,13 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public void update(Bean bean) throws SQLException {
-		// TODO Auto-generated method stub
+		this.connect();
+		ParticipanteBean g = (ParticipanteBean) bean;
+		this.setProcedure("dbo.cancelar_localmente(?, ?)");
+		this.setParameter(1, g.getDniCliente());
+		this.setParameter(2, g.getIdConcesionaria());
+		this.executeUpdate();
+		this.disconnect();
 		
 	}
 

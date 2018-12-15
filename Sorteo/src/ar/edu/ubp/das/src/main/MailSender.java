@@ -34,23 +34,20 @@ public class MailSender {
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
 		try {
-			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("InsertarMailParaEnviar"));
+			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("maralcaraz.13@gmail.com"));
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		try {
 			generateMailMessage.setSubject("Notificacion PlanSorteAR");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		String emailBody = "El participante " + nombre + ", dni: " + dni + " ha ganado el sorteo!. " + "<br><br> Su plan sera cancelado, <br>Portal Gobierno";
 		try {
 			generateMailMessage.setContent(emailBody, "text/html");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		System.out.println("Mail Session has been created successfully..");
 
@@ -60,29 +57,25 @@ public class MailSender {
 		try {
 			transport = getMailSession.getTransport("smtp");
 		} catch (NoSuchProviderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 
 		// Enter your correct gmail UserID and Password
 		// if you have 2FA enabled then provide App Specific Password
 		try {
-			transport.connect("smtp.gmail.com", "PlanSorteAR@gmail.com", "Password");
+			transport.connect("smtp.gmail.com", "PlanSorteAR@gmail.com", "sorteo123$");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		try {
 			transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		try {
 			transport.close();
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
 		
 	}

@@ -177,8 +177,8 @@ public class ConcesionariaRossoWS {
 
 	@WebMethod(operationName = "verificarCancelado", action = "urn:VerificarCancelado")
 	public String verificarCancelado(@WebParam(name = "id_portal") String idPortal,
-			@WebParam(name = "dni_cliente") String dniCliente, @WebParam(name = "id_plan") String idPlan)
-			throws Exception {
+									 @WebParam(name = "dni_cliente") String dniCliente, 
+									 @WebParam(name = "id_plan") String idPlan)	throws Exception {
 		
 		String idPortalAprobado = "PORTALGOB";
 		String respuestaServicio = null;

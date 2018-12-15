@@ -13,7 +13,7 @@ public class ServicioCXF extends ServicioImpl{
 		String consumo = "";
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
-
+			
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 			/* A createClient() se le pasa como parametro la URL del servicio a ser consumido.
 			 * Para usar esa clase se importa la libreria org.apache.cxf.endpoint.Client;
@@ -27,12 +27,12 @@ public class ServicioCXF extends ServicioImpl{
 			 * 2. Los parametros que usa la operacion.
 			 * Retorna lo que devuelve el servicio.
 			 * */
-			System.out.println("[Servicio CXF]Aca no llega...");
+			
 			Object[] res = null;
 			if (parameters!= null){
 				Object[] o = new String[parameters.size()];
 				for (int i=0; i< parameters.size(); i++){
-					//System.out.println(l.getName()+ ":" + l.getValue());
+					System.out.println(parameters.get(i).getName()+ ":" + parameters.get(i).getValue());
 					o[i] = parameters.get(i).getValue();
 				}
 				res = client.invoke(operacion, o);
@@ -48,7 +48,7 @@ public class ServicioCXF extends ServicioImpl{
 		
 			consumo = e.getMessage();
 		}
-		System.out.println("[ServicioCXF]Consumo: "+consumo);
+
 		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}

@@ -31,7 +31,7 @@
 				  </td> 
 			 </c:if>
 			 <c:if test="${ sorteo.fechaEjecucion ne '-'}">
-			 <td></td>
+			 <td> </td>
 			 <!--  <td> ${ sorteo.fechaSorteado }  </td>  -->
 			 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaSorteado}" var="date" />
 			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
@@ -39,15 +39,15 @@
 			 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaEjecucion}" var="date" />
 			 <td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 			 <td> 
-			 <c:if test="${ sorteo.fechaEjecucion ne '-'}">
+			 <c:if test="${ sorteo.fechaNotificacion ne '-'}">
 				 <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaNotificacion}" var="date" />
 				 <fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" />
 			 </c:if>
-			 <c:if test="${ sorteo.fechaEjecucion eq '-'}">
+			 <c:if test="${ sorteo.fechaNotificacion eq '-'}">
 			 -
 			 </c:if>
 			 </td> 
-			 <td> </td> 
+			 <td></td> 
 			 </c:if>
 		</tr> 
 	</c:forEach>

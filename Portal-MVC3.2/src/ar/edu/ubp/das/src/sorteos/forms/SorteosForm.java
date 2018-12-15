@@ -10,9 +10,17 @@ public class SorteosForm extends DynaActionForm{
 	private String fechaSorteado;
 	private String fechaEjecucion;
 	private String fechaNotificacion;
+	private String pendiente;
 	
 	
-	
+	public String getPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(String pendiente) {
+		this.pendiente = pendiente;
+	}
+
 	public String getFechaNotificacion() {
 		return fechaNotificacion;
 	}

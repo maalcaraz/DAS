@@ -748,6 +748,7 @@ BEGIN
 			and cuo.dni_cliente = ad1.dni_cliente
 			and ad1.id_concesionaria = @id_concesionaria
 			and cuo.id_concesionaria = @id_concesionaria
+			where ad1.ganador_sorteo = 'N'
 			group by ad1.dni_cliente, ad1.id_plan
 			) cli1_cuo_pagas
 	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
@@ -944,22 +945,45 @@ BEGIN
 END
 go
 
-/*
-drop TRIGGER td_ri_concesionarias
-on concesionarias
-FOR delete
+
+create TRIGGER ti_ri_ganadores
+on ganadores
+FOR insert
 AS
 	BEGIN
-		delete cli
-		from clientes cli 
-		where cli.id_concesionaria = (	
-										select d.id_concesionaria 
-										from deleted d
-										)
+		update ad
+		set ad.ganador_sorteo = 'S'
+		from adquiridos ad
+		where exists (
+						select * from inserted i
+						join concesionarias c
+						on c.nombre_concesionaria = i.nombre_concesionaria
+						where c.id_concesionaria = ad.id_concesionaria
+						and i.dni_cliente = ad.dni_cliente
+						)
+
 	END
 go
-*/
 
+drop procedure dbo.cancelar_localmente
+go
+
+create procedure dbo.cancelar_localmente
+(
+	@dni_cliente			char(8)	,
+	@id_concesionaria		varchar(20)
+)
+AS
+BEGIN
+	update ad
+		set ad.cancelado = 'S',
+			ad.fecha_sorteado = getDate()
+		from adquiridos ad
+		where ad.dni_cliente = @dni_cliente
+		and ad.id_concesionaria = @id_concesionaria
+		
+END
+go
 
 /*******************************
 
@@ -1068,8 +1092,9 @@ execute dbo.get_concesionarias
 execute dbo.get_participantes 'Montironi705993369', 16, 4
 execute dbo.get_participantes 'Colcar2023979636', 16, 4
 execute dbo.get_participantes 'AutoHaus1503004614', 16, 2
-execute dbo.get_participantes 'Tagle80567923', 36, 24
+execute dbo.get_participantes 'Rosso79149714', 36, 24
 
+select * from concesionarias
 
 * Participantes de los valores limite
 
@@ -1169,4 +1194,3 @@ update S
 	where s.id_sorteo = '1234asadf'
 
 */
-

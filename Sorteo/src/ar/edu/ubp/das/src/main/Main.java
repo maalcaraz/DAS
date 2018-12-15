@@ -87,8 +87,8 @@ public class Main {
 				
 				//abortarSorteo = true;
 				notificar = true;
-				if (opsSorteo.verificarCancelado() == null){
-					ganador = null;
+				if (ultimoGanador == null ){//opsSorteo.verificarCancelado() == null){
+					//ganador = null;
 					System.out.println("[Main:84]No se pudo obtener el ganador");
 					intentos++;
 					LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
@@ -102,7 +102,7 @@ public class Main {
 					System.exit(0);
 				}
 				else{
-					ganador = opsSorteo.verificarCancelado();
+					//ganador = opsSorteo.verificarCancelado();
 				}
 			}
 		}
@@ -123,14 +123,25 @@ public class Main {
 				 * La cancelacion esta pendiente. Hay que invocar a NotificaGanador para la concesionaria  
 				 * correspondiente.
 				 */
+				System.out.println("[SorteoActual fecha:]"+sorteoActual.getFechaEjecucion());
 				ultimoGanador.setFechaSorteado(sorteoActual.getFechaEjecucion());
-				boolean notificacion = opsSorteo.NotificarGanador(ultimoGanador); // CAMBIAR
+				boolean notificacion = opsSorteo.NotificarGanador(ultimoGanador); 
 				if (!notificacion){
 					intentos++;
 					String jsonRazon = opsSorteo.setearRazon("NotificarGanador", intentos);
 					opsSorteo.cambiarValorPendienteSorteo(sorteoActual, jsonRazon, true);
 					//abortarSorteo = true;
 					System.exit(0);
+				}
+				else {
+					String idRazon = "El sorteo completo la etapa de notificacion";
+					
+					Date fechaNotificacion = new Date();
+					SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+					sorteoActual.setFechaNotificacion(parser.format(fechaNotificacion));
+					opsSorteo.cambiarValorPendienteSorteo(sorteoActual, idRazon, false);
+					abortarSorteo = true;
+					notificar = false;
 				}
 			}
 		}
@@ -173,11 +184,14 @@ public class Main {
 			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 			sorteoActual.setFechaEjecucion(parser.format(fechaEjecucion)); 
 			
+			System.out.println("[Main]La fecha de ejecucion del sorteo es: "+parser.format(fechaEjecucion));
 			ganador = new AdquiridoBean();
 			ganador.setDniCliente(participanteGanador.getDniCliente());
 			ganador.setIdConcesionaria(participanteGanador.getIdConcesionaria());
 			ganador.setIdPlan(participanteGanador.getIdPlan());
 			ganador.setFechaSorteado(sorteoActual.getFechaEjecucion());
+			
+			// aca tambien tendriamos que poner notificar = true?
 			
 			/*Registro del ganador en la base de datos local */
 			try {
@@ -200,6 +214,10 @@ public class Main {
 		}
 		if (notificar == true){
 			if(opsSorteo.NotificarGanador(ganador) == true){
+				
+				
+				
+				
 				System.out.println("[Main:209]Seteamos sorteo como NO pendiente...");
 				Date fechaNotificacion = new Date();
 				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
@@ -227,8 +245,8 @@ public class Main {
 		 * en caso de que el proceso haya fallado en alguno momento.
 		 */
 		if(abortarSorteo == true && sorteoActual != null ){
-			System.out.println("[Main]Seteamos sorteo como pendiente...");
-			opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo no cumple las condiciones para ser ejecutado.", true);
+			//System.out.println("[Main]Seteamos sorteo como pendiente...");
+			//opsSorteo.cambiarValorPendienteSorteo(sorteoActual, "[Main]El sorteo no cumple las condiciones para ser ejecutado.", true);
 		}
 		System.out.println("[Main]Adios mundo");
 	}	

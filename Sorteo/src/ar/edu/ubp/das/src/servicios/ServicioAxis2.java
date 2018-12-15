@@ -11,7 +11,7 @@ public class ServicioAxis2 extends ServicioImpl {
 	@Override
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		// TODO Auto-generated method stub
-		
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		String consumo = "";
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
@@ -37,9 +37,11 @@ public class ServicioAxis2 extends ServicioImpl {
 					o[i] = parameters.get(i).getValue();
 				}
 				res = client.invoke(operacion, o);
+				client.destroy();
 			}
 			else {
 				res = client.invoke(operacion, parameters);
+				client.destroy();
 			}
 			System.out.println("[Servicio Axis] Respuesta de Axis: "+res[0]);
 			consumo = res[0].toString();

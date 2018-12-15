@@ -288,7 +288,6 @@ public class OperacionesSorteo {
 			}
 		} 
 		catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("\t[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
 		}
 		return sorteoPorEjecutar;
@@ -325,8 +324,6 @@ public class OperacionesSorteo {
 				if (pendiente.getFechaEjecucion()!=null){
 					if (pendiente.getFechaNotificacion() != null){
 						System.out.println("[OpsSorteo]Se pudo notificar con exito");
-						
-						
 					}
 					else{
 						System.out.println("[OpsSorteo]No se pudo realizar la notificacion con exito");
@@ -336,12 +333,10 @@ public class OperacionesSorteo {
 				}
 				else{
 					System.out.println("[OpsSorteo]No se pudo ejecutar con exito");
+					pendiente.setFechaEjecucion(null);
 				}
 				
-				
-				
 				System.out.println("\t[OpsSorteo]Entrando a marcar como pendiente");
-				pendiente.setFechaEjecucion(null);
 				pendiente.setPendiente("S");
 				pendiente.setRazon(idRazon);
 			}
