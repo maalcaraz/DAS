@@ -11,7 +11,7 @@ public class ServicioAxis2 extends ServicioImpl {
 	@Override
 	public String Consumir(String operacion, List<NameValuePair> parameters) {
 		// TODO Auto-generated method stub
-		
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		String consumo = "";
 		try {
 			
@@ -48,6 +48,7 @@ public class ServicioAxis2 extends ServicioImpl {
 		catch (Exception e) {
 			consumo = "[Servicio Axis]Error en conexion: "+ e.getMessage() ;
 		}
+		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}
 }
