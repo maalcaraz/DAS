@@ -7,13 +7,15 @@
 <head>
   <title><fmt:message key="bienvenido" bundle="${etq}"></fmt:message></title>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,bootstrap.min,login" ></script>
+  	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,login" />
 </head>
 <body>
  
  <div id="id01" class="modal">
+  <!--  No necesitamos el close por ahora por que atras del login no hay nada
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
+  -->
 
   <!-- Modal Content -->
   <form class="modal-content animate" id="form" >
@@ -37,6 +39,12 @@
     </div>
 	<div class="container" style="background-color:#f1f1f1">
       <button type="button" name="cancelbtn" onclick="jLogin.cancelar(2, 'id01')" class="cancelbtn"><fmt:message key="cancelar" bundle="${etq}"></fmt:message></button>
+      <b><fmt:message key="lenguaje" bundle="${etq}"></fmt:message></b>
+      <select name="lenguaje" selected="lenguaje" onchange="jPortal.langOnSelect(this)">
+      					<option value="lenguaje"><fmt:message key="lenguaje" bundle="${etq}"></fmt:message> </option>
+      					<option value="es"> <fmt:message key="espaniol" bundle="${etq}"></fmt:message> </option>
+      					<option value="en"> <fmt:message key="ingles" bundle="${etq}"></fmt:message> </option>	
+	  </select>
       <span class="psw" ><a href="#"> <fmt:message key="olvido_su_contrasenia" bundle="${etq}"></fmt:message>?</a></span>
     </div>
     
