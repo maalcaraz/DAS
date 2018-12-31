@@ -8,6 +8,7 @@
 <c:set var="pendientes" scope="request"	value="${requestScope.pendientes}"></c:set>
 
 <br>
+	<h2><fmt:message key="concesionarias_registradas" bundle="${etq}"></fmt:message></h2> <br><br> 
 	<div>
 	<c:if test="${!empty concesionarias}">
 	<h2><fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message></h2> <br><br> 
@@ -25,6 +26,9 @@
 					: <fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /> <br> 
 			</div> 
 		</c:forEach>
+	</c:if>
+	<c:if test="${empty concesionarias}">
+		<h3><fmt:message key="no_hay_concesionarias_aprobadas" bundle="${etq}"></fmt:message></h3>
 	</c:if>
 	</div>
 

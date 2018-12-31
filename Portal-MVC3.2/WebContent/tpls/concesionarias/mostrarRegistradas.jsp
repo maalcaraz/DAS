@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
 <script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos"></script>
-<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
+<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin" />
 </head>
 
 <fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
