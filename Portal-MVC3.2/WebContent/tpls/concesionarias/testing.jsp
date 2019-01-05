@@ -7,67 +7,96 @@
 <script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos" ></script>
 	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=admin" />	
 </head>
-<div class="grid-container">
-	<div class="grid-item">
-	<h2> Consulta quincenal </h2>
-		<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionaria.getClientes()">
-		
-		<div id="detalle-clientes">  </div>
-		
-	
-	</div>
 
-	<div class="grid-item">
-	<h2> Notificar ganador </h2>
-	<form id="formNotificar">
-		<span>
-		<label for="idConcesionaria"> Concesionaria:  </label>
-		<input type="text" id="idConcesionaria" name="idConcesionaria" value="Colcar2023979636"></span> 
-		<br><br>
-		<label for="dniCliente"> Dni del cliente:  </label>
-		<input type="text" id="dniCliente" name="dniCliente" value="23432255">
-		<br><br>
-		<label for="nombreApellido"> Nombre y apellido: </label>
-		<input type="text" id="nombreApellido" name="nombreApellido" value="Pablo Alcaraz">
-		<br><br>
-		<label for="idPlan"> IdPlan:  </label>
-		<input type="text" id="idPlan" name="idPlan" value="303455">
-		<br><br>
-		<label for="fechaSorteo"> Fecha del sorteo:  </label>
-		<input type="text" id="fechaSorteo" name="fechaSorteo" value="02-02-18">
-		<br><br>
-		
-		<input type="button" id="notificarGanador" value="Notificar Ganador" onclick="jConcesionaria.notificarConcesionaria()">
-		</form>
-	<div id="respuestaNotificar"> </div>
-	
-	</div>
-	
-	<div class="grid-item"> <h2> Verificar cancelado </h2> \
-	<form id="verificarCanceladoForm" >
-	
-	
-		<label for="dniVerificar"> Dni:  </label>
-		<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
-		<label for="idPlan"> Identificador de plan:  </label>
-		<input type="text" id="idPlan" name="idPlan"><br><br>
-		<button id="verificar" onclick="jConcesionaria.verificarCancelado()" name="verificar"> Verificar cancelado </button>
-		<br><br>
-	</form>
-	<div id="respuestaCancelado"> </div>
-	
-	</div>
-	
-</div>
 
-<div class="grid-item">
-<h2>Prueba de sincronicidad de Concesionarias</h2>
+	      <section class="wrapper">
+	        <div class="row">
+				<div class="col-lg-12">
+					<h3 class="page-header">
+						<i class="fa fa fa-wrench"></i>
+						Testing
+					</h3>
+					<ol class="breadcrumb">
+						<li><i class="fa fa-home"></i><a href="/home/Home.do">Home</a></li>
+						<li><i class="fa fa-wrench"></i>
+						Testing</li>
+						<!-- 
+			              <li><i class="fa fa-square-o"></i>Pages</li>
+			              -->
+					</ol>
+				</div>
+			</div>
+	        <!-- page start-->
+	        <div class="main" id="contenido-admin">
+	        
+	        	<div class="grid-container">
+					<div class="grid-item">
+					<h2> Consulta quincenal </h2>
+						<input type="button" id="consultaQuincenal" value="Consulta Quincenal" onclick="jConcesionaria.getClientes()">
+						
+						<div id="detalle-clientes">  </div>
+						
+					
+					</div>
+				
+					<div class="grid-item">
+					<h2> Notificar ganador </h2>
+					<form id="formNotificar">
+						<span>
+						<label for="idConcesionaria"> Concesionaria:  </label>
+						<input type="text" id="idConcesionaria" name="idConcesionaria" value="Colcar2023979636"></span> 
+						<br><br>
+						<label for="dniCliente"> Dni del cliente:  </label>
+						<input type="text" id="dniCliente" name="dniCliente" value="23432255">
+						<br><br>
+						<label for="nombreApellido"> Nombre y apellido: </label>
+						<input type="text" id="nombreApellido" name="nombreApellido" value="Pablo Alcaraz">
+						<br><br>
+						<label for="idPlan"> IdPlan:  </label>
+						<input type="text" id="idPlan" name="idPlan" value="303455">
+						<br><br>
+						<label for="fechaSorteo"> Fecha del sorteo:  </label>
+						<input type="text" id="fechaSorteo" name="fechaSorteo" value="02-02-18">
+						<br><br>
+						
+						<input type="button" id="notificarGanador" value="Notificar Ganador" onclick="jConcesionaria.notificarConcesionaria()">
+						</form>
+					<div id="respuestaNotificar"> </div>
+					
+					</div>
+					
+					<div class="grid-item"> <h2> Verificar cancelado </h2> \
+					<form id="verificarCanceladoForm" >
+					
+					
+						<label for="dniVerificar"> Dni:  </label>
+						<input type="text" id="dniVerificar" name="dniVerificar"> <br><br>
+						<label for="idPlan"> Identificador de plan:  </label>
+						<input type="text" id="idPlan" name="idPlan"><br><br>
+						<button id="verificar" onclick="jConcesionaria.verificarCancelado()" name="verificar"> Verificar cancelado </button>
+						<br><br>
+					</form>
+					<div id="respuestaCancelado"> </div>
+					
+					</div>
+					
+				</div>
+				
+				<div class="grid-item">
+				<h2>Prueba de sincronicidad de Concesionarias</h2>
+				
+				<input type="button" id="sync" value="Verificar" onclick="jConcesionaria.testingSyncro()">
+				<div id="respuesta-servicio"></div>
+				
+				</div>
+				
+				<input type="button" id="testMail" value="Mandar Mail" onclick="jPortal.mandarMail()">
+				<div id="respuesta-mail"></div>
 
-<input type="button" id="sync" value="Verificar" onclick="jConcesionaria.testingSyncro()">
-<div id="respuesta-servicio"></div>
+			</div>
+	        <!-- page end-->
+	      </section>
 
-</div>
 
-<input type="button" id="testMail" value="Mandar Mail" onclick="jPortal.mandarMail()">
-<div id="respuesta-mail"></div>
+
 

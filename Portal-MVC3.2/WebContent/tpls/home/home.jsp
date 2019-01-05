@@ -7,7 +7,7 @@
 <script type="text/javascript"
 	src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,concesionarias,sorteos,clientes,bootstrap.bundle.min,scripts,jquery.localscroll,jquery.nicescroll,jquery.scrollTo.min,jquery.slimscroll.min"></script>
 <link type="text/css" rel="stylesheet"
-	href="/util/StyleSheet.do/load=bootstrap.min,bootstrap-theme,style,style-responsive,line-icons,elegant-icons-style" />
+	href="/util/StyleSheet.do/load=bootstrap.min,bootstrap-theme,style,style-responsive,line-icons,elegant-icons-style,font-awesome.min" />
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -59,43 +59,25 @@
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                             <i class="icon-bell-l"></i>
-                            <span class="badge bg-important">7</span>
                         </a>
             <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-blue"></div>
               <li>
-                <p class="blue">You have 4 new notifications</p>
-              </li>
-              <li>
-                <a href="#">
-                                    <span class="label label-primary"><i class="icon_profile"></i></span>
-                                    Friend Request
-                                    <span class="small italic pull-right">5 mins</span>
+                <a href="#proximasfechas" onclick="jSorteos.proximasFechas()">
+                                    <span class="label label-primary"><i class="icon_menu"></i></span>
+                                    <fmt:message key="proximas_fechas" bundle="${etq}"></fmt:message>
                                 </a>
               </li>
               <li>
-                <a href="#">
-                                    <span class="label label-warning"><i class="icon_pin"></i></span>
-                                    John location.
-                                    <span class="small italic pull-right">50 mins</span>
+                <a href="#" onclick="jConcesionaria.mostrarAdheridas()">
+                                    <span class="label label-warning"><i class="icon_menu"></i></span>
+                                    <fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message>
                                 </a>
               </li>
               <li>
-                <a href="#">
-                                    <span class="label label-danger"><i class="icon_book_alt"></i></span>
-                                    Project 3 Completed.
-                                    <span class="small italic pull-right">1 hr</span>
+                <a href="#resultadosSorteo" onclick="jConcesionaria.obtenerGanadores()">
+                                    <span class="label label-danger"><i class="icon_menu"></i></span>
+                                    <fmt:message key="historico" bundle="${etq}"></fmt:message>
                                 </a>
-              </li>
-              <li>
-                <a href="#">
-                                    <span class="label label-success"><i class="icon_like"></i></span>
-                                    Mick appreciated your work.
-                                    <span class="small italic pull-right"> Today</span>
-                                </a>
-              </li>
-              <li>
-                <a href="#">See all notifications</a>
               </li>
             </ul>
           </li>
@@ -112,7 +94,7 @@
             <ul class="dropdown-menu extended logout">
               <div class="log-arrow-up"></div>
               <li>
-                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
+                <a href="#" id="loginbutton" name="loginbutton" onclick="jLogin.login(1)"><i class="icon_key_alt"></i> <fmt:message key="cerrar_sesion" bundle="${etq}"></fmt:message></a>
               </li>
 
             </ul>
@@ -159,14 +141,34 @@
 		</aside>
 		<!--sidebar end-->
 
-		<!--main content start-->
-		<section id="main-content" style="margin-left: 180px;">
-			<section id="contenido-admin" class="wrapper">
-				<img src="/img/ford.png" alt="New York">
+		<section id="main-content">
+	      <section class="wrapper">
+	        <div class="row">
+	          <div class="col-lg-12">
+	            <h3 class="page-header"><i class="fa fa fa-home"></i> Home</h3>
+	            <ol class="breadcrumb">
+	              <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+	              <!--  
+	              <li><i class="fa fa-bars"></i>Pages</li>
+	              <li><i class="fa fa-square-o"></i>Pages</li>
+	              -->
+	            </ol>
+	          </div>
+	        </div>
+	        <!-- page start-->
+	        <div class="main" id="contenido-admin">
+	        	<div class="row">
+						
+							      <img class="col-lg-5" src="/img/ford.png" alt="New York">
 							      <br>
+							      <p class="col-lg-4  align-middle">
 								  <fmt:message key="frase_home" bundle="${etq}"></fmt:message>
-			</section>
-		</section>
+								  </p>
+				</div>
+			</div>
+	        <!-- page end-->
+	      </section>
+	    </section>
 		<!--main content end-->
 	</section>
 
