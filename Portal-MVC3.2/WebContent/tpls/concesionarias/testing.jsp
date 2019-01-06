@@ -17,7 +17,7 @@
 						Testing
 					</h3>
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="/home/Home.do">Home</a></li>
+						<li><i class="fa fa-home"></i><a href="/home/Home.do"><fmt:message key="home" bundle="${etq}"></fmt:message></a></li>
 						<li><i class="fa fa-wrench"></i>
 						Testing</li>
 						<!-- 

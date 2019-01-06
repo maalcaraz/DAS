@@ -25,7 +25,7 @@
 				<fmt:message key="concesionarias_registradas" bundle="${etq}"></fmt:message>
 			</h3>
 			<ol class="breadcrumb">
-				<li><i class="fa fa-home"></i><a href="/home/Home.do">Home</a></li>
+				<li><i class="fa fa-home"></i><a href="/home/Home.do"><fmt:message key="home" bundle="${etq}"></fmt:message></a></li>
 				<li><i class="fa fa-car"></i>
 				<fmt:message key="concesionarias_registradas" bundle="${etq}"></fmt:message></li>
 				<!-- 
