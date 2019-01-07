@@ -100,23 +100,24 @@
 								</div>
 								<br>
 								<c:if test="${ concesionaria.aprobada eq 'S'}">
-									<input type="button" class="normal button"
+									<input type="button" class="btn btn-primary"
 										value="<fmt:message key="rechazar" bundle="${etq}"></fmt:message>"
 										onclick="jConcesionaria.rechazar('${ concesionaria.idConcesionaria }')">
 								</c:if>
 								<c:if test="${ concesionaria.aprobada eq 'N'}">
-									<input type="button" class="normal button"
+									<input type="button" class="btn btn-primary"
 										value="<fmt:message key="aprobar" bundle="${etq}"></fmt:message>"
 										onclick="jConcesionaria.aprobar('${ concesionaria.idConcesionaria }')">
 								</c:if>
 
 								<input type="button"
 									id="config-${ concesionaria.idConcesionaria }"
-									class="normal button"
+									class="btn btn-primary"
 									value="<fmt:message key="configurar" bundle="${etq}"></fmt:message> "
 									onclick="jConcesionaria.editarConcesionaria('${ concesionaria.idConcesionaria }')">
 								<input type="button"
 									value="<fmt:message key="conexion" bundle="${etq}"></fmt:message>"
+									class="btn btn-primary"
 									onclick="jConcesionaria.testingSyncro('${ concesionaria.idConcesionaria }')">
 								<div id="respuesta-${ concesionaria.idConcesionaria }"></div>
 							</form>

@@ -86,10 +86,10 @@
 		    </tbody>
 		  </table>
 		  
-		  		<input type="button" class="normal button"
+		  		<input type="button" class="btn btn-primary"
 			onclick="jSorteos.nuevoSorteo()"
 			value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
-			<input type="button" class="normal button"
+			<input type="button" class="btn btn-primary"
 				onclick="jSorteos.eliminarSorteos()"
 				value="<fmt:message key="eliminar" bundle="${etq}"></fmt:message>">
 

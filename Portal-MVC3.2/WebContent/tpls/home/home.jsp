@@ -55,7 +55,7 @@
         <!-- notificatoin dropdown start-->
         <ul class="nav pull-right top-menu">
 	        <select name="lenguaje" selected="lenguaje"
-									onchange="jPortal.langOnSelect(this)" class="text-primary bg-dark border-dark">
+									onchange="jPortal.langOnSelect(this)" class="btn text-primary bg-dark border-dark">
 									<option value="lenguaje"><fmt:message key="lenguaje"
 											bundle="${etq}"></fmt:message>
 									</option>
