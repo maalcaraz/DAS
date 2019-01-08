@@ -24,7 +24,7 @@ var jSorteos = {
 				$("#tablaSorteos").append(fila);
 		},
 		insertar : function () {
-			fecha = $("#nuevaFecha").val(); 
+			fecha = $("#nuevaFecha").val();
 			if (this.validarFechaSorteo(fecha) == true){
 				jUtils.executing("main-content");
 				$.ajax({
@@ -126,7 +126,7 @@ var jSorteos = {
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
 			var hoy = new Date();
-			hoy = new Date(hoy.getDay(), hoy.getMonth()+1, hoy.getFullYear());
+			hoy = new Date(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
 			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
 			console.log("Fecha de hoy:"+hoy.getDate());
 			console.log("Fecha generada: "+fechaGenerada.getDate());
