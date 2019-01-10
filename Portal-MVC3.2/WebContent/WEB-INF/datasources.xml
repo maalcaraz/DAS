@@ -5,5 +5,5 @@
                 driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"
                 url="jdbc:sqlserver://localhost;databaseName=portalgob;characterEncoding=ISO-8859-1"
                 username="sa"
-                password="33814003" />
+                password="mariangel" />
 </datasources>
