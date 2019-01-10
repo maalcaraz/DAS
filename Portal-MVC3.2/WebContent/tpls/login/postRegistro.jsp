@@ -9,7 +9,7 @@
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 </head>
 
-<h1> <fmt:message key="registroExitoso" bundle="${etq}"></fmt:message> </h1>
+<h3> <fmt:message key="registroExitoso" bundle="${etq}"></fmt:message> </h3>
 
 <button type="button"  onclick="window.location.replace('/login/Login.do')"><fmt:message key="volver" bundle="${etq}"></fmt:message></button>
 

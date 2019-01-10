@@ -16,7 +16,7 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("container", html);
 		            }
 		        });
 			}
@@ -96,7 +96,7 @@ var jLogin = {
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("id01", html);
+	            	jUtils.showing("contenido-modal", html);
 	            }
 	        });
 		},
