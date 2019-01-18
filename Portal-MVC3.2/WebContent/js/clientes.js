@@ -1,6 +1,6 @@
 var modal = document.getElementById('id02');
 var jClientes ={
-		
+		/* NO se usa actualmente. Usada en lo que era home cliente. */
 		estadoCuenta : function(){
 			jUtils.executing("contenido-admin");
 	        jUtils.hiding("message");
@@ -17,6 +17,7 @@ var jClientes ={
 	            }
 	        });
 	       },
+	       /* NO se usa actualmente. Usada en lo que era home cliente. */
 	       datosCliente : function(){
 				jUtils.executing("contenido-admin");
 		        jUtils.hiding("message");
@@ -34,7 +35,7 @@ var jClientes ={
 		        });
 		       },
 		       datosTodosClientes : function(){
-					jUtils.executing("contenido-admin");
+					jUtils.executing("main-content");
 			        jUtils.hiding("message");
 			        $.ajax({
 			            url: "/clientes/EstadoDatosClientes.do",
@@ -45,7 +46,7 @@ var jClientes ={
 			                jUtils.showing("message", hr.responseText);
 			            },
 			            success: function(html) {
-			            	jUtils.showing("contenido-admin", html);
+			            	jUtils.showing("main-content", html);
 			            }
 			        });
 			       }

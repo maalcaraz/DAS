@@ -18,21 +18,20 @@ public class RegistrarUsuarioAction implements Action{
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
-		String user = request.getParameter("userReg"); // verificar por nulos
-		String pass = request.getParameter("pwdReg");
-		System.out.println(user);
-		System.out.println(pass);
-		
+		String user = (request.getParameter("userReg").trim()); // verificar por nulos
+		String pass = (request.getParameter("pwdReg").trim());
+		if( ((user == null) || user.equals("")) || ((pass == null) || pass.equals("")) ) {
+			throw new RuntimeException("Los campos no pueden estar vacios");
+		}
 		
 		DynaActionForm nuevoUsuario = new DynaActionForm();
 		nuevoUsuario.setItem("id_usuario", user);
-		nuevoUsuario.setItem("tipo_usuario", "cliente");
+		nuevoUsuario.setItem("tipo_usuario", "admin");
 		nuevoUsuario.setItem("clave_usuario", pass);
 		
 		MSUsuarioDao Usuario = (MSUsuarioDao)DaoFactory.getDao("Usuario", "login");
 		Usuario.insert(nuevoUsuario);
 		
-		request.setAttribute("respuesta", "Usuario Registrado con exito!");
 		return mapping.getForwardByName("success");
 	}
 

@@ -14,6 +14,21 @@ var jPortal = {
 	            }
 	        });
 		},
+		langOnSelect : function(lang){
+			$.ajax({
+	            url: "/portal/Internacionalizar.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"lang": lang.value},
+	            error: function(hr){
+	                jUtils.hiding("result");
+	                jUtils.showing("message", hr.responseText);
+	            },
+	            success: function(html) {
+	            	location.reload();
+	            }
+	        });
+		},
 		mandarMail : function(){
 			nomDiv = "respuesta-mail";
 			jUtils.executing(nomDiv);

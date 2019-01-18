@@ -16,7 +16,7 @@ var jLogin = {
 		                jUtils.showing("message", hr.responseText);
 		            },
 		            success: function(html) {
-		            	jUtils.showing("site", html);
+		            	jUtils.showing("container", html);
 		            }
 		        });
 			}
@@ -67,6 +67,7 @@ var jLogin = {
 	        */
 		},
 		
+		/* Utilizada en home. Click en Iniciar Sesion  */
 		acceder: function() {
 		        jUtils.hiding("message");
 		        $.ajax({
@@ -84,25 +85,24 @@ var jLogin = {
 		            }
 		        });	
 		},
+		/* Utilizada. Click en "registrar" en login */
 		primerIngreso : function () {
-			jUtils.executing("site");
-	        jUtils.hiding("message");
+			jUtils.executing("message");
 	        $.ajax({
 	            url: "/login/ingresarRegistro.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.hiding("result");
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("site", html);
+	            	jUtils.showing("contenido-modal", html);
 	            }
 	        });
 		},
+		/* Utilizada en Registrar usuario. click en registrarse */
 		registrar : function (){
-			jUtils.executing("site");
-	        jUtils.hiding("message");
+			jUtils.executing("message");
 	        $.ajax({
 	            url: "/login/registrarUsuario.do",
 	            type: "post",
@@ -113,10 +113,13 @@ var jLogin = {
 	                jUtils.showing("message", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("site", html);
+	            	$("[name='registrar']").hide();
+	            	$("[name='cancelbtn']").hide();
+	            	jUtils.showing("message", html);
 	            }
 	        });
 		},
+		/* Utilizada */
 		cancelar : function (op, mod){
 			if (op == 2){
 				alert("Se cancelo la iniciada de sesion");

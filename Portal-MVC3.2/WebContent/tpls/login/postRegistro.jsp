@@ -1,19 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
+
 <head>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias,sorteos"></script>
-<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,page,messages,home,admin" />
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 </head>
 
-<c:set var="respuesta" scope="request"	value="${requestScope.respuesta}"></c:set>
-<h1> ${ respuesta } </h1>
+<h3> <fmt:message key="registroExitoso" bundle="${etq}"></fmt:message> </h3>
 
-<a href="/home/Home.do">Volver</a>
+<button type="button"  onclick="window.location.replace('/login/Login.do')"><fmt:message key="volver" bundle="${etq}"></fmt:message></button>
 
 
-</html>

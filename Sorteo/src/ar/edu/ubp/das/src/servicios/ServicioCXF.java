@@ -48,6 +48,7 @@ public class ServicioCXF extends ServicioImpl{
 		
 			consumo = e.getMessage();
 		}
+
 		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;
 	}

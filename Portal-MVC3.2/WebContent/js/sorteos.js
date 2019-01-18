@@ -1,15 +1,15 @@
 var jSorteos = {
 		obtenerSorteos : function (){
-			jUtils.executing("contenido-admin");
+			jUtils.executing("main-content");
 			 $.ajax({
 		            url: "/sorteos/MostrarSorteos.do",
 		            type: "post",
 		            dataType: "html",
 		            error: function(hr){
-		                jUtils.showing("contenido-admin", hr.responseText);
+		                jUtils.showing("main-content", hr.responseText);
 		            },
 		            success: function(html) {
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("main-content", html);
 		            }
 		        });	
 		},
@@ -24,19 +24,19 @@ var jSorteos = {
 				$("#tablaSorteos").append(fila);
 		},
 		insertar : function () {
-			fecha = $("#nuevaFecha").val(); 
+			fecha = $("#nuevaFecha").val();
 			if (this.validarFechaSorteo(fecha) == true){
-				jUtils.executing("contenido-admin");
+				jUtils.executing("main-content");
 				$.ajax({
 		            url: "/sorteos/InsertarNuevo.do",
 		            type: "post",
 		            data: {"nuevaFecha" : fecha},
 		            dataType: "html",
 		            error: function(hr){
-		                jUtils.showing("contenido-admin", hr.responseText);
+		                jUtils.showing("main-content", hr.responseText);
 		            },
 		            success: function(html) {
-		            	jUtils.showing("contenido-admin", html);
+		            	jUtils.showing("main-content", html);
 		            }
 		        });
 			}
@@ -51,17 +51,17 @@ var jSorteos = {
 				sel.push($(this).val());
 			});
 			alert(sel);
-			jUtils.executing("contenido-admin");
+			jUtils.executing("main-content");
 			$.ajax({
 	            url: "/sorteos/EliminarSorteos.do",
 	            type: "post",
 	            dataType: "html",
 	            data: {"sorteosAEliminar": sel.toString()},
 	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
+	                jUtils.showing("main-content", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
+	            	jUtils.showing("main-content", html);
 	            }
 	        });	
 		},
@@ -75,6 +75,7 @@ var jSorteos = {
 			id.innerHTML = fila;
 			
 		},
+		/*no usada*/
 		guardarSorteo : function (idSorteo) {
 			var nuevaFecha = $("#nuevaFecha").val();
 			alert("idSorteo: "+ idSorteo);
@@ -94,19 +95,20 @@ var jSorteos = {
 	        });
 		},
 		proximasFechas : function () {
-			jUtils.executing("contenido-admin");
+			jUtils.executing("main-content");
 			$.ajax({
 	            url: "/sorteos/ProximasFechas.do",
 	            type: "post",
 	            dataType: "html",
 	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
+	                jUtils.showing("main-content", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
+	            	jUtils.showing("main-content", html);
 	            }
 	        });
 		},
+		/*no usada*/
 		resultadosUltimoSorteo : function () {
 			jUtils.executing("contenido");
 			$.ajax({
@@ -124,7 +126,7 @@ var jSorteos = {
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
 			var hoy = new Date();
-			hoy = new Date(hoy.getDay(), hoy.getMonth()+1, hoy.getFullYear());
+			hoy = new Date(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
 			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
 			console.log("Fecha de hoy:"+hoy.getDate());
 			console.log("Fecha generada: "+fechaGenerada.getDate());
