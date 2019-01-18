@@ -26,6 +26,7 @@ import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoFactory;
 import ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
+import ar.edu.ubp.das.src.sorteos.daos.MSParticipantesDao;
 import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 
 public class OperacionesSorteo {
@@ -38,7 +39,7 @@ public class OperacionesSorteo {
 	 * correspondiente si se cancelo.
 	 * 
 	 */
-	public AdquiridoBean verificarCancelado(){ /* Por que esta operacion retorna un adquirido? */
+	public ParticipanteBean verificarCancelado(){ /* Por que esta operacion retorna un adquirido? */
 		System.out.println("[OpsSorteo]--------------->VERIFICAR CANCELADO");
 				String restResp = "";
 				String idPortal = "PORTALGOB";
@@ -66,7 +67,7 @@ public class OperacionesSorteo {
 							for (Bean c : concesionarias ){
 								ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 								// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
-								if (concesionaria.getAprobada().equals("S")){
+								if (concesionaria.getAprobada().equals("S")){ // puede que este de mas
 									if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
 										System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
 										
@@ -95,7 +96,7 @@ public class OperacionesSorteo {
 					else{
 						System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 					}
-		return adqBean;
+		return null;//adqBean;
 	}
 	
 	
@@ -167,51 +168,47 @@ public class OperacionesSorteo {
 	
 	/*
 	 * Chequea ultima fecha de actualizacion de informacion de concesionarias
-	 * en caso negativo obtiene los datos y actualiza BD de sorteo.
-	 * Devuelve lista con de participantes para sorteo
+	 * en caso negativo realiza el consumo pertinente y actualiza BD de sorteo.
 	 */
-	public List<Bean> consultaConcesionarias(){
-		System.out.println("\t[Ops Sorteo]Entrando en Consulta de Concesionarias");
-		List<Bean> participantesC = null;
-		List<Bean> concesionarias = null;
-		
+	public boolean consultaQuincenal(){
+		/*
+		 * Intenta actualizar los datos de las concesionarias mediante el consumo de la operacion getClientes()
+		 * retorna true si quedaron concesionarias pendientes
+		 */
+		Gson gson = new Gson();
+		System.out.println("\t[Ops Sorteo]Consulta de Concesionarias");
+
 		try {
-			concesionarias = obtenerConcesionarias(null);
-			List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
-			Gson gson = new Gson();
+			List<Bean> concesionarias = obtenerConcesionarias(null);
+			LinkedList<ClienteBean> clientes;
+			LinkedList<PlanBean> planes;
+			LinkedList<AdquiridoBean> adquiridos;
+			LinkedList<CuotaBean> cuotas;
 			
-			System.out.println("\t[Ops Sorteo]En la Consulta Quincenal - Entrando a recorrer concesionarias...");
+			//List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
+			
 			for (Bean c : concesionarias ){
 				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
 				
-				if (concesionaria.getAprobada().equals("S")){
+				if (concesionaria.getAprobada().equals("S") && (concesionaria.isConsultaPendiente())){
 					System.out.println("\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 					
 					int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
 					System.out.println("\t[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
 					
-					LinkedList<ClienteBean> clientes;
-					LinkedList<PlanBean> planes;
-					LinkedList<AdquiridoBean> adquiridos;
-					LinkedList<CuotaBean> cuotas;
+					
 					int diasCaducidad = Integer.parseInt(concesionaria.getCantDiasCaducidad());
 					System.out.println("\t[Ops Sorteo]Entrando al if de actualizacion de datos");
-					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > diasCaducidad) ){
-						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos");
+					
+					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > diasCaducidad) || (concesionaria.isConsultaPendiente())){
+						
+						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos de "+ concesionaria.getNomConcesionaria());
 						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 						parameters.add(new BasicNameValuePair("id_portal" , "PORTALGOB"));
-						try {
-							/* Esto hace falta a la hora de preguntar si el sorteo es hoy
-							java.util.Date utilDate = new java.util.Date(); //fecha actual
-							long lnMilisegundos = utilDate.getTime();
-							java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);
-							concesionaria.setUltimaActualizacion(sqlTimestamp.toString());
-							System.out.println("Ultima actualizacion: " + sqlTimestamp.toString() );
-							*/
-							
-							String restResp = concesionaria.getWebService().Consumir("getClientes", parameters);
 						
-							
+						try {
+						
+							String restResp = concesionaria.getWebService().Consumir("getClientes", parameters);
 							TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
 							
 							String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
@@ -227,9 +224,7 @@ public class OperacionesSorteo {
 							/*Listado de Cuotas*/
 							String strCuotas = listaRetorno[3];
 							cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaBean>>(){}.getType() );
-							
-							// tambien arrancar con la logica de la fechade ultima actualizacion
-							
+														
 							Date fechaHoy = new Date();
 							SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -239,38 +234,32 @@ public class OperacionesSorteo {
 							concesionaria.setPlanes(planes);
 							concesionaria.setTransacForm(transaccion);
 							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));		
-							insertarConcesionarias(concesionaria);
+							insertarConcesionarias(concesionaria); // esto deberiamos ver de ponerlo afuera de los catch
 							
-							// Concesionaria.update(concesionaria); //ingresar los datos traidos del servicio a la bd local 
+							
 						 }
 			 			catch (Exception ex){
-			 			 	//Guardar sorteo como pendiente (ex.getMessage());
-			 			   //return;
 			 				System.out.println("\t[Ops Sorteo]El presente sorteo se guarda como pendiente");
+			 			
+			 				return true;
 			 			}
 					}
 					else{
 						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");
-						/*No hace falta actualizar los datos*/
-					}
-					participantesC = obtenerConcesionarias(concesionaria);
-					for (Bean b : participantesC){
-						ParticipanteBean p = (ParticipanteBean) b;
-						participantesSorteo.add(p);
-					}
-					if (participantesSorteo.isEmpty()){
-						System.out.println("\t[Ops Sorteo]La concesionaria "+ concesionaria.getIdConcesionaria()+ "no tiene participantes para el sorteo");
+						// setear consultapendiente de concesionaria como false.
+						return false;
 					}
 				}
 			}
 		}
 		catch(RuntimeException ex ){
 			System.out.println("\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
+			return true;
 		}
-		return participantesC;
+		return false;
 	}
 	
-	public SorteoBean consultarPendientes(){
+	public SorteoBean consultarSorteosPendientes(){
 		List<Bean> pendientes = null;
 		SorteoBean sorteoPorEjecutar =  null;
 		try {
@@ -293,7 +282,7 @@ public class OperacionesSorteo {
 		return sorteoPorEjecutar;
 	}
 	
-	public SorteoBean obtenerSorteoHoy(){
+	public SorteoBean hoyEsSorteo(){
 		
 		List<Bean> sorteosHoy = null;
 		SorteoBean sorteoPorEjecutar =  null;
@@ -421,6 +410,7 @@ public class OperacionesSorteo {
 	
 	
 	public String setearRazon (String operacion, int intentos){
+
 		LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
 		nvp.add(new BasicNameValuePair("operacion", operacion));
 		nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
@@ -428,5 +418,26 @@ public class OperacionesSorteo {
 		Gson gson = new Gson();
 		
 		return gson.toJson(nvp);
+	}
+
+	public LinkedList<ParticipanteBean> seleccionarParticipantes(){
+		
+		try {
+			MSParticipantesDao Participantes = (MSParticipantesDao)DaoFactory.getDao("Participantes", "ar.edu.ubp.das.src.sorteos");
+			
+			LinkedList<ParticipanteBean> p = new LinkedList<ParticipanteBean>();
+			List<Bean> aux = Participantes.select(null);
+			for(int i = 0; i < aux.size(); i++){
+				ParticipanteBean participante = (ParticipanteBean) aux.get(i);
+				p.add(participante);
+			}
+			
+			return p;
+		} 
+		catch (SQLException e) {
+			System.out.println("[OpsSorteo]No se pudieron obtener los participantes del sorteo");
+			return null;
+		}
+		
 	}
 }	

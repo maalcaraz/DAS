@@ -1,5 +1,7 @@
 package ar.edu.ubp.das.src.beans;
 
+import java.util.LinkedList;
+
 import ar.edu.ubp.das.src.db.Bean;
 
 public class SorteoBean implements Bean{
@@ -9,7 +11,7 @@ public class SorteoBean implements Bean{
 	private String fechaNotificacion;
 	private String pendiente;
 	private String razon;
-	
+	LinkedList<ParticipanteBean> participantesSorteo;
 
 	public String getRazon() {
 		return razon;
@@ -55,5 +57,13 @@ public class SorteoBean implements Bean{
 
 	public void setFechaNotificacion(String fechaNotificacion) {
 		this.fechaNotificacion = fechaNotificacion;
+	}
+	
+	public LinkedList<ParticipanteBean> getParticipantesSorteo() {
+		return participantesSorteo;
+	}
+
+	public void setParticipantesSorteo(LinkedList<ParticipanteBean> participantesSorteo) {
+		this.participantesSorteo = participantesSorteo;
 	}
 }

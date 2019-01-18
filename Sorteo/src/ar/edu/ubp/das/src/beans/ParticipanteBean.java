@@ -9,7 +9,8 @@ public class ParticipanteBean implements Bean{
 	private String idSorteo;
 	private String apellidoNombre;
 	private String idPlan;
-	
+	private String fechaSorteo;
+	private String email;
 	
 	public String getApellidoNombre() {
 		return apellidoNombre;
@@ -41,5 +42,18 @@ public class ParticipanteBean implements Bean{
 	}
 	public void setIdSorteo(String idSorteo) {
 		this.idSorteo = idSorteo;
+	}
+	
+	public String getFechaSorteo() {
+		return fechaSorteo;
+	}
+	public void setFechaSorteo(String fechaSorteo) {
+		this.fechaSorteo = fechaSorteo;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

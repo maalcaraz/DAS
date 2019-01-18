@@ -11,28 +11,31 @@ public class ConcesionariaBean implements Bean{
 	public ConcesionariaBean(String tipoServicio) throws IllegalAccessException, ClassNotFoundException, Exception {
 		
 		webService = ServicioFactory.getServicio(tipoServicio);
-		
+		consultaPendiente = true;
 	}
 
-	String idConcesionaria;
-	String nomConcesionaria;
-	String cuit;
-	String email;
-	String direccion;
-	String telefono;
-	String ultimaActualizacion;
-	String cantDiasCaducidad;
-	Servicio webService;
-	String urlServicio;
-	String codTecnologia;
+	private String idConcesionaria;
+	private String nomConcesionaria;
+	private String cuit;
+	private String email;
+	private String direccion;
+	private String telefono;
+	private String ultimaActualizacion;
+	private String cantDiasCaducidad;
+	private Servicio webService;
+	private String urlServicio;
+	private String codTecnologia;
 	private String aprobada;
-	TransaccionBean transacForm;
-	List<ClienteBean> clientes;
-	List<AdquiridoBean> adquiridos;
-	List<CuotaBean> cuotas;
-	List<PlanBean> planes;
+	private TransaccionBean transacForm;
+	private List<ClienteBean> clientes;
+	private List<AdquiridoBean> adquiridos;
+	private List<CuotaBean> cuotas;
+	private List<PlanBean> planes;
+	private String novedad;
+	private boolean consultaPendiente;
+	
+	
 
-	String novedad;
 	public String getIdConcesionaria() {
 		return idConcesionaria;
 	}
@@ -176,5 +179,10 @@ public class ConcesionariaBean implements Bean{
 	public void setPlanes(List<PlanBean> planes) {
 		this.planes = planes;
 	}
-
+	public boolean isConsultaPendiente() {
+		return consultaPendiente;
+	}
+	public void setConsultaPendiente(boolean consultaPendiente) {
+		this.consultaPendiente = consultaPendiente;
+	}
 }

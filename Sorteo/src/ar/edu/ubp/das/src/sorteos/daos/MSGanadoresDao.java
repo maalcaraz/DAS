@@ -8,7 +8,6 @@ import java.util.List;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
-import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
 
