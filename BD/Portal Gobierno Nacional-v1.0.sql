@@ -9,7 +9,6 @@ go
 
 drop view	   dbo.ult_transaccion
 drop procedure dbo.registrar_ganador
-drop table ganadores
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
 drop procedure dbo.insertar_adquirido
@@ -38,8 +37,11 @@ drop procedure dbo.eliminar_sorteo
 drop procedure dbo.editar_sorteo
 drop procedure dbo.reconfigurar_concesionaria
 drop procedure dbo.actualizar_ultima_fecha_actualizacion
+drop procedure dbo.cancelar_localmente
+drop procedure dbo.insertar_participantes
 go
 
+drop table ganadores
 drop table logs
 drop table transacciones
 drop table usuarios
@@ -178,6 +180,10 @@ create table participantes_sorteos
 	id_sorteo				varchar(30)		not null,
 	dni_cliente				char(8)			not null,
 	id_concesionaria		varchar(20)		not null,	
+	fecha_sorteo			date			null,
+	apellido_nombre			char(30)		not null,
+	email					varchar(30)		null,
+	id_plan					integer			not null, 
 	CONSTRAINT PK__participantes_sorteos__END primary key (id_sorteo, dni_cliente, id_concesionaria)
 )
 go
@@ -248,6 +254,22 @@ create view dbo.ult_transaccion as
 		from transacciones trans
 		where trans.id_transaccion LIKE 'GC%'
 		group by trans.hora_fecha
+go
+
+create view dbo.posibles_participantes as
+	Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad1
+			--join participantes_sorteos ps1 
+			--on ad1.dni_cliente = ps1.dni_cliente
+			--and ad1.id_plan = ps1.id_plan
+			--and ad1.id_concesionaria = ps1.id_concesionaria
+			left join cuotas cuo
+			on cuo.id_plan = ad1.id_plan
+			and cuo.dni_cliente = ad1.dni_cliente
+			--and cuo.id_concesionaria = ps1.id_concesionaria
+			where ad1.ganador_sorteo = 'N'
+			group by ad1.dni_cliente, ad1.id_plan
+
 go
 
 /*******************************
@@ -724,8 +746,8 @@ END
 go
 
 -- execute dbo.get_datos_clientes 'Tagle80567923'
-
-create procedure dbo.get_participantes
+/*
+create procedure dbo.get_participantes1
 (
 	@id_concesionaria			varchar(20),
 	@max_cuotas_pagas			tinyint,
@@ -759,6 +781,42 @@ BEGIN
 	and cli1_cuo_pagas.cuotas_pagas <= @max_cuotas_pagas
 END
 go
+*/
+create procedure dbo.get_participantes
+AS
+BEGIN
+-- toda la logica de seleccion en realidad deberia estar en la insercion de participantes. y se setean en la consulta quincenal
+	Select *
+	from participantes_sorteos ps
+	join clientes cli 
+	on cli.dni_cliente = ps.dni_cliente
+	join adquiridos ad
+	on ps.dni_cliente = ad.dni_cliente
+	and ps.id_concesionaria = ad.id_concesionaria
+	join planes pla 
+	on pla.id_plan = ad.id_plan
+	and pla.id_concesionaria = ad.id_concesionaria
+	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad1
+			join participantes_sorteos ps1 
+			on ad1.dni_cliente = ps1.dni_cliente
+			and ad1.id_plan = ps1.id_plan
+			and ad1.id_concesionaria = ps1.id_concesionaria
+			left join cuotas cuo
+			on cuo.id_plan = ad1.id_plan
+			and cuo.dni_cliente = ad1.dni_cliente
+			and cuo.id_concesionaria = ps1.id_concesionaria
+			where ad1.ganador_sorteo = 'N'
+			group by ad1.dni_cliente, ad1.id_plan
+			) cli1_cuo_pagas
+	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
+	and cli1_cuo_pagas.id_plan = ad.id_plan,
+	ult_transaccion
+	where cli.id_concesionaria = ps.id_concesionaria
+	and cli1_cuo_pagas.cuotas_pagas >= 24
+	and cli1_cuo_pagas.cuotas_pagas <= 36
+END
+go 
 
 create procedure dbo.get_sorteos_pendientes
 AS
@@ -965,9 +1023,6 @@ AS
 	END
 go
 
-drop procedure dbo.cancelar_localmente
-go
-
 create procedure dbo.cancelar_localmente
 (
 	@dni_cliente			char(8)	,
@@ -982,6 +1037,35 @@ BEGIN
 		where ad.dni_cliente = @dni_cliente
 		and ad.id_concesionaria = @id_concesionaria
 		
+END
+go
+
+create procedure dbo.insertar_participantes
+(
+	@dni_cliente			char(8),
+	@id_concesionaria		varchar(20),
+	@id_sorteo				varchar(30),
+	@id_plan				integer, 
+	@apellido_nombre		char(30),			
+	@fecha_sorteo			date,
+	@email					varchar(30)
+)
+AS
+BEGIN
+-- Para evitar duplicados
+	if not exists (select * from participantes_sorteos p
+					where p.id_sorteo = @id_sorteo
+					and p.dni_cliente = @dni_cliente
+					and p.id_concesionaria = @id_concesionaria
+					and p.id_plan = @id_plan)
+	begin
+	--hay que ver la forma de insertar los participantes que cumplan con las condiciones
+	
+
+
+		insert into participantes_sorteos(id_sorteo, dni_cliente, id_concesionaria, fecha_sorteo, apellido_nombre, email, id_plan )
+		values (@id_sorteo, @dni_cliente, @id_concesionaria, @fecha_sorteo, @apellido_nombre, @email, @id_plan)
+	end
 END
 go
 
@@ -1111,7 +1195,8 @@ and c.id_concesionaria = 'AutoHaus1503004614'
 and c.dni_cliente = 24444444
 
 select * from adquiridos
-
+select * from clientes
+select * from concesionarias
 
 */
 
@@ -1131,17 +1216,13 @@ execute dbo.insertar_concesionaria 'Colcar2023979636', 'Colcar', '27-1234-7', 'i
 go
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE() -16
-execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '3514444444',@tmp, '5', 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
+execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@rosso.com', 'Av. Libertad 1200', '3514444444', @tmp, 5, 'http://localhost:9191/ConcesionariaRossoWSPort', 'CXF', 'N'
 go
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE() -16
-execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '3514444444',@tmp, '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
+execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '3514444444', @tmp, 5, 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 
-/* ESTE YA NO HACE FALTA, Ya esta bien implementado
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, descripcion)
-values ('1234asadf', getDate(), '02-03-2018', 'Testeando fecha es hoy')
-go*/
-
+/*
 	select CONVERT (datetime, '2018-05-28 23:52:53.413')
 	go
 
@@ -1154,43 +1235,12 @@ go*/
 	select CAST('02-21-2012 6:10:00 PM' AS DATETIME2)
 	go 
  
-
 	select getdate()
 	go
-
 
 	select FORMAT(getDate(), 'dd-MM-yyyy')
 	go
 
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
-/*
-select * from concesionarias
-select * from clientes
-select * from cuotas
-select * from sorteos
--- execute dbo.rechazar_concesionaria 'Montironi705993369'
-
-update a
-	set a.ganador_sorteo = 'S',
-	a.fecha_sorteado = '2007-07-07'
-	from adquiridos a
-	where dni_cliente = 25555555
-	and a.id_concesionaria = 'Colcar2023979636'
-
-
-select * 
-from adquiridos ad
-where ad.ganador_sorteo = 'S'
-
-execute dbo.get_ganadores
-select * from ganadores
-
-select * from sorteos
-
-update S
-	set s.pendiente = NULL
-	from sorteos s
-	where s.id_sorteo = '1234asadf'
-
 */
