@@ -13,7 +13,6 @@ public class ServicioAxis2 extends ServicioImpl {
 		
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		String consumo = "";
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		try {
 			
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();

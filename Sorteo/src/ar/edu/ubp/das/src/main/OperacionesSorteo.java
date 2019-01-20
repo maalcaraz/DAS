@@ -236,7 +236,6 @@ public class OperacionesSorteo {
 							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));		
 							insertarConcesionarias(concesionaria); // esto deberiamos ver de ponerlo afuera de los catch
 							
-							
 						 }
 			 			catch (Exception ex){
 			 				System.out.println("\t[Ops Sorteo]El presente sorteo se guarda como pendiente");
@@ -430,14 +429,32 @@ public class OperacionesSorteo {
 			for(int i = 0; i < aux.size(); i++){
 				ParticipanteBean participante = (ParticipanteBean) aux.get(i);
 				p.add(participante);
-			}
-			
+			}	
 			return p;
 		} 
 		catch (SQLException e) {
 			System.out.println("[OpsSorteo]No se pudieron obtener los participantes del sorteo");
 			return null;
 		}
+	}
+	
+	public void setearParticipantes(SorteoBean sorteo){
+		try {
+			MSParticipantesDao Participantes = (MSParticipantesDao)DaoFactory.getDao("Participantes", "ar.edu.ubp.das.src.sorteos");
+			Participantes.insert(sorteo);
+		}
+		catch(Exception ex){
+			
+		}
+	}
+	
+	boolean registrarGanador (ParticipanteBean g){
 		
+		
+		
+		
+		
+		
+		return true;
 	}
 }	

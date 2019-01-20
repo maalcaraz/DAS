@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
+import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
 
@@ -19,18 +20,14 @@ public class MSParticipantesDao extends DaoImpl{
 
 	@Override
 	public void insert(Bean bean) throws SQLException {
-		ParticipanteBean p = (ParticipanteBean)bean;
+		SorteoBean p = (SorteoBean)bean;
 		
 		this.connect();
-		this.setProcedure("dbo.insertar_participantes(?, ?, ?, ?, ?, ?, ?)");
-		
-		this.setParameter(1, p.getDniCliente());
-		this.setParameter(2, p.getIdConcesionaria());
+		this.setProcedure("dbo.insertar_participantes(?, ?, ?)");
+		/* Procedimiento para setear los datos en la tabla de participantes */
+		this.setParameter(1, 26);
+		this.setParameter(2, 40);
 		this.setParameter(3, p.getIdSorteo());
-		this.setParameter(4, p.getIdPlan());
-		this.setParameter(5, p.getApellidoNombre());
-		this.setParameter(6, p.getFechaSorteo());
-		this.setParameter(7, p.getEmail());
 
 		this.executeUpdate();
 		this.disconnect();

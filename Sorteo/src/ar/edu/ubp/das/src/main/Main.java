@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
+import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
 
 public class Main {
 
@@ -118,6 +119,8 @@ public class Main {
 		if (consultar){
 			if (!op.consultaQuincenal()){
 				System.out.println("[Main]La consulta de concesionarias fue exitosa");
+				op.setearParticipantes(sorteo);
+				
 				sorteo.setParticipantesSorteo(op.seleccionarParticipantes());
 				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo());
 				// La consulta fue exitosa
@@ -151,19 +154,27 @@ public class Main {
 				System.out.println("[Main]Aun no hay participantes para el sorteo");
 			}
 			else{
-				System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo());
-				//System.out.println("[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
+				System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo().toString());
+				System.out.println("[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
+				
+				// registrar fecha de ejecucion del sorteo
+				// op.cambiarValorPendienteSorteo(sorteo, idRazon, false);
+				
 			}
 			System.out.println("[Main]********************************************");
-			
 		}
 		
 		if (registrar){
 			/* ---- Quedo pendiente el registro del ganador? ---- */
 			
-			
+			if (!op.registrarGanador(ganador)){
+				// registrar pendiente y setear razon = RegistroGanador
+				intentos++;
+				System.out.println("[Main]No se pudo registrar el ganador");
+				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("RegistrarGanador", intentos), true);
+				// notificar = false?
+			}
 		}
-		
 		System.out.println("[Main]Adios mundo");
 	}
 	
