@@ -1,6 +1,7 @@
 package ar.edu.ubp.das.src.main;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -8,9 +9,9 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
+import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
-import ar.edu.ubp.das.src.sorteos.daos.MSGanadoresDao;
 
 public class Main {
 
@@ -23,11 +24,10 @@ public class Main {
 		
 		OperacionesSorteo op = new OperacionesSorteo();
 		int intentos = 0;
-		boolean notificar = false;
-		/*La consulta de concesionarias es obligatoria por defecto*/
+		boolean notificar = true;
 		boolean consultar = true;
-		boolean registrar = false;
-		boolean cancelarGanador  = false;
+		boolean registrar = true;
+		boolean cancelarGanador  = true;
 		boolean sortear  = true;
 		
 		/***********************************/
@@ -73,23 +73,42 @@ public class Main {
 			
 			case "NotificarGanador":
 				notificar = true;
-				consultar = false; // esta linea puede ser que este al pedo
+				consultar = false; 
 				sortear = false;
+				registrar = false;
+				cancelarGanador = false; // habria que doblecheckearlo
 				break;
 				
 			case "ConsultarConcesionarias":
 				consultar = true;
 				sortear = true;
+				registrar = true;
+				notificar = true;
+				cancelarGanador = true;
 				break;
 				
 			case "RegistrarGanador":
 				registrar = true;
 				sortear = false;
+				notificar = true;
+				consultar = false;
+				cancelarGanador = true;
 				break;
 				
 			case "CancelarGanador":
 				cancelarGanador = true;
 				sortear = false;
+				notificar = true;
+				consultar = false;
+				registrar = false;
+				break;
+				
+			case "VerificarCancelado":
+				cancelarGanador = true;
+				sortear = false;
+				notificar = true;
+				consultar = false;
+				registrar = false;
 				break;
 			
 			}	
@@ -98,26 +117,60 @@ public class Main {
 		/* ---- Se cancelo el ultimo ganador? ---- */
 		if (cancelarGanador){
 			
+			//ganador = op.verificarCancelado();
 			
-			ganador = op.verificarCancelado();
+			List<AdquiridoBean> aux = op.obtenerGanadores();
 			
-			if (ganador == null){
-				System.out.println("[Main]No sabemos si se cancelo el ultimo ganador");
-				intentos++;
-				/* ---- No sabemos si se cancelo el ultimo ganador ---- */
-				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("CancelarGanador", intentos), true);
-				notificar = false;
-				sortear = false;
-				consultar = false;
-				registrar = false;
+			if (aux != null && aux.isEmpty()){
+				// No hay ganadores registrados. Se sigue con el flujo del programa y no se verifica el cancelado
+				sortear = true;
+				notificar = true;
+				consultar = true;
+				registrar = true;
 			}
-			
+			else {
+				if (aux == null){
+					// Salir del programa
+					System.out.println("[Main]Fallo la consulta de ganadores en la BD local");
+					System.exit(-1);
+				}
+				if (!aux.isEmpty()){
+					// Hay que verificar si el ganador esta cancelado
+					
+					AdquiridoBean ad = op.verificarCancelado(aux.get(0));
+					
+					if (ad == null){
+						// Fallo el consumo
+						intentos++;
+						op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("VerificarCancelado", intentos), true);
+						notificar = false;
+						sortear = false;
+						consultar = false;
+						registrar = false;
+					}
+					else {
+						if (ad.getCancelado().equals("true")){
+							notificar = true;
+							sortear = true;
+							consultar = true;
+							registrar = true;
+						}
+						else{
+							// setear a ganador con 
+							notificar = true;
+							sortear = false;
+							consultar = false;
+							registrar = false;
+						}
+					}
+				}		
+			}
 		}
 		/*--------------------------------------------*/
 		
 		/* ---- Hay concesionarias por consultar ---- */
 		if (consultar){
-			if (!op.consultaQuincenal()){
+			if (op.consultaQuincenal()){
 				System.out.println("[Main]La consulta de concesionarias fue exitosa");
 				op.setearParticipantes(sorteo);
 				
@@ -133,12 +186,6 @@ public class Main {
 			}
 		}
 
-		if (notificar){
-			/* ---- Hay concesionarias por notificar? ---- */
-			
-			
-		}
-		
 		if (sortear){
 			/* ---- Hay que ejecutar sorteo? ---- */
 			// buscar los participantes aptos para el sorteo
@@ -167,6 +214,8 @@ public class Main {
 		if (registrar){
 			/* ---- Quedo pendiente el registro del ganador? ---- */
 			
+			System.out.println("[Main] Registrando el ganador " + ganador.getApellidoNombre());
+			
 			if (!op.registrarGanador(ganador)){
 				// registrar pendiente y setear razon = RegistroGanador
 				intentos++;
@@ -175,6 +224,13 @@ public class Main {
 				// notificar = false?
 			}
 		}
+		
+		if (notificar){
+			/* ---- Hay concesionarias por notificar? ---- */
+			
+			
+		}
+		
 		System.out.println("[Main]Adios mundo");
 	}
 	

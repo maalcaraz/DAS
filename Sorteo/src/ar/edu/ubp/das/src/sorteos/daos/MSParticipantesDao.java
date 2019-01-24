@@ -25,13 +25,12 @@ public class MSParticipantesDao extends DaoImpl{
 		this.connect();
 		this.setProcedure("dbo.insertar_participantes(?, ?, ?)");
 		/* Procedimiento para setear los datos en la tabla de participantes */
-		this.setParameter(1, 26);
-		this.setParameter(2, 40);
+		this.setParameter(1, 16);
+		this.setParameter(2, 70);
 		this.setParameter(3, p.getIdSorteo());
 
 		this.executeUpdate();
 		this.disconnect();
-		
 	}
 
 	@Override

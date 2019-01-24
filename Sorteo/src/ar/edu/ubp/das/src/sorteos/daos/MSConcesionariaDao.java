@@ -34,19 +34,14 @@ public class MSConcesionariaDao extends DaoImpl{
 		// Hacer un if, preguntar por el name e insertar transaccion o concesionaria.
 				ConcesionariaBean c = (ConcesionariaBean) bean;
 				this.connect();
-				this.setProcedure("dbo.insertar_concesionaria(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-				
+				if (c.isConsultaPendiente()){
+					this.setProcedure("dbo.marcar_consulta_pendiente(?)");
+				}
+				if (c.isNotificacionPendiente()){
+					this.setProcedure("dbo.marcar_notificacion_pendiente(?)");
+				}
 				this.setParameter(1, c.getIdConcesionaria());
-				this.setParameter(2, c.getNomConcesionaria());
-				this.setParameter(3, c.getCuit());
-				this.setParameter(4, c.getEmail());
-				this.setParameter(5, c.getDireccion());
-				this.setParameter(6, c.getTelefono());
-				this.setParameter(7, c.getUltimaActualizacion());
-				this.setParameter(8, c.getCantDiasCaducidad());
-				this.setParameter(9, c.getWebService().getUrl());
-				this.setParameter(10, c.getCodTecnologia());
-				this.setParameter(11, c.getAprobada());
+				
 				this.executeUpdate();
 				this.disconnect();
 	}
@@ -61,6 +56,9 @@ public class MSConcesionariaDao extends DaoImpl{
 		ConcesionariaBean c = (ConcesionariaBean) bean;
 		
 		//----------------Actualizar datos de concesionaria ---------------------
+		
+		
+		
 		List<PlanBean> planes = c.getPlanes();
 		
 		this.setProcedure("dbo.insertar_plan(?, ?, ?, ?, ?, ?, ?)");
@@ -173,6 +171,24 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		this.disconnect();
 	}
+	
+	public void updateConsumosPendientes(Bean bean) throws SQLException {
+		
+		ConcesionariaBean c = (ConcesionariaBean) bean;
+		String consulta = (c.isConsultaPendiente() == true) ? "S" : "N";
+		String notificacion = (c.isConsultaPendiente() == true) ? "S" : "N";
+		
+		
+		this.connect();
+		
+		this.setProcedure("dbo.update_consumos_pendientes(?, ?, ?)");
+		this.setParameter(1, c.getIdConcesionaria());
+		this.setParameter(2, consulta);
+		this.setParameter(3, notificacion);
+		
+		this.executeUpdate();
+		this.disconnect();
+	}
 
 	@Override
 	public void delete(Bean bean) throws SQLException {
@@ -193,6 +209,8 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
+			boolean consultaPendiente = false;
+			boolean notificacionPendiente = false;
 			while(result.getRow() > 0) {
 				try{
 					ConcesionariaBean f = new ConcesionariaBean(result.getString("cod_tecnologia"));
@@ -207,6 +225,11 @@ public class MSConcesionariaDao extends DaoImpl{
 					f.setCodTecnologia(result.getString("cod_tecnologia"));
 					f.setUltimaActualizacion(result.getString("ultima_actualizacion"));
 					f.setAprobada(result.getString("aprobada"));
+					
+					consultaPendiente = (result.getString("consulta_pendiente").equals("S")) ? true : false;
+					notificacionPendiente = (result.getString("notificacion_pendiente").equals("S")) ? true : false;
+					f.setConsultaPendiente(consultaPendiente);
+					f.setNotificacionPendiente(notificacionPendiente);
 					ret.add(f);
 				}
 				catch(Exception ex){

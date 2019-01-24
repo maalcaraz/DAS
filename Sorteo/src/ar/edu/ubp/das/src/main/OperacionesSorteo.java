@@ -39,71 +39,60 @@ public class OperacionesSorteo {
 	 * correspondiente si se cancelo.
 	 * 
 	 */
-	public ParticipanteBean verificarCancelado(){ /* Por que esta operacion retorna un adquirido? */
+	public AdquiridoBean verificarCancelado(AdquiridoBean ganador){ /* Por que esta operacion retorna un adquirido? */
 		System.out.println("[OpsSorteo]--------------->VERIFICAR CANCELADO");
 				String restResp = "";
 				String idPortal = "PORTALGOB";
 				/*
 				 * Por ahora, idPortal esta hardcodeado
 				 */
-				AdquiridoBean adqBean = null;
-				Gson gson = new Gson();
-				List<Bean> ganadores = null;
-				List<Bean> concesionarias = null;
 				
-					ganadores = obtenerGanadores();
-					
-					if (ganadores != null){ // asi pasa la primer vuelta
-						adqBean = (AdquiridoBean) ganadores.get(0);
-						System.out.println("\t[OpsSorteo]El ganador a verificar es: "+adqBean.toString());
-						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
-						parameters.add(new BasicNameValuePair("id_portal" , idPortal));
-						parameters.add(new BasicNameValuePair("dni_cliente" , adqBean.getDniCliente()));
-				      	parameters.add(new BasicNameValuePair("id_plan" , adqBean.getIdPlan()));
-						
-						String concAdqBean = adqBean.getIdConcesionaria();
-						concesionarias = obtenerConcesionarias(null);
-						if ( concesionarias != null){
-							for (Bean c : concesionarias ){
-								ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-								// aca tengo que preguntar por idconcesionaria en el if pero adq bean no lo tiene!!!
-								if (concesionaria.getAprobada().equals("S")){ // puede que este de mas
-									if (concesionaria.getIdConcesionaria().equals(concAdqBean)){
-										System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
-										
-										try{
-											restResp = concesionaria.getWebService().Consumir("verificarCancelado", parameters);
-											TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
-											String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-											if(listaRetorno[0].equals("{Cancelado: SI}")){
-												System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
-												adqBean.setCancelado("true");
-											}
-											else{
-												adqBean.setCancelado("false");
-											}
-										}
-										catch(Exception ex){
-											System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
-											adqBean.setCancelado("false");
-											return null;
-										}
-									}
+				Gson gson = new Gson();
+				List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
+				
+				System.out.println("\t[OpsSorteo]El ganador a verificar es: "+ganador.toString());
+				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
+				parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
+		      	parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
+		      	
+				String concAdqBean = ganador.getIdConcesionaria();
+				
+				if ( concesionarias != null){ // Cambiar el parametro que viene por un GanadorBean o un ParticipanteBean
+					for (ConcesionariaBean c : concesionarias ){
+						if (c.getIdConcesionaria().equals(concAdqBean)){
+							System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
+							try{
+								restResp = c.getWebService().Consumir("verificarCancelado", parameters);
+								TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
+								String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
+								if(listaRetorno[0].equals("{Cancelado: SI}")){
+									System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
+									ganador.setCancelado("true");
 								}
+								else{
+									ganador.setCancelado("false");
+								}
+							}
+							catch(Exception ex){
+								System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
+								ganador.setCancelado("false");
+								return null;
 							}
 						}
 					}
-					else{
-						System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
-					}
-		return null;//adqBean;
+				}
+				else{
+					System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
+				}
+		return ganador;
 	}
 	
 	
 	public boolean NotificarGanador(AdquiridoBean ganador){
 		String respuesta = "";
 		MailSender mailSender = new MailSender();
-		List<Bean> concesionarias = obtenerConcesionarias(null);
+		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
 		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteado());
 		try {
@@ -122,11 +111,10 @@ public class OperacionesSorteo {
 	      		System.out.println("\t[OpsSorteo]Aun no hay concesionarias registradas...");
 	      	}
 	      	else {
-	      		for (Bean c : concesionarias ){
-					ConcesionariaBean concesionaria = (ConcesionariaBean) c;
-					if (concesionaria.getAprobada().equals("S")){
-						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+concesionaria.getNomConcesionaria());
-						respuesta = concesionaria.getWebService().Consumir("notificarGanador", parameters);
+	      		for (ConcesionariaBean c : concesionarias ){
+					if (c.getAprobada().equals("S")){
+						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
+						respuesta = c.getWebService().Consumir("notificarGanador", parameters);
 						Gson gson = new Gson();
 						TransaccionBean t = gson.fromJson(respuesta, new TypeToken<TransaccionBean>(){}.getType());						
 						if (t.getEstadoTransaccion().equals("Failed")){
@@ -137,7 +125,6 @@ public class OperacionesSorteo {
 							return false;
 						}
 						else{
-							
 							MSGanadoresDao GanadoresDao;
 							try {
 								GanadoresDao = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
@@ -150,7 +137,6 @@ public class OperacionesSorteo {
 								ClienteBean clienteGanador = (ClienteBean)clientes.get(0);
 								mailSender.envioMailNotificacion(clienteGanador.getDniCliente(), clienteGanador.getNomCliente(), clienteGanador.getEmailCliente());
 							} catch (SQLException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							
@@ -173,13 +159,13 @@ public class OperacionesSorteo {
 	public boolean consultaQuincenal(){
 		/*
 		 * Intenta actualizar los datos de las concesionarias mediante el consumo de la operacion getClientes()
-		 * retorna true si quedaron concesionarias pendientes
+		 * retorna false si quedaron concesionarias pendientes
 		 */
 		Gson gson = new Gson();
 		System.out.println("\t[Ops Sorteo]Consulta de Concesionarias");
-
+		boolean status = true;
 		try {
-			List<Bean> concesionarias = obtenerConcesionarias(null);
+			List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 			LinkedList<ClienteBean> clientes;
 			LinkedList<PlanBean> planes;
 			LinkedList<AdquiridoBean> adquiridos;
@@ -187,8 +173,7 @@ public class OperacionesSorteo {
 			
 			//List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			
-			for (Bean c : concesionarias ){
-				ConcesionariaBean concesionaria = (ConcesionariaBean) c;
+			for (ConcesionariaBean concesionaria : concesionarias ){
 				
 				if (concesionaria.getAprobada().equals("S") && (concesionaria.isConsultaPendiente())){
 					System.out.println("\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
@@ -233,29 +218,31 @@ public class OperacionesSorteo {
 							concesionaria.setCuotas(cuotas);
 							concesionaria.setPlanes(planes);
 							concesionaria.setTransacForm(transaccion);
-							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));		
-							insertarConcesionarias(concesionaria); // esto deberiamos ver de ponerlo afuera de los catch
+							concesionaria.setUltimaActualizacion(parser.format(fechaHoy));
+							concesionaria.setConsultaPendiente(false);
+							insertarConcesionarias(concesionaria); 
 							
 						 }
 			 			catch (Exception ex){
-			 				System.out.println("\t[Ops Sorteo]El presente sorteo se guarda como pendiente");
-			 			
-			 				return true;
+			 				System.out.println("\t[Ops Sorteo]No se pudo realizar el consumo. El presente sorteo se guarda como pendiente");
+			 				// setear consultapendiente de concesionaria como false.
+							concesionaria.setConsultaPendiente(true);
+			 				status = false;
 			 			}
+						
+						updateConsumosPendientes(concesionaria);
 					}
 					else{
 						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");
-						// setear consultapendiente de concesionaria como false.
-						return false;
 					}
 				}
 			}
 		}
 		catch(RuntimeException ex ){
 			System.out.println("\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
-			return true;
+			status = false;
 		}
-		return false;
+		return status;
 	}
 	
 	public SorteoBean consultarSorteosPendientes(){
@@ -369,30 +356,43 @@ public class OperacionesSorteo {
     }
 	
 	
-	public List<Bean> obtenerGanadores (){
+	public List<AdquiridoBean> obtenerGanadores (){
 		try{
 			/*
 			 *  Ganadores.select() devuelve una lista de ganadores del sorteo 
 			 */
 			MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
-			return Ganadores.select(null);
+			List<Bean> g = Ganadores.select(null);
+			List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+			
+			for (Bean b : g){
+				AdquiridoBean ad = (AdquiridoBean) b;
+				adquiridos.add(ad);
+			}
+			return adquiridos;
 		}
 		catch(SQLException ex){
 			System.out.println("\t[OpsSorteo]No se pudieron obtener ganadores. Error: "+ ex.getMessage());
 			return null;
 		}
 	}
-	public List<Bean> obtenerConcesionarias(ConcesionariaBean c){
-		
+	public List<ConcesionariaBean> obtenerConcesionarias(ConcesionariaBean c){
+		List<ConcesionariaBean> concesionarias = new LinkedList<ConcesionariaBean>();
 		try {
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
-			return Concesionaria.select(c);
+			List<Bean> aux = Concesionaria.select(c);
 			
+			
+			for (Bean conc : aux){
+				ConcesionariaBean concesionaria = (ConcesionariaBean) conc;
+				concesionarias.add(concesionaria);
+			}
 		}
 		catch(SQLException ex){
 			System.out.println("\t[OpsSorteo]No se pudieron obtener las concesionarias");
+			return null;
 		}
-		return null;
+		return concesionarias;
 	}
 	
 	public void insertarConcesionarias(ConcesionariaBean c){
@@ -403,7 +403,7 @@ public class OperacionesSorteo {
 			
 		}
 		catch(SQLException ex){
-			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de las concesionarias");
+			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria "+ c.getNomConcesionaria());
 		}
 	}
 	
@@ -449,12 +449,26 @@ public class OperacionesSorteo {
 	}
 	
 	boolean registrarGanador (ParticipanteBean g){
-		
-		
-		
-		
-		
-		
+		try{
+			MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
+			
+			Ganadores.insert(g);
+		}
+		catch(SQLException ex){
+			return false;
+		}
 		return true;
 	}
+
+	public void updateConsumosPendientes(ConcesionariaBean c){
+		try {
+			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "ar.edu.ubp.das.src.sorteos");
+			Concesionaria.updateConsumosPendientes(c);
+			
+		}
+		catch(SQLException ex){
+			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria");
+		}
+	}
+
 }	

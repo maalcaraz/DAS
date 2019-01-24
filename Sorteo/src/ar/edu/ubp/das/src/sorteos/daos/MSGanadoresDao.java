@@ -29,8 +29,9 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public void insert(Bean bean) throws SQLException {
-		this.connect();
 		ParticipanteBean g = (ParticipanteBean) bean;
+		
+		this.connect();
 		this.setProcedure("dbo.registrar_ganador(?, ?, ?)");
 		this.setParameter(1, g.getIdSorteo());
 		this.setParameter(2, g.getDniCliente());
@@ -88,9 +89,6 @@ public class MSGanadoresDao  extends DaoImpl {
 			this.setProcedure("dbo.get_ganadores()");
 			ganadores = this.executeQuery();			
 			this.disconnect();
-			if (ganadores.isEmpty()){ /*Modificar. Sacar estas dos lineas*/
-				ganadores = null;
-			}
 		}
 		
 		return ganadores;
