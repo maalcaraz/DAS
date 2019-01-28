@@ -1,6 +1,7 @@
 package ar.edu.ubp.das.src.main;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,6 +92,7 @@ public class OperacionesSorteo {
 	
 	public boolean NotificarGanador(AdquiridoBean ganador){
 		String respuesta = "";
+		String fechaParametro;
 		MailSender mailSender = new MailSender();
 		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
@@ -101,7 +103,16 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
 			parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
-			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteado()));
+			
+			
+			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+			String dateAsString = ganador.getFechaSorteado();
+			Date date = sourceFormat.parse(dateAsString);
+			
+			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+			fechaParametro = parser.format(date);
+
+			parameters.add(new BasicNameValuePair("fecha_sorteo" , fechaParametro));
 	      	
 	      	/*
 	      	 * Obtencion desde la BD local de la lista de concesionarias registradas
@@ -112,7 +123,12 @@ public class OperacionesSorteo {
 	      	}
 	      	else {
 	      		for (ConcesionariaBean c : concesionarias ){
-					if (c.getAprobada().equals("S")){
+	      			/*
+	      			 * Para que chequeamos si esta aprobada en la notificacion.
+	      			 * deberiamos notificar lo mismo!
+	      			 * Por ahora lo comento. Seba.
+	      			 */
+					//if (c.getAprobada().equals("S")){
 						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
 						respuesta = c.getWebService().Consumir("notificarGanador", parameters);
 						Gson gson = new Gson();
@@ -125,28 +141,38 @@ public class OperacionesSorteo {
 							return false;
 						}
 						else{
+							
+							System.out.println("\t[OpsSorteo]Exito la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
+							//Comento por hora el envio de mail. Seba.
+							/*
 							MSGanadoresDao GanadoresDao;
 							try {
 								GanadoresDao = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
 								
-								/*
-								 * Envio un adquirido Bean aunque es Ganadores Dao por necesito
-								 * enviar el id de concesionaria
-								 */
+								
+								 // Envio un adquirido Bean aunque es Ganadores Dao por necesito
+								 //enviar el id de concesionaria
+								 //
 								List<Bean> clientes = GanadoresDao.select(ganador);
 								ClienteBean clienteGanador = (ClienteBean)clientes.get(0);
-								mailSender.envioMailNotificacion(clienteGanador.getDniCliente(), clienteGanador.getNomCliente(), clienteGanador.getEmailCliente());
+								
+								
+								
+								
+								//mailSender.envioMailNotificacion(clienteGanador.getDniCliente(), clienteGanador.getNomCliente(), clienteGanador.getEmailCliente());
 							} catch (SQLException e) {
 								e.printStackTrace();
+								System.out.println("\t[OpsSorteo]Fallo la obtencion de datos para enviar mail");
 							}
+							*/
 							
 						}
-					}
+					//}
 				}
 	      	}
 		}
-		catch(RuntimeException ex ){
-			System.out.println("\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: "+ex.getMessage());
+		catch(RuntimeException | ParseException ex ){
+			System.out.println("\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: " + ex.getMessage());
 			return false;
 		}
 		return true;
@@ -252,7 +278,7 @@ public class OperacionesSorteo {
 			MSSorteosDao sorteo = (MSSorteosDao)DaoFactory.getDao("Sorteos", "ar.edu.ubp.das.src.sorteos");
 			pendientes = sorteo.select(null);
 			
-			if (pendientes.isEmpty()){
+			if (pendientes != null && pendientes.isEmpty()){
 				System.out.println("\t[Ops Sorteo]No existen sorteos pendientes registrados");
 			}
 			/*
@@ -284,10 +310,10 @@ public class OperacionesSorteo {
 			}
 		} 
 		catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("\t[Ops Sorteo] Error en checkeo si hoy es sorteo: "+e.getMessage());
+			e.getMessage();
+			System.out.println("\t[Ops Sorteo] Error en checkeo si hoy es sorteo: " + e.getMessage());
 		}
-		System.out.println("\t[OpsSorteo]Sorteo Por ejecutar:"+sorteoPorEjecutar);
+		System.out.println("\t[OpsSorteo]Sorteo Por ejecutar: " + sorteoPorEjecutar);
 		return sorteoPorEjecutar;
 	}
 	
@@ -444,7 +470,7 @@ public class OperacionesSorteo {
 			Participantes.insert(sorteo);
 		}
 		catch(Exception ex){
-			
+			System.out.println("\t[OpsSorteo]No se pudieron insertar los participantes para el sorteo");
 		}
 	}
 	

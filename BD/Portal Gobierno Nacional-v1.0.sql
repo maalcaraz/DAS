@@ -786,6 +786,12 @@ create procedure dbo.get_participantes
 AS
 BEGIN
 -- toda la logica de seleccion en realidad deberia estar en la insercion de participantes. y se setean en la consulta quincenal
+
+/* Comentario de Seba. No deberiamos hacer aca un select * from participantes_sorteos y ya? estamos repitiendo la logica
+   que hacemos en el insert de esa tabla y estaba harcodeado aca lo de las cuotas!!!!!
+*/
+	Select * from participantes_sorteos 
+	/*
 	Select *
 	from participantes_sorteos ps
 	join clientes cli 
@@ -815,6 +821,7 @@ BEGIN
 	where cli.id_concesionaria = ps.id_concesionaria
 	and cli1_cuo_pagas.cuotas_pagas >= 24
 	and cli1_cuo_pagas.cuotas_pagas <= 36
+	*/
 END
 go 
 
@@ -1070,6 +1077,9 @@ BEGIN
 		
 END
 go
+
+-- select * from participantes_sorteos
+
 
 create procedure dbo.update_consumos_pendientes
 (

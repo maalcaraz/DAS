@@ -31,7 +31,6 @@ public class TestingSyncAction  implements Action {
 			
 			
 			for (DynaActionForm f : forms){
-				System.out.println("[Testing sync]Select entrado: " + f.toString());
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				if (c.getIdConcesionaria().equals(idConcesionaria)){
 					String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";

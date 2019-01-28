@@ -76,7 +76,7 @@ public class Main {
 				consultar = false; 
 				sortear = false;
 				registrar = false;
-				cancelarGanador = false; // habria que doblecheckearlo
+				cancelarGanador = false;
 				break;
 				
 			case "ConsultarConcesionarias":
@@ -92,7 +92,7 @@ public class Main {
 				sortear = false;
 				notificar = true;
 				consultar = false;
-				cancelarGanador = true;
+				cancelarGanador = false;
 				break;
 				
 			case "CancelarGanador":
@@ -123,6 +123,7 @@ public class Main {
 			
 			if (aux != null && aux.isEmpty()){
 				// No hay ganadores registrados. Se sigue con el flujo del programa y no se verifica el cancelado
+				System.out.println("[Main] No hay ganadores registrados.");
 				sortear = true;
 				notificar = true;
 				consultar = true;
@@ -175,7 +176,7 @@ public class Main {
 				op.setearParticipantes(sorteo);
 				
 				sorteo.setParticipantesSorteo(op.seleccionarParticipantes());
-				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo());
+				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); //procedimiento de get participantes esta roto
 				// La consulta fue exitosa
 			}
 			else {
@@ -194,39 +195,70 @@ public class Main {
 			System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo());
 			System.out.println("[Main]Ganador del sorteo: "+ ganador);
 			System.out.println("[Main]*******************************************");
-			sortear();
-
-			System.out.println("[Main]************** POST EJECUCION **************");
-			if (sorteo.getParticipantesSorteo() == null) {
-				System.out.println("[Main]Aun no hay participantes para el sorteo");
+			if(sorteo.getParticipantesSorteo() == null || sorteo.getParticipantesSorteo().isEmpty()){
+				System.out.println("[Main]No hay participantes para el sorteo. No se ejecutara sorteo.");
+				//chequear
+				System.out.println("[Main]QUEDA PENDIENTE EL SORTEO O NO? Chequear. Seba");
 			}
 			else{
+				sortear();
+				
 				System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo().toString());
 				System.out.println("[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
-				
 				// registrar fecha de ejecucion del sorteo
 				// op.cambiarValorPendienteSorteo(sorteo, idRazon, false);
-				
 			}
+
 			System.out.println("[Main]********************************************");
 		}
 		
 		if (registrar){
 			/* ---- Quedo pendiente el registro del ganador? ---- */
 			
-			System.out.println("[Main] Registrando el ganador " + ganador.getApellidoNombre());
-			
-			if (!op.registrarGanador(ganador)){
-				// registrar pendiente y setear razon = RegistroGanador
-				intentos++;
-				System.out.println("[Main]No se pudo registrar el ganador");
-				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("RegistrarGanador", intentos), true);
-				// notificar = false?
+			if(ganador == null)
+			{
+				System.out.println("[Main] No hay ganador. No se hara el registro");
+				//chequear
+				System.out.println("[Main] De donde saco el ganador si lo unico que fallo fue el registro? Seba.");
+				
 			}
+			else{
+				System.out.println("[Main] Registrando el ganador " + ganador.getApellidoNombre());
+				
+				if (!op.registrarGanador(ganador)){
+					// registrar pendiente y setear razon = RegistroGanador
+					intentos++;
+					System.out.println("[Main]No se pudo registrar el ganador");
+					op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("RegistrarGanador", intentos), true);
+					// notificar = false?
+				}				
+			}
+			
+			
 		}
 		
 		if (notificar){
 			/* ---- Hay concesionarias por notificar? ---- */
+			/*
+			 * Por ahora Casteo a adquirido para probar funcionamiento
+			 * y despues lo convierto todo a participante BEAN.
+			 * Desactivo envio de mail tambien para testear. SEBA
+			 */
+			AdquiridoBean ganadorParaNotificar = new AdquiridoBean();
+			ganadorParaNotificar.setDniCliente(ganador.getDniCliente());
+			ganadorParaNotificar.setFechaSorteado(ganador.getFechaSorteo());
+			ganadorParaNotificar.setIdConcesionaria(ganador.getIdConcesionaria());
+			ganadorParaNotificar.setIdPlan(ganador.getIdPlan());
+			
+			if (op.NotificarGanador(ganadorParaNotificar)){
+				System.out.println("[Main]La notificacion fue exitosa");
+				
+			}
+			else {
+				intentos++;
+				System.out.println("[Main]Hay concesionarias pendiente de notificar");
+				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("NotificarGanador", intentos), true);
+			}
 			
 			
 		}
