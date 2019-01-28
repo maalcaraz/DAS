@@ -746,82 +746,10 @@ BEGIN
 END
 go
 
-/*
-create procedure dbo.get_participantes1
-(
-	@id_concesionaria			varchar(20),
-	@max_cuotas_pagas			tinyint,
-	@min_cuotas_pagas			tinyint
-)
-AS
-BEGIN
-	Select *
-	from clientes cli 
-	join adquiridos ad
-	on cli.dni_cliente = ad.dni_cliente
-	and cli.id_concesionaria = ad.id_concesionaria
-	join planes pla 
-	on pla.id_plan = ad.id_plan
-	and pla.id_concesionaria = ad.id_concesionaria
-	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
-			from adquiridos ad1
-			left join cuotas cuo
-			on cuo.id_plan = ad1.id_plan
-			and cuo.dni_cliente = ad1.dni_cliente
-			and ad1.id_concesionaria = @id_concesionaria
-			and cuo.id_concesionaria = @id_concesionaria
-			where ad1.ganador_sorteo = 'N'
-			group by ad1.dni_cliente, ad1.id_plan
-			) cli1_cuo_pagas
-	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
-	and cli1_cuo_pagas.id_plan = ad.id_plan,
-	ult_transaccion
-	where cli.id_concesionaria = @id_concesionaria
-	and cli1_cuo_pagas.cuotas_pagas >= @min_cuotas_pagas
-	and cli1_cuo_pagas.cuotas_pagas <= @max_cuotas_pagas
-END
-go
-*/
 create procedure dbo.get_participantes
 AS
 BEGIN
--- toda la logica de seleccion en realidad deberia estar en la insercion de participantes. y se setean en la consulta quincenal
-
-/* Comentario de Seba. No deberiamos hacer aca un select * from participantes_sorteos y ya? estamos repitiendo la logica
-   que hacemos en el insert de esa tabla y estaba harcodeado aca lo de las cuotas!!!!!
-*/
 	Select * from participantes_sorteos 
-	/*
-	Select *
-	from participantes_sorteos ps
-	join clientes cli 
-	on cli.dni_cliente = ps.dni_cliente
-	join adquiridos ad
-	on ps.dni_cliente = ad.dni_cliente
-	and ps.id_concesionaria = ad.id_concesionaria
-	join planes pla 
-	on pla.id_plan = ad.id_plan
-	and pla.id_concesionaria = ad.id_concesionaria
-	join (Select ad1.dni_cliente, ad1.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
-			from adquiridos ad1
-			join participantes_sorteos ps1 
-			on ad1.dni_cliente = ps1.dni_cliente
-			and ad1.id_plan = ps1.id_plan
-			and ad1.id_concesionaria = ps1.id_concesionaria
-			left join cuotas cuo
-			on cuo.id_plan = ad1.id_plan
-			and cuo.dni_cliente = ad1.dni_cliente
-			and cuo.id_concesionaria = ps1.id_concesionaria
-			where ad1.ganador_sorteo = 'N'
-			group by ad1.dni_cliente, ad1.id_plan
-			) cli1_cuo_pagas
-	on cli1_cuo_pagas.dni_cliente = cli.dni_cliente
-	and cli1_cuo_pagas.id_plan = ad.id_plan,
-	ult_transaccion
-	where cli.id_concesionaria = ps.id_concesionaria
-	and cli1_cuo_pagas.cuotas_pagas >= 24
-	and cli1_cuo_pagas.cuotas_pagas <= 36
-	*/
 END
 go 
 
@@ -835,7 +763,6 @@ BEGIN
 END
 go
 
--- execute dbo.get_sorteos_pendientes
 
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
@@ -956,17 +883,6 @@ BEGIN
 		join adquiridos a 
 		on g.dni_cliente = a.dni_cliente
 		order by s.fecha_ejecucion
-
-/*
-	select a.fecha_sorteado, c.apellido_nombre, con.nombre_concesionaria
-	from adquiridos a
-	join clientes c
-	on c.dni_cliente = a.dni_cliente
-	join concesionarias con
-	on c.id_concesionaria = con.id_concesionaria
-	where a.ganador_sorteo = 'S'
-	order by a.fecha_sorteado asc
-*/
 END
 go
 

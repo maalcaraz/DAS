@@ -40,7 +40,7 @@ public class OperacionesSorteo {
 	 * correspondiente si se cancelo.
 	 * 
 	 */
-	public AdquiridoBean verificarCancelado(AdquiridoBean ganador){ /* Por que esta operacion retorna un adquirido? */
+	public String verificarCancelado(ParticipanteBean ganador){ /* Por que esta operacion retorna un adquirido? */
 		System.out.println("[OpsSorteo]--------------->VERIFICAR CANCELADO");
 				String restResp = "";
 				String idPortal = "PORTALGOB";
@@ -59,7 +59,7 @@ public class OperacionesSorteo {
 		      	
 				String concAdqBean = ganador.getIdConcesionaria();
 				
-				if ( concesionarias != null){ // Cambiar el parametro que viene por un GanadorBean o un ParticipanteBean
+				if ( concesionarias != null){ 
 					for (ConcesionariaBean c : concesionarias ){
 						if (c.getIdConcesionaria().equals(concAdqBean)){
 							System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
@@ -67,18 +67,12 @@ public class OperacionesSorteo {
 								restResp = c.getWebService().Consumir("verificarCancelado", parameters);
 								TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
 								String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
-								if(listaRetorno[0].equals("{Cancelado: SI}")){
-									System.out.println("\t[OpsSorteo]El ganador fue cancelado. VerificarCancelado = SI");
-									ganador.setCancelado("true");
-								}
-								else{
-									ganador.setCancelado("false");
-								}
+								restResp = listaRetorno[0];
 							}
 							catch(Exception ex){
 								System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
-								ganador.setCancelado("false");
-								return null;
+								
+								restResp = null;
 							}
 						}
 					}
@@ -86,17 +80,17 @@ public class OperacionesSorteo {
 				else{
 					System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 				}
-		return ganador;
+		return restResp;
 	}
 	
 	
-	public boolean NotificarGanador(AdquiridoBean ganador){
+	public boolean notificarGanador(ParticipanteBean ganador){
 		String respuesta = "";
 		String fechaParametro;
 		MailSender mailSender = new MailSender();
 		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
-		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteado());
+		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteo());
 		try {
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
@@ -106,7 +100,7 @@ public class OperacionesSorteo {
 			
 			
 			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
-			String dateAsString = ganador.getFechaSorteado();
+			String dateAsString = ganador.getFechaSorteo();
 			Date date = sourceFormat.parse(dateAsString);
 			
 			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
@@ -382,20 +376,20 @@ public class OperacionesSorteo {
     }
 	
 	
-	public List<AdquiridoBean> obtenerGanadores (){
+	public List<ParticipanteBean> obtenerGanadores (){
 		try{
 			/*
 			 *  Ganadores.select() devuelve una lista de ganadores del sorteo 
 			 */
 			MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
 			List<Bean> g = Ganadores.select(null);
-			List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+			List<ParticipanteBean> ganadores = new LinkedList<ParticipanteBean>();
 			
 			for (Bean b : g){
-				AdquiridoBean ad = (AdquiridoBean) b;
-				adquiridos.add(ad);
+				ParticipanteBean ad = (ParticipanteBean) b;
+				ganadores.add(ad);
 			}
-			return adquiridos;
+			return ganadores;
 		}
 		catch(SQLException ex){
 			System.out.println("\t[OpsSorteo]No se pudieron obtener ganadores. Error: "+ ex.getMessage());

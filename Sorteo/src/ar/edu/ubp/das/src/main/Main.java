@@ -27,7 +27,7 @@ public class Main {
 		boolean notificar = true;
 		boolean consultar = true;
 		boolean registrar = true;
-		boolean cancelarGanador  = true;
+		boolean verificarCancelado = true;
 		boolean sortear  = true;
 		
 		/***********************************/
@@ -47,7 +47,7 @@ public class Main {
 				notificar = false;
 				consultar = false;
 				registrar = false;
-				cancelarGanador = false;
+				verificarCancelado = false;
 			}
 			else{
 				System.out.println("[Main]Hoy es fecha de sorteo");
@@ -56,6 +56,20 @@ public class Main {
 		}
 		else{
 			System.out.println("[Main]Hay sorteos pendientes");
+			
+			/* --- Obtenemos el ultimo ganador --- */
+			
+			List<ParticipanteBean> aux = op.obtenerGanadores();
+			
+			if (aux != null && aux.isEmpty()){
+				
+				System.out.println("[Main] No hay ganadores registrados.");
+			}
+			else{
+				ganador = aux.get(0);
+			}
+			
+			
 			
 			/****Extrayendo razon de sorteo pendiente ****/
 			Gson gson = new Gson();
@@ -76,7 +90,7 @@ public class Main {
 				consultar = false; 
 				sortear = false;
 				registrar = false;
-				cancelarGanador = false;
+				verificarCancelado = false;
 				break;
 				
 			case "ConsultarConcesionarias":
@@ -84,7 +98,7 @@ public class Main {
 				sortear = true;
 				registrar = true;
 				notificar = true;
-				cancelarGanador = true;
+				verificarCancelado = true;
 				break;
 				
 			case "RegistrarGanador":
@@ -92,19 +106,11 @@ public class Main {
 				sortear = false;
 				notificar = true;
 				consultar = false;
-				cancelarGanador = false;
-				break;
-				
-			case "CancelarGanador":
-				cancelarGanador = true;
-				sortear = false;
-				notificar = true;
-				consultar = false;
-				registrar = false;
+				verificarCancelado = false;
 				break;
 				
 			case "VerificarCancelado":
-				cancelarGanador = true;
+				verificarCancelado = true;
 				sortear = false;
 				notificar = true;
 				consultar = false;
@@ -115,11 +121,11 @@ public class Main {
 		} /*---- Fin chequeo sorteo pendiente ----*/
 		
 		/* ---- Se cancelo el ultimo ganador? ---- */
-		if (cancelarGanador){
+		if (verificarCancelado){
 			
 			//ganador = op.verificarCancelado();
 			
-			List<AdquiridoBean> aux = op.obtenerGanadores();
+			List<ParticipanteBean> aux = op.obtenerGanadores();
 			
 			if (aux != null && aux.isEmpty()){
 				// No hay ganadores registrados. Se sigue con el flujo del programa y no se verifica el cancelado
@@ -138,9 +144,9 @@ public class Main {
 				if (!aux.isEmpty()){
 					// Hay que verificar si el ganador esta cancelado
 					
-					AdquiridoBean ad = op.verificarCancelado(aux.get(0));
+					String res = op.verificarCancelado(aux.get(0));
 					
-					if (ad == null){
+					if (res == null){
 						// Fallo el consumo
 						intentos++;
 						op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("VerificarCancelado", intentos), true);
@@ -150,14 +156,13 @@ public class Main {
 						registrar = false;
 					}
 					else {
-						if (ad.getCancelado().equals("true")){
+						if (res.contains("{Cancelado: SI}")){
 							notificar = true;
 							sortear = true;
 							consultar = true;
 							registrar = true;
 						}
 						else{
-							// setear a ganador con 
 							notificar = true;
 							sortear = false;
 							consultar = false;
@@ -176,7 +181,7 @@ public class Main {
 				op.setearParticipantes(sorteo);
 				
 				sorteo.setParticipantesSorteo(op.seleccionarParticipantes());
-				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); //procedimiento de get participantes esta roto
+				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); 
 				// La consulta fue exitosa
 			}
 			else {
@@ -198,7 +203,10 @@ public class Main {
 			if(sorteo.getParticipantesSorteo() == null || sorteo.getParticipantesSorteo().isEmpty()){
 				System.out.println("[Main]No hay participantes para el sorteo. No se ejecutara sorteo.");
 				//chequear
-				System.out.println("[Main]QUEDA PENDIENTE EL SORTEO O NO? Chequear. Seba");
+				System.out.println("[Main] Hay que cancelar el sorteo (sin volver a intentar)");
+				registrar = false;
+				notificar = false;
+				
 			}
 			else{
 				sortear();
@@ -218,8 +226,6 @@ public class Main {
 			if(ganador == null)
 			{
 				System.out.println("[Main] No hay ganador. No se hara el registro");
-				//chequear
-				System.out.println("[Main] De donde saco el ganador si lo unico que fallo fue el registro? Seba.");
 				
 			}
 			else{
@@ -230,27 +236,15 @@ public class Main {
 					intentos++;
 					System.out.println("[Main]No se pudo registrar el ganador");
 					op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("RegistrarGanador", intentos), true);
-					// notificar = false?
+					notificar = false;
 				}				
 			}
-			
-			
 		}
 		
 		if (notificar){
 			/* ---- Hay concesionarias por notificar? ---- */
-			/*
-			 * Por ahora Casteo a adquirido para probar funcionamiento
-			 * y despues lo convierto todo a participante BEAN.
-			 * Desactivo envio de mail tambien para testear. SEBA
-			 */
-			AdquiridoBean ganadorParaNotificar = new AdquiridoBean();
-			ganadorParaNotificar.setDniCliente(ganador.getDniCliente());
-			ganadorParaNotificar.setFechaSorteado(ganador.getFechaSorteo());
-			ganadorParaNotificar.setIdConcesionaria(ganador.getIdConcesionaria());
-			ganadorParaNotificar.setIdPlan(ganador.getIdPlan());
 			
-			if (op.NotificarGanador(ganadorParaNotificar)){
+			if (op.notificarGanador(ganador)){
 				System.out.println("[Main]La notificacion fue exitosa");
 				
 			}
