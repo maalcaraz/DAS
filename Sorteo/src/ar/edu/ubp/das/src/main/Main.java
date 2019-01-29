@@ -1,5 +1,7 @@
 package ar.edu.ubp.das.src.main;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +11,6 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import ar.edu.ubp.das.src.beans.AdquiridoBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 
@@ -214,7 +215,10 @@ public class Main {
 				System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo().toString());
 				System.out.println("[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
 				// registrar fecha de ejecucion del sorteo
-				// op.cambiarValorPendienteSorteo(sorteo, idRazon, false);
+				Date fechaEjecucion = new Date();
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				sorteo.setFechaEjecucion(parser.format(fechaEjecucion));
+				op.cambiarValorPendienteSorteo(sorteo, "El sorteo fue ejecutado con exito", false);
 			}
 
 			System.out.println("[Main]********************************************");
@@ -246,6 +250,10 @@ public class Main {
 			
 			if (op.notificarGanador(ganador)){
 				System.out.println("[Main]La notificacion fue exitosa");
+				Date fechaNotificacion = new Date();
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				sorteo.setFechaNotificacion(parser.format(fechaNotificacion));
+				op.cambiarValorPendienteSorteo(sorteo, "El ganador del sorteo fue notificado con exito", false);
 				
 			}
 			else {
@@ -253,10 +261,7 @@ public class Main {
 				System.out.println("[Main]Hay concesionarias pendiente de notificar");
 				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("NotificarGanador", intentos), true);
 			}
-			
-			
 		}
-		
 		System.out.println("[Main]Adios mundo");
 	}
 	

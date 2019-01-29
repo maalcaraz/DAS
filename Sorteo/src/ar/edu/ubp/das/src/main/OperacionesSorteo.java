@@ -86,8 +86,7 @@ public class OperacionesSorteo {
 	
 	public boolean notificarGanador(ParticipanteBean ganador){
 		String respuesta = "";
-		String fechaParametro;
-		MailSender mailSender = new MailSender();
+	//	MailSender mailSender = new MailSender();
 		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
 		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteo());
@@ -178,8 +177,6 @@ public class OperacionesSorteo {
 			LinkedList<PlanBean> planes;
 			LinkedList<AdquiridoBean> adquiridos;
 			LinkedList<CuotaBean> cuotas;
-			
-			//List<ParticipanteBean> participantesSorteo = new LinkedList<ParticipanteBean>();
 			
 			for (ConcesionariaBean concesionaria : concesionarias ){
 				
@@ -311,7 +308,7 @@ public class OperacionesSorteo {
 					else{
 						System.out.println("[OpsSorteo]No se pudo realizar la notificacion con exito");
 					}
-					// si la de ejecucion es nula, obligatoriamente la de notificacion es nula.
+					/* si la de ejecucion es nula, obligatoriamente la de notificacion es nula. */
 					
 				}
 				else{
