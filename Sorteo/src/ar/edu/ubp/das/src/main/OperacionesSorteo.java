@@ -97,16 +97,8 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
 			parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
-			
-			
-			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
-			String dateAsString = ganador.getFechaSorteo();
-			Date date = sourceFormat.parse(dateAsString);
-			
-			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
-			fechaParametro = parser.format(date);
 
-			parameters.add(new BasicNameValuePair("fecha_sorteo" , fechaParametro));
+			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteo()));
 	      	
 	      	/*
 	      	 * Obtencion desde la BD local de la lista de concesionarias registradas
@@ -117,12 +109,8 @@ public class OperacionesSorteo {
 	      	}
 	      	else {
 	      		for (ConcesionariaBean c : concesionarias ){
-	      			/*
-	      			 * Para que chequeamos si esta aprobada en la notificacion.
-	      			 * deberiamos notificar lo mismo!
-	      			 * Por ahora lo comento. Seba.
-	      			 */
-					//if (c.getAprobada().equals("S")){
+	      			
+					if (c.getAprobada().equals("S")){
 						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
 						respuesta = c.getWebService().Consumir("notificarGanador", parameters);
 						Gson gson = new Gson();
@@ -161,11 +149,11 @@ public class OperacionesSorteo {
 							*/
 							
 						}
-					//}
+					}
 				}
 	      	}
 		}
-		catch(RuntimeException | ParseException ex ){
+		catch(RuntimeException ex ){
 			System.out.println("\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: " + ex.getMessage());
 			return false;
 		}

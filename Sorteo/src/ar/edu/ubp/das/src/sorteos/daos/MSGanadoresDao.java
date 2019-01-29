@@ -15,16 +15,7 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
-		
-		
-		AdquiridoBean adq = new AdquiridoBean();
-		// falta id portal
-		
-		adq.setIdPlan(result.getString("id_plan"));
-		adq.setDniCliente(result.getString("dni_cliente"));
-		adq.setIdConcesionaria(result.getString("id_concesionaria"));
-		
-		return adq;
+		 return null;
 	}
 
 	@Override
@@ -86,8 +77,20 @@ public class MSGanadoresDao  extends DaoImpl {
 			this.disconnect();			
 		}
 		else{
+			ganadores = new LinkedList<Bean>();
+			
 			this.setProcedure("dbo.get_ganadores()");
-			ganadores = this.executeQuery();			
+			
+			ResultSet result = this.getStatement().executeQuery();
+			
+			while (result.next()){
+				ParticipanteBean participante = new ParticipanteBean();
+				participante.setIdPlan(result.getString("id_plan"));
+				participante.setDniCliente(result.getString("dni_cliente"));
+				participante.setIdConcesionaria(result.getString("id_concesionaria"));
+				ganadores.add(participante);
+			}
+			
 			this.disconnect();
 		}
 		

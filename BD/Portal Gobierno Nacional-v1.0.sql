@@ -749,7 +749,8 @@ go
 create procedure dbo.get_participantes
 AS
 BEGIN
-	Select * from participantes_sorteos 
+	Select ps.id_sorteo, ps.dni_cliente, ps.id_concesionaria,  format(ps.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, ps.apellido_nombre, ps.email, ps.id_plan
+	from participantes_sorteos ps
 END
 go 
 
@@ -876,7 +877,7 @@ go
 create procedure dbo.get_ganadores
 AS
 BEGIN
-	select * 
+	select g.apellido_nombre, g.dni_cliente, g.id_sorteo, g.nombre_concesionaria, g.vehiculo_adq, format(s.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, a.id_plan, a.id_concesionaria
 		from ganadores g
 		join sorteos s
 		on g.id_sorteo = s.id_sorteo
