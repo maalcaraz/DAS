@@ -877,12 +877,14 @@ go
 create procedure dbo.get_ganadores
 AS
 BEGIN
-	select g.apellido_nombre, g.dni_cliente, g.id_sorteo, g.nombre_concesionaria, g.vehiculo_adq, format(s.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, a.id_plan, a.id_concesionaria
+	select g.apellido_nombre, g.dni_cliente, g.id_sorteo, g.nombre_concesionaria, g.vehiculo_adq, format(s.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, a.id_plan, a.id_concesionaria, c.email
 		from ganadores g
 		join sorteos s
 		on g.id_sorteo = s.id_sorteo
 		join adquiridos a 
 		on g.dni_cliente = a.dni_cliente
+		join clientes c 
+		on g.dni_cliente = c.dni_cliente
 		order by s.fecha_ejecucion
 END
 go

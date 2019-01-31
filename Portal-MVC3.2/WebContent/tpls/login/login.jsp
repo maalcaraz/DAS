@@ -53,13 +53,7 @@
 											id="pwd" name="pwd" placeholder="Enter password" required/>
 											
 									</div>
-									<div class="checkbox">
-
-										<label> <input type="checkbox" checked="checked"
-											name="remember">
-										<fmt:message key="recordarme" bundle="${etq}"></fmt:message>
-										</label>
-									</div>
+									
 									<button type="button" class="btn btn-primary" name="login"
 										onclick="jLogin.acceder()">
 										<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>

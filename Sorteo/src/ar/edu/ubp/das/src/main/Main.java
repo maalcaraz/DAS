@@ -190,6 +190,8 @@ public class Main {
 				System.out.println("[Main]Hay concesionarias pendiente de consulta");
 				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("ConsultarConcesionarias", intentos), true);
 				sortear = false;
+				registrar = false;
+				notificar = false;
 			}
 		}
 

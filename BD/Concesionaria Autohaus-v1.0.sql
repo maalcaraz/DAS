@@ -407,9 +407,3 @@ AS
 		END
 	END
 go
-
-select * from clientes
-go
-
-select * from adquiridos
-go

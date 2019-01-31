@@ -176,7 +176,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		ConcesionariaBean c = (ConcesionariaBean) bean;
 		String consulta = (c.isConsultaPendiente() == true) ? "S" : "N";
-		String notificacion = (c.isConsultaPendiente() == true) ? "S" : "N";
+		String notificacion = (c.isNotificacionPendiente() == true) ? "S" : "N";
 		
 		
 		this.connect();

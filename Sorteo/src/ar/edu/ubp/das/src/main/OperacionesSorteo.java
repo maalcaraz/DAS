@@ -36,8 +36,7 @@ public class OperacionesSorteo {
 		
 	}
 	/*
-	 * Obtiene ganador de el ultimo sorteo y pregunta en concesionaria
-	 * correspondiente si se cancelo.
+	 * Toma como parametro el ultimo ganador del sorteo y pregunta en la concesionaria correspondiente si se cancelo su cuenta.
 	 * 
 	 */
 	public String verificarCancelado(ParticipanteBean ganador){ /* Por que esta operacion retorna un adquirido? */
@@ -96,7 +95,6 @@ public class OperacionesSorteo {
 			parameters.add(new BasicNameValuePair("id_concesionaria" , ganador.getIdConcesionaria()));
 			parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
 			parameters.add(new BasicNameValuePair("id_plan" , ganador.getIdPlan()));
-
 			parameters.add(new BasicNameValuePair("fecha_sorteo" , ganador.getFechaSorteo()));
 	      	
 	      	/*
@@ -109,7 +107,7 @@ public class OperacionesSorteo {
 	      	else {
 	      		for (ConcesionariaBean c : concesionarias ){
 	      			
-					if (c.getAprobada().equals("S")){
+					if (c.getAprobada().equals("S") && c.isNotificacionPendiente()){
 						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
 						respuesta = c.getWebService().Consumir("notificarGanador", parameters);
 						Gson gson = new Gson();
@@ -119,11 +117,13 @@ public class OperacionesSorteo {
 							 * Se setea el sorteo como pendiente
 							 */
 							System.out.println("\t[OpsSorteo]Fallo la notificacion de la concesionaria");
+							c.setNotificacionPendiente(true);
+							updateConsumosPendientes(c);
 							return false;
 						}
 						else{
 							
-							System.out.println("\t[OpsSorteo]Exito la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
+							System.out.println("\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
 							//Comento por hora el envio de mail. Seba.
 							/*
 							MSGanadoresDao GanadoresDao;
@@ -148,6 +148,8 @@ public class OperacionesSorteo {
 							*/
 							
 						}
+						c.setNotificacionPendiente(false);
+						updateConsumosPendientes(c);
 					}
 				}
 	      	}
@@ -180,17 +182,19 @@ public class OperacionesSorteo {
 			
 			for (ConcesionariaBean concesionaria : concesionarias ){
 				
-				if (concesionaria.getAprobada().equals("S") && (concesionaria.isConsultaPendiente())){
+				if (concesionaria.getAprobada().equals("S") /*&&  (concesionaria.isConsultaPendiente())*/){
 					System.out.println("\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 					
 					int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
 					System.out.println("\t[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
 					
-					
 					int diasCaducidad = Integer.parseInt(concesionaria.getCantDiasCaducidad());
+					System.out.println("\t[Ops Sorteo]Dias de caducidad: "+ diasCaducidad);
 					System.out.println("\t[Ops Sorteo]Entrando al if de actualizacion de datos");
 					
-					if ( (concesionaria.getUltimaActualizacion() == null) ||  (dias > diasCaducidad) || (concesionaria.isConsultaPendiente())){
+					if ((concesionaria.getUltimaActualizacion() == null) ||  
+						(dias > diasCaducidad)){
+						
 						
 						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos de "+ concesionaria.getNomConcesionaria());
 						List <NameValuePair> parameters = new ArrayList <NameValuePair>();

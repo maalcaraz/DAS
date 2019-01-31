@@ -88,6 +88,11 @@ public class MSGanadoresDao  extends DaoImpl {
 				participante.setIdPlan(result.getString("id_plan"));
 				participante.setDniCliente(result.getString("dni_cliente"));
 				participante.setIdConcesionaria(result.getString("id_concesionaria"));
+				participante.setIdSorteo(result.getString("id_sorteo"));
+				participante.setApellidoNombre(result.getString("apellido_nombre"));
+				participante.setIdPlan(result.getString("id_plan"));
+				participante.setFechaSorteo(result.getString("fecha_sorteo"));
+				participante.setEmail(result.getString("email"));
 				ganadores.add(participante);
 			}
 			
