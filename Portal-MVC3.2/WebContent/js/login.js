@@ -39,32 +39,10 @@ var jLogin = {
 			}
 		
 		},
-		logout : function (val, mod){
-			if (mod != null){
-				c = document.getElementById(mod);
-				c.style.display="none"; 
-			}
+		logout : function (val){
 			if(val == 1){
 				window.location.replace("/login/Login.do");
 			}
-			else{
-				jUtils.hiding("result");
-				window.location.replace("/home/Home.do");
-			}
-			/*
-			$.ajax({
-	            url: "/home/Home.do",
-	            type: "post",
-	            dataType: "html",
-	            error: function(hr){
-	                jUtils.hiding("result");
-	                jUtils.showing("message", hr.responseText);
-	            },
-	            success: function(html) {
-	            	jUtils.showing("site", html);
-	            }
-	        });
-	        */
 		},
 		
 		/* Utilizada en home. Click en Iniciar Sesion  */

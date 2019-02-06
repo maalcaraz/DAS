@@ -41,20 +41,6 @@ public class ConsultaQuincenalAction implements Action {
 		parameters.add(new BasicNameValuePair("id_portal", idPortal));
 		try {
 			System.out.println("[ConsultaQuincenal]Action de consulta quincenal");
-			/*
-			 * Logica de sesion. Luego de implementarla donde sea necesaria se evaluara removerla a otro paquete
-			 * para no duplicar codigo
-			 */
-			HttpSession session = request.getSession(false);
-			
-			if(session == null){
-				return mapping.getForwardByName("noSession");
-			}
-			else if(session.getAttribute("usuario") == null)
-			{
-				session.invalidate();
-				return mapping.getForwardByName("noSession");
-			}
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);

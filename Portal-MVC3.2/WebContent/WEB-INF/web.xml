@@ -28,8 +28,9 @@
   <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/home/*</url-pattern>
-        <url-pattern>/clientes/*</url-pattern>
         <url-pattern>/concesionarias/*</url-pattern>
+        <url-pattern>/clientes/*</url-pattern>
+        <url-pattern>/sorteos/*</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
