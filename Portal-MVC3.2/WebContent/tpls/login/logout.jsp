@@ -16,10 +16,10 @@
 			
 			<div class="info-box blue-bg">
               <i class="fa fa-clock-o"></i>
-              <div class="count">La sesion ha expirado</div>   
-              <div class="title">Debe iniciar sesion nuevamente</div>
+              <div class="count"><fmt:message key="sesion_expirada" bundle="${etq}"></fmt:message></div>   
+              <div class="title"><fmt:message key="iniciar_sesion_nuevamente" bundle="${etq}"></fmt:message></div>
               
-              <button type="button" class="btn linkedin-bg mt-4" value="Si" onclick="jLogin.logout(1)">Entendido</button>
+              <button type="button" class="btn linkedin-bg mt-4" value="Si" onclick="jLogin.logout(1)"><fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message></button>
 			  
             </div>
 
