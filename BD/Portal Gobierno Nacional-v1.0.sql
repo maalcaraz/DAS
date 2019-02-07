@@ -326,9 +326,6 @@ BEGIN
 			end
 END
 go
---execute dbo.validar_usuarios 'pepe', 'pepepass'
---execute dbo.validar_usuarios 'admin', 'intel123'
-
 
 create procedure dbo.loginUsuario
 (
@@ -519,9 +516,6 @@ AS
 	END
 go
 
---execute dbo.insertar_transaccion 'GC--1588588466', 'AH123456', 'Success', 's33' ,  '2018-07-16'
-
-
 create procedure dbo.insertar_concesionaria
 (
 	@id_concesionaria				varchar(20),	
@@ -543,8 +537,6 @@ AS
 	END
 go
 
--- execute dbo.insertar_concesionaria 'AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N'
-
 create procedure dbo.insertar_novedad
 (
 	@texto_novedad			varchar(max)
@@ -555,12 +547,6 @@ AS
 			values(@texto_novedad)
 	END
 go
-
-/*
-insert into concesionarias(id_concesionaria, nombre_concesionaria, cuit, email, direccion, telefono, ultima_actualizacion, cant_dias_caducidad, url_servicio, cod_tecnologia, aprobada)
-values ('AH123456', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '351-1111111', 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/rest/AutoHaus/', 'Rest', 'N')
-go
-*/
 
 create procedure dbo.get_concesionarias
 AS
@@ -585,15 +571,6 @@ BEGIN
 		join clientes c
 		on c.dni_cliente = g.dni_cliente
 		order by s.fecha_ejecucion DESC
-/*
-	select a.id_plan, a.dni_cliente, a.id_concesionaria, a.fecha_sorteado 
-	from adquiridos a
-	where a.fecha_sorteado = (
-								select MAX(s.fecha_sorteo) as ultima_fecha
-								from sorteos s	
-					)
-	and a.ganador_sorteo = 'S'
-	*/
 END
 go
 
@@ -698,21 +675,6 @@ BEGIN
 END
 go
 
---execute dbo.get_cliente_info 28451965, 'Tagle80567923'
-/*
-create procedure dbo.get_datos_clientes
-(
-	@id_concesionaria			varchar(20)
-)
-AS 
-BEGIN
-	Select *
-		from clientes c
-		where c.id_concesionaria = @id_concesionaria
-END
-go
-*/
-
 create procedure dbo.get_datos_clientes
 (
 	@id_concesionaria			varchar(20)
@@ -747,12 +709,21 @@ END
 go
 
 create procedure dbo.get_participantes
+(
+	@id_sorteo			varchar(30)
+)
 AS
 BEGIN
-	Select ps.id_sorteo, ps.dni_cliente, ps.id_concesionaria,  format(ps.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, ps.apellido_nombre, ps.email, ps.id_plan
+	Select ps.id_sorteo, ps.dni_cliente, ps.id_concesionaria,  format(ps.fecha_sorteo, 'dd-MM-yyyy')as fecha_sorteo, ps.apellido_nombre, ps.email, ps.id_plan, c.nombre_concesionaria
 	from participantes_sorteos ps
+	join concesionarias c
+	on ps.id_concesionaria = c.id_concesionaria
+	where ps.id_sorteo = @id_sorteo
 END
 go 
+
+-- execute dbo.get_participantes 's-1147594008'
+-- execute dbo.get
 
 create procedure dbo.get_sorteos_pendientes
 AS
@@ -1023,20 +994,6 @@ go
 
 ********************************/
 
--- execute dbo.insertar_participantes '12', '70', 's1937773288'
-
-
-select * from participantes_sorteos
-
-select * 
-from posibles_participantes pp
-where pp.cuotas_pagas > 16
-and pp.cuotas_pagas < 70
-
-
-select * from sorteos
-select * from clientes
-select * from adquiridos
 /*******************************
 
 	INSERTAR CONCESIONARIA

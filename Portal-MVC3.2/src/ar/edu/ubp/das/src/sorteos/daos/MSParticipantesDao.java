@@ -5,22 +5,24 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.edu.ubp.das.src.beans.ParticipanteBean;
-import ar.edu.ubp.das.src.beans.SorteoBean;
-import ar.edu.ubp.das.src.db.Bean;
-import ar.edu.ubp.das.src.db.DaoImpl;
+import org.springframework.context.annotation.Bean;
+
+import ar.edu.ubp.das.mvc.action.DynaActionForm;
+import ar.edu.ubp.das.mvc.db.DaoImpl;
+import ar.edu.ubp.das.src.sorteos.forms.ParticipanteForm;
+import ar.edu.ubp.das.src.sorteos.forms.SorteosForm;
 
 public class MSParticipantesDao extends DaoImpl{
 
 	@Override
-	public Bean make(ResultSet result) throws SQLException {
+	public DynaActionForm make(ResultSet result) throws SQLException {
 
 		return null;
 	}
 
 	@Override
-	public void insert(Bean bean) throws SQLException {
-		SorteoBean p = (SorteoBean)bean;
+	public void insert(DynaActionForm form) throws SQLException {
+		SorteosForm p = (SorteosForm)form;
 		
 		this.connect();
 		this.setProcedure("dbo.insertar_participantes(?, ?, ?)");
@@ -34,31 +36,31 @@ public class MSParticipantesDao extends DaoImpl{
 	}
 
 	@Override
-	public void update(Bean bean) throws SQLException {
+	public void update(DynaActionForm bean) throws SQLException {
 		
 		
 	}
 
 	@Override
-	public void delete(Bean bean) throws SQLException {
+	public void delete(DynaActionForm bean) throws SQLException {
 		
 		
 	}
 
 	@Override
-	public List<Bean> select(Bean bean) throws SQLException {
+	public List<DynaActionForm> select(DynaActionForm form) throws SQLException {
 		
-		SorteoBean sorteo = (SorteoBean) bean;
+		SorteosForm sorteo = (SorteosForm) form;
 		this.connect();
 		this.setProcedure("dbo.get_participantes(?)");
 		this.setParameter(1, sorteo.getIdSorteo());
 		
-		List<Bean> participantes = new LinkedList<Bean>();
+		List<DynaActionForm> participantes = new LinkedList<DynaActionForm>();
 		ResultSet result = this.getStatement().executeQuery();
 		result.next();
 		while(result.getRow() > 0) {
 			try{
-				ParticipanteBean p = new ParticipanteBean();
+				ParticipanteForm p = new ParticipanteForm();
 				p.setIdSorteo(result.getString("id_sorteo"));				
 				p.setDniCliente(result.getString("dni_cliente"));			
 				p.setIdConcesionaria(result.getString("id_concesionaria"));	
@@ -79,9 +81,8 @@ public class MSParticipantesDao extends DaoImpl{
 	}
 
 	@Override
-	public boolean valid(Bean bean) throws SQLException {
+	public boolean valid(DynaActionForm form) throws SQLException {
 	
 		return false;
 	}
-
 }

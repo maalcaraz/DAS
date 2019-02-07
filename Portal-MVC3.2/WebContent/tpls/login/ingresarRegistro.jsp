@@ -4,18 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  	<script type="text/javascript"
-	src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,bootstrap.min,jquery.easing.min"></script>
-	<link type="text/css" rel="stylesheet"
-	href="/util/StyleSheet.do/load=page,messages,bootstrap.min,nivo-lightbox,default,
-	nivo-lightbox-theme/default/default,animate,style" />
+  	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,bootstrap.min,jquery.easing.min"></script>
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=messages,bootstrap.min,nivo-lightbox,default,nivo-lightbox-theme/default/default,animate,style" />
 	<fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
 	<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
 </head>
-<!--  No necesitamos el close por ahora por que atras del login no hay nada
-<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
--->
-
 							<div class="modal-header text-center">
 
 								 <h4><fmt:message key="ingresoRegistro" bundle="${etq}"></fmt:message> </h4>

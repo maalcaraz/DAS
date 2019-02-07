@@ -181,7 +181,7 @@ public class Main {
 				System.out.println("[Main]La consulta de concesionarias fue exitosa");
 				op.setearParticipantes(sorteo);
 				
-				sorteo.setParticipantesSorteo(op.seleccionarParticipantes());
+				sorteo.setParticipantesSorteo(op.seleccionarParticipantes(sorteo));
 				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); 
 				// La consulta fue exitosa
 			}

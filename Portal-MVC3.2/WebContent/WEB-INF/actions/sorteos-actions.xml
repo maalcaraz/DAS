@@ -36,5 +36,17 @@
 			<forward name="success" path="/sorteos/resultadosUltimoSorteo.jsp" />
 			<forward name="failure" path="/sorteos/error.jsp" />
 	 </action>
+	 <action type="ObtenerParticipantesSorteoAction" path="/ObtenerParticipantesSorteo.do">
+			<forward name="success" path="/sorteos/participantes.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
+	 </action>
+	 <action type="MostrarParticipantesSorteoAction" path="/MostrarParticipantesSorteo.do">
+			<forward name="success" path="/sorteos/participantes.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
+	 </action>
+	 <action type="VerResultadosSorteoAction" path="/VerResultadosSorteo.do">
+			<forward name="success" path="/sorteos/resultadosSorteo.jsp" />
+			<forward name="failure" path="/sorteos/error.jsp" />
+	 </action>
     </action-mappings>
 </actions>

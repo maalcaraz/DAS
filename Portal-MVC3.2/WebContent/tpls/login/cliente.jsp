@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript"
 	src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,clientes"></script>
-<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,admin,page,messages,login,cliente" />
+<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=home,admin,messages,login,cliente" />
 </head>
 <body>
 

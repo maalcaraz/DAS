@@ -51,7 +51,7 @@ public class InsertarSorteoAction implements Action{
         	System.out.println("Hoy Date: "+hoy.toString());
         	SorteosForm sorteo = new SorteosForm();
     		sorteo.setIdSorteo("s"+ nuevaFechaDate.hashCode());
-    		sorteo.setFechaSorteado(fechaSorteo);
+    		sorteo.setFechaDefinida(fechaSorteo);
     		sorteo.setfechaEjecucion(fechaEjecucion);
     		
     		try {

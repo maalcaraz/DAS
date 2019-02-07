@@ -27,7 +27,7 @@ public class MSSorteosDao extends DaoImpl{
         this.connect();
         try {
         	
-        	java.util.Date fechaAux = parser.parse(sorteo.getFechaSorteado());
+        	java.util.Date fechaAux = parser.parse(sorteo.getFechaDefinida());
         	java.sql.Date fecha = new java.sql.Date(fechaAux.getTime());
         	
         	
@@ -89,7 +89,7 @@ public class MSSorteosDao extends DaoImpl{
 			try{
 				SorteosForm f = new SorteosForm();
 				f.setIdSorteo(result.getString("id_sorteo"));
-				f.setFechaSorteado(result.getString("fecha_sorteo"));
+				f.setFechaDefinida(result.getString("fecha_sorteo"));
 				f.setfechaEjecucion((result.getString("fecha_ejecucion") == null) ? "-" : (result.getString("fecha_ejecucion")));
 				f.setFechaNotificacion((result.getString("fecha_notificacion") == null) ? "-" : (result.getString("fecha_notificacion")));
 				f.setPendiente((result.getString("pendiente") == null) ? "-" : (result.getString("pendiente")));
@@ -113,7 +113,7 @@ public class MSSorteosDao extends DaoImpl{
 		while(result.getRow() > 0) {
 			try{
 				SorteosForm f = new SorteosForm();
-				f.setFechaSorteado(result.getString("fecha_sorteado"));
+				f.setFechaDefinida(result.getString("fecha_sorteado"));
 				f.setItem("apellidoNombre", result.getString("apellido_nombre"));
 				f.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
 				ret.add(f);
