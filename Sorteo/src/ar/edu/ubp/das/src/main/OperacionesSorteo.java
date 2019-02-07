@@ -85,7 +85,7 @@ public class OperacionesSorteo {
 	
 	public boolean notificarGanador(ParticipanteBean ganador){
 		String respuesta = "";
-	//	MailSender mailSender = new MailSender();
+		MailSender mailSender = new MailSender();
 		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
 		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteo());
@@ -124,29 +124,8 @@ public class OperacionesSorteo {
 						else{
 							
 							System.out.println("\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
-							//Comento por hora el envio de mail. Seba.
-							/*
-							MSGanadoresDao GanadoresDao;
-							try {
-								GanadoresDao = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
-								
-								
-								 // Envio un adquirido Bean aunque es Ganadores Dao por necesito
-								 //enviar el id de concesionaria
-								 //
-								List<Bean> clientes = GanadoresDao.select(ganador);
-								ClienteBean clienteGanador = (ClienteBean)clientes.get(0);
-								
-								
-								
-								
-								//mailSender.envioMailNotificacion(clienteGanador.getDniCliente(), clienteGanador.getNomCliente(), clienteGanador.getEmailCliente());
-							} catch (SQLException e) {
-								e.printStackTrace();
-								System.out.println("\t[OpsSorteo]Fallo la obtencion de datos para enviar mail");
-							}
-							*/
-							
+							//Comentado envio de mail para que no me lleguen 200 mails mientras testeamos. 
+							//mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());							
 						}
 						c.setNotificacionPendiente(false);
 						updateConsumosPendientes(c);
