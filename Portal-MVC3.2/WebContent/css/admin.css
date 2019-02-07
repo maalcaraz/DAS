@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
 
+html{
+	font-family: 'Lato', sans-serif;
+}
+
 .grid-container {
   display: grid;
   grid-column-gap: 20px;

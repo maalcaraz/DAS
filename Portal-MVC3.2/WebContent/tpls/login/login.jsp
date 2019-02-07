@@ -2,17 +2,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <fmt:setLocale value="${ sessionScope.lang }" scope="session" />
-<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages"
-	var="etq" />
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq" />
 
 <head>
 <title><fmt:message key="bienvenido" bundle="${etq}"></fmt:message></title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript"
-	src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,bootstrap.min"></script>
-<link type="text/css" rel="stylesheet"
-	href="/util/StyleSheet.do/load=page,messages,bootstrap.min" />
+<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,portal,cuentas,login,bootstrap.min"></script>
+<link type="text/css" rel="stylesheet"	href="/util/StyleSheet.do/load=messages,bootstrap.min" />
 </head>
 <body>
 

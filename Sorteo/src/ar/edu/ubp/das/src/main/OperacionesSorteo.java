@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.src.main;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -428,13 +427,13 @@ public class OperacionesSorteo {
 		return gson.toJson(nvp);
 	}
 
-	public LinkedList<ParticipanteBean> seleccionarParticipantes(){
+	public LinkedList<ParticipanteBean> seleccionarParticipantes(SorteoBean sorteo){
 		
 		try {
 			MSParticipantesDao Participantes = (MSParticipantesDao)DaoFactory.getDao("Participantes", "ar.edu.ubp.das.src.sorteos");
 			
 			LinkedList<ParticipanteBean> p = new LinkedList<ParticipanteBean>();
-			List<Bean> aux = Participantes.select(null);
+			List<Bean> aux = Participantes.select(sorteo);
 			for(int i = 0; i < aux.size(); i++){
 				ParticipanteBean participante = (ParticipanteBean) aux.get(i);
 				p.add(participante);

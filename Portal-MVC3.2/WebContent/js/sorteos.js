@@ -14,14 +14,21 @@ var jSorteos = {
 		        });	
 		},
 		nuevoSorteo : function () {
-			var fila = 	"<tr>\
-								<td> </td>\
-								<td> <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/> </td> \
-								<td> </td>\
-								<td> </td>\
-								<td colspan='3' > <input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'> </td>\
-						</tr>";
-				$("#tablaSorteos").append(fila);
+			var id = document.getElementById("nuevos-sorteos");
+			nuevoSorteo = "<div class=\"col-lg-4\">" +
+							"<section class=\"panel\" >" +
+								"<header class=\"panel-heading\">" +
+									"Nuevo sorteo " +
+								"</header>" +
+								"<div class=\"panel-body\">" +
+									"<div class=\"panel panel-primary\">" +
+									"Nueva Fecha <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/>"+
+									"<input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'>" +
+									"</div>" +
+								"</div>" +
+							"</section>" +
+						"</div>";
+			id.innerHTML += nuevoSorteo;
 		},
 		insertar : function () {
 			fecha = $("#nuevaFecha").val();
@@ -67,15 +74,20 @@ var jSorteos = {
 		},
 		editarSorteo : function (idSorteo) {
 			var id = document.getElementById(idSorteo);
-			var fila = 	"<td> </td>\
-				<td> <input type='date' name='nuevaFecha' id='nuevaFecha' size='11' maxlength='10'/> </td> \
-				<td> </td>\
-				<td> </td>\
-				<td> <input type='button' class='normal button' onclick='jSorteos.guardarSorteo(\""+idSorteo+"\")' value='Guardar'>  </td>";
-			id.innerHTML = fila;
-			
+			var nuevoSorteo = "<section class=\"panel\" >" +
+								"<header class=\"panel-heading\">" +
+									"Editar sorteo " +
+								"</header>" +
+								"<div class=\"panel-body\">" +
+									"<div class=\"panel panel-primary\">" +
+									"Nueva Fecha <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/>"+
+									"<input type='button' class='normal button' onclick='jSorteos.guardarSorteo(\""+idSorteo+"\")' value='Guardar'>" +
+									"</div>" +
+								"</div>" +
+								"</section>";
+			id.innerHTML = nuevoSorteo;	
 		},
-		/*no usada*/
+		
 		guardarSorteo : function (idSorteo) {
 			var nuevaFecha = $("#nuevaFecha").val();
 			alert("idSorteo: "+ idSorteo);
@@ -90,7 +102,7 @@ var jSorteos = {
 	                jUtils.showing("contenido-admin", hr.responseText);
 	            },
 	            success: function(html) {
-	            	jUtils.showing("contenido-admin", html);
+	            	jUtils.showing("main-content", html);
 	            }
 	        });
 		},
@@ -134,5 +146,19 @@ var jSorteos = {
 				return true;
 			}
 			else return false;
+		},
+		verResultados : function(idSorteo){
+			$.ajax({
+	            url: "/sorteos/VerResultadosSorteo.do",
+	            type: "post",
+	            dataType: "html",
+	            data: {"idSorteo":idSorteo},
+	            error: function(hr){
+	                jUtils.showing("contenido", hr.responseText);
+	            },
+	            success: function(html) {
+	            	jUtils.showing("resultadosSorteo", html);
+	            }
+	        });
 		}
 };

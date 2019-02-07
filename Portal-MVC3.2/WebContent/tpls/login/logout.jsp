@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" src="/util/Javascript.do/load=jquery,jquery.i18n.properties,utils,cuentas,login,concesionarias" ></script>
-	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=page,messages,login" />
+	<link type="text/css" rel="stylesheet" href="/util/StyleSheet.do/load=messages,login" />
 
 <fmt:setLocale value="${ sessionScope.lang }" scope="session"/>
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq"/>
