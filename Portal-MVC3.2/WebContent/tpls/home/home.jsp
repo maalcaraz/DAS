@@ -77,7 +77,7 @@
 	            <ul class="dropdown-menu extended logout">	
 	             
 	              <li>
-	                <a href="#" id="loginbutton" name="loginbutton" onclick="jLogin.login(1)"><i class="icon_key_alt"></i> <fmt:message key="cerrar_sesion" bundle="${etq}"></fmt:message></a>
+	                <a href="#" id="loginbutton" name="loginbutton" onclick="jLogin.logout(1)"><i class="icon_key_alt"></i> <fmt:message key="cerrar_sesion" bundle="${etq}"></fmt:message></a>
 	              </li>
 	            </ul>
 	          </li>

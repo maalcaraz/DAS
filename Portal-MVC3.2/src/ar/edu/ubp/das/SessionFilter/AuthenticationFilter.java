@@ -29,17 +29,38 @@ public class AuthenticationFilter implements Filter {
         
         HttpSession session = req.getSession(false);
         
-
+        boolean ajax = "XMLHttpRequest".equals(
+        		req.getHeader("X-Requested-With"));
         
         if(session == null){
-        	 System.out.println("Unauthorized access request");
-             res.sendRedirect(req.getContextPath() + "/login/Login.do");
+        	
+        	if (ajax)
+        	{
+        		//This is an AJAX request
+        		res.sendRedirect(req.getContextPath() + "/login/Logout.do");
+        	}
+        	else
+        	{
+        		//This is an ordinary request"
+        		res.sendRedirect(req.getContextPath() + "/login/Login.do");
+        	}
+
+        	System.out.println("Unauthorized access request");
 		}
 		else if(session.getAttribute("usuario") == null)
 		{
 			session.invalidate();
+			if (ajax)
+        	{
+        		//This is an AJAX request
+        		res.sendRedirect(req.getContextPath() + "/login/Logout.do");
+        	}
+        	else
+        	{
+        		//This is an ordinary request"
+        		res.sendRedirect(req.getContextPath() + "/login/Login.do");
+        	}
 			System.out.println("Unauthorized access request");
-	        res.sendRedirect(req.getContextPath() + "/login/Login.do");
 		}
 		else{
 			// pass the request along the filter chain

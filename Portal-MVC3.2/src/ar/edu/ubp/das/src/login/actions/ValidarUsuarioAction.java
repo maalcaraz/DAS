@@ -38,7 +38,7 @@ public class ValidarUsuarioAction implements Action{
 		HttpSession session = request.getSession();
 		
 		session.setAttribute( "usuario",  form.getItem( "usuario" ) );
-		//Seteando tiempo de sesion a 4 minutos para testear
+		//Seteando tiempo de sesion a 10 minutos para testear
 		session.setMaxInactiveInterval(10*60);
 		
 		switch( Integer.parseInt(res.getItem("tipo_usuario"))){
