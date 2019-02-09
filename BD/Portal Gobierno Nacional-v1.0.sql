@@ -270,8 +270,25 @@ create view dbo.posibles_participantes as
 			and cuo.dni_cliente = ad.dni_cliente
 			where ad.ganador_sorteo = 'N'
 			and pl.dueño_plan = 'GOB'
+			and cuo.fecha_vencimiento < getDate()
+			and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
 			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan
 go
+
+
+
+-- SELECT DATEDIFF(year,        '2005-12-31 23:59:59.9999999', '2006-01-01 00:00:00.0000000');
+
+
+select * from dbo.posibles_participantes
+go
+
+select * from cuotas cuo
+where cuo.id_concesionaria = 'AutoHaus1503004614'
+and DATEDIFF( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
+go
+
+
 
 /*******************************
 
@@ -556,11 +573,6 @@ BEGIN
 END
 go
 
-/*
-IMPORTANTEE HACER EL JOIN POR NOMBRE CON CLIENTE SE
-TIENE QUE ARREGLAR!
-POSIBLE SOLUCION: AGREGAR DNI A GANADORES
-*/
 create procedure dbo.get_ultimo_ganador
 AS 
 BEGIN
@@ -600,7 +612,6 @@ BEGIN
 END
 go
 
-
 create procedure dbo.aprobar_concesionaria
 (
 	@id_concesionaria			varchar(20)	
@@ -626,7 +637,6 @@ BEGIN
 	values(@id_usuario, @tipo_usuario, @pass)
 END
 go
-
 
 create procedure dbo.rechazar_concesionaria
 (
@@ -722,9 +732,6 @@ BEGIN
 END
 go 
 
--- execute dbo.get_participantes 's-1147594008'
--- execute dbo.get
-
 create procedure dbo.get_sorteos_pendientes
 AS
 BEGIN
@@ -735,7 +742,6 @@ BEGIN
 END
 go
 
-
 create procedure dbo.hoy_es_fecha_de_sorteo
 AS
 BEGIN
@@ -745,10 +751,6 @@ BEGIN
 	and s.fecha_sorteo = convert(date, getDate())
 END
 go
-
---select * from sorteos
---execute dbo.hoy_es_fecha_de_sorteo
---select convert(date, getDate())
 
 create procedure dbo.actualizar_sorteo
 (
@@ -772,8 +774,6 @@ BEGIN
 END
 go
 
---execute dbo.actualizar_sorteo
-
 create procedure dbo.eliminar_sorteo
 (
 	@id_sorteo			varchar(30)
@@ -786,7 +786,6 @@ BEGIN
 END
 go
 
---a este proc lo podemos evitar y usar actualizar sorteo, agregando descripcion como parametro
 create procedure dbo.editar_sorteo
 (
 	@id_sorteo			varchar(30),	
@@ -862,6 +861,7 @@ go
 
 -- execute dbo.get_ganadores
 
+/*-MARI: Creo que el procedimiento que sigue no hace falta */
 create procedure dbo.get_ultimo_sorteo_ganador
 AS
 BEGIN
@@ -875,7 +875,6 @@ BEGIN
 	order by a.fecha_sorteado desc
 END
 go
-
 
 create procedure dbo.registrar_ganador
 (
@@ -899,7 +898,6 @@ BEGIN
 	values(@id_sorteo, @nombre_ganador, @dni_cliente, @n_concesionaria, '')
 END
 go
-
 
 create TRIGGER ti_ri_ganadores
 on ganadores
@@ -1008,69 +1006,10 @@ execute dbo.insertar_concesionaria 'Rosso79149714', 'Rosso', '27-1234-9', 'info@
 execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@tagle.com', 'Av. Libertad 1200', '351-4444444', '5', 'http://localhost:8080/Concesionaria-Tagle-Axis/services/ConcesionariaTagleWS', 'Axis2', 'N'
 */
 
-/*******************************
-
-	SORTEOS PENDIENTES
-
-********************************/
-
-/* Caso 1: Hay sorteos pendientes
-
-
-insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, pendiente, descripcion)
-values ('123asadf', '11-11-2018', '11-13-2018', 'N', 'Testeando pendientes')
-go
-
-insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis)
-values(303456, 25555555, 'tagle', 'N', 'S', '11-11-2018', null, 0)
-go
-
-UPDATE adquiridos
-SET fecha_sorteado = '11-11-2018', ganador_sorteo= 'S'
-WHERE dni_cliente = 25555555;
-
-
-execute dbo.get_sorteos_pendientes
-*/
-
-execute dbo.hoy_es_fecha_de_sorteo
-go
-
-select * from ganadores
-
-/*******************************
-
-	AUN NO HAY GANADORES REGISTRADOS?
-
-********************************/
-
-
-/*******************************
-
-	HAPPY PATH
-
-********************************/
-
-/*
-* No hay sorteos pendientes
-execute dbo.get_sorteos_pendientes
-
-* Hoy es fecha de sorteos
-execute dbo.hoy_es_fecha_de_sorteo
-
-* No hay ganadores por cancelar
-
-* Hay concesionarias registradas
-execute dbo.get_concesionarias
-
-*/
-
-
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE() -16
 execute dbo.insertar_concesionaria 'AutoHaus1503004614', 'AutoHaus', '27-1234-5', 'info@autohaus.com', 'Av. Colon 300', '3511111111', @tmp , 5 , 'http://localhost:8080/Concesionaria-AutoHaus-REST/', 'Rest', 'N'
 go
-
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE() -16
 execute dbo.insertar_concesionaria 'Montironi705993369', 'Montironi', '27-1234-6', 'info@montironi.com', 'Av. Castro Barros 300', '3512222222', @tmp, 5 , 'http://localhost:8080/Concesionaria-Montironi-REST/', 'Rest', 'N'

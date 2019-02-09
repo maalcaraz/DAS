@@ -19,10 +19,10 @@ public class EliminarSorteosAction implements Action {
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
 		
-		String sorteosAEliminar = request.getParameter("sorteosAEliminar");
-		System.out.println("[EliminarAction]Sorteos: "+sorteosAEliminar);
+		String sorteoAEliminar = request.getParameter("sorteoAEliminar");
+		System.out.println("[EliminarAction]Sorteos: "+sorteoAEliminar);
 		MSSorteosDao sorteos = (MSSorteosDao)DaoFactory.getDao("Sorteos", "sorteos");
-		/* Arreglo con sorteos a ser eliminados */
+		/* Arreglo con sorteos a ser eliminados 
 		String eliminar[] = sorteosAEliminar.split(",");
 		for (String s : eliminar ){
 			System.out.println("\nEliminando sorteo "+s);
@@ -30,6 +30,12 @@ public class EliminarSorteosAction implements Action {
 			sorteo.setItem("idSorteo", s);
 			sorteos.delete(sorteo);
 		}
+		*/
+		DynaActionForm sorteo = new SorteosForm();
+		sorteo.setItem("idSorteo", sorteoAEliminar);
+		sorteos.delete(sorteo);
+		
+		
 		return mapping.getForwardByName("success");
 	}
 

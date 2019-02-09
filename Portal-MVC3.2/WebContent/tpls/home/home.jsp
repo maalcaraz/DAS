@@ -112,15 +112,15 @@
 					</li>
 					
 					<li class="sub-menu">
-						<a href="#"> 
+						<a href="#">
+						
 							<i class="icon_calendar"></i> 
 							<span>
-								<fmt:message key="fechas_de_sorteo" bundle="${etq}"></fmt:message>
+								<fmt:message key="sorteos" bundle="${etq}"></fmt:message>
 							</span>
 						</a>
-						<ul class="sub" style="overflow: hidden; display: block;">
+						<ul class="sub" style="overflow: hidden; display: none;">
 							<li><a onclick="jSorteos.obtenerSorteos()" href="#">Fechas</a></li>
-			             	<li><a onclick="jSorteos.obtenerSorteos()" href="#">Participantes</a></li>
 			              	<li><a onclick="jConcesionaria.obtenerGanadores()" href="#">Ganadores</a></li>
             			</ul>
 					</li>

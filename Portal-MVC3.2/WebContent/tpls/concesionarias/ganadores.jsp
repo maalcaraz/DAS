@@ -18,9 +18,6 @@
 						<li><i class="fa fa-home"></i><a href="/home/Home.do"><fmt:message key="home" bundle="${etq}"></fmt:message></a></li>
 						<li><i class="fa fa-users"></i>
 						<fmt:message key="ganadores" bundle="${etq}"></fmt:message></li>
-						<!-- 
-			              <li><i class="fa fa-square-o"></i>Pages</li>
-			              -->
 					</ol>
 	          </div>
 	        </div>
@@ -34,27 +31,25 @@
 				
 				<fmt:message key="frase_ganadores" bundle="${etq}"></fmt:message>
 				
-				<table id="tablaGanadores">
-					<thead>
+				<table class="table table-striped table-advance table-hover">
+                <tbody id="tablaGanadores">
+                  <tr>
+                    <th><i class="icon_calendar"></i> <fmt:message key="fecha_de_sorteo" bundle="${etq}"></fmt:message> </th>
+                    <th><i class="icon_profile"></i> <fmt:message key="nombre_y_apellido" bundle="${etq}"></fmt:message> </th>
+                    <th><i class="icon_mail_alt"></i> <fmt:message key="concesionaria" bundle="${etq}"></fmt:message></th>
+                    <th><i class="icon_pin_alt"></i> City</th>
+                    <th><i class="icon_mobile"></i> Mobile</th>
+                  </tr>
+				
+					<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
 						<tr>
-							<td><fmt:message key="fecha_de_sorteo" bundle="${etq}"></fmt:message>
-							</td>
-							<td><fmt:message key="nombre_y_apellido" bundle="${etq}"></fmt:message>
-							</td>
-							<td><fmt:message key="concesionaria" bundle="${etq}"></fmt:message>
-							</td>
+							
+							<fmt:parseDate pattern="dd-MM-yyyy" value="${ ganador.getItem('fechaSorteo') }" var="date" />
+							<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
+							<td>${ ganador.getItem('apellidoNombre') }</td>
+							<td>${ ganador.getItem('nombreConcesionaria') }</td>
 						</tr>
-					</thead>
-					<tbody>
-							<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
-								<tr>
-									<!--<td>${ ganador.getItem('fechaSorteo') }</td>-->
-									<fmt:parseDate pattern="dd-MM-yyyy" value="${ ganador.getItem('fechaSorteo') }" var="date" />
-									<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
-									<td>${ ganador.getItem('apellidoNombre') }</td>
-									<td>${ ganador.getItem('nombreConcesionaria') }</td>
-								</tr>
-							</c:forEach>
+					</c:forEach>
 					</tbody>
 				</table>
 				</c:if>
@@ -65,8 +60,3 @@
 			</div>
 	        <!-- page end-->
 	      </section>
-
-
-	
-
-

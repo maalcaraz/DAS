@@ -25,7 +25,6 @@
                     <th><i class="icon_calendar"></i> Concesionaria </th>
                     <th><i class="icon_mail_alt"></i> Email</th>
                     <th><i class="icon_pin_alt"></i> City</th>
-                    <th><i class="icon_mobile"></i> Mobile</th>
                   </tr>
                   
                   <c:forEach var="participante" items="${ participantes }" varStatus="status">
@@ -36,7 +35,6 @@
                     <td>${ participante.nombreConcesionaria}</td>
                     <td>${ participante.email }</td>
                     <td>Rosser</td>
-                    <td>176-026-5992</td>
                     
                   </tr>
                 </c:forEach>

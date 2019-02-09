@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setLocale value="${ sessionScope.lang }" scope="session" />
-<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages"
-	var="etq" />
+<fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq" />
 	
 <section class="wrapper">
 	<div class="row">
@@ -35,18 +34,29 @@
 		      <div class="col-lg-4" >
 	
 				<section class="panel"  id="${ sorteo.idSorteo }">
-			              <header class="panel-heading">
-			                Sorteo de la fecha ${sorteo.fechaDefinida}
-			              </header>
+			       <header class="panel-heading">
+			       
+			       Sorteo de la fecha ${sorteo.fechaDefinida} 
+			       
+			       
+			       </header>
 			              <div class="panel-body">
 			                <div class="panel panel-primary">
 			                  <div class="panel-content">
+			                  
 			                  Status: 
 			                  	<c:if test="${ sorteo.fechaEjecucion eq '-' }">
 			                  		Pendiente <br>
 									Fecha Ejecucion: - <br>
 									Fecha Notificacion: - <br>
-									<input type="button" class="normal button"	onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')" value="Editar">
+									
+									<br><br>
+			             
+				                	<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">Opciones</a>
+					            	<ul class="dropdown-menu">
+				                      <li><a href="#" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')">Editar</a></li>
+				                      <li><a href="#" onclick="jSorteos.eliminarSorteo('${ sorteo.idSorteo }')">Eliminar</a></li>
+				                    </ul>
 							 	</c:if>
 			                 	<c:if test="${ sorteo.fechaEjecucion ne '-'}">
 			                 	Sorteado <br>

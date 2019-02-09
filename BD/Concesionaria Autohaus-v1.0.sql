@@ -407,3 +407,17 @@ AS
 		END
 	END
 go
+
+Select ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+			from adquiridos ad
+			join planes pl
+			on pl.id_plan = ad.id_plan
+			left join cuotas cuo
+			on cuo.id_plan = ad.id_plan
+			and cuo.dni_cliente = ad.dni_cliente
+			where ad.ganador_sorteo = 'N'
+			and pl.dueño_plan = 'GOB'
+			--and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
+			group by  ad.dni_cliente, ad.id_plan
+
+select * from adquiridos c where c.dni_cliente = '24229583'

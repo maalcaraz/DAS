@@ -52,18 +52,13 @@ var jSorteos = {
 				$("#nuevaFecha").val("");
 			}
 		},
-		eliminarSorteos : function(){
-			var sel = [];
-			$("input:checkbox:checked").each(function () {
-				sel.push($(this).val());
-			});
-			alert(sel);
+		eliminarSorteo : function(idSorteo){
 			jUtils.executing("main-content");
 			$.ajax({
 	            url: "/sorteos/EliminarSorteos.do",
 	            type: "post",
 	            dataType: "html",
-	            data: {"sorteosAEliminar": sel.toString()},
+	            data: {"sorteoAEliminar": idSorteo},
 	            error: function(hr){
 	                jUtils.showing("main-content", hr.responseText);
 	            },
@@ -80,7 +75,7 @@ var jSorteos = {
 								"</header>" +
 								"<div class=\"panel-body\">" +
 									"<div class=\"panel panel-primary\">" +
-									"Nueva Fecha <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/>"+
+									"Nueva Fecha <input type='date' name='fechaSorteo' id='fechaSorteo' size='11' maxlength='10'/>"+
 									"<input type='button' class='normal button' onclick='jSorteos.guardarSorteo(\""+idSorteo+"\")' value='Guardar'>" +
 									"</div>" +
 								"</div>" +
@@ -89,22 +84,25 @@ var jSorteos = {
 		},
 		
 		guardarSorteo : function (idSorteo) {
-			var nuevaFecha = $("#nuevaFecha").val();
-			alert("idSorteo: "+ idSorteo);
-			alert("nuevaFecha: "+nuevaFecha);
-			jUtils.executing("contenido-admin");
-			$.ajax({
-	            url: "/sorteos/GuardarSorteo.do",
-	            type: "post",
-	            dataType: "html",
-	            data: {"idSorteo": idSorteo, "nuevaFecha": nuevaFecha},
-	            error: function(hr){
-	                jUtils.showing("contenido-admin", hr.responseText);
-	            },
-	            success: function(html) {
-	            	jUtils.showing("main-content", html);
-	            }
-	        });
+			var nuevaFecha = $("#fechaSorteo").val();
+			if (this.validarFechaSorteo(nuevaFecha) == true){
+				jUtils.executing("contenido-admin");
+				$.ajax({
+		            url: "/sorteos/GuardarSorteo.do",
+		            type: "post",
+		            dataType: "html",
+		            data: {"idSorteo": idSorteo, "nuevaFecha": nuevaFecha},
+		            error: function(hr){
+		                jUtils.showing("contenido-admin", hr.responseText);
+		            },
+		            success: function(html) {
+		            	jUtils.showing("main-content", html);
+		            }
+		        });
+			}
+			else {
+				alert ("La fecha que intenta insertar no es valida");
+			}
 		},
 		proximasFechas : function () {
 			jUtils.executing("main-content");
@@ -138,11 +136,11 @@ var jSorteos = {
 		validarFechaSorteo : function(fecha){
 			var partes = (fecha || '').split('-');
 			var hoy = new Date();
-			hoy = new Date(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
+			hoy = new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate());
 			var fechaGenerada = new Date(partes[0], --partes[1], partes[2]);
-			console.log("Fecha de hoy:"+hoy.getDate());
-			console.log("Fecha generada: "+fechaGenerada.getDate());
-			if (fechaGenerada && (fechaGenerada.getDate() >= hoy.getDate())  ) {
+			console.log("Fecha de hoy:"+hoy);
+			console.log("Fecha generada: "+fechaGenerada);
+			if (fechaGenerada && (fechaGenerada >= hoy )  ) {
 				return true;
 			}
 			else return false;

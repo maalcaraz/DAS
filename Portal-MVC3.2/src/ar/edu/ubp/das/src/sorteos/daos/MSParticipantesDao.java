@@ -67,7 +67,8 @@ public class MSParticipantesDao extends DaoImpl{
 				p.setIdPlan(result.getString("id_plan"));
 				p.setFechaSorteo(result.getString("fecha_sorteo"));		
 				p.setApellidoNombre(result.getString("apellido_nombre"));
-				p.setEmail(result.getString("email"));	
+				p.setEmail(result.getString("email"));
+				p.setNombreConcesionaria(result.getString("nombre_concesionaria"));
 				participantes.add(p);
 			}
 			catch(Exception ex){
