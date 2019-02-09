@@ -262,10 +262,10 @@ go
 
 create view dbo.posibles_participantes as
 
-	SELECT pp.id_concesionaria, pp.dni_cliente, pp.id_plan, pp.cuotas_pagas_al_dia, DATEDIFF ( month ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() )
+	SELECT pp.id_concesionaria, pp.dni_cliente, pp.id_plan, pp.cuotas_pagas_al_dia
 	FROM adquiridos adq
 	INNER JOIN 
-	(Select ad.id_concesionaria, ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas_al_dia
+	(Select ad.id_concesionaria, ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas_al_dia, MAX(cuo.fecha_vencimiento) as max_cuota_vencimiento
 			from adquiridos ad
 			join planes pl
 			on pl.id_plan = ad.id_plan
@@ -280,13 +280,13 @@ create view dbo.posibles_participantes as
 			--and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
 			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan) pp
 	on pp.dni_cliente = adq.dni_cliente
-	where pp.cuotas_pagas_al_dia = DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() )
-	or pp.cuotas_pagas_al_dia = (DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() ) - 1 )
-	/*Este ultimo caso que tambien toma el datediff menos uno es por que en el caso de que ya estemos en un mes siguiente
-	  pero todavia no vencio, toma como que no estas al dia.
+	where pp.cuotas_pagas_al_dia = DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , (select convert(datetime, pp.max_cuota_vencimiento)))
+	/*
+	  Date diff se hace con max_cuota_vencimiento para evitar casos en los cuales ya estamos en el mes de vencimiento pero
+	  la cuota vence a mediados de mes. El sistema tomaba como que deberia haber pagado el mes pero la cuota todavia no vencio.
 	  Ejemplo: pagaste hasta Enero inclusive, hoy es 2 de febrero pero la cuota vence el 10 de febrero, te toma como que no
-	  estas al dia por que ya cuenta febrero pero la cuota de febrero no esta paga. No encontre otra forma de solucionarlo
-	  por ahora
+	  estas al dia por que ya cuenta febrero pero la cuota de febrero no esta paga. Se soluciono tomando el dia de la cuota maxima
+	  que todavia no vencio. La cuota maxima va a ser menor al dia de hoy por el control and cuo.fecha_vencimiento < getDate()
 	 */
 go
 
@@ -977,8 +977,8 @@ BEGIN
 		(select s.id_sorteo, s.fecha_sorteo 
 		from sorteos s
 		where s.id_sorteo = @id_sorteo)aux
-		where pp.cuotas_pagas >  @minimo_cuotas
-		and pp.cuotas_pagas < @maximo_cuotas
+		where pp.cuotas_pagas_al_dia >  @minimo_cuotas
+		and pp.cuotas_pagas_al_dia < @maximo_cuotas
 		
 END
 go
