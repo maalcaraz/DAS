@@ -261,19 +261,36 @@ create view dbo.ult_transaccion as
 go
 
 create view dbo.posibles_participantes as
-	Select ad.id_concesionaria ,ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+
+	SELECT pp.id_concesionaria, pp.dni_cliente, pp.id_plan, pp.cuotas_pagas_al_dia, DATEDIFF ( month ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() )
+	FROM adquiridos adq
+	INNER JOIN 
+	(Select ad.id_concesionaria, ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas_al_dia
 			from adquiridos ad
 			join planes pl
 			on pl.id_plan = ad.id_plan
+			and pl.id_concesionaria = ad.id_concesionaria
 			left join cuotas cuo
 			on cuo.id_plan = ad.id_plan
 			and cuo.dni_cliente = ad.dni_cliente
+			and cuo.id_concesionaria = ad.id_concesionaria
 			where ad.ganador_sorteo = 'N'
 			and pl.dueño_plan = 'GOB'
 			and cuo.fecha_vencimiento < getDate()
-			and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
-			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan
+			--and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
+			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan) pp
+	on pp.dni_cliente = adq.dni_cliente
+	where pp.cuotas_pagas_al_dia = DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() )
+	or pp.cuotas_pagas_al_dia = (DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , getDate() ) - 1 )
+	/*Este ultimo caso que tambien toma el datediff menos uno es por que en el caso de que ya estemos en un mes siguiente
+	  pero todavia no vencio, toma como que no estas al dia.
+	  Ejemplo: pagaste hasta Enero inclusive, hoy es 2 de febrero pero la cuota vence el 10 de febrero, te toma como que no
+	  estas al dia por que ya cuenta febrero pero la cuota de febrero no esta paga. No encontre otra forma de solucionarlo
+	  por ahora
+	 */
 go
+
+select * from posibles_participantes
 
 
 
