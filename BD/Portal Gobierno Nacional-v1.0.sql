@@ -261,19 +261,36 @@ create view dbo.ult_transaccion as
 go
 
 create view dbo.posibles_participantes as
-	Select ad.id_concesionaria ,ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas
+
+	SELECT pp.id_concesionaria, pp.dni_cliente, pp.id_plan, pp.cuotas_pagas_al_dia
+	FROM adquiridos adq
+	INNER JOIN 
+	(Select ad.id_concesionaria, ad.dni_cliente, ad.id_plan, SUM(CASE WHEN cuo.pagó = 'S' THEN 1 ELSE 0 END) AS cuotas_pagas_al_dia, MAX(cuo.fecha_vencimiento) as max_cuota_vencimiento
 			from adquiridos ad
 			join planes pl
 			on pl.id_plan = ad.id_plan
+			and pl.id_concesionaria = ad.id_concesionaria
 			left join cuotas cuo
 			on cuo.id_plan = ad.id_plan
 			and cuo.dni_cliente = ad.dni_cliente
+			and cuo.id_concesionaria = ad.id_concesionaria
 			where ad.ganador_sorteo = 'N'
 			and pl.dueño_plan = 'GOB'
 			and cuo.fecha_vencimiento < getDate()
-			and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
-			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan
+			--and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
+			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan) pp
+	on pp.dni_cliente = adq.dni_cliente
+	where pp.cuotas_pagas_al_dia = DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , (select convert(datetime, pp.max_cuota_vencimiento)))
+	/*
+	  Date diff se hace con max_cuota_vencimiento para evitar casos en los cuales ya estamos en el mes de vencimiento pero
+	  la cuota vence a mediados de mes. El sistema tomaba como que deberia haber pagado el mes pero la cuota todavia no vencio.
+	  Ejemplo: pagaste hasta Enero inclusive, hoy es 2 de febrero pero la cuota vence el 10 de febrero, te toma como que no
+	  estas al dia por que ya cuenta febrero pero la cuota de febrero no esta paga. Se soluciono tomando el dia de la cuota maxima
+	  que todavia no vencio. La cuota maxima va a ser menor al dia de hoy por el control and cuo.fecha_vencimiento < getDate()
+	 */
 go
+
+select * from posibles_participantes
 
 
 
@@ -960,8 +977,8 @@ BEGIN
 		(select s.id_sorteo, s.fecha_sorteo 
 		from sorteos s
 		where s.id_sorteo = @id_sorteo)aux
-		where pp.cuotas_pagas >  @minimo_cuotas
-		and pp.cuotas_pagas < @maximo_cuotas
+		where pp.cuotas_pagas_al_dia >  @minimo_cuotas
+		and pp.cuotas_pagas_al_dia < @maximo_cuotas
 		
 END
 go
