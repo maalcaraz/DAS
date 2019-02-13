@@ -261,7 +261,7 @@ Abajo de estos inserts el DATEFORMAT se vuelve a default
 SOLO INSERTAR FECHAS Dentro de estos cambios
 ************************************/
 /*		
-			
+
 	SELECT pp.dni_cliente, pp.id_plan, pp.cuotas_pagas_al_dia
 	FROM adquiridos adq
 	INNER JOIN 
@@ -656,7 +656,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (158, 37563768, 303457, 8000.00, '02-02-2020', 'N'),
 			  (159, 37563768, 303457, 8000.00, '02-03-2020', 'N')
 		go
-		
+
 /* 8) Participa del sorteo. Cuotas pagas = 31 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 31076213, 303458, 5000.00, '02-08-2016', 'S'),
@@ -1214,7 +1214,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (303457, 35107075, 'N', 'N', null, null, null, 1, '02-07-2016')
 		go
 		
-/* 1) Participa del sorteo. Cuotas pagas = 32 */
+		/* 1) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 23432255, 303456, 5000.00, '02-08-2016', 'S'),
 			  (111, 23432255, 303456, 5000.00, '02-09-2016', 'S'),
@@ -1257,7 +1257,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (148, 23432255, 303456, 5000.00, '02-10-2019', 'N'),
 			  (149, 23432255, 303456, 5000.00, '02-11-2019', 'N')
 		go
-/* 2) Participa del sorteo. Cuotas pagas = 32 */
+		/* 2) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		
 		values(110, 24560857, 303457, 8000.00, '02-08-2016', 'S'),
@@ -1311,7 +1311,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (158, 24560857, 303457, 5000.00, '02-08-2020', 'N'),
 			  (159, 24560857, 303457, 5000.00, '02-09-2020', 'N')
 		go
-/* 3) Participa del sorteo. Cuotas pagas = 32 */
+		/* 3) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 25852618, 303458, 5000.00, '02-08-2016', 'S'),
 			  (111, 25852618, 303458, 5000.00, '02-09-2016', 'S'),
@@ -1374,7 +1374,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (168, 25852618, 303458, 8000.000, '02-06-2021', 'N'),
 			  (169, 25852618, 303458, 8000.000, '02-07-2021', 'N')
 		go
-/* 4) No participa del sorteo. Plan != GOB */
+		/* 4) No participa del sorteo. Plan != GOB */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		
 		values(110, 31103532, 303455, 5000.00, '02-06-2018', 'S'),
@@ -1414,7 +1414,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (145, 31103532, 303455, 5000.00, '02-05-2021', 'N'),
 			  (146, 31103532, 303455, 5000.00, '02-06-2021', 'N')
 		go
-/* 5) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
+		/* 5) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 28248271, 303456, 5000.000, '02-03-2017', 'S'),
 			  (111, 28248271, 303456, 5000.000, '02-04-2017', 'S'),
@@ -1457,7 +1457,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (148, 28248271, 303456, 5000.000, '02-05-2020', 'N'),
 			  (149, 28248271, 303456, 5000.000, '02-06-2020', 'N')
 		go
-/* 6) No participa del sorteo. Cuotas pagas = 37 (> maximo) */
+		/* 6) No participa del sorteo. Cuotas pagas = 37 (> maximo) */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		
 		values(110, 33162769, 303457, 5000.00, '02-02-2016', 'S'),
@@ -1511,7 +1511,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (158, 33162769, 303457, 5000.00, '02-02-2020', 'N'),
 			  (159, 33162769, 303457, 5000.00, '02-03-2020', 'N')
 		go
-/* 7) No participa del sorteo. Adelanto cuotas pero debe vencidas. */
+		/* 7) No participa del sorteo. Adelanto cuotas pero debe vencidas. */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 22867351, 303457, 8000.00, '02-02-2016', 'S'),
 			 
@@ -1565,7 +1565,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (158, 22867351, 303457, 8000.00, '02-02-2020', 'N'),
 			  (159, 22867351, 303457, 8000.00, '02-03-2020', 'N')
 		go
-/* 8) Participa del sorteo. Cuotas pagas = 32 */
+		/* 8) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 33432133, 303458, 5000.00, '02-08-2016', 'S'),
 			  (111, 33432133, 303458, 5000.00, '02-09-2016', 'S'),
@@ -1628,7 +1628,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (168, 33432133, 303458, 5000.00, '02-06-2021', 'N'),
 			  (169, 33432133, 303458, 5000.00, '02-07-2021', 'N')
 		go
-/* 9) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
+		/* 9) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		
 		values(110, 25226013, 303456, 5000.00, '02-03-2017', 'S'),
@@ -1672,7 +1672,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (148, 25226013, 303456, 5000.00, '02-05-2020', 'N'),
 			  (149, 25226013, 303456, 5000.00, '02-06-2020', 'N')
 		go
-/* 10) Participa del sorteo. Cuotas pagas = 32 */
+		/* 10) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 39721315, 303458, 5000.00, '02-08-2016', 'S'),
 			  (111, 39721315, 303458, 5000.00, '02-09-2016', 'S'),
@@ -1736,7 +1736,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (169, 39721315, 303458, 5000.00, '02-07-2021', 'N')
 		go
 
-/* 11) Participa del sorteo. Cuotas pagas = 32 */
+		/* 11) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 35107075, 303457, 5000.00, '02-08-2016', 'S'),
 			  (111, 35107075, 303457, 5000.00, '02-09-2016', 'S'),
@@ -2061,7 +2061,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (303457, 33870475, 'N', 'N', null, null, null, 1, '02-01-2016'),
 			  (303458, 30895845, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303456, 21005836, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 29930123, 'N', 'N', null, null, null, 1, '02-08-2016'),
+			  (303458, 29930123, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303457, 32998142, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303455, 28421744, 'N', 'N', null, null, null, 1, '08-10-2015')
 		go
@@ -2989,7 +2989,7 @@ go
 	SET DATEFORMAT dmy
 
 
-		insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
+insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
 		values(303456, 30784956, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303457, 29875485, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303458, 28541965, 'N', 'N', null, null, null, 1, '02-07-2016'),
@@ -3001,10 +3001,10 @@ go
 			  (303456, 26548754, 'N', 'N', null, null, null, 1, '02-02-2017'),
 			  (303458, 28457854, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303457, 32998142, 'N', 'N', null, null, null, 1, '02-07-2016')
-		go
+go
 
 /* 1) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 30784956, 303456, 5000.00, '02-08-2016', 'S'),
 			  (111, 30784956, 303456, 5000.00, '02-09-2016', 'S'),
 			  (112, 30784956, 303456, 5000.00, '02-10-2016', 'S'),
@@ -3045,11 +3045,11 @@ go
 			  (147, 30784956, 303456, 5000.00, '02-09-2019', 'N'),
 			  (148, 30784956, 303456, 5000.00, '02-10-2019', 'N'),
 			  (149, 30784956, 303456, 5000.00, '02-11-2019', 'N')
-		go
+go
 
 
 /* 2) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 29875485, 303457, 8000.00, '02-08-2016', 'S'),
 			  (111, 29875485, 303457, 8000.00, '02-09-2016', 'S'),
 			  (112, 29875485, 303457, 8000.00, '02-10-2016', 'S'),
@@ -3100,10 +3100,10 @@ go
 			  (157, 29875485, 303457, 8000.00, '02-07-2020', 'N'),
 			  (158, 29875485, 303457, 8000.00, '02-08-2020', 'N'),
 			  (159, 29875485, 303457, 8000.00, '02-09-2020', 'N')
-		go
+go
 
 /* 3) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 28541965, 303458, 7000.00, '02-08-2016', 'S'),
 			  (111, 28541965, 303458, 8000.00, '02-09-2016', 'S'),
 			  (112, 28541965, 303458, 8000.00, '02-10-2016', 'S'),
@@ -3164,11 +3164,11 @@ go
 			  (167, 28541965, 303458, 7000.00, '02-05-2021', 'N'),
 			  (168, 28541965, 303458, 7000.00, '02-06-2021', 'N'),
 			  (169, 28541965, 303458, 7000.00, '02-07-2021', 'N')
-		go
+go
 
 
 /* 4) No participa del sorteo. Plan != GOB */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 26548751, 303455, 5000.00, '02-06-2018', 'S'),
 			  (111, 26548751, 303455, 5000.00, '02-07-2018', 'S'),
 			  (112, 26548751, 303455, 5000.00, '02-08-2018', 'S'),
@@ -3205,11 +3205,11 @@ go
 			  (143, 26548751, 303455, 5000.00, '02-03-2021', 'N'),
 			  (144, 26548751, 303455, 5000.00, '02-04-2021', 'N'),
 			  (145, 26548751, 303455, 5000.00, '02-05-2021', 'N')
-		go
+go
 
 
 /* 5) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 35245784, 303456, 8000.00, '02-03-2017', 'S'),
 			  (111, 35245784, 303456, 8000.00, '02-04-2017', 'S'),
 			  (112, 35245784, 303456, 8000.00, '02-05-2017', 'S'),
@@ -3250,10 +3250,10 @@ go
 			  (147, 35245784, 303456, 8000.00, '02-04-2020', 'N'),
 			  (148, 35245784, 303456, 8000.00, '02-05-2020', 'N'),
 			  (149, 35245784, 303456, 8000.00, '02-06-2020', 'N')
-		go
+go
 
 /* 6) No participa del sorteo. Cuotas pagas = 37 (> maximo) */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 33658745, 303457, 5000.00, '02-02-2016', 'S'),
 			  (111, 33658745, 303457, 5000.00, '02-03-2016', 'S'),
 			  (112, 33658745, 303457, 5000.00, '02-04-2016', 'S'),
@@ -3304,11 +3304,11 @@ go
 			  (157, 33658745, 303457, 5000.00, '02-01-2020', 'N'),
 			  (158, 33658745, 303457, 5000.00, '02-02-2020', 'N'),
 			  (159, 33658745, 303457, 5000.00, '02-03-2020', 'N')
-		go
+go
 
 
 /* 7) No participa del sorteo. Adelanto cuotas pero debe vencidas. */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 31254785, 303457, 8000.00, '02-02-2016', 'S'),
 			  (111, 31254785, 303457, 8000.00, '02-03-2016', 'S'),
 			  (112, 31254785, 303457, 8000.00, '02-04-2016', 'S'),
@@ -3359,10 +3359,10 @@ go
 			  (157, 31254785, 303457, 8000.00, '02-01-2020', 'N'),
 			  (158, 31254785, 303457, 8000.00, '02-02-2020', 'N'),
 			  (159, 31254785, 303457, 8000.00, '02-03-2020', 'N')
-		go
-		
+go
+
 /* 8) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 28548756, 303458, 5000.00, '02-08-2016', 'S'),
 			  (111, 28548756, 303458, 5000.00, '02-09-2016', 'S'),
 			  (112, 28548756, 303458, 5000.00, '02-10-2016', 'S'),
@@ -3423,10 +3423,10 @@ go
 			  (167, 28548756, 303458, 5000.00, '02-05-2021', 'N'),
 			  (168, 28548756, 303458, 5000.00, '02-06-2021', 'N'),
 			  (169, 28548756, 303458, 5000.00, '02-07-2021', 'N')
-		go
+go
 
 /* 9) No participa del sorteo. Cuotas pagas = 23 (< minimo) */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 26548754, 303456, 5000.00, '02-03-2017', 'S'),
 			  (111, 26548754, 303456, 5000.00, '02-04-2017', 'S'),
 			  (112, 26548754, 303456, 5000.00, '02-05-2017', 'S'),
@@ -3467,11 +3467,11 @@ go
 			  (147, 26548754, 303456, 5000.00, '02-04-2020', 'N'),
 			  (148, 26548754, 303456, 5000.00, '02-05-2020', 'N'),
 			  (149, 26548754, 303456, 5000.00, '02-06-2020', 'N')
-		go
+go
 
 
 /* 10) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 28457854, 303458, 5000.00, '02-08-2016', 'S'),
 			  (111, 28457854, 303458, 5000.00, '02-09-2016', 'S'),
 			  (112, 28457854, 303458, 5000.00, '02-10-2016', 'S'),
@@ -3532,11 +3532,11 @@ go
 			  (167, 28457854, 303458, 5000.00, '02-05-2021', 'N'),
 			  (168, 28457854, 303458, 5000.00, '02-06-2021', 'N'),
 			  (169, 28457854, 303458, 5000.00, '02-07-2021', 'N')
-		go
+go
 
 
 /* 11) Participa del sorteo. Cuotas pagas = 31 */
-		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
+insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 32998142, 303457, 5000.00, '02-08-2016', 'S'),
 			  (111, 32998142, 303457, 5000.00, '02-09-2016', 'S'),
 			  (112, 32998142, 303457, 5000.00, '02-10-2016', 'S'),
@@ -3587,7 +3587,7 @@ go
 			  (157, 32998142, 303457, 5000.00, '02-07-2020', 'N'),
 			  (158, 32998142, 303457, 5000.00, '02-08-2020', 'N'),
 			  (159, 32998142, 303457, 5000.00, '02-09-2020', 'N')
-		go
+go
 
 
 	SET DATEFORMAT mdy
