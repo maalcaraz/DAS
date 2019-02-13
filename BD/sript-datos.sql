@@ -279,13 +279,6 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (303455, 21111111, 'N', 'N', null, null, null, 1, '02-05-2018')
 		go
 
-select c.dni_cliente, c.id_plan, COUNT (*)as cuotas_pagas from cuotas c
-where c.pagó = 'S'
-and c.dni_cliente = '37563768'
-group by c.dni_cliente, c.id_plan
-go
-
-
 /* 1) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
 		values(110, 24444444, 303456, 5000.00, '02-08-2016', 'S'),
@@ -1031,9 +1024,6 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (303458, 39721315, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303457, 35107075, 'N', 'N', null, null, null, 1, '02-07-2016')
 		go
-
-		select DATEADD(month, -37, GETDATE())
-
 		
 		/* 1) Participa del sorteo. Cuotas pagas = 32 */
 		insert into cuotas(id_cuota, dni_cliente, id_plan, importe, fecha_vencimiento, pagó)
@@ -1876,7 +1866,7 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 			  (303457, 33870475, 'N', 'N', null, null, null, 1, '02-01-2016'),
 			  (303458, 30895845, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303456, 21005836, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 29930123, 'N', 'N', null, null, null, 1, '02-08-2016'),
+			  (303458, 29930123, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303457, 32998142, 'N', 'N', null, null, null, 1, '02-07-2016'),
 			  (303455, 28421744, 'N', 'N', null, null, null, 1, '08-10-2015')
 		go
