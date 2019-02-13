@@ -280,6 +280,8 @@ create view dbo.posibles_participantes as
 			--and DATEDIFF ( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
 			group by ad.id_concesionaria, ad.dni_cliente, ad.id_plan) pp
 	on pp.dni_cliente = adq.dni_cliente
+	and pp.id_concesionaria = adq.id_concesionaria
+	and pp.id_plan = adq.id_plan
 	where pp.cuotas_pagas_al_dia = DATEDIFF ( MONTH ,  (select convert(datetime, adq.fecha_compra_plan)) , (select convert(datetime, pp.max_cuota_vencimiento)))
 	/*
 	  Date diff se hace con max_cuota_vencimiento para evitar casos en los cuales ya estamos en el mes de vencimiento pero
