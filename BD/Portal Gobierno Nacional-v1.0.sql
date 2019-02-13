@@ -290,22 +290,11 @@ create view dbo.posibles_participantes as
 	 */
 go
 
-select * from posibles_participantes
-
-
+select * from posibles_participantes pp
+order by pp.id_concesionaria
+go
 
 -- SELECT DATEDIFF(year,        '2005-12-31 23:59:59.9999999', '2006-01-01 00:00:00.0000000');
-
-
-select * from dbo.posibles_participantes
-go
-
-select * from cuotas cuo
-where cuo.id_concesionaria = 'AutoHaus1503004614'
-and DATEDIFF( month ,  (select convert(datetime, cuo.fecha_vencimiento)) , getDate() ) > 0
-go
-
-
 
 /*******************************
 
@@ -321,7 +310,6 @@ create procedure dbo.validar_usuarios
 )
 AS
 BEGIN
-
 		if exists (
 					select * from usuarios u
 					where u.id_usuario = @username
