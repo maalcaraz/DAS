@@ -49,26 +49,33 @@
 			            <ul class="dropdown-menu extended notification">
 			              <li>
 			                <a href="#proximasfechas" onclick="jSorteos.proximasFechas()">
-	                            <span class="label label-primary"><i class="icon_menu"></i></span>
+	                            <span class="label label-primary"><i class="icon_calendar"></i></span>
 	                            <fmt:message key="proximas_fechas" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
 			              <li>
 			                <a href="#" onclick="jConcesionaria.mostrarAdheridas()">
-                                <span class="label label-warning"><i class="icon_menu"></i></span>
+                                <span class="label label-warning"><i class="icon_key"></i></span>
                                 <fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
 			              <li>
 			                <a href="#resultadosSorteo" onclick="jConcesionaria.obtenerGanadores()">
-			                	<span class="label label-danger"><i class="icon_menu"></i></span>
+			                	<span class="label label-danger"><i class="icon_calendar"></i></span>
 			                    <fmt:message key="historico" bundle="${etq}"></fmt:message>
+			                </a>
+			              </li>
+			              <li>
+			                <a href="#" onclick="jLogin.logout(1)">
+			                	<span class="label label-danger"><i class="icon_key_alt"></i></span>
+			                    <fmt:message key="cerrar_sesion" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
 			            </ul>
 			        </li>
 
 	          <!-- user login dropdown start-->
+	          <!--
 	          		<li class="dropdown">
 	            	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	                	<span class="username">Admin</span>
@@ -81,8 +88,9 @@
 	              </li>
 	            </ul>
 	          </li>
-          <!-- user login dropdown end -->
+          
         		</ul>
+        		-->
         	<!-- notification dropdown end-->
       		</div>
 
@@ -120,8 +128,8 @@
 							</span>
 						</a>
 						<ul class="sub" style="overflow: hidden; display: none;">
-							<li><a onclick="jSorteos.obtenerSorteos()" href="#">Fechas</a></li>
-			              	<li><a onclick="jConcesionaria.obtenerGanadores()" href="#">Ganadores</a></li>
+							<li><a onclick="jSorteos.obtenerSorteos()" href="#"><fmt:message key="fechas" bundle="${etq}"></fmt:message></a></li>
+			              	<li><a onclick="jConcesionaria.obtenerGanadores()" href="#"><fmt:message key="ganadores" bundle="${etq}"></fmt:message></a></li>
             			</ul>
 					</li>
 					

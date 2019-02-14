@@ -36,9 +36,8 @@
                   <tr>
                     <th><i class="icon_calendar"></i> <fmt:message key="fecha_de_sorteo" bundle="${etq}"></fmt:message> </th>
                     <th><i class="icon_profile"></i> <fmt:message key="nombre_y_apellido" bundle="${etq}"></fmt:message> </th>
-                    <th><i class="icon_mail_alt"></i> <fmt:message key="concesionaria" bundle="${etq}"></fmt:message></th>
-                    <th><i class="icon_pin_alt"></i> City</th>
-                    <th><i class="icon_mobile"></i> Mobile</th>
+                    <th><i class="icon_key_alt"></i> <fmt:message key="concesionaria" bundle="${etq}"></fmt:message></th>
+                    <th><i class="icon_id"></i> <fmt:message key="dni" bundle="${etq}"></fmt:message></th>
                   </tr>
 				
 					<c:forEach var="ganador" items="${ ganadores }" varStatus="status">
@@ -48,6 +47,7 @@
 							<td><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
 							<td>${ ganador.getItem('apellidoNombre') }</td>
 							<td>${ ganador.getItem('nombreConcesionaria') }</td>
+							<td>${ ganador.getItem('dni') }</td>
 						</tr>
 					</c:forEach>
 					</tbody>

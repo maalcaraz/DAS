@@ -21,10 +21,11 @@
               <table class="table table-striped table-advance table-hover">
                 <tbody id="tabla-participantes">
                   <tr>
-                    <th><i class="icon_profile"></i> Nombre </th>
-                    <th><i class="icon_calendar"></i> Concesionaria </th>
-                    <th><i class="icon_mail_alt"></i> Email</th>
-                    <th><i class="icon_pin_alt"></i> City</th>
+                  
+                    <th><i class="icon_profile"></i> <fmt:message key="nombre_y_apellido" bundle="${etq}"></fmt:message> </th>
+                    <th><i class="icon_calendar"></i> <fmt:message key="concesionaria" bundle="${etq}"></fmt:message> </th>
+                    <th><i class="icon_mail_alt"></i> <fmt:message key="email" bundle="${etq}"></fmt:message> </th>
+                    <th><i class="icon_id"></i> <fmt:message key="dni" bundle="${etq}"></fmt:message> </th>
                   </tr>
                   
                   <c:forEach var="participante" items="${ participantes }" varStatus="status">
@@ -34,7 +35,7 @@
                     <td>${ participante.apellidoNombre }</td>
                     <td>${ participante.nombreConcesionaria}</td>
                     <td>${ participante.email }</td>
-                    <td>Rosser</td>
+                    <td>${ participante.dniCliente }</td>
                     
                   </tr>
                 </c:forEach>

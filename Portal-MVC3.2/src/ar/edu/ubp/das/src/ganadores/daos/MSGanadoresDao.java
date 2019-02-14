@@ -50,6 +50,7 @@ public class MSGanadoresDao  extends DaoImpl {
 			ad.setItem("apellidoNombre", result.getString("apellido_nombre"));
 			ad.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
 			ad.setItem("fechaSorteo", result.getString("fecha_sorteo"));
+			ad.setItem("dni", result.getString("dni_cliente"));
 			ganadores.add(ad);
 			result.next();
 		}
