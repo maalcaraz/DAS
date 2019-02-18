@@ -48,20 +48,14 @@
 			            </a>
 			            <ul class="dropdown-menu extended notification">
 			              <li>
-			                <a href="#proximasfechas" onclick="jSorteos.proximasFechas()">
-	                            <span class="label label-primary"><i class="icon_calendar"></i></span>
-	                            <fmt:message key="proximas_fechas" bundle="${etq}"></fmt:message>
-			                </a>
-			              </li>
-			              <li>
 			                <a href="#" onclick="jConcesionaria.mostrarAdheridas()">
-                                <span class="label label-warning"><i class="icon_key"></i></span>
+                                <span class="label label-primary"><i class="icon_key"></i></span>
                                 <fmt:message key="concesionarias_adheridas" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
 			              <li>
 			                <a href="#resultadosSorteo" onclick="jConcesionaria.obtenerGanadores()">
-			                	<span class="label label-danger"><i class="icon_calendar"></i></span>
+			                	<span class="label label-primary"><i class="icon_calendar"></i></span>
 			                    <fmt:message key="historico" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
