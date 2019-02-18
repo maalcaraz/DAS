@@ -230,10 +230,10 @@ values(24444444, 'Maria Gonzales', 37, 'Sabattini 780', 'testing1@gmail.com', 'C
 	  (24560856, 'Juan Perez', 36, 'Av. Siempre Viva 123', 'testing2@gmail.com', 'CB', 2, '351-7777777'),
 	  (26666666, 'Marcos Juarez', 35, 'Belgrano 450', 'testing3@gmail.com', 'CB', 2, '351-6666666'),
 	  (28888888, 'Pablo Alcaraz', 33, 'Potel 6883', 'testing4@gmail.com', 'CB', 2, '3518888888'),
-	  (29067894, 'Éric Vargas Duran', 32, 'Dir testing5', 'testing5@gmail.com', 'CB', 2, '3511111111'),
+	  (29067894, 'Eric Vargas Duran', 32, 'Dir testing5', 'testing5@gmail.com', 'CB', 2, '3511111111'),
 	  (24229583, 'Manuela Carrasco Molina', 37, 'Dir testing6', 'testing6@gmail.com', 'CB', 2, '3764222222'),
-	  (37563768, 'Nombre Testing', 24, 'Dir testing7', 'testing7@gmail.com', 'CB', 2, '35434521066'),
-	  (31076213, 'Guillem Medina', 30, 'Dir testing8', 'testing8@gmail.com', 'CB', 2, '38254869522'),
+	  (37563768, 'Rosa Alemani', 24, 'Dir testing7', 'testing7@gmail.com', 'CB', 2, '35434521066'),
+	  (31076213, 'Guille Medina', 30, 'Dir testing8', 'testing8@gmail.com', 'CB', 2, '38254869522'),
 	  (30012228, 'Luna Cabrera Vega', 31, 'Dir testing9', 'testing9@gmail.com', 'CB', 2, '1154876234'),
 	  (33967932, 'Paola Font Santana', 28, 'Dir testing10', 'testing10@gmail.com', 'CB', 2, '1183547742'),
 	  (27777777, 'Pedro Ramirez', 35, 'Rivadavia 59', 'testing11@gmail.com', 'CB', 2, '3515777777'),
@@ -2019,18 +2019,18 @@ values(1, 'NEGRO'),
 go
 
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
-values(25174634, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (24365613, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (22872919, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (33576314, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (23405390, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (34970322, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (33870475, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (30895845, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (21005836, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (29930123, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (32998100, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
-	  (28421744, 'Nombre Testing', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
+values(25174634, 'Dario Benedetto', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (24365613, 'Juan Carlos Asus', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (22872919, 'Laura Rosamonte', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33576314, 'Sebastian Alonso', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (23405390, 'Melina Santos', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (34970322, 'Martina Centos', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (33870475, 'Esteban Perez', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (30895845, 'Rodolfo Paez', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (21005836, 'Carlos Moreno', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (29930123, 'Carlos Solari', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (32998100, 'Baltazar Commoto', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
+	  (28421744, 'Javier Malosetti', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
 go
 
 
@@ -2959,14 +2959,14 @@ insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_p
 values(30784956, 'Juan Carlos Cabrera', 55, 'Luis Reinaudi 861', 'email@testing.com', 'CB', 1, '3516574044'),
 	  (29875485, 'Roberto Bolanios', 55, 'Dean Funes 687', 'email@testing.com', 'CB', 2, '3516789523'),
 	  (28541965, 'Pepe Mujica', 55, 'Mitre 321', 'email@testing.com', 'CB', 2, '3517849251'),
-	  (26548751, 'Esteban Quito', 55, 'Av Siempre viva 123', 'email@testing.com', 'CB', 4, '3512879456'),
+	  (26548751, 'Esteban Quilmes', 55, 'Av Siempre viva 123', 'email@testing.com', 'CB', 4, '3512879456'),
 	  (35245784, 'Alberto Spin', 55, 'San Martin 333', 'email@testing.com', 'CB', 2, '3518749562'),
-	  (33658745, 'Carlos Solari', 55, 'Buenos aires 231', 'email@testing.com', 'CB', 4, '3512478451'),
+	  (33658745, 'Carlos Solar', 55, 'Buenos aires 231', 'email@testing.com', 'CB', 4, '3512478451'),
 	  (31254785, 'Esteban Vai', 55, 'Av Brasil 111', 'email@testing.com', 'CB', 2, '3512457849'),
 	  (28548756, 'Eusebio Contreras', 55, 'Arturo M bas 987', 'email@testing.com', 'CB', 2, '3516478245'),
 	  (26548754, 'Enrique Segoviano', 55, 'Buenos aires 123', 'email@testing.com', 'CB', 1, '3512457895'),
-	  (28457854, 'Esteban Quito', 55, '9 de julio 900', 'email@testing.com', 'CB', 4, '3516524895'),
-	  (32998101, 'juan satriani', 55, '9 de julio 1200', 'email@testing.com', 'CB', 4, '3516487598')
+	  (28457854, 'Esteban Ceballos', 55, '9 de julio 900', 'email@testing.com', 'CB', 4, '3516524895'),
+	  (32998101, 'Juan Satriani', 55, '9 de julio 1200', 'email@testing.com', 'CB', 4, '3516487598')
 go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
@@ -3830,12 +3830,12 @@ values (1, 'CB', 1, 'Sucursal Rio IV'),
 go
 
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
-values(30245785, 'juan page', 55, 'Luis Reinaudi 1100', 'email@testing.com', 'CB', 1, '3518749568'),
-	  (29485621, 'juan hendrix', 55, 'Dean Funes 975', 'email@testing.com', 'CB', 2, '3514875125'),
-	  (28451987, 'mirko marley', 55, 'Buenos Aires 785', 'email@testing.com', 'CB', 2, '3517849568'),
-	  (26451256, 'Carlos velez', 55, 'Av Uruguay 875', 'email@testing.com', 'CB', 4, '3514785965'),
+values(30245785, 'Juan Page', 55, 'Luis Reinaudi 1100', 'email@testing.com', 'CB', 1, '3518749568'),
+	  (29485621, 'Juan Hendrix', 55, 'Dean Funes 975', 'email@testing.com', 'CB', 2, '3514875125'),
+	  (28451987, 'Mirko Marley', 55, 'Buenos Aires 785', 'email@testing.com', 'CB', 2, '3517849568'),
+	  (26451256, 'Carlos Velez', 55, 'Av Uruguay 875', 'email@testing.com', 'CB', 4, '3514785965'),
 	  (35214523, 'Gustavo Alberti', 55, 'San Martin 3332', 'email@testing.com', 'CB', 2, '3514785496'),
-	  (33415265, 'Luis beilinson', 55, 'Buenos aires 2313', 'email@testing.com', 'CB', 4, '3514785245'),
+	  (33415265, 'Luis Beilinson', 55, 'Buenos aires 2313', 'email@testing.com', 'CB', 4, '3514785245'),
 	  (31256485, 'Juan Pastorius', 55, 'Av Brasil 4424', 'email@testing.com', 'CB', 2, '3514785496'),
 	  (28456987, 'Carlos Tirao', 55, 'Arturo M bas 112', 'email@testing.com', 'CB', 2, '3514785496'),
 	  (26555222, 'Martin Dimaria', 55, 'Buenos aires 746', 'email@testing.com', 'CB', 1, '3512457895'),
