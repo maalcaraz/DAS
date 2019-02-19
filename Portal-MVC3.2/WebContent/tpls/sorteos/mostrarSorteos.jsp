@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setLocale value="${ sessionScope.lang }" scope="session" />
+
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages" var="etq" />
 	
 <section class="wrapper">
@@ -36,7 +37,7 @@
 				<section class="panel"  id="${ sorteo.idSorteo }">
 			       <header class="panel-heading">
 			       
-			       Sorteo de la fecha ${sorteo.fechaDefinida} 
+			       <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> ${sorteo.fechaDefinida} 
 			       
 			       
 			       </header>
@@ -46,34 +47,34 @@
 			                  
 			                  Status: 
 			                  	<c:if test="${ sorteo.fechaEjecucion eq '-' }">
-			                  		Pendiente <br>
-									Fecha Ejecucion: - <br>
-									Fecha Notificacion: - <br>
+			                  		<fmt:message key="pendiente" bundle="${etq}"></fmt:message><br>
+									<fmt:message key="fecha_ejecucion" bundle="${etq}"></fmt:message>: - <br>
+									<fmt:message key="fecha_notificacion" bundle="${etq}"></fmt:message>: - <br>
 									
 									<br><br>
 			             
-				                	<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">Opciones</a>
+				                	<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="opciones" bundle="${etq}"></fmt:message> </a>
 					            	<ul class="dropdown-menu">
-				                      <li><a href="#" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')">Editar</a></li>
-				                      <li><a href="#" onclick="jSorteos.eliminarSorteo('${ sorteo.idSorteo }')">Eliminar</a></li>
+				                      <li><a href="#" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')"><fmt:message key="editar" bundle="${etq}"></fmt:message></a></li>
+				                      <li><a href="#" onclick="jSorteos.eliminarSorteo('${ sorteo.idSorteo }')"><fmt:message key="eliminar" bundle="${etq}"></fmt:message></a></li>
 				                    </ul>
 							 	</c:if>
 			                 	<c:if test="${ sorteo.fechaEjecucion ne '-'}">
-			                 	Sorteado <br>
-			                 		Fecha Ejecucion: 
+			                 	<fmt:message key="ejecutado" bundle="${etq}"></fmt:message> <br>
+			                 		<fmt:message key="fecha_ejecucion" bundle="${etq}"></fmt:message>: 
 									<fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaEjecucion}" var="date" />
 									<fmt:formatDate value="${date}" type="date" dateStyle="short" timeStyle="short" />
 									<br>
 									<c:if test="${ sorteo.fechaNotificacion ne '-'}">
-										Fecha Notificacion: 
+										<fmt:message key="fecha_notificacion" bundle="${etq}"></fmt:message>: 
 										<fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaNotificacion}" var="date" />
 											<fmt:formatDate value="${date}" type="date" dateStyle="short" timeStyle="short" />
 											<br>
 									</c:if>
 									<c:if test="${ sorteo.fechaNotificacion eq '-'}">
-										Fecha Notificacion:	 -
+										<fmt:message key="fecha_notificacion" bundle="${etq}"></fmt:message>:	 -
 									</c:if>
-									<a onclick="jSorteos.verResultados('${ sorteo.idSorteo }')" href="#"> Ver resultados </a>
+									<a onclick="jSorteos.verResultados('${ sorteo.idSorteo }')" href="#"> <fmt:message key="ver_resultados" bundle="${etq}"></fmt:message> </a>
 								</c:if>
 			                </div>
 			              	</div>

@@ -1056,3 +1056,9 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
 */
+
+select * from clientes c
+order by c.id_concesionaria
+
+select * from posibles_participantes pp
+order by pp.id_concesionaria

@@ -141,7 +141,11 @@ var jSorteos = {
 			console.log("Fecha de hoy:"+hoy);
 			console.log("Fecha generada: "+fechaGenerada);
 			if (fechaGenerada && (fechaGenerada >= hoy )  ) {
-				return true;
+				if ((fechaGenerada.getDay() == 0) || (fechaGenerada.getDay() == 6 )){
+					alert("La fecha de sorteo debe ser un dia habil");
+					return false;
+				}
+				else return true;
 			}
 			else return false;
 		},
