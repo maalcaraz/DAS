@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
@@ -23,6 +25,8 @@ import ar.edu.ubp.das.src.db.DaoImpl;
 
 
 public class MSConcesionariaDao extends DaoImpl{
+
+	private final static Logger LOGGER = Logger.getLogger("ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao"); 
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
@@ -155,7 +159,7 @@ public class MSConcesionariaDao extends DaoImpl{
 					fechaActualizacionAux = parser.parse(c.getUltimaActualizacion());
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
-					System.out.println("[MSConcesionariaDAO] " + e.getMessage());
+					LOGGER.log(Level.INFO,"[MSConcesionariaDAO] " + e.getMessage());
 				}
 				java.sql.Date fechaActualizacion = new java.sql.Date(fechaActualizacionAux.getTime());
 				
@@ -205,7 +209,7 @@ public class MSConcesionariaDao extends DaoImpl{
 		
 		if (bean == null){
 			// Devuelve una lista de concesionarias
-			System.out.println("[ConcDAO]Buscando en la base la lista de concesionarias registradas");
+			LOGGER.log(Level.INFO,"[ConcDAO]Buscando en la base la lista de concesionarias registradas");
 			this.setProcedure("dbo.get_concesionarias", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = this.getStatement().executeQuery();
 			result.next();
@@ -233,14 +237,14 @@ public class MSConcesionariaDao extends DaoImpl{
 					ret.add(f);
 				}
 				catch(Exception ex){
-					System.out.println("[ConcDAO]Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
+					LOGGER.log(Level.INFO,"[ConcDAO]Error en la consulta de concesionarias registradas. Mensaje: "+ex.getMessage());
 				}
 				result.next();
 			}
 		}
 		else  {
 			
-			System.out.println("[ConcDAO]Buscando en la base la lista de participantes del sorteo");
+			LOGGER.log(Level.INFO,"[ConcDAO]Buscando en la base la lista de participantes del sorteo");
 			ConcesionariaBean concesionaria = (ConcesionariaBean) bean;
 			this.setProcedure("dbo.get_participantes(?, ?, ?)");
 			this.setParameter(1, concesionaria.getIdConcesionaria());
@@ -273,7 +277,7 @@ public class MSConcesionariaDao extends DaoImpl{
 					ret.add(cli);
 				}
 				catch(Exception ex){
-					System.out.println(ex);
+					LOGGER.log(Level.INFO, ex.getMessage());
 				}
 				result.next();
 			}

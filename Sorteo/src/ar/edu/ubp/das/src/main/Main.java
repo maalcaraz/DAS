@@ -1,9 +1,15 @@
 package ar.edu.ubp.das.src.main;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -16,10 +22,32 @@ import ar.edu.ubp.das.src.beans.SorteoBean;
 
 public class Main {
 
+	/* Creacion de logger */
+	
+	private final static Logger LOGGER = Logger.getLogger("ar.edu.ubp.das.src.main.Main"); 
+	
+	private final static Logger LOG_RAIZ = Logger.getLogger("ar.edu.ubp.das.src.main");
+	private final static Logger LOG_CONCESIONARIAS = Logger.getLogger("ar.edu.ubp.das.src.sorteos.daos.MSConcesionariaDao");
+	private final static Logger LOG_OPERACIONES = Logger.getLogger("ar.edu.ubp.das.src.main.OperacionesSorteo");
+	
 	public static ParticipanteBean ganador;
 	public static SorteoBean sorteo;
 	
 	public static void main (String[] args){
+		
+		 try {
+			 String nombreArchivo = "./output/out-"+ ((new Date().getTime())) +".log";
+			Handler fileHandler = new FileHandler(nombreArchivo, true);
+			 SimpleFormatter simpleFormatter = new SimpleFormatter();
+			 fileHandler.setFormatter(simpleFormatter);
+			LOG_RAIZ.addHandler(fileHandler);
+			fileHandler.setLevel(Level.ALL);
+		} 
+		 catch (SecurityException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		/**** Inicializacion de variables ****/
 		
@@ -37,13 +65,13 @@ public class Main {
 		sorteo = op.consultarSorteosPendientes();
 		
 		if (sorteo == null){
-			System.out.println("[Main]No hay sorteos pendientes");
+			LOGGER.log(Level.INFO, "[Main]No hay sorteos pendientes");
 			
 			/*---- No hay sorteos pendientes, verificamos si hoy es fecha de sorteo ----*/
 		
 			sorteo = op.hoyEsSorteo();
 			if (sorteo == null){
-				System.out.println("[Main]Hoy no es fecha de sorteo");
+				LOGGER.log(Level.INFO, "[Main]Hoy no es fecha de sorteo");
 				sortear = false;
 				notificar = false;
 				consultar = false;
@@ -51,12 +79,12 @@ public class Main {
 				verificarCancelado = false;
 			}
 			else{
-				System.out.println("[Main]Hoy es fecha de sorteo");
+				LOGGER.log(Level.INFO, "[Main]Hoy es fecha de sorteo");
 			}
 			
 		}
 		else{
-			System.out.println("[Main]Hay sorteos pendientes");
+			LOGGER.log(Level.INFO, "[Main]Hay sorteos pendientes");
 			
 			/* --- Obtenemos el ultimo ganador --- */
 			
@@ -64,7 +92,7 @@ public class Main {
 			
 			if (aux != null && aux.isEmpty()){
 				
-				System.out.println("[Main] No hay ganadores registrados.");
+				LOGGER.log(Level.INFO, "[Main] No hay ganadores registrados.");
 			}
 			else{
 				ganador = aux.get(0);
@@ -80,7 +108,7 @@ public class Main {
 			
 			
 			if (intentos >= 3){
-				System.out.println("[Main]Se alcanzo el nro maximo de intentos. Cancelamos la fecha de sorteo");
+				LOGGER.log(Level.INFO, "[Main]Se alcanzo el nro maximo de intentos. Cancelamos la fecha de sorteo");
 				System.exit(-1); // hay que setear las variables como si hoy no fuese fecha
 			}
 			
@@ -130,7 +158,7 @@ public class Main {
 			
 			if (aux != null && aux.isEmpty()){
 				// No hay ganadores registrados. Se sigue con el flujo del programa y no se verifica el cancelado
-				System.out.println("[Main] No hay ganadores registrados.");
+				LOGGER.log(Level.INFO, "[Main] No hay ganadores registrados.");
 				sortear = true;
 				notificar = true;
 				consultar = true;
@@ -139,7 +167,7 @@ public class Main {
 			else {
 				if (aux == null){
 					// Salir del programa
-					System.out.println("[Main]Fallo la consulta de ganadores en la BD local");
+					LOGGER.log(Level.INFO, "[Main]Fallo la consulta de ganadores en la BD local");
 					System.exit(-1);
 				}
 				if (!aux.isEmpty()){
@@ -178,16 +206,16 @@ public class Main {
 		/* ---- Hay concesionarias por consultar ---- */
 		if (consultar){
 			if (op.consultaQuincenal()){
-				System.out.println("[Main]La consulta de concesionarias fue exitosa");
+				LOGGER.log(Level.INFO, "[Main]La consulta de concesionarias fue exitosa");
 				op.setearParticipantes(sorteo);
 				
 				sorteo.setParticipantesSorteo(op.seleccionarParticipantes(sorteo));
-				System.out.println("[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); 
+				LOGGER.log(Level.INFO, "[Main]PARTICIPANTES: "+sorteo.getParticipantesSorteo()); 
 				// La consulta fue exitosa
 			}
 			else {
 				intentos++;
-				System.out.println("[Main]Hay concesionarias pendiente de consulta");
+				LOGGER.log(Level.INFO, "[Main]Hay concesionarias pendiente de consulta");
 				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("ConsultarConcesionarias", intentos), true);
 				sortear = false;
 				registrar = false;
@@ -198,15 +226,15 @@ public class Main {
 		if (sortear){
 			/* ---- Hay que ejecutar sorteo? ---- */
 			// buscar los participantes aptos para el sorteo
-			System.out.println("[Main]Ejecucion del sorteo");
-			System.out.println("[Main]************** PRE EJECUCION **************");
-			System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo());
-			System.out.println("[Main]Ganador del sorteo: "+ ganador);
-			System.out.println("[Main]*******************************************");
+			LOGGER.log(Level.INFO, "[Main]Ejecucion del sorteo");
+			LOGGER.log(Level.INFO, "[Main]************** PRE EJECUCION **************");
+			LOGGER.log(Level.INFO, "[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo());
+			LOGGER.log(Level.INFO, "[Main]Ganador del sorteo: "+ ganador);
+			LOGGER.log(Level.INFO, "[Main]*******************************************");
 			if(sorteo.getParticipantesSorteo() == null || sorteo.getParticipantesSorteo().isEmpty()){
-				System.out.println("[Main]No hay participantes para el sorteo. No se ejecutara sorteo.");
+				LOGGER.log(Level.INFO, "[Main]No hay participantes para el sorteo. No se ejecutara sorteo.");
 				//chequear
-				System.out.println("[Main] Hay que cancelar el sorteo (sin volver a intentar)");
+				LOGGER.log(Level.INFO, "[Main] Hay que cancelar el sorteo (sin volver a intentar)");
 				registrar = false;
 				notificar = false;
 				
@@ -214,8 +242,8 @@ public class Main {
 			else{
 				sortear();
 				
-				System.out.println("[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo().toString());
-				System.out.println("[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
+				LOGGER.log(Level.INFO, "[Main]Listado de participantes del sorteo: "+ sorteo.getParticipantesSorteo().toString());
+				LOGGER.log(Level.INFO, "[Main]Ganador del sorteo: "+ ganador.getApellidoNombre());
 				// registrar fecha de ejecucion del sorteo
 				Date fechaEjecucion = new Date();
 				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
@@ -223,7 +251,7 @@ public class Main {
 				op.cambiarValorPendienteSorteo(sorteo, "El sorteo fue ejecutado con exito", false);
 			}
 
-			System.out.println("[Main]********************************************");
+			LOGGER.log(Level.INFO, "[Main]********************************************");
 		}
 		
 		if (registrar){
@@ -231,16 +259,16 @@ public class Main {
 			
 			if(ganador == null)
 			{
-				System.out.println("[Main] No hay ganador. No se hara el registro");
+				LOGGER.log(Level.INFO, "[Main] No hay ganador. No se hara el registro");
 				
 			}
 			else{
-				System.out.println("[Main] Registrando el ganador " + ganador.getApellidoNombre());
+				LOGGER.log(Level.INFO, "[Main] Registrando el ganador " + ganador.getApellidoNombre());
 				
 				if (!op.registrarGanador(ganador)){
 					// registrar pendiente y setear razon = RegistroGanador
 					intentos++;
-					System.out.println("[Main]No se pudo registrar el ganador");
+					LOGGER.log(Level.INFO, "[Main]No se pudo registrar el ganador");
 					op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("RegistrarGanador", intentos), true);
 					notificar = false;
 				}				
@@ -251,7 +279,7 @@ public class Main {
 			/* ---- Hay concesionarias por notificar? ---- */
 			
 			if (op.notificarGanador(ganador)){
-				System.out.println("[Main]La notificacion fue exitosa");
+				LOGGER.log(Level.INFO, "[Main]La notificacion fue exitosa");
 				Date fechaNotificacion = new Date();
 				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 				sorteo.setFechaNotificacion(parser.format(fechaNotificacion));
@@ -260,11 +288,11 @@ public class Main {
 			}
 			else {
 				intentos++;
-				System.out.println("[Main]Hay concesionarias pendiente de notificar");
+				LOGGER.log(Level.INFO, "[Main]Hay concesionarias pendiente de notificar");
 				op.cambiarValorPendienteSorteo(sorteo, op.setearRazon("NotificarGanador", intentos), true);
 			}
 		}
-		System.out.println("[Main]Adios mundo");
+		LOGGER.log(Level.INFO, "[Main]Adios mundo");
 	}
 	
 
@@ -273,10 +301,10 @@ public class Main {
 		LinkedList<ParticipanteBean> participantes = sorteo.getParticipantesSorteo();
 		if (!participantes.isEmpty()){
 			int iGanador = (int) (Math.random() * participantes.size());
-			System.out.println("[Main]Indice ganador: "+iGanador);
+			LOGGER.log(Level.INFO, "[Main]Indice ganador: "+iGanador);
 			ganador = (ParticipanteBean)participantes.get(iGanador);
 		}
-		else System.out.println("[Main] No hay participantes para el sorteo");
+		else LOGGER.log(Level.INFO, "[Main] No hay participantes para el sorteo");
 	}
 	
 }

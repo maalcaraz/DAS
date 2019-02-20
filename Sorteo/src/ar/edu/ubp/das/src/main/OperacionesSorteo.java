@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,6 +33,7 @@ import ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao;
 
 public class OperacionesSorteo {
 	public static String idPortal = "PORTALGOB";
+	private final static Logger LOGGER = Logger.getLogger("ar.edu.ubp.das.src.main.OperacionesSorteo"); 
 	public OperacionesSorteo(){
 		
 	}
@@ -39,7 +42,7 @@ public class OperacionesSorteo {
 	 * 
 	 */
 	public String verificarCancelado(ParticipanteBean ganador){ /* Por que esta operacion retorna un adquirido? */
-		System.out.println("[OpsSorteo]--------------->VERIFICAR CANCELADO");
+		LOGGER.log(Level.INFO,"[OpsSorteo]--------------->VERIFICAR CANCELADO");
 				String restResp = "";
 				String idPortal = "PORTALGOB";
 				/*
@@ -49,7 +52,7 @@ public class OperacionesSorteo {
 				Gson gson = new Gson();
 				List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
 				
-				System.out.println("\t[OpsSorteo]El ganador a verificar es: "+ganador.toString());
+				LOGGER.log(Level.INFO,"\t[OpsSorteo]El ganador a verificar es: "+ganador.toString());
 				List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 				parameters.add(new BasicNameValuePair("id_portal" , idPortal));
 				parameters.add(new BasicNameValuePair("dni_cliente" , ganador.getDniCliente()));
@@ -60,7 +63,7 @@ public class OperacionesSorteo {
 				if ( concesionarias != null){ 
 					for (ConcesionariaBean c : concesionarias ){
 						if (c.getIdConcesionaria().equals(concAdqBean)){
-							System.out.println("\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
+							LOGGER.log(Level.INFO,"\t[Ops Sorteo]Verificando cancelado en la concesionaria " + concAdqBean);
 							try{
 								restResp = c.getWebService().Consumir("verificarCancelado", parameters);
 								TransaccionBean transaccion = gson.fromJson(restResp, new TypeToken<TransaccionBean>(){}.getType());
@@ -68,7 +71,7 @@ public class OperacionesSorteo {
 								restResp = listaRetorno[0];
 							}
 							catch(Exception ex){
-								System.out.println("[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
+								LOGGER.log(Level.INFO,"[OpsSorteo]No se pudo realizar la conexion con la concesionaria para ejecutar la operacion. Error: "+ ex.getMessage());
 								
 								restResp = null;
 							}
@@ -76,7 +79,7 @@ public class OperacionesSorteo {
 					}
 				}
 				else{
-					System.out.println("\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
+					LOGGER.log(Level.INFO,"\t[OpsSorteo]Aun no hay ganadores registrados. No hay que verificar cancelacion");
 				}
 		return restResp;
 	}
@@ -86,8 +89,8 @@ public class OperacionesSorteo {
 		String respuesta = "";
 		MailSender mailSender = new MailSender();
 		List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
-		System.out.println("\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
-		System.out.println("\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteo());
+		LOGGER.log(Level.INFO,"\t[Ops Sorteo]Los datos que vienen del sorteo son: ");
+		LOGGER.log(Level.INFO,"\n\tDni ganador: " + ganador.getDniCliente() +"- Fecha Sorteo: "+ ganador.getFechaSorteo());
 		try {
 			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 			parameters.add(new BasicNameValuePair("id_portal" , idPortal));
@@ -101,13 +104,13 @@ public class OperacionesSorteo {
 	      	 */
 	      	
 	      	if (concesionarias.isEmpty()){
-	      		System.out.println("\t[OpsSorteo]Aun no hay concesionarias registradas...");
+	      		LOGGER.log(Level.INFO,"\t[OpsSorteo]Aun no hay concesionarias registradas...");
 	      	}
 	      	else {
 	      		for (ConcesionariaBean c : concesionarias ){
 	      			
 					if (c.getAprobada().equals("S") && c.isNotificacionPendiente()){
-						System.out.println("\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
+						LOGGER.log(Level.INFO,"\t[OpsSorteo]Notificando concesionaria: "+c.getNomConcesionaria());
 						respuesta = c.getWebService().Consumir("notificarGanador", parameters);
 						Gson gson = new Gson();
 						TransaccionBean t = gson.fromJson(respuesta, new TypeToken<TransaccionBean>(){}.getType());						
@@ -115,14 +118,14 @@ public class OperacionesSorteo {
 							/*
 							 * Se setea el sorteo como pendiente
 							 */
-							System.out.println("\t[OpsSorteo]Fallo la notificacion de la concesionaria");
+							LOGGER.log(Level.INFO,"\t[OpsSorteo]Fallo la notificacion de la concesionaria");
 							c.setNotificacionPendiente(true);
 							updateConsumosPendientes(c);
 							return false;
 						}
 						else{
 							
-							System.out.println("\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
+							LOGGER.log(Level.INFO,"\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
 							//Comentado envio de mail para que no me lleguen 200 mails mientras testeamos. 
 							//mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());							
 						}
@@ -133,7 +136,7 @@ public class OperacionesSorteo {
 	      	}
 		}
 		catch(RuntimeException ex ){
-			System.out.println("\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: " + ex.getMessage());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo]No se pudo notificar a todas las concesionarias. Mensaje: " + ex.getMessage());
 			return false;
 		}
 		return true;
@@ -149,7 +152,7 @@ public class OperacionesSorteo {
 		 * retorna false si quedaron concesionarias pendientes
 		 */
 		Gson gson = new Gson();
-		System.out.println("\t[Ops Sorteo]Consulta de Concesionarias");
+		LOGGER.log(Level.INFO,"\t[Ops Sorteo]Consulta de Concesionarias");
 		boolean status = true;
 		try {
 			List<ConcesionariaBean> concesionarias = obtenerConcesionarias(null);
@@ -161,20 +164,20 @@ public class OperacionesSorteo {
 			for (ConcesionariaBean concesionaria : concesionarias ){
 				
 				if (concesionaria.getAprobada().equals("S") /*&&  (concesionaria.isConsultaPendiente())*/){
-					System.out.println("\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
+					LOGGER.log(Level.INFO,"\t[OpsSorteo] Ultima actualizacion de la concesionaria: " + concesionaria.getUltimaActualizacion());
 					
 					int dias = diferenciasDeFechas(concesionaria.getUltimaActualizacion());
-					System.out.println("\t[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
+					LOGGER.log(Level.INFO,"\t[Ops Sorteo]Dias desde la ultima actualizacion: "+dias);
 					
 					int diasCaducidad = Integer.parseInt(concesionaria.getCantDiasCaducidad());
-					System.out.println("\t[Ops Sorteo]Dias de caducidad: "+ diasCaducidad);
-					System.out.println("\t[Ops Sorteo]Entrando al if de actualizacion de datos");
+					LOGGER.log(Level.INFO,"\t[Ops Sorteo]Dias de caducidad: "+ diasCaducidad);
+					LOGGER.log(Level.INFO,"\t[Ops Sorteo]Entrando al if de actualizacion de datos");
 					
 					if ((concesionaria.getUltimaActualizacion() == null) ||  
 						(dias > diasCaducidad)){
 						
 						
-						System.out.println("\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos de "+ concesionaria.getNomConcesionaria());
+						LOGGER.log(Level.INFO,"\t[Ops Sorteo]Consulta Quincenal ==> Hay que actualizar los datos de "+ concesionaria.getNomConcesionaria());
 						List <NameValuePair> parameters = new ArrayList <NameValuePair>();
 						parameters.add(new BasicNameValuePair("id_portal" , "PORTALGOB"));
 						
@@ -211,7 +214,7 @@ public class OperacionesSorteo {
 							
 						 }
 			 			catch (Exception ex){
-			 				System.out.println("\t[Ops Sorteo]No se pudo realizar el consumo. El presente sorteo se guarda como pendiente");
+			 				LOGGER.log(Level.INFO,"\t[Ops Sorteo]No se pudo realizar el consumo. El presente sorteo se guarda como pendiente");
 			 				// setear consultapendiente de concesionaria como false.
 							concesionaria.setConsultaPendiente(true);
 			 				status = false;
@@ -220,13 +223,13 @@ public class OperacionesSorteo {
 						updateConsumosPendientes(concesionaria);
 					}
 					else{
-						System.out.println("\t[Ops Sorteo]No hay que actualizar los datos");
+						LOGGER.log(Level.INFO,"\t[Ops Sorteo]No hay que actualizar los datos");
 					}
 				}
 			}
 		}
 		catch(RuntimeException ex ){
-			System.out.println("\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo]No se pudo realizar la consulta en la BD. Mensaje: "+ ex.getMessage());
 			status = false;
 		}
 		return status;
@@ -240,7 +243,7 @@ public class OperacionesSorteo {
 			pendientes = sorteo.select(null);
 			
 			if (pendientes != null && pendientes.isEmpty()){
-				System.out.println("\t[Ops Sorteo]No existen sorteos pendientes registrados");
+				LOGGER.log(Level.INFO,"\t[Ops Sorteo]No existen sorteos pendientes registrados");
 			}
 			/*
 			 * Devuelve el sorteo mas viejo para el cual pendiente se encuentra como S y tomamos el primero del array.
@@ -250,7 +253,7 @@ public class OperacionesSorteo {
 			}
 		} 
 		catch (SQLException e) {
-			System.out.println("\t[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo]Error en consulta de sorteos pendientes: "+e.getMessage());
 		}
 		return sorteoPorEjecutar;
 	}
@@ -272,9 +275,9 @@ public class OperacionesSorteo {
 		} 
 		catch (SQLException e) {
 			e.getMessage();
-			System.out.println("\t[Ops Sorteo] Error en checkeo si hoy es sorteo: " + e.getMessage());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo] Error en checkeo si hoy es sorteo: " + e.getMessage());
 		}
-		System.out.println("\t[OpsSorteo]Sorteo Por ejecutar: " + sorteoPorEjecutar);
+		LOGGER.log(Level.INFO,"\t[OpsSorteo]Sorteo Por ejecutar: " + sorteoPorEjecutar);
 		return sorteoPorEjecutar;
 	}
 	
@@ -285,36 +288,36 @@ public class OperacionesSorteo {
 			if(marcarPendiente == true){
 				if (pendiente.getFechaEjecucion()!=null){
 					if (pendiente.getFechaNotificacion() != null){
-						System.out.println("[OpsSorteo]Se pudo notificar con exito");
+						LOGGER.log(Level.INFO,"[OpsSorteo]Se pudo notificar con exito");
 					}
 					else{
-						System.out.println("[OpsSorteo]No se pudo realizar la notificacion con exito");
+						LOGGER.log(Level.INFO,"[OpsSorteo]No se pudo realizar la notificacion con exito");
 					}
 					/* si la de ejecucion es nula, obligatoriamente la de notificacion es nula. */
 					
 				}
 				else{
-					System.out.println("[OpsSorteo]No se pudo ejecutar con exito");
+					LOGGER.log(Level.INFO,"[OpsSorteo]No se pudo ejecutar con exito");
 					pendiente.setFechaEjecucion(null);
 				}
 				
-				System.out.println("\t[OpsSorteo]Entrando a marcar como pendiente");
+				LOGGER.log(Level.INFO,"\t[OpsSorteo]Entrando a marcar como pendiente");
 				pendiente.setPendiente("S");
 				pendiente.setRazon(idRazon);
 			}
 			else{
 				pendiente.setPendiente("N");
-				System.out.println("\t[OpsSorteo]Entrando a marcar como NO pendiente");
-				System.out.println("\t[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
+				LOGGER.log(Level.INFO,"\t[OpsSorteo]Entrando a marcar como NO pendiente");
+				LOGGER.log(Level.INFO,"\t[OpsSorteo]formato de la fecha de sorteo: "+pendiente.getFechaSorteado());
 				pendiente.setRazon(idRazon);
 			}
 			
-			System.out.println("\t[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo]Sorteo antes del update: "+ pendiente.getIdSorteo() + pendiente.getFechaSorteado());
 			sorteo.update(pendiente);
 			// hay que terminar de verificar con este try catch que hacer cuando las cosas salen mal
 		}
 		catch (SQLException ex){
-			System.out.println("\t[Ops Sorteo]Hubo un error al cambiar el valor pendiente del sorteo. Mensaje: "+ex.getMessage());
+			LOGGER.log(Level.INFO,"\t[Ops Sorteo]Hubo un error al cambiar el valor pendiente del sorteo. Mensaje: "+ex.getMessage());
 		}
 	}
 	
@@ -329,7 +332,7 @@ public class OperacionesSorteo {
 			date = parser.parse(fechaUltimaActualizacion);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
 		    String formattedDate = formatter.format(date);
-		    System.out.println("\t[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
+		    LOGGER.log(Level.INFO,"\t[Ops Sorteo]Fecha actualizacion formateada: "+ formattedDate);
 		    ultimaActualizacion = formatter.parse(formattedDate);
 		} 
 		catch (ParseException e) {
@@ -359,7 +362,7 @@ public class OperacionesSorteo {
 			return ganadores;
 		}
 		catch(SQLException ex){
-			System.out.println("\t[OpsSorteo]No se pudieron obtener ganadores. Error: "+ ex.getMessage());
+			LOGGER.log(Level.INFO,"\t[OpsSorteo]No se pudieron obtener ganadores. Error: "+ ex.getMessage());
 			return null;
 		}
 	}
@@ -376,7 +379,7 @@ public class OperacionesSorteo {
 			}
 		}
 		catch(SQLException ex){
-			System.out.println("\t[OpsSorteo]No se pudieron obtener las concesionarias");
+			LOGGER.log(Level.INFO,"\t[OpsSorteo]No se pudieron obtener las concesionarias");
 			return null;
 		}
 		return concesionarias;
@@ -390,7 +393,7 @@ public class OperacionesSorteo {
 			
 		}
 		catch(SQLException ex){
-			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria "+ c.getNomConcesionaria());
+			LOGGER.log(Level.INFO,"\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria "+ c.getNomConcesionaria());
 		}
 	}
 	
@@ -400,7 +403,7 @@ public class OperacionesSorteo {
 		LinkedList<NameValuePair> nvp = new LinkedList<NameValuePair>();
 		nvp.add(new BasicNameValuePair("operacion", operacion));
 		nvp.add(new BasicNameValuePair("intentos", Integer.toString(intentos)));
-		System.out.println("[Main]Razon de dejar el sorteo como pendiente: "+nvp);
+		LOGGER.log(Level.INFO,"[Main]Razon de dejar el sorteo como pendiente: "+nvp);
 		Gson gson = new Gson();
 		
 		return gson.toJson(nvp);
@@ -420,7 +423,7 @@ public class OperacionesSorteo {
 			return p;
 		} 
 		catch (SQLException e) {
-			System.out.println("[OpsSorteo]No se pudieron obtener los participantes del sorteo");
+			LOGGER.log(Level.INFO,"[OpsSorteo]No se pudieron obtener los participantes del sorteo");
 			return null;
 		}
 	}
@@ -431,7 +434,7 @@ public class OperacionesSorteo {
 			Participantes.insert(sorteo);
 		}
 		catch(Exception ex){
-			System.out.println("\t[OpsSorteo]No se pudieron insertar los participantes para el sorteo");
+			LOGGER.log(Level.INFO,"\t[OpsSorteo]No se pudieron insertar los participantes para el sorteo");
 		}
 	}
 	
@@ -454,7 +457,7 @@ public class OperacionesSorteo {
 			
 		}
 		catch(SQLException ex){
-			System.out.println("\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria");
+			LOGGER.log(Level.INFO,"\t[OpsSorteo]No se pudieron insertar los datos de la concesionaria");
 		}
 	}
 
