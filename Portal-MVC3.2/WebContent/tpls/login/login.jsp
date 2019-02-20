@@ -35,11 +35,9 @@
 								<form role="form" id="form">
 									<div class="form-group">
 
-										<label for="user"> <fmt:message
-												key="usuario" bundle="${etq}"></fmt:message>
-										</label> <input type="text" class="form-control"
-											id="user" name="user" placeholder="Enter username"
-											autofocus required />
+										<label for="user"> 
+										<fmt:message key="usuario" bundle="${etq}"></fmt:message>
+										</label> <input type="text" class="form-control" id="user" name="user" placeholder="Enter username" autofocus required />
 											
 									</div>
 									<div class="form-group">
@@ -51,11 +49,11 @@
 											
 									</div>
 									
-									<button type="button" class="btn btn-primary" name="login"
+									<button type="button" class="btn btn-info" name="login"
 										onclick="jLogin.acceder()">
 										<fmt:message key="iniciar_sesion" bundle="${etq}"></fmt:message>
 									</button>
-									<button type="button" class="btn btn-primary" name="registrar"
+									<button type="button" class="btn btn-info" name="registrar"
 										onclick="jLogin.primerIngreso()">
 										<fmt:message key="registrarse" bundle="${etq}"></fmt:message>
 									</button>

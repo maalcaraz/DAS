@@ -37,7 +37,12 @@
 				<section class="panel"  id="${ sorteo.idSorteo }">
 			       <header class="panel-heading">
 			       
-			       <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> ${sorteo.fechaDefinida} 
+			       <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> 
+			       
+			       <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaDefinida}" var="date" />
+				   <fmt:formatDate value="${date}" type="date" dateStyle="short" timeStyle="short" />
+			       
+			      
 			       
 			       
 			       </header>
@@ -45,7 +50,7 @@
 			                <div class="panel panel-primary">
 			                  <div class="panel-content">
 			                  
-			                  Status: 
+			                  <fmt:message key="estado" bundle="${etq}"></fmt:message>: 
 			                  	<c:if test="${ sorteo.fechaEjecucion eq '-' }">
 			                  		<fmt:message key="pendiente" bundle="${etq}"></fmt:message><br>
 									<fmt:message key="fecha_ejecucion" bundle="${etq}"></fmt:message>: - <br>
