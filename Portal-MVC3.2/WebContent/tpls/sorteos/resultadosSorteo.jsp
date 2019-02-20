@@ -8,10 +8,18 @@
 <c:set var="participantes" scope="request" value="${requestScope.participantes}"> </c:set>
 
 <div class="col-lg-12">
-<h2>Resultados </h2>
+<h2> <fmt:message key="resultados" bundle="${etq}"></fmt:message> </h2>
+
+Estado del sorteo: 
+
+<c:if test="${ sorteo.pendiente eq true }"> Pendiente </c:if>
+<c:if test="${ sorteo.pendiente eq false }"> Ejecutado </c:if>
+
+
+
             <section class="panel">
               <header class="panel-heading">
-                Participantes del sorteo del ${sorteo.idSorteo}
+                <fmt:message key="participantes" bundle="${etq}"></fmt:message> ${sorteo.idSorteo}
               </header>
 
 			<br>

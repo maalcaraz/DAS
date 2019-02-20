@@ -7,12 +7,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ar.edu.ubp.das.src.beans.SorteoBean;
 import ar.edu.ubp.das.src.db.Bean;
 import ar.edu.ubp.das.src.db.DaoImpl;
 
 public class MSSorteosDao extends DaoImpl{
+	
+
+	private final static Logger LOGGER = Logger.getLogger("ar.edu.ubp.das.src.sorteos.daos.MSSorteosDao"); 
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
@@ -78,10 +83,10 @@ public class MSSorteosDao extends DaoImpl{
 				this.setNull(5, java.sql.Types.DATE);
 			}
 			this.setParameter(6, sorteo.getRazon());
-			System.out.println("[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
+			LOGGER.log(Level.INFO,"[SorteoDAO]Datos a actualizar: idSorteo="+sorteo.getIdSorteo() + " - FechaSorteado="+ sorteo.getFechaSorteado());
 		}
 		catch(ParseException e){
-			System.out.println("[SorteoDAO]Error parseando fecha: "+e.getMessage());
+			LOGGER.log(Level.INFO,"[SorteoDAO]Error parseando fecha: "+e.getMessage());
 		}
 		this.executeUpdate();
 		this.disconnect();
@@ -112,7 +117,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println("[MSSorteosDao]Error en obtencion de sorteos pendientes: "+ex.getMessage());
+				LOGGER.log(Level.INFO,"[MSSorteosDao]Error en obtencion de sorteos pendientes: "+ex.getMessage());
 			}
 			result.next();
 		}
@@ -136,7 +141,7 @@ public class MSSorteosDao extends DaoImpl{
 				ret.add(f);
 			}
 			catch(Exception ex){
-				System.out.println("[MSSorteosDao]Error en \"hoy es fecha de sorteo\": "+ex.getMessage());
+				LOGGER.log(Level.INFO,"[MSSorteosDao]Error en \"hoy es fecha de sorteo\": "+ex.getMessage());
 			}
 			result.next();
 		}
