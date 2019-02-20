@@ -2,6 +2,9 @@ package ar.edu.ubp.das.src.sorteos.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,11 +36,24 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public void update(Bean bean) throws SQLException {
-		this.connect();
 		ParticipanteBean g = (ParticipanteBean) bean;
-		this.setProcedure("dbo.cancelar_localmente(?, ?)");
+		SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		Date fechaActualizacionAux = null;
+		try {
+			fechaActualizacionAux = parser.parse(g.getFechaSorteo());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("[MSGanadoresDAO] " + e.getMessage());
+		}
+		java.sql.Date fechaActualizacion = new java.sql.Date(fechaActualizacionAux.getTime());
+		
+		this.connect();
+		
+		this.setProcedure("dbo.cancelar_localmente(?, ?, ?, ?)");
 		this.setParameter(1, g.getDniCliente());
 		this.setParameter(2, g.getIdConcesionaria());
+		this.setParameter(3, g.getIdPlan());
+		this.setParameter(4, fechaActualizacion);
 		this.executeUpdate();
 		this.disconnect();
 		

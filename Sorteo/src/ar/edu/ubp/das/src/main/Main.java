@@ -186,6 +186,15 @@ public class Main {
 					}
 					else {
 						if (res.contains("{Cancelado: SI}")){
+							
+							if(op.cancelarGanadorLocalmente(aux.get(0)))
+							{
+								System.out.println("[Main] Se cancelo localmente el ganador del sorteo previo");
+							}
+							else
+							{
+								System.out.println("[Main] Fallo localmente el ganador del sorteo previo");
+							}
 							notificar = true;
 							sortear = true;
 							consultar = true;

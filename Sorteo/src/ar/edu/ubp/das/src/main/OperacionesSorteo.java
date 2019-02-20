@@ -449,6 +449,18 @@ public class OperacionesSorteo {
 		}
 		return true;
 	}
+	
+	boolean cancelarGanadorLocalmente (ParticipanteBean g){
+		try{
+			MSGanadoresDao Ganadores = (MSGanadoresDao)DaoFactory.getDao("Ganadores", "ar.edu.ubp.das.src.sorteos");
+			
+			Ganadores.update(g);
+		}
+		catch(SQLException ex){
+			return false;
+		}
+		return true;
+	}
 
 	public void updateConsumosPendientes(ConcesionariaBean c){
 		try {
