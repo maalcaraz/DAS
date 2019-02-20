@@ -8,10 +8,10 @@
 <c:set var="participantes" scope="request" value="${requestScope.participantes}"> </c:set>
 
 <div class="col-lg-12">
-<h2>Resultados </h2>
+<h2> <fmt:message key="resultados" bundle="${etq}"></fmt:message> </h2>
             <section class="panel">
               <header class="panel-heading">
-                Participantes del sorteo del ${sorteo.idSorteo}
+                <fmt:message key="participantes" bundle="${etq}"></fmt:message> ${sorteo.idSorteo}
               </header>
 
 			<br>
