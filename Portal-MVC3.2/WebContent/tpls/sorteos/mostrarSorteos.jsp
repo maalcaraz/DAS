@@ -50,9 +50,6 @@
 			       <fmt:parseDate pattern="dd-MM-yyyy" value="${sorteo.fechaDefinida}" var="date" />
 				   <fmt:formatDate value="${date}" type="date" dateStyle="short" timeStyle="short" />
 			       
-			      
-			       
-			       
 			       </header>
 			              <div class="panel-body">
 			                <div class="panel panel-primary">
