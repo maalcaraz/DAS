@@ -55,7 +55,7 @@
 			              </li>
 			              <li>
 			                <a href="#resultadosSorteo" onclick="jConcesionaria.obtenerGanadores()">
-			                	<span class="label label-primary"><i class="icon_calendar"></i></span>
+			                	<span class="label label-primary"><i class="fa fa fa-ticket"></i></span>
 			                    <fmt:message key="historico" bundle="${etq}"></fmt:message>
 			                </a>
 			              </li>
