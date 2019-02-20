@@ -6,22 +6,27 @@
 
 <c:set var="sorteo" scope="request" value="${requestScope.sorteo}"> </c:set>
 <c:set var="participantes" scope="request" value="${requestScope.participantes}"> </c:set>
+<c:set var="ganador" scope="request" value="${requestScope.ganador}"> </c:set>
 
 <div class="col-lg-12">
 <h2> <fmt:message key="resultados" bundle="${etq}"></fmt:message> </h2>
 
-Estado del sorteo: 
 
-<c:if test="${ sorteo.pendiente eq true }"> Pendiente </c:if>
-<c:if test="${ sorteo.pendiente eq false }"> Ejecutado </c:if>
-
-
-
-            <section class="panel">
-              <header class="panel-heading">
-                <fmt:message key="participantes" bundle="${etq}"></fmt:message> ${sorteo.idSorteo}
-              </header>
-
+       <section class="panel">
+         <header class="panel-heading">
+            <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> ${ sorteo.fechaDefinida }
+         </header>
+            <div class="panel-body">
+			<h4> <b> Estado del sorteo: </b>
+			
+			<c:if test="${ sorteo.pendiente eq true }"> Pendiente </c:if>
+			<c:if test="${ sorteo.pendiente eq false }"> Ejecutado </c:if>
+			</h4> 
+			
+			<h4> <b> Ganador: ${ ganador.getItem('apellidoNombre') } - Dni: ${ ganador.getItem('dni') } - Concesionaria: ${ ganador.getItem('nombreConcesionaria') }</b> </h4> 
+			
+			<br>
+			<h4> <b> <fmt:message key="participantes" bundle="${etq}"></fmt:message> </b></h4>
 			<br>
 			<p><fmt:message key="busqueda_sorteo_placeholder" bundle="${etq}"></fmt:message></p>  
 					  
@@ -71,8 +76,9 @@ Estado del sorteo:
                 </c:forEach>
                 </tbody>
               </table>
-            </section>
-          </div>
+            </div>
+          </section>
+        </div>
           
 <script>
 	$(document).ready(function(){
