@@ -116,7 +116,7 @@
 					<li class="sub-menu">
 						<a href="#">
 						
-							<i class="icon_calendar"></i> 
+							<i class="fa fa fa-ticket"></i> 
 							<span>
 								<fmt:message key="sorteos" bundle="${etq}"></fmt:message>
 							</span>

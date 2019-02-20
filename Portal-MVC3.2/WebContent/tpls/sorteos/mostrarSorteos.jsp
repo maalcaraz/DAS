@@ -9,16 +9,18 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h3 class="page-header">
-				<i class="fa fa fa-ticket"></i>
-				<fmt:message key="sorteos" bundle="${etq}"></fmt:message>
+				<i class="icon_calendar"></i>
+				<fmt:message key="fechas" bundle="${etq}"></fmt:message>
 			</h3>
 			<ol class="breadcrumb">
 				<li><i class="fa fa-home"></i><a href="/home/Home.do"><fmt:message key="home" bundle="${etq}"></fmt:message></a></li>
-				<li><i class="fa fa-ticket"></i>
+				<li><i class="fa fa fa-ticket"></i>
 				<fmt:message key="sorteos" bundle="${etq}"></fmt:message></li>
+				<li><i class="icon_calendar"></i>
+				<fmt:message key="fechas" bundle="${etq}"></fmt:message></li>
 				
 			</ol>
-			<input type="button" class="btn btn-primary" onclick="jSorteos.nuevoSorteo()" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
+			<input type="button" class="btn btn-info" onclick="jSorteos.nuevoSorteo()" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
 			<br>
 			<br>
 		</div>
@@ -34,7 +36,13 @@
 		      
 		      <div class="col-lg-4" >
 	
-				<section class="panel"  id="${ sorteo.idSorteo }">
+	
+				<c:if test="${ sorteo.fechaEjecucion ne '-' }">
+					<section class="panel panel-success"  id="${ sorteo.idSorteo }">
+				</c:if>
+				<c:if test="${ sorteo.fechaEjecucion eq '-' }">
+					<section class="panel panel-info"  id="${ sorteo.idSorteo }">
+				</c:if>
 			       <header class="panel-heading">
 			       
 			       <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> 
@@ -56,8 +64,6 @@
 									<fmt:message key="fecha_ejecucion" bundle="${etq}"></fmt:message>: - <br>
 									<fmt:message key="fecha_notificacion" bundle="${etq}"></fmt:message>: - <br>
 									
-									<br><br>
-			             
 				                	<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="opciones" bundle="${etq}"></fmt:message> </a>
 					            	<ul class="dropdown-menu">
 				                      <li><a href="#" onclick="jSorteos.editarSorteo('${ sorteo.idSorteo }')"><fmt:message key="editar" bundle="${etq}"></fmt:message></a></li>
