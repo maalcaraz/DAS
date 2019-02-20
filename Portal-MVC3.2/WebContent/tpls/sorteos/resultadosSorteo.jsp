@@ -14,7 +14,10 @@
 
        <section class="panel">
          <header class="panel-heading">
-            <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> ${ sorteo.fechaDefinida }
+            <fmt:message key="sorteo_de_la_fecha" bundle="${etq}"></fmt:message> 
+            <fmt:parseDate pattern="dd-MM-yyyy" value="${ sorteo.fechaDefinida }" var="date" />
+			<fmt:formatDate value="${date}" type="date" dateStyle="short" timeStyle="short" />
+									
          </header>
             <div class="panel-body">
 			<h4> <b> Estado del sorteo: </b>

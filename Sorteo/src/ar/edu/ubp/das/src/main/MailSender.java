@@ -45,7 +45,8 @@ public class MailSender {
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
 		try {
-			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("sebastiancenzano@gmail.com"));
+			/*   Aca iria el mail de lo clientes   */
+			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("maralcaraz.13@gmail.com"));
 		} catch (MessagingException e) {
 			System.out.println("[MailSender]Error: "+e.getMessage());
 		}
@@ -90,5 +91,4 @@ public class MailSender {
 		}
 		
 	}
-
 }

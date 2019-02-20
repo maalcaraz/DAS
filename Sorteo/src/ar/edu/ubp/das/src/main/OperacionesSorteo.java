@@ -126,8 +126,8 @@ public class OperacionesSorteo {
 						else{
 							
 							LOGGER.log(Level.INFO,"\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
-							//Comentado envio de mail para que no me lleguen 200 mails mientras testeamos. 
-							//mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());							
+							
+							mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());							
 						}
 						c.setNotificacionPendiente(false);
 						updateConsumosPendientes(c);
