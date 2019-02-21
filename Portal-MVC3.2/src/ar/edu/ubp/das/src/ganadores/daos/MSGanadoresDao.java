@@ -52,6 +52,7 @@ public class MSGanadoresDao  extends DaoImpl {
 			ad.setItem("fechaSorteo", result.getString("fecha_sorteo"));
 			ad.setItem("idSorteo", result.getString("id_sorteo"));
 			ad.setItem("dni", result.getString("dni_cliente"));
+			ad.setItem("idSorteo", result.getString("id_sorteo"));
 			ganadores.add(ad);
 			result.next();
 		}

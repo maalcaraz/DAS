@@ -1067,3 +1067,16 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
 */
+
+select * from sorteos
+/* Colocar una fecha vieja de sorteo*/
+
+ insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
+ values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+
+
+select * from concesionarias 
+
+select * from ganadores
+
+execute dbo.get_ganadores

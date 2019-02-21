@@ -31,7 +31,7 @@
 			
 			<div class="top-nav notification-row"> 
         		<ul class="nav pull-right top-menu">
-					<select name="lenguaje" onchange="jPortal.langOnSelect(this)" class="btn text-primary bg-dark border-dark">
+					<select name="lenguaje" onchange="jPortal.langOnSelect(this)" class="btn text-info bg-dark border-dark">
 						<option value="lenguaje"><fmt:message key="lenguaje" bundle="${etq}"></fmt:message>
 						</option>
 						<option value="es">
@@ -116,7 +116,7 @@
 					<li class="sub-menu">
 						<a href="#">
 						
-							<i class="icon_calendar"></i> 
+							<i class="fa fa fa-ticket"></i> 
 							<span>
 								<fmt:message key="sorteos" bundle="${etq}"></fmt:message>
 							</span>
@@ -171,6 +171,13 @@
 						<fmt:message key="frase_home" bundle="${etq}"></fmt:message>
 					</p>
 				</div>
+				
+				<a class="twitter-timeline"
+					  href="https://twitter.com/TwitterDev"
+					  data-width="300"
+					  data-height="300">
+					Tweets by @TwitterDev
+					</a>
 			</div>
 	        <!-- page end-->
 	      </section>

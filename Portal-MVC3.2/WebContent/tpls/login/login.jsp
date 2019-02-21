@@ -37,7 +37,8 @@
 
 										<label for="user"> 
 										<fmt:message key="usuario" bundle="${etq}"></fmt:message>
-										</label> <input type="text" class="form-control" id="user" name="user" placeholder="Enter username" autofocus required />
+										</label> <input type="text" class="form-control" id="user" name="user" placeholder="<fmt:message
+												key="ingrese_usuario" bundle="${etq}"></fmt:message>" autofocus required />
 											
 									</div>
 									<div class="form-group">
@@ -45,7 +46,8 @@
 										<label for="pwd"> <fmt:message
 												key="pass" bundle="${etq}"></fmt:message>
 										</label> <input type="password" class="form-control"
-											id="pwd" name="pwd" placeholder="Enter password" required/>
+											id="pwd" name="pwd" placeholder="<fmt:message
+												key="ingrese_password" bundle="${etq}"></fmt:message>" required/>
 											
 									</div>
 									

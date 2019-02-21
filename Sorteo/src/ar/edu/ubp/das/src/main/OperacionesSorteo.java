@@ -126,13 +126,13 @@ public class OperacionesSorteo {
 						else{
 							
 							LOGGER.log(Level.INFO,"\t[OpsSorteo]Exito en la notificacion de la concesionaria. Deberiamos mandar mail al cliente");
-							
-							mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());							
 						}
 						c.setNotificacionPendiente(false);
 						updateConsumosPendientes(c);
 					}
 				}
+	      		/* Agregar validacion de que estemos en la concesionaria del ganador para que se envie el mail una sola vez*/
+	      		mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());
 	      	}
 		}
 		catch(RuntimeException ex ){
