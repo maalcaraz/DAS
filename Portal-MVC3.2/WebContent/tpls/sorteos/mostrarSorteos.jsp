@@ -20,7 +20,7 @@
 				<fmt:message key="fechas" bundle="${etq}"></fmt:message></li>
 				
 			</ol>
-			<input type="button" id="agregar_sorteo" class="btn btn-info" onclick="jSorteos.nuevoSorteo()" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
+			<input type="button" id="agregar_sorteo" name="agregar_sorteo" class="btn btn-info" onclick="jSorteos.nuevoSorteo('<fmt:message key="guardar" bundle="${etq}"> </fmt:message>', '<fmt:message key="cancelar" bundle="${etq}"></fmt:message>')" value="<fmt:message key="agregar_sorteo" bundle="${etq}"></fmt:message>">
 			<br>
 			<br>
 		</div>
