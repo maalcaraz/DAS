@@ -29,6 +29,8 @@ var jSorteos = {
 							"</section>" +
 						"</div>";
 			id.innerHTML += nuevoSorteo;
+			$("#agregar_sorteo").prop("onclick", null);
+			$("#agregar_sorteo").attr("disable", true);
 		},
 		insertar : function () {
 			fecha = $("#nuevaFecha").val();
