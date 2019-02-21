@@ -43,11 +43,10 @@ public class ServicioCXF extends ServicioImpl{
 			}
 			System.out.println("[Servicio CXF:44] Respuesta de CXF: "+res[0]);
 			consumo = res[0].toString();
-			System.out.println("ALERTACXF"+consumo);
 		} 
 		catch (Exception e) {
 			consumo = "[Servicio CXF:48 - Catch clause]Salto la excepcion: "+ e.getMessage() ;
-			System.out.println("ALERTACXF"+consumo);
+			
 		}
 		Thread.currentThread().setContextClassLoader(cl);
 		return consumo;

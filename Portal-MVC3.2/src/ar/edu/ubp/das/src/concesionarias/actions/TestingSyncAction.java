@@ -29,11 +29,11 @@ public class TestingSyncAction  implements Action {
 			
 			List<DynaActionForm> forms =  Concesionaria.select(null);
 			
-			String mensaje = "[Testing sync]Respuesta de "+ idConcesionaria +":";
+			
 			for (DynaActionForm f : forms){
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				if (c.getIdConcesionaria().equals(idConcesionaria)){
-					
+					String mensaje = "[Testing sync]Respuesta de "+ c.getNomConcesionaria() +":";
 					mensaje += c.getWebService().Consumir("ejemplo", null);//Consumir("ejemplo", null);
 					if (mensaje.contains("funciona")){
 						System.out.println("[Testing sync]El servicio de "+idConcesionaria+" funciona");
@@ -46,7 +46,7 @@ public class TestingSyncAction  implements Action {
 				}
 			}
 			
-			request.setAttribute("mensaje", mensaje);
+			request.setAttribute("consumos", forms);
 			return mapping.getForwardByName("success");
 			// Recorrer esa lista, y de a una ir consumiendo la funcion de ejemplo.
 			

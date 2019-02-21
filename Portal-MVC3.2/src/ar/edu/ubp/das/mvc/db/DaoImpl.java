@@ -53,7 +53,6 @@ public abstract class DaoImpl implements Dao {
             throw new SQLException(ex.getMessage());
         }
         catch(SQLException ex) {
-        	System.out.println(ex.getMessage());
             throw new SQLException("TEXT.LOGINDATA_NULO");
         }
     }

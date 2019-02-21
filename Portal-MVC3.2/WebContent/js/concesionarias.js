@@ -33,6 +33,7 @@ var jConcesionaria ={
 	            success: function(html) {
 	            	
 	            	jUtils.showing("contenido", html);
+	            	
 	            }
 	        });	
 		},
@@ -212,18 +213,12 @@ var jConcesionaria ={
 			var cuit = "<b>Cuit:</b>\
 				<input type=\"text\" name=\"cuit\" value=\"" + previousText +"\" size=\"10\" required>";
 			document.getElementById("cuit-"+idConcesionaria+"").innerHTML = cuit;
-			var servicioActual = document.getElementById("servicioActual-"+idConcesionaria+"").value;
+			
 			var ts = "<b>Tipo de servicio: </b> \
 			        <select name=\"tipoServicio\">\
-						<option value=\"Rest\" ";
-			if (servicioActual == "Rest") ts+= " selected";
-			ts += "> Rest </option>\
-						<option value=\"CXF\" ";
-			if (servicioActual == "CXF") ts+= " selected";
-			ts += "> CXF </option>\
-						<option value=\"Axis2\" ";
-			if (servicioActual == "Axis2") ts+= " selected";
-			ts += "> Axis </option>\
+						<option value=\"Rest\"> Rest </option>\
+						<option value=\"CXF\"> CXF </option>\
+						<option value=\"Axis2\"> Axis </option>\
 					</select>";
 			document.getElementById("ts-"+idConcesionaria+"").innerHTML = ts;
 			

@@ -2,13 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<c:set var="mensaje" scope="request" value="${ requestScope.mensaje }"> </c:set>	
-		<h4>
-		<c:if test="${ mensaje eq 'Conectado' }">
-			<span class="label label-success">
-		</c:if>
-		<c:if test="${ mensaje ne 'Conectado' }">
-			<span class="label label-danger ">
-		</c:if>
-		${ mensaje }</span>
-		</h4>
+<c:set var="consumos" scope="request" value="${ requestScope.consumos }"> </c:set>
+	<c:forEach var="consumo" items="${ consumos }" varStatus="status">
+		<h5>${consumo.getItem('mensaje')}</h5>
+	</c:forEach>
