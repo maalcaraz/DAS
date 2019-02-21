@@ -20,14 +20,17 @@
 									
          </header>
             <div class="panel-body">
-			<h4> <b> Estado del sorteo: </b>
+			<h4> <b> <fmt:message key="estado_del_sorteo" bundle="${etq}"></fmt:message>: </b>
 			
-			<c:if test="${ sorteo.pendiente eq true }"> Pendiente </c:if>
-			<c:if test="${ sorteo.pendiente eq false }"> Ejecutado </c:if>
+			<c:if test="${ sorteo.pendiente eq true }"> <fmt:message key="pendiente" bundle="${etq}"></fmt:message> </c:if>
+			<c:if test="${ sorteo.pendiente eq false }"> <fmt:message key="ejecutado" bundle="${etq}"></fmt:message> </c:if>
 			</h4> 
-			
-			<h4> <b> Ganador: ${ ganador.getItem('apellidoNombre') } - Dni: ${ ganador.getItem('dni') } - Concesionaria: ${ ganador.getItem('nombreConcesionaria') }</b> </h4> 
-			
+			<br>
+			<h4> <b> <fmt:message key="ganador_del_sorteo" bundle="${etq}"></fmt:message> </b> </h4>
+			<fmt:message key="nombre_y_apellido" bundle="${etq}"></fmt:message>: ${ ganador.getItem('apellidoNombre') }<br>
+			<fmt:message key="dni" bundle="${etq}"></fmt:message>: ${ ganador.getItem('dni') } <br> 
+			<fmt:message key="concesionaria" bundle="${etq}"></fmt:message>: ${ ganador.getItem('nombreConcesionaria') } 
+			<br>
 			<br>
 			<h4> <b> <fmt:message key="participantes" bundle="${etq}"></fmt:message> </b></h4>
 			<br>

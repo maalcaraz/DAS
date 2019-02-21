@@ -45,7 +45,7 @@ public class Main {
 			fileHandler.setLevel(Level.ALL);
 		} 
 		 catch (SecurityException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -96,7 +96,7 @@ public class Main {
 				LOGGER.log(Level.INFO, "[Main] No hay ganadores registrados.");
 			}
 			else{
-				ganador = aux.get(0);
+				ganador = aux.get(aux.size() - 1);
 			}
 			
 			
@@ -174,7 +174,7 @@ public class Main {
 				if (!aux.isEmpty()){
 					// Hay que verificar si el ganador esta cancelado
 					
-					String res = op.verificarCancelado(aux.get(0));
+					String res = op.verificarCancelado(aux.get(aux.size() - 1));
 					
 					if (res == null){
 						// Fallo el consumo
@@ -202,6 +202,7 @@ public class Main {
 							registrar = true;
 						}
 						else{
+							ganador = aux.get(aux.size() - 1);
 							notificar = true;
 							sortear = false;
 							consultar = false;
