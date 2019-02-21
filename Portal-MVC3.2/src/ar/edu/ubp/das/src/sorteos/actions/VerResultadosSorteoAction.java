@@ -41,7 +41,7 @@ public class VerResultadosSorteoAction implements Action{
 		List<DynaActionForm> ganadores = Ganadores.select(null);
 		
 		for (DynaActionForm daf : ganadores){			
-			if (daf.getItem("fechaSorteo").equals(sorteo.getfechaEjecucion())){
+			if (daf.getItem("idSorteo").equals(sorteo.getIdSorteo())){
 				request.setAttribute("ganador", daf);
 			}
 		}

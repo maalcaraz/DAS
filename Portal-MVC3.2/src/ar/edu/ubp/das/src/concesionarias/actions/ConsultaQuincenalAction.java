@@ -93,13 +93,6 @@ public class ConsultaQuincenalAction implements Action {
 					Concesionaria.update(c);
 					System.out.println("[Consulta Quincenal - Post update]Hasta aca todo bien");
 					
-					if (c.getNomConcesionaria().equals("Tagle")){
-						request.setAttribute("transaccion", transaccion);
-						request.setAttribute("clientes", clientes);
-						request.setAttribute("planes", planes);
-						request.setAttribute("adquiridos", adquiridos);
-						request.setAttribute("cuotas", cuotas);
-					}
 				}
 				consumo = "OK";
 			}
