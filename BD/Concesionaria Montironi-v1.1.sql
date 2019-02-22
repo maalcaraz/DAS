@@ -375,6 +375,13 @@ AS
 				and cuo.id_plan = i.id_plan
 				where cuo.dni_cliente = i.dni_cliente
 				and	  cuo.id_plan = i.id_plan
+
+			update ad
+				set ad.fecha_entrega = getdate() + 15
+				from adquiridos ad
+				join inserted i
+				on ad.dni_cliente = i.dni_cliente
+				and ad.id_plan = i.id_plan
 		END
 	END
 go
@@ -390,22 +397,26 @@ AS
 	BEGIN
 		IF EXISTS (
 					select * from 
-					adquiridos a join vehiculos v
+					inserted a join vehiculos v
 					on a.nro_chasis = v.nro_chasis
-					where a.nro_chasis <> null
+					where a.nro_chasis  IS NOT NULL
 					and a.fecha_entrega > getDate()
 					)
 		BEGIN
 				UPDATE v
 				SET v.nro_patente = 'AA-aaa-aa' -- actualizar. Agregamos una tabla 'patentes'?
 				FROM vehiculos v
+				join inserted i
+				on v.nro_chasis = i.nro_chasis
+				/*
 				where exists (
 								select * from 
 								adquiridos a join vehiculos v
 								on a.nro_chasis = v.nro_chasis
-								where a.nro_chasis <> null
+								where a.nro_chasis IS NOT NULL
 								and a.fecha_entrega > getDate()
 							)
+				*/
 		END
 	END
 go
