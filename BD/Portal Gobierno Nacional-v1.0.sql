@@ -1061,8 +1061,9 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 select * from sorteos
 /* Colocar una fecha vieja de sorteo*/
 
--- insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
--- values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+ insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
+ values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+
 
 
 select * from concesionarias 
