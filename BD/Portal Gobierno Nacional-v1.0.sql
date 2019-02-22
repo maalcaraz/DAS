@@ -44,7 +44,6 @@ drop procedure dbo.update_consumos_pendientes
 go
 
 drop table ganadores
-drop table logs
 drop table transacciones
 drop table usuarios
 drop table participantes_sorteos
@@ -557,7 +556,7 @@ create procedure dbo.insertar_novedad
 )
 AS
 	BEGIN
-			insert into novedades(textoNovedad)
+			insert into novedades(texto_novedad)
 			values(@texto_novedad)
 	END
 go
