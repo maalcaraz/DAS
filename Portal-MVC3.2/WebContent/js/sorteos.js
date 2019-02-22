@@ -13,22 +13,26 @@ var jSorteos = {
 		            }
 		        });	
 		},
-		nuevoSorteo : function () {
+		nuevoSorteo : function (guardar_txt, cancelar_txt) {
 			var id = document.getElementById("nuevos-sorteos");
-			nuevoSorteo = "<div class=\"col-lg-4\">" +
-							"<section class=\"panel\" >" +
+			nuevoSorteo = "<div class=\"col-lg-4\" >" +
+							"<section class=\"panel\" name=\"sorteo_a_agregar\">" +
 								"<header class=\"panel-heading\">" +
 									"Nuevo sorteo " +
 								"</header>" +
 								"<div class=\"panel-body\">" +
 									"<div class=\"panel panel-primary\">" +
 									"Nueva Fecha <input type='date' name='fechaSorteo' id='nuevaFecha' size='11' maxlength='10'/>"+
-									"<input type='button' class='normal button' onclick='jSorteos.insertar()' value='Guardar'>" +
+									"<input type='button' class='btn btn-default btn-sm' onclick='jSorteos.insertar()' value=\""+ guardar_txt +"\" >" +
+									"<input type='button' class='btn btn-default btn-sm' onclick='jSorteos.cancelarInsercion()' value=\""+ cancelar_txt +"\" >" +
 									"</div>" +
 								"</div>" +
 							"</section>" +
 						"</div>";
 			id.innerHTML += nuevoSorteo;
+			$("#agregar_sorteo").prop("onclick", null);
+			$("#agregar_sorteo").attr("disable", true);
+			$("[name=sorteo_a_agregar]").css("display","block");
 		},
 		insertar : function () {
 			fecha = $("#nuevaFecha").val();
@@ -162,5 +166,19 @@ var jSorteos = {
 	            	jUtils.showing("resultadosSorteo", html);
 	            }
 	        });
+		},
+		cancelarInsercion : function (){
+			jUtils.executing("main-content");
+			 $.ajax({
+		            url: "/sorteos/MostrarSorteos.do",
+		            type: "post",
+		            dataType: "html",
+		            error: function(hr){
+		                jUtils.showing("main-content", hr.responseText);
+		            },
+		            success: function(html) {
+		            	jUtils.showing("main-content", html);
+		            }
+		        });	
 		}
 };
