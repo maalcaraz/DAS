@@ -26,6 +26,8 @@ drop table dbo.tipos_vehiculos
 drop table dbo.nacionalidades
 drop procedure dbo.cancelar_ganador
 drop procedure dbo.get_estados_cuentas
+drop procedure dbo.verificar_cancelado
+go
 --drop trigger dbo.tu_ri_cuotas_adquiridos
 --drop trigger dbo.tu_ri_patentes
 go
@@ -203,7 +205,7 @@ go
 create table adquiridos
 (
 	id_plan					integer			not null, 
-	dni_cliente			char(8)			not null,		
+	dni_cliente				char(8)			not null,		
 	cancelado				char(1)			not null	check (cancelado in ('S', 'N')),
 	ganador_sorteo			char(1)			not null	check (ganador_sorteo in ('S', 'N')),
 	fecha_sorteado			date			null,
@@ -225,7 +227,8 @@ create table planes_modelos
 	id_modelo				smallint		not null,
 	id_version				smallint		not null,
 	CONSTRAINT PK__planes_modelos__END primary key(id_plan, id_marca, id_modelo),
-	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
+	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__planes_modelos_versiones__END foreign key(id_marca, id_modelo, id_version) references modelos_versiones,
 )
 go
 
@@ -315,14 +318,6 @@ AS
 	END
 go
 
---execute dbo.insertar_novedad 'Hola mundo'
-
-select * from novedades
-
-
-drop procedure dbo.verificar_cancelado
-go
-
 create procedure dbo.verificar_cancelado
 (
 	@dni_cliente			char(12),
@@ -348,31 +343,6 @@ AS
 			
 	END
 go
-
---execute dbo.verificar_cancelado '25555555', 303456
---execute dbo.verificar_cancelado '27777777', 303458
-
-Select * 
-	from clientes c
-		join adquiridos ad
-		on c.dni_cliente = ad.dni_cliente
-		where ad.cancelado = 'S' 
-go
-
-/*	execute dbo.cancelar_ganador '25555555', '02-02-18' ,'303456'
-	lo probamos con  */
-
-/*
-
-select * from adquiridos a
-where a.ganador_sorteo = 'S'
-
-select * from cuotas cuo
-where cuo.dni_cliente = 25555555
-and cuo.id_plan = 303456
-go
-
-*/
 
 -- Trigger para la cancelacion de cuotas: Para que cada vez que un adquirido se declare como ganador, automaticamente se le cancelen las 
 -- cuotas restantes
@@ -439,4 +409,4 @@ AS
 		END
 	END
 go
-	
+
