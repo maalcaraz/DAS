@@ -927,20 +927,31 @@ go
 
 create procedure dbo.cancelar_localmente
 (
-	@dni_cliente			char(8)	,
-	@id_concesionaria		varchar(20)
+	@dni_cliente			char(10),
+	@id_concesionaria		varchar(20),
+	@id_plan				integer,
+	@fecha_sorteado			varchar(20)
 )
 AS
 BEGIN
 	update ad
 		set ad.cancelado = 'S',
-			ad.fecha_sorteado = getDate()
+			ad.fecha_sorteado = convert(date, @fecha_sorteado )
 		from adquiridos ad
 		where ad.dni_cliente = @dni_cliente
 		and ad.id_concesionaria = @id_concesionaria
+		and ad.id_plan = @id_plan
+
+	update cuo
+		set cuo.pagó = 'S'
+		from cuotas cuo
+		where cuo.dni_cliente = @dni_cliente
+		and cuo.id_plan = @id_plan
+		and cuo.id_concesionaria = @id_concesionaria
 		
 END
 go
+
 
 create procedure dbo.insertar_participantes
 (
@@ -1056,3 +1067,16 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 	select FORMAT(convert(date, '1897-05-05'), 'dd-MM-yyyy')
 	go
 */
+
+select * from sorteos
+/* Colocar una fecha vieja de sorteo*/
+
+ insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
+ values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+
+
+select * from concesionarias 
+
+select * from ganadores
+
+execute dbo.get_ganadores

@@ -158,7 +158,7 @@ public class MSConcesionariaDao extends DaoImpl{
 				try {
 					fechaActualizacionAux = parser.parse(c.getUltimaActualizacion());
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+					
 					LOGGER.log(Level.INFO,"[MSConcesionariaDAO] " + e.getMessage());
 				}
 				java.sql.Date fechaActualizacion = new java.sql.Date(fechaActualizacionAux.getTime());

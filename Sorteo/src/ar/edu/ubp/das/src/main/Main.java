@@ -17,6 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
+import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.ParticipanteBean;
 import ar.edu.ubp.das.src.beans.SorteoBean;
 
@@ -186,6 +187,15 @@ public class Main {
 					}
 					else {
 						if (res.contains("{Cancelado: SI}")){
+							
+							if(op.cancelarGanadorLocalmente(aux.get(0)))
+							{
+								System.out.println("[Main] Se cancelo localmente el ganador del sorteo previo");
+							}
+							else
+							{
+								System.out.println("[Main] Fallo localmente el ganador del sorteo previo");
+							}
 							notificar = true;
 							sortear = true;
 							consultar = true;
@@ -280,12 +290,20 @@ public class Main {
 			/* ---- Hay concesionarias por notificar? ---- */
 			
 			if (op.notificarGanador(ganador)){
-				LOGGER.log(Level.INFO, "[Main]La notificacion fue exitosa");
+				LOGGER.log(Level.INFO, "[Main]La notificación fue exitosa");
 				Date fechaNotificacion = new Date();
 				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
 				sorteo.setFechaNotificacion(parser.format(fechaNotificacion));
 				op.cambiarValorPendienteSorteo(sorteo, "El ganador del sorteo fue notificado con exito", false);
+				/* Que llegue a este punto quiere decir que ya se notificaron todas las concesionarias
+				 * Hay que volver a setear el flag de notificar de nuevo 
+				 */
+				List<ConcesionariaBean> concesionarias = op.obtenerConcesionarias(null);
 				
+				for (ConcesionariaBean c : concesionarias){
+					c.setNotificacionPendiente(true);
+					op.updateConsumosPendientes(c);
+				}
 			}
 			else {
 				intentos++;

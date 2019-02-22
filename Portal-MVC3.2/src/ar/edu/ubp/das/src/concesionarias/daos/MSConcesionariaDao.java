@@ -2,8 +2,12 @@ package ar.edu.ubp.das.src.concesionarias.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
 import ar.edu.ubp.das.mvc.action.DynaActionForm;
 import ar.edu.ubp.das.mvc.db.DaoImpl;
@@ -156,8 +160,37 @@ public class MSConcesionariaDao extends DaoImpl{
 			this.setParameter(5, transForm.getHoraFechaTransaccion());		
 			this.executeUpdate();
 			
+			
+			/*
+			 * Seteo Fecha Actualizacion			 * 
+			 */
+			
+			this.setProcedure("dbo.actualizar_ultima_fecha_actualizacion(?, ?)");
+			this.setParameter(1, c.getIdConcesionaria());
+			
+			if ((c.getUltimaActualizacion() != null) ) {
+				SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+				Date fechaActualizacionAux = null;
+				try {
+					fechaActualizacionAux = parser.parse(c.getUltimaActualizacion());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					//LOGGER.log(Level.INFO,"[MSConcesionariaDAO] " + e.getMessage());
+				}
+				java.sql.Date fechaActualizacion = new java.sql.Date(fechaActualizacionAux.getTime());
+				
+				this.setParameter(2, fechaActualizacion);
+			}
+			else{
+				this.setNull(1, java.sql.Types.DATE);
+			}
+
+			this.executeUpdate();
 		
 		}
+		
+		
+		
 		this.disconnect();
 	}
 		
