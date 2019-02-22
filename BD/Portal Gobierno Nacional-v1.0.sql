@@ -160,9 +160,9 @@ create table transacciones
 	id_concesionaria		varchar(20)			not null,
 	estado_transaccion		varchar(10)			not null,
 	mensaje_respuesta		varchar(255)			null,
-	hora_fecha				date				not null,
-	--retorno						
-	check (estado_transaccion in ('SUCCESS','FAILED'))
+	hora_fecha				date				not null,					
+	check (estado_transaccion in ('SUCCESS','FAILED')),
+	CONSTRAINT PK__transacciones__END primary key(id_transaccion)
 )
 go
 
@@ -206,18 +206,8 @@ go
 create table novedades
 (
 	id_novedad				integer			not null identity(1,1),
-	textoNovedad			varchar(max)	not null,
+	texto_novedad			varchar(max)	not null,
 	CONSTRAINT PK__novedades__END primary key(id_novedad)
-)
-go
-
-create table logs -- agregar a la BD del portal
-(
-	tipoLog		char(5) not null,
-	horaLog		datetime,
-	usuario		varchar(100),
-	check (tipoLog in ('LOGIN','ERROR')),
-	CONSTRAINT PK__logs__END primary key(tipoLog, horaLog)
 )
 go
 
@@ -1071,8 +1061,8 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 select * from sorteos
 /* Colocar una fecha vieja de sorteo*/
 
- insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
- values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+-- insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
+-- values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
 
 
 select * from concesionarias 

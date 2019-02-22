@@ -108,7 +108,6 @@ create table modelos_versiones
 )
 go
 
-
 create table colores
 (
 	id_color		tinyint			not null,
@@ -203,7 +202,7 @@ go
 create table adquiridos
 (
 	id_plan					integer			not null, 
-	dni_cliente			char(8)			not null,		
+	dni_cliente				char(8)			not null,		
 	cancelado				char(1)			not null	check (cancelado in ('S', 'N')),
 	ganador_sorteo			char(1)			not null	check (ganador_sorteo in ('S', 'N')),
 	fecha_sorteado			date			null,
@@ -225,7 +224,8 @@ create table planes_modelos
 	id_modelo				smallint		not null,
 	id_version				smallint		not null,
 	CONSTRAINT PK__planes_modelos__END primary key(id_plan, id_marca, id_modelo),
-	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes
+	CONSTRAINT FK__planes_modelos_planes__END foreign key(id_plan) references planes,
+	CONSTRAINT FK__planes_modelos_versiones__END foreign key(id_marca, id_modelo, id_version) references modelos_versiones,
 )
 go
 
