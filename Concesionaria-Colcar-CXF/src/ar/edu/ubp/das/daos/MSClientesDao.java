@@ -37,6 +37,99 @@ public class MSClientesDao extends DaoImpl {
 		this.executeUpdate();
 		this.disconnect();
 	}
+	
+	public List<Bean> selectClienteParticular(Bean form) throws SQLException {
+		
+		List<Bean> concesionariaTablas = new ArrayList<Bean>();
+		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
+		List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
+		List<PlanBean> 	planes = new LinkedList<PlanBean>();
+		List<CuotaBean> cuotas = new LinkedList<CuotaBean>();
+		
+
+		ConcesionariaBean concesionaria = new ConcesionariaBean();
+		ClienteBean clienteRecuperado;
+		AdquiridoBean adquiridoRecuperado;
+		PlanBean planRecuperado;
+		CuotaBean cuotaRecuperada;
+		
+		ClienteBean cliente = (ClienteBean) form;
+		
+		/* Operaciones en BD*/
+		this.connect();
+		
+		this.setProcedure("dbo.get_estado_cliente_particular(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		this.setParameter(1, cliente.getDniCliente());
+        ResultSet result = this.getStatement().executeQuery();
+        
+/*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
+        
+        /*Queda pendiente arreglar este*/
+        
+        result.next();
+       
+        while (result.getRow() > 0){
+        	clienteRecuperado = new ClienteBean();
+        	clienteRecuperado.setDniCliente(result.getString("dni_cliente"));
+        	clienteRecuperado.setNomCliente(result.getString("apellido_nombre"));
+        	clienteRecuperado.setEdad(result.getString("edad"));
+        	clienteRecuperado.setDomicilio(result.getString("domicilio"));
+        	clienteRecuperado.setEmailCliente(result.getString("email"));
+        	clienteRecuperado.setTelefono(result.getString("telefono"));
+        	clienteRecuperado.setIdLocalidad(result.getString("id_localidad"));
+        	clienteRecuperado.setCodProvincia(result.getString("cod_provincia"));
+        	if (!clientes.contains(clienteRecuperado)){
+        		clientes.add(clienteRecuperado);
+        	}
+        	
+        	adquiridoRecuperado = new AdquiridoBean();
+    		adquiridoRecuperado.setDniCliente(result.getString("dni_cliente"));
+        	adquiridoRecuperado.setIdPlan(result.getString("id_plan"));
+        	adquiridoRecuperado.setCancelado(result.getString("cancelado"));
+        	adquiridoRecuperado.setGanadorSorteo(result.getString("ganador_sorteo"));
+        	adquiridoRecuperado.setFechaEntrega(result.getString("fecha_entrega"));
+        	adquiridoRecuperado.setFechaSorteado(result.getString("fecha_sorteado"));
+        	adquiridoRecuperado.setSucursalSuscripcion(result.getString("sucursal_suscripcion"));
+        	adquiridoRecuperado.setFechaCompraPlan(result.getString("fecha_compra_plan"));
+        	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
+        	if (!adquiridos.contains(adquiridoRecuperado)){
+        		adquiridos.add(adquiridoRecuperado);
+        	}
+        	
+        
+        	planRecuperado = new PlanBean();
+        	planRecuperado.setIdPlan(result.getString("id_plan"));
+        	planRecuperado.setDescripcion(result.getString("descripcion"));
+        	planRecuperado.setNom_plan(result.getString("nom_plan"));
+        	planRecuperado.setCant_cuotas(result.getString("cant_cuotas"));
+        	planRecuperado.setEntrega_pactada(result.getString("entrega_pactada"));
+        	planRecuperado.setFinanciacion(result.getString("financiacion"));
+        	planRecuperado.setDuenoPlan(result.getString("dueño_plan"));
+        	if (!planes.contains(planRecuperado)){
+        		planes.add(planRecuperado);
+        	}
+
+        	cuotaRecuperada = new CuotaBean();
+        	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
+        	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
+        	cuotaRecuperada.setIdCuota(result.getString("id_cuota"));
+        	cuotaRecuperada.setPagada(result.getString("pagó"));
+        	cuotaRecuperada.setImporte(result.getString("importe"));
+        	cuotaRecuperada.setFechaVencimiento(result.getString("fecha_vencimiento"));
+        	if (!cuotas.contains(cuotaRecuperada)){
+        		cuotas.add(cuotaRecuperada);
+        	}
+        	result.next();
+        }
+        concesionaria.setClientes(clientes);
+        concesionaria.setAdquiridos(adquiridos);
+        concesionaria.setPlanes(planes);
+        concesionaria.setCuotas(cuotas);
+        concesionariaTablas.add(concesionaria);
+		
+		this.disconnect();
+		return concesionariaTablas;
+	}
 
 
 	@Override

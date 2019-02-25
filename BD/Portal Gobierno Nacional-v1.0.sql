@@ -107,6 +107,7 @@ create table clientes
 	edad					smallint		not null,
 	domicilio				char(20)		null,
 	email					varchar(50)		not null,
+	fecha_ultima_actualizacion	date		not null default (getdate()-10),
 	CONSTRAINT PK__clientes__END primary key(dni_cliente, id_concesionaria),
 	CONSTRAINT FK__clientes_concesionarias foreign key (id_concesionaria) references concesionarias
 )
@@ -408,8 +409,8 @@ AS
 		where c.dni_cliente = @dni_cliente
 		and c.id_concesionaria = @id_concesionaria
 		ELSE
-		insert into clientes(dni_cliente, id_concesionaria, apellido_nombre, edad, domicilio, email)
-		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email)
+		insert into clientes(dni_cliente, id_concesionaria, apellido_nombre, edad, domicilio, email, fecha_ultima_actualizacion)
+		values(@dni_cliente, @id_concesionaria, @apellido_nombre, @edad, @domicilio, @email, getdate())
 	END
 go
 
@@ -691,7 +692,7 @@ create procedure dbo.get_datos_clientes
 AS 
 BEGIN
 	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, conc.nombre_concesionaria, ad.nro_chasis, format(ad.fecha_entrega, 'dd-MM-yyyy') as fecha_entrega , ad.cancelado,
-	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
+	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, format(cli.fecha_ultima_actualizacion, 'dd-MM-yyyy') as fecha_ultima_actualizacion, ult_transaccion.ult_transaccion_gc
 	from clientes cli 
 	join adquiridos ad
 	on cli.dni_cliente = ad.dni_cliente
@@ -716,6 +717,8 @@ BEGIN
 	where cli.id_concesionaria = @id_concesionaria
 END
 go
+
+-- execute dbo.get_datos_clientes AutoHaus1503004614
 
 create procedure dbo.get_participantes
 (

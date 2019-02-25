@@ -27,6 +27,7 @@ drop table dbo.nacionalidades
 drop procedure dbo.cancelar_ganador
 drop procedure dbo.get_estados_cuentas
 drop procedure dbo.verificar_cancelado
+drop procedure dbo.get_estado_cliente_particular
 go
 --drop trigger dbo.tu_ri_cuotas_adquiridos
 --drop trigger dbo.tu_ri_patentes
@@ -421,3 +422,25 @@ AS
 	END
 go
 
+create procedure dbo.get_estado_cliente_particular
+(
+	@dni_cliente		char(8)
+)
+as
+begin
+   select c.dni_cliente, c.apellido_nombre, c.edad, c.domicilio, c.email, c.telefono, c.id_localidad, c.cod_provincia,
+		 ad.cancelado, ad.ganador_sorteo, ad.fecha_entrega, ad.fecha_sorteado, ad.sucursal_suscripcion, ad.nro_chasis,
+		 ad.fecha_compra_plan, pl.id_plan, pl.descripcion, pl.nom_plan, pl.cant_cuotas, pl.entrega_pactada, pl.financiacion, pl.dueño_plan,
+		 cuo.id_cuota, cuo.importe, cuo.fecha_vencimiento, cuo.pagó
+	from
+	clientes c
+	join adquiridos ad
+	on c.dni_cliente = ad.dni_cliente
+	join planes pl
+	on pl.id_plan = ad.id_plan
+	join cuotas cuo
+	on cuo.dni_cliente = ad.dni_cliente
+	and cuo.id_plan = pl.id_plan
+	where ad.dni_cliente = @dni_cliente
+end;
+go

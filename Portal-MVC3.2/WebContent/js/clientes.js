@@ -49,5 +49,23 @@ var jClientes ={
 			            	jUtils.showing("main-content", html);
 			            }
 			        });
-			       }
+			       },
+			       datosClienteParticular : function(dni, concesionaria){
+						jUtils.executing("detalle-clientes");
+				        jUtils.hiding("message");
+				        $.ajax({
+				            url: "/clientes/EstadoClienteParticular.do",
+				            type: "post",
+				            dataType: "html",
+				            data: {"dniCliente": dni, "idConcesionaria": concesionaria},
+				            error: function(hr){
+				                jUtils.hiding("result");
+				                jUtils.showing("message", hr.responseText);
+				            },
+				            success: function(html) {
+				            	jUtils.showing("wrapper", html);
+				            }
+				        });	
+						
+					},
 };

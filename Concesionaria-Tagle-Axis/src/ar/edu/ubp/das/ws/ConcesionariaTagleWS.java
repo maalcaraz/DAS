@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import ar.edu.ubp.das.daos.MSClientesDao;
 import ar.edu.ubp.das.db.DaoFactory;
 import ar.edu.ubp.das.src.beans.AdquiridoBean;
+import ar.edu.ubp.das.src.beans.ClienteBean;
 import ar.edu.ubp.das.src.beans.ConcesionariaBean;
 import ar.edu.ubp.das.src.beans.PlanBean;
 import ar.edu.ubp.das.src.beans.TransaccionBean;
@@ -30,6 +31,79 @@ public class ConcesionariaTagleWS {
 		System.out.println("\n -->  Mensaje Respuesta: "+ ret);
         System.out.println("\n\n----------------------------------------");
 		return ret;
+	}
+	
+	public String getClienteParticular(String idPortal, String dniCliente) throws Exception {
+		
+		String idPortalAprobado = "PORTALGOB";
+		String respuestaServicio = null;
+		TransaccionBean transaccion = new TransaccionBean();
+		Gson gson = new Gson();
+		
+		if(idPortal.equals(idPortalAprobado)){
+			System.out.println("----------------------------------------\n\n\t POST \n");
+			System.out.println("\n -->  Obtener clientes no envia parametros");
+			System.out.println("\n\n----------------------------------------\n\n");		
+			
+			String idConcesionaria = "Tagle";
+			Date horaFechaTransaccion = new Date();
+			Date utilDate = new java.util.Date(); //fecha actual
+			long lnMilisegundos = utilDate.getTime();
+			Timestamp sqlTimestamp = new Timestamp(lnMilisegundos);
+			System.out.println(sqlTimestamp);
+			String idTransaccion = "GC-"+horaFechaTransaccion.hashCode();
+			System.out.println("----------------------------------------\n\n\t OBTENER DATOS DE CLIENTES\n");
+			System.out.println("\n -->  Fecha: "+ horaFechaTransaccion.toString());
+			System.out.println("\n -->  IdTransaccion: "+ idTransaccion);
+
+	        String stringRespuesta = "";
+	        
+	        transaccion.setIdTransaccion(idTransaccion);
+			transaccion.setIdConcesionaria(idConcesionaria);
+			transaccion.setHoraFechaTransaccion(sqlTimestamp.toString());
+				
+			try
+			{
+				ClienteBean cliente = new ClienteBean();
+				
+				cliente.setDniCliente(dniCliente);
+				
+				MSClientesDao dao = (MSClientesDao)DaoFactory.getDao( "Clientes", "ar.edu.ubp.das" );
+				ConcesionariaBean concesionaria = (ConcesionariaBean) dao.select(cliente).get(0);
+			
+				String jsonClientes = gson.toJson(concesionaria.getClientes());
+				gson = new Gson();
+				String jsonAdquiridos = gson.toJson(concesionaria.getAdquiridos());
+				gson = new Gson();
+				String jsonPlanes = gson.toJson(concesionaria.getPlanes());
+				gson = new Gson();
+				String jsonCuotas = gson.toJson(concesionaria.getCuotas());
+				
+				stringRespuesta = jsonClientes +","+ jsonPlanes +","+ jsonAdquiridos +","+ jsonCuotas;
+
+				transaccion.setEstadoTransaccion("Success");
+	        	transaccion.setMensajeRespuesta(stringRespuesta);
+
+			} 
+			catch ( SQLException ex ) {
+				transaccion.setEstadoTransaccion("Failed");
+	        	transaccion.setMensajeRespuesta(ex.getMessage());
+			}
+			
+			System.out.println("\n -->  Estado Transaccion: "+ transaccion.getEstadoTransaccion());
+	        System.out.println("\n -->  Mensaje Respuesta: "+ transaccion.getMensajeRespuesta());
+	        System.out.println("\n\n----------------------------------------");
+			
+			respuestaServicio = gson.toJson(transaccion);
+			
+		}
+		else{
+			transaccion.setEstadoTransaccion("Failed");
+	        transaccion.setMensajeRespuesta("El id provisto no esta aprobado para consumir este servicio. Comunicarse con la concesionaria");
+	        respuestaServicio = gson.toJson(transaccion);
+		}
+		
+		return respuestaServicio;
 	}
 	
 	public String getClientes(String idPortal) throws Exception {

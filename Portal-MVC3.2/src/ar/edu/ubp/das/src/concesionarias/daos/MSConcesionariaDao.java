@@ -270,6 +270,7 @@ public class MSConcesionariaDao extends DaoImpl{
 				c.setItem("cantCuotas", result.getString("cant_cuotas"));
 				c.setItem("cuotasPagas", result.getString("cuotas_pagas"));
 				c.setItem("cuotasSinPagar", result.getString("cuotas_sin_pagar"));
+				c.setItem("fechaUltimaActualizacion", result.getString("fecha_ultima_actualizacion"));
 
 				//clientes.add(c);
 				ret.add(c);

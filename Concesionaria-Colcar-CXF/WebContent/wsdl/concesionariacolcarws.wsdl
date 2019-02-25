@@ -1,12 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="ConcesionariaColcarWSService" targetNamespace="http://ws.das.ubp.edu.ar/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-    <schema xmlns="http://www.w3.org/2001/XMLSchema">
-  <import namespace="http://ws.das.ubp.edu.ar/" schemaLocation="concesionariacolcarws_schema1.xsd"/>
-</schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.das.ubp.edu.ar/" xmlns:tns="http://ws.das.ubp.edu.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ejemplo" type="tns:ejemplo"/>
+  <xs:element name="ejemploResponse" type="tns:ejemploResponse"/>
+  <xs:element name="getClienteParticular" type="tns:getClienteParticular"/>
+  <xs:element name="getClienteParticularResponse" type="tns:getClienteParticularResponse"/>
+  <xs:element name="getClientes" type="tns:getClientes"/>
+  <xs:element name="getClientesResponse" type="tns:getClientesResponse"/>
+  <xs:element name="notificarGanador" type="tns:notificarGanador"/>
+  <xs:element name="notificarGanadorResponse" type="tns:notificarGanadorResponse"/>
+  <xs:element name="verificarCancelado" type="tns:verificarCancelado"/>
+  <xs:element name="verificarCanceladoResponse" type="tns:verificarCanceladoResponse"/>
+  <xs:complexType name="getClientes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getClientesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getClienteParticular">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getClienteParticularResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificarCancelado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificarCanceladoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="notificarGanador">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="notificarGanadorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ejemplo">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="ejemploResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
   </wsdl:types>
   <wsdl:message name="getClientesResponse">
     <wsdl:part name="parameters" element="tns:getClientesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClienteParticularResponse">
+    <wsdl:part name="parameters" element="tns:getClienteParticularResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClienteParticular">
+    <wsdl:part name="parameters" element="tns:getClienteParticular">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="verificarCancelado">
@@ -50,6 +128,14 @@
       <wsdl:fault name="Exception" message="tns:Exception">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getClienteParticular">
+      <wsdl:input name="getClienteParticular" message="tns:getClienteParticular">
+    </wsdl:input>
+      <wsdl:output name="getClienteParticularResponse" message="tns:getClienteParticularResponse">
+    </wsdl:output>
+      <wsdl:fault name="Exception" message="tns:Exception">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="verificarCancelado">
       <wsdl:input name="verificarCancelado" message="tns:verificarCancelado">
     </wsdl:input>
@@ -81,6 +167,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getClientesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getClienteParticular">
+      <soap:operation soapAction="urn:GetClienteParticular" style="document"/>
+      <wsdl:input name="getClienteParticular">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getClienteParticularResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="Exception">
@@ -123,7 +221,7 @@
   </wsdl:binding>
   <wsdl:service name="ConcesionariaColcarWSService">
     <wsdl:port name="ConcesionariaColcarWSPort" binding="tns:ConcesionariaColcarWSServiceSoapBinding">
-      <soap:address location="http://localhost:8080/Concesionaria-Colcar-CXF/services"/>
+      <soap:address location="http://localhost:8160/Concesionaria-Colcar-CXF/services"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

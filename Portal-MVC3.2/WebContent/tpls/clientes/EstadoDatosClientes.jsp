@@ -7,7 +7,7 @@
 <fmt:setBundle basename="ar.edu.ubp.das.src.portal.properties.messages"
 	var="etq" />
 	
-	<section class="wrapper">
+	<section id='wrapper' class="wrapper">
 	        
 	        <div class="row">
 				<div class="col-lg-12">
@@ -114,6 +114,8 @@
 								<th><fmt:message key="fecha_entrega" bundle="${etq}"></fmt:message></th>
 								<th><fmt:message key="cancelado" bundle="${etq}"></fmt:message></th>
 								<th><fmt:message key="gano_sorteo" bundle="${etq}"></fmt:message></th>
+								<th><fmt:message key="fecha_ultima_actualizacion" bundle="${etq}"></fmt:message></th>
+								<th><fmt:message key="actualizar_cliente_particular" bundle="${etq}"></fmt:message></th>
 					      </tr>
 					    </thead>
 					    <tbody id="myTable">
@@ -141,6 +143,10 @@
 											</c:if>
 											<td id="td13">${ cliente.getItem("cancelado") }</td>
 											<td id="td14">${ cliente.getItem("ganador") }</td>
+											<fmt:parseDate pattern="dd-MM-yyyy" value="${ cliente.getItem('fechaUltimaActualizacion') }" var="date" />
+											
+											<td id="td14"><fmt:formatDate value="${date}" type="date" dateStyle = "short" timeStyle="short" /></td>
+											<td><input type="button" class="btn btn-info" id="consultaClienteParticular" value="Actualizar" onclick="jClientes.datosClienteParticular(' ${ cliente.dniCliente }', '${ concesionaria.idConcesionaria } ')"></td>
 										</tr>
 									</c:forEach>
 								</c:forEach>

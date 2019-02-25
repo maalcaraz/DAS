@@ -13,11 +13,11 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 3.1.6
  */
 
-@XmlRootElement(name = "verificarCanceladoResponse", namespace = "http://ws.das.ubp.edu.ar/")
+@XmlRootElement(name = "getClienteParticularResponse", namespace = "http://ws.das.ubp.edu.ar/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "verificarCanceladoResponse", namespace = "http://ws.das.ubp.edu.ar/")
+@XmlType(name = "getClienteParticularResponse", namespace = "http://ws.das.ubp.edu.ar/")
 
-public class VerificarCanceladoResponse {
+public class GetClienteParticularResponse {
 
     @XmlElement(name = "return")
     private java.lang.String _return;
