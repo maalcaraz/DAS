@@ -1064,6 +1064,7 @@ insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion
 values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
 
 
+
 select * from concesionarias 
 
 select * from ganadores
