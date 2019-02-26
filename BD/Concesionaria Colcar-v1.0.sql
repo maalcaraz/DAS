@@ -26,6 +26,7 @@ drop table dbo.tipos_vehiculos
 drop table dbo.nacionalidades
 drop procedure dbo.cancelar_ganador
 drop procedure dbo.get_estados_cuentas
+drop procedure dbo.verificar_cancelado
 --drop trigger dbo.tu_ri_cuotas_adquiridos
 --drop trigger dbo.tu_ri_patentes
 go

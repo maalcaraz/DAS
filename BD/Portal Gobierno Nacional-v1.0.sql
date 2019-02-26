@@ -44,7 +44,6 @@ drop procedure dbo.update_consumos_pendientes
 go
 
 drop table ganadores
-drop table logs
 drop table transacciones
 drop table usuarios
 drop table participantes_sorteos
@@ -463,7 +462,7 @@ AS
 					Select * from adquiridos ad
 					where ad.id_plan = @id_plan
 					and ad.dni_cliente = @dni_cliente
-					and ad.id_concesionaria = @id_concesionaria
+					--and ad.id_concesionaria = @id_concesionaria
 					)
 			update ad
 			set ad.cancelado = @cancelado,
@@ -557,7 +556,7 @@ create procedure dbo.insertar_novedad
 )
 AS
 	BEGIN
-			insert into novedades(textoNovedad)
+			insert into novedades(texto_novedad)
 			values(@texto_novedad)
 	END
 go
@@ -1061,8 +1060,8 @@ execute dbo.insertar_concesionaria 'Tagle80567923', 'Tagle', '27-1234-8', 'info@
 select * from sorteos
 /* Colocar una fecha vieja de sorteo*/
 
--- insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
--- values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
+insert into sorteos(id_sorteo, fecha_sorteo, fecha_ejecucion, fecha_notificacion, descripcion, pendiente)
+values('s148405990', '02-15-2019', null, null, '[{"name":"operacion","value":"ConsultarConcesionarias"},{"name":"intentos","value":"1"}]', 'S')
 
 
 select * from concesionarias 
@@ -1070,3 +1069,8 @@ select * from concesionarias
 select * from ganadores
 
 execute dbo.get_ganadores
+
+select * from adquiridos
+
+select * from cuotas c
+where c.dni_cliente = ''

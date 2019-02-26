@@ -132,7 +132,7 @@ public class OperacionesSorteo {
 					}
 				}
 	      		/* Agregar validacion de que estemos en la concesionaria del ganador para que se envie el mail una sola vez*/
-	      		mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());
+	      		//mailSender.envioMailNotificacion(ganador.getDniCliente(), ganador.getApellidoNombre(), ganador.getEmail());
 	      	}
 		}
 		catch(RuntimeException ex ){
@@ -215,7 +215,7 @@ public class OperacionesSorteo {
 						 }
 			 			catch (Exception ex){
 			 				LOGGER.log(Level.INFO,"\t[Ops Sorteo]No se pudo realizar el consumo. El presente sorteo se guarda como pendiente");
-			 				// setear consultapendiente de concesionaria como false.
+			 				
 							concesionaria.setConsultaPendiente(true);
 			 				status = false;
 			 			}

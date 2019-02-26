@@ -1,13 +1,14 @@
 package ar.edu.ubp.das.src.concesionarias.actions;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -33,69 +34,73 @@ public class ConsultaQuincenalAction implements Action {
 	@Override
 	public ForwardConfig execute(ActionMapping mapping, DynaActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, RuntimeException {
-
-		LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
-		String idPortal = "PORTALGOB";
-		String consumo = "Fallo";
-		List <NameValuePair> parameters = new ArrayList <NameValuePair>();
-		parameters.add(new BasicNameValuePair("id_portal", idPortal));
+		
+		LinkedList<ClienteForm> clientes;
+		LinkedList<PlanForm> planes;
+		LinkedList<AdquiridoForm> adquiridos;
+		LinkedList<CuotaForm> cuotas;
+		
 		try {
-			System.out.println("[ConsultaQuincenal]Action de consulta quincenal");
+			LinkedList<ConcesionariaForm> cons = new LinkedList<ConcesionariaForm>();
+			String idPortal = "PORTALGOB";
+			String consumo = "Fallo";
+			List <NameValuePair> parameters = new ArrayList <NameValuePair>();
+			parameters.add(new BasicNameValuePair("id_portal", idPortal));
 			
 			MSConcesionariaDao Concesionaria = (MSConcesionariaDao)DaoFactory.getDao("Concesionaria", "concesionarias");
 			LinkedList<DynaActionForm> forms = (LinkedList<DynaActionForm>) Concesionaria.select(null);
 			
 			Gson gson = new Gson();
-			TransaccionForm transaccion = null;
+			
 			String restResp = "";
 			
 			for (DynaActionForm f : forms){
 				
-				// Almacenarlas en una lista
 				ConcesionariaForm c = (ConcesionariaForm) f;
 				
 				if (c.getAprobada().equals("S")){
+					
 					System.out.println("[Consulta]NomConcesionaria: "+ c.getNomConcesionaria());
 					
-					restResp = "Respuesta de "+ c.getNomConcesionaria() +":";
-					System.out.println(restResp);
+					System.out.println("Respuesta de "+ c.getNomConcesionaria() +":");
+					
 					restResp = c.getWebService().Consumir("getClientes", parameters);
-					
-					System.out.println("[Consulta quincenal -Post consumo getClientes]");
-					
-					//HACER MANEJO DE ERROR ACA SI ALGUNO DEVOLVIO ERROR
-						
-					transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
+					TransaccionForm transaccion = gson.fromJson(restResp, new TypeToken<TransaccionForm>(){}.getType());
 					
 					String listaRetorno[] = transaccion.getMensajeRespuesta().split("],");
 					/*Listado de Clientes*/
 					String strClientes = listaRetorno[0] + "]";
-					LinkedList<ClienteForm> clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
+					clientes = gson.fromJson(strClientes, new TypeToken<LinkedList<ClienteForm>>(){}.getType() );
 					/*Listado de Planes*/
 					String strPlanes = listaRetorno[1] + "]";
-					LinkedList<PlanForm> planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
+					planes = gson.fromJson(strPlanes, new TypeToken<LinkedList<PlanForm>>(){}.getType() );
 					/*Listado de Aquiridos*/
 					String strAdquiridos = listaRetorno[2] + "]";
-					LinkedList<AdquiridoForm> adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
+					adquiridos = gson.fromJson(strAdquiridos, new TypeToken<LinkedList<AdquiridoForm>>(){}.getType() );
 					/*Listado de Cuotas*/
 					String strCuotas = listaRetorno[3];
-					System.out.println("[ConsultaQuincenalAction]String de cuotas: "+strCuotas);
-					LinkedList<CuotaForm> cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
-					System.out.println("[Consulta Quincenal - Pre update]Hasta aca todo bien");
+					cuotas = gson.fromJson(strCuotas, new TypeToken<LinkedList<CuotaForm>>(){}.getType() );
+					
+					Date fechaHoy = new Date();
+					SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+					
 					c.setAdquiridos(adquiridos);
 					c.setClientes(clientes);
 					c.setCuotas(cuotas);
 					c.setPlanes(planes);
 					c.setTransacForm(transaccion);
-					
+					c.setUltimaActualizacion(parser.format(fechaHoy));
+					//c.setConsultaPendiente(false);
 					c.setItem("operacion", "insercionDatos");
+					
 					cons.add(c);	
 					Concesionaria.update(c);
-					System.out.println("[Consulta Quincenal - Post update]Hasta aca todo bien");
-					
 				}
 				consumo = "OK";
 			}
+			request.setAttribute("consumo", consumo);
+			request.setAttribute("concesionarias", cons);
+			return mapping.getForwardByName("success");
 		}
 		catch(SQLException ex){
 			String msg = "Error en Consulta Quincenal: "+ ex.getMessage();
@@ -103,8 +108,5 @@ public class ConsultaQuincenalAction implements Action {
 			request.setAttribute("error", msg);
 			return mapping.getForwardByName("failure");
 		}
-		request.setAttribute("consumo", consumo);
-		request.setAttribute("concesionarias", cons);
-		return mapping.getForwardByName("success");
 	}
 }

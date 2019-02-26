@@ -2,10 +2,7 @@ package ar.edu.ubp.das.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public Bean make(ResultSet result) throws SQLException {
-        
+		
 		AdquiridoBean adquirido = new AdquiridoBean();
 		System.out.println("RESULT: "+ result.getString("cancelado"));
 		adquirido.setCancelado(result.getString("cancelado"));
@@ -40,33 +37,26 @@ public class MSClientesDao extends DaoImpl {
 		this.executeUpdate();
 		this.disconnect();
 	}
-
+	
 
 	@Override
 	public void update(Bean form) throws SQLException {
 		this.connect();
 		AdquiridoBean ganador = (AdquiridoBean) form;
 		
-		try {
-			
-			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
-			Date fechaAuxEjecucion = parser.parse(ganador.getFechaSorteado());
-			java.sql.Date fechaSorteo = new java.sql.Date(fechaAuxEjecucion.getTime());
-			
-			this.setProcedure("dbo.cancelar_ganador(?,?,?)");
-			/*-------------- Procesamiento para notificar los nuevos ganadores. Actualiza datos del cliente en la base de datos. -------------*/
-				int dni = Integer.parseInt(ganador.getDniCliente());
-				int idPlan = Integer.parseInt(ganador.getIdPlan());
-				
-				this.setParameter(1, dni);
-				this.setParameter(2, fechaSorteo);
-				this.setParameter(3, idPlan);
-				this.executeUpdate();
-		} 
-		catch (ParseException e) {
-			System.out.println("[ClientesDao]No se pudo parsear la fecha del sorteo: "+e.getMessage());
-		}
+		/*-------------- Procesamiento para notificar los nuevos ganadores.------------- 
+		 *-------------- Actualiza datos del cliente en la base de datos.  -------------*/
+		this.setProcedure("dbo.cancelar_ganador(?,?,?)");
+		// this.setParameter(1, concesionaria.getClientes().get(0).getDniCliente());
+		// this.setParameter(2, concesionaria.getAdquiridos().get(0).getFechaSorteado());
+		// this.setParameter(3, concesionaria.getAdquiridos().get(0).getIdPlan());
+		int dni = Integer.parseInt(ganador.getDniCliente());
+		int idPlan = Integer.parseInt(ganador.getIdPlan());
 		
+		this.setParameter(1, dni);
+		this.setParameter(2, ganador.getFechaSorteado());
+		this.setParameter(3, idPlan);
+		this.executeUpdate();
 		this.disconnect();
 	}
 
@@ -77,9 +67,7 @@ public class MSClientesDao extends DaoImpl {
 
 	@Override
 	public List<Bean> select(Bean form) throws SQLException {
-		
-		PlanBean plan = (PlanBean) form;
-		
+	
 		List<Bean> concesionariaTablas = new ArrayList<Bean>();
 		List<ClienteBean> clientes = new LinkedList<ClienteBean>();
 		List<AdquiridoBean> adquiridos = new LinkedList<AdquiridoBean>();
@@ -93,13 +81,15 @@ public class MSClientesDao extends DaoImpl {
 		PlanBean planRecuperado;
 		CuotaBean cuotaRecuperada;
 		
+		PlanBean plan = (PlanBean) form;
+		
 		/* Operaciones en BD*/
 		this.connect();
 		
 		this.setProcedure("dbo.get_estados_cuentas(?)", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		this.setParameter(1, plan.getDuenoPlan());
         ResultSet result = this.getStatement().executeQuery();
-
+        
 /*------- Almacenamiento en la estructura a retornar en el servicio  -------*/
         
         result.next();
@@ -115,9 +105,9 @@ public class MSClientesDao extends DaoImpl {
         	clienteRecuperado.setIdLocalidad(result.getString("id_localidad"));
         	clienteRecuperado.setCodProvincia(result.getString("cod_provincia"));
         	if (!clientes.contains(clienteRecuperado)){
-        	clientes.add(clienteRecuperado);
+        		clientes.add(clienteRecuperado);
         	}
-        		
+        	
         	adquiridoRecuperado = new AdquiridoBean();
     		adquiridoRecuperado.setDniCliente(result.getString("dni_cliente"));
         	adquiridoRecuperado.setIdPlan(result.getString("id_plan"));
@@ -129,7 +119,7 @@ public class MSClientesDao extends DaoImpl {
         	adquiridoRecuperado.setNroChasis(result.getString("nro_chasis"));
         	adquiridoRecuperado.setFechaCompraPlan(result.getString("fecha_compra_plan"));
         	if (!adquiridos.contains(adquiridoRecuperado)){
-        	adquiridos.add(adquiridoRecuperado);
+        		adquiridos.add(adquiridoRecuperado);
         	}
         	
         
@@ -144,7 +134,7 @@ public class MSClientesDao extends DaoImpl {
         	if (!planes.contains(planRecuperado)){
         		planes.add(planRecuperado);
         	}
-        	
+
         	cuotaRecuperada = new CuotaBean();
         	cuotaRecuperada.setDniCliente(result.getString("dni_cliente"));
         	cuotaRecuperada.setIdPlan(result.getString("id_plan"));
@@ -170,7 +160,7 @@ public class MSClientesDao extends DaoImpl {
 	@Override
 	public boolean valid(Bean form) throws SQLException {
 		
-		this.connect();		
+		this.connect();
 		List<Bean> adquiridos;
 		AdquiridoBean adquirido = (AdquiridoBean) form;
 		this.setProcedure("dbo.verificar_cancelado(?, ?)"); // falta agregar al PA el nro plan
