@@ -242,8 +242,17 @@ go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
 values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
-	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
-	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
+	  (1235, 1, 2, 1, 2, 1, 200.000, 2017, 1, NULL),
+	  (1236, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1237, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1238, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1239, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1240, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1241, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1242, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1243, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1244, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1245, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL)
 go
 
 insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
@@ -287,18 +296,18 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 
 
 		insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
-		values(303456, 24444444, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 24560856, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303458, 26666666, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 28888888, 'N', 'N', null, null, null, 1, '02-05-2018'),
-			  (303456, 29067894, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303457, 24229583, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303457, 37563768, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303458, 31076213, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303456, 30012228, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 33967932, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 27777777, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 21111111, 'N', 'N', null, null, null, 1, '02-05-2018')
+		values(303456, 24444444, 'N', 'N', null, null, 1234, 1, '02-07-2016'),
+			  (303457, 24560856, 'N', 'N', null, null, 1235, 1, '02-07-2016'),
+			  (303458, 26666666, 'N', 'N', null, null, 1236, 1, '02-07-2016'),
+			  (303455, 28888888, 'N', 'N', null, null, 1237, 1, '02-05-2018'),
+			  (303456, 29067894, 'N', 'N', null, null, 1238, 1, '02-02-2017'),
+			  (303457, 24229583, 'N', 'N', null, null, 1239, 1, '02-01-2016'),
+			  (303457, 37563768, 'N', 'N', null, null, 1240, 1, '02-01-2016'),
+			  (303458, 31076213, 'N', 'N', null, null, 1241, 1, '02-07-2016'),
+			  (303456, 30012228, 'N', 'N', null, null, 1242, 1, '02-02-2017'),
+			  (303458, 33967932, 'N', 'N', null, null, 1243, 1, '02-07-2016'),
+			  (303457, 27777777, 'N', 'N', null, null, 1244, 1, '02-07-2016'),
+			  (303455, 21111111, 'N', 'N', null, null, 1245, 1, '02-05-2018')
 		go
 
 
@@ -1179,9 +1188,17 @@ go
 
 insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
 values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
-	  (1235, 1, 1, 1, 2, 1, 200.000, 2017, 1, NULL),
-	  (1236, 1, 1, 1, 3, 1, 200.000, 2017, 1, NULL)
-go
+	  (1235, 1, 2, 1, 2, 1, 200.000, 2017, 1, NULL),
+	  (1236, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1237, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1238, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1239, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1240, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1241, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1242, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1243, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1244, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1245, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL)
 
 insert into planes (id_plan, nom_plan, descripcion, cant_cuotas, entrega_pactada, financiacion, dueño_plan)
 values(303455, 'Plan Ahorro', 'Plan Ahorro', 36, '5ta cuota', '36cuotas s/interes', 'CON'), 
@@ -1201,17 +1218,17 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 		SET DATEFORMAT dmy
 
 		insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
-		values(303456, 23432255, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 24560857, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303458, 25852618, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 31103532, 'N', 'N', null, null, null, 1, '02-05-2018'),
-			  (303456, 28248271, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303457, 33162769, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303457, 22867351, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303458, 33432133, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303456, 25226013, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 39721315, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 35107075, 'N', 'N', null, null, null, 1, '02-07-2016')
+		values(303456, 23432255, 'N', 'N', null, null, 1234, 1, '02-07-2016'),
+			  (303457, 24560857, 'N', 'N', null, null, 1235, 1, '02-07-2016'),
+			  (303458, 25852618, 'N', 'N', null, null, 1236, 1, '02-07-2016'),
+			  (303455, 31103532, 'N', 'N', null, null, 1237, 1, '02-05-2018'),
+			  (303456, 28248271, 'N', 'N', null, null, 1238, 1, '02-02-2017'),
+			  (303457, 33162769, 'N', 'N', null, null, 1239, 1, '02-01-2016'),
+			  (303457, 22867351, 'N', 'N', null, null, 1240, 1, '02-01-2016'),
+			  (303458, 33432133, 'N', 'N', null, null, 1241, 1, '02-07-2016'),
+			  (303456, 25226013, 'N', 'N', null, null, 1242, 1, '02-02-2017'),
+			  (303458, 39721315, 'N', 'N', null, null, 1243, 1, '02-07-2016'),
+			  (303457, 35107075, 'N', 'N', null, null, 1244, 1, '02-07-2016')
 		go
 		
 		/* 1) Participa del sorteo. Cuotas pagas = 32 */
@@ -2018,6 +2035,15 @@ values(1, 'NEGRO'),
 	  (9, 'AMARILLO')
 go
 
+insert into tipos_vehiculos(id_tipo_vehiculo, nombre_tipo_vehiculo)
+values(1, 'PARTICULAR'),
+	  (2, 'UTILITARIO'),
+	  (3, 'COMERCIAL'),
+	  (4, 'TRANSPORTE DE PASAJEROS'),
+	  (5, 'TRANSPORTE ESCOLAR'),
+	  (6, 'CAMION')
+go
+
 insert into clientes(dni_cliente, apellido_nombre, edad, domicilio, email, cod_provincia, id_localidad, telefono)
 values(25174634, 'Dario Benedetto', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
 	  (24365613, 'Juan Carlos Asus', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
@@ -2031,6 +2057,22 @@ values(25174634, 'Dario Benedetto', 55, 'Dir testing', 'email@testing.com', 'CB'
 	  (29930123, 'Carlos Solari', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
 	  (32998100, 'Baltazar Commoto', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono'),
 	  (28421744, 'Javier Malosetti', 55, 'Dir testing', 'email@testing.com', 'CB', 2, 'telefono')
+go
+
+insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id_tipo_vehiculo, precio, año_fabricacion, id_sucursal, nro_patente)
+values(1234, 1, 1, 1, 1, 1, 200.000, 2017, 1, NULL),
+	  (1235, 1, 2, 1, 2, 1, 200.000, 2017, 1, NULL),
+	  (1236, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1237, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1238, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1239, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1240, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1241, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1242, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1243, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1244, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1245, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1246, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL)
 go
 
 
@@ -2052,18 +2094,18 @@ SOLO INSERTAR FECHAS Dentro de estos cambios
 		SET DATEFORMAT dmy
 
 		insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
-		values(303456, 25174634, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 24365613, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303458, 22872919, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 33576314, 'N', 'N', null, null, null, 1, '08-10-2015'),
-			  (303456, 23405390, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303457, 34970322, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303457, 33870475, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303458, 30895845, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303456, 21005836, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 29930123, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 32998100, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 28421744, 'N', 'N', null, null, null, 1, '08-10-2015')
+		values(303456, 25174634, 'N', 'N', null, null, 1235, 1, '02-07-2016'),
+			  (303457, 24365613, 'N', 'N', null, null, 1236, 1, '02-07-2016'),
+			  (303458, 22872919, 'N', 'N', null, null, 1237, 1, '02-07-2016'),
+			  (303455, 33576314, 'N', 'N', null, null, 1238, 1, '08-10-2015'),
+			  (303456, 23405390, 'N', 'N', null, null, 1239, 1, '02-02-2017'),
+			  (303457, 34970322, 'N', 'N', null, null, 1240, 1, '02-01-2016'),
+			  (303457, 33870475, 'N', 'N', null, null, 1241, 1, '02-01-2016'),
+			  (303458, 30895845, 'N', 'N', null, null, 1242, 1, '02-07-2016'),
+			  (303456, 21005836, 'N', 'N', null, null, 1243, 1, '02-02-2017'),
+			  (303458, 29930123, 'N', 'N', null, null, 1244, 1, '02-07-2016'),
+			  (303457, 32998100, 'N', 'N', null, null, 1245, 1, '02-07-2016'),
+			  (303455, 28421744, 'N', 'N', null, null, 1246, 1, '08-10-2015')
 		go
 
 /* 1) Participa del sorteo. Cuotas pagas = 32 */
@@ -2973,8 +3015,15 @@ insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id
 values(1234, 1, 4, 1, 1, 1, 250000.000, 2018, 1, NULL),
 	  (1235, 3, 5, 1, 2, 1, 276000.000, 2017, 2, NULL),
 	  (1236, 3, 20, 1, 3, 1, 500000.000, 2018, 3, NULL),
-	  (1237, 12, 2, 1, 3, 1, 550000.000, 2018, 3, NULL)
-go
+	  (1237, 12, 2, 1, 3, 1, 550000.000, 2018, 3, NULL),
+	  (1238, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1239, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1240, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1241, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1242, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1243, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1244, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1245, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL)
 
 
 
@@ -2990,17 +3039,17 @@ go
 
 
 insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
-		values(303456, 30784956, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 29875485, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303458, 28541965, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 26548751, 'N', 'N', null, null, null, 1, '02-05-2018'),
-			  (303456, 35245784, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303457, 33658745, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303457, 31254785, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303458, 28548756, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303456, 26548754, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 28457854, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 32998101, 'N', 'N', null, null, null, 1, '02-07-2016')
+		values(303456, 30784956, 'N', 'N', null, null, 1234, 1, '02-07-2016'),
+			  (303457, 29875485, 'N', 'N', null, null, 1235, 1, '02-07-2016'),
+			  (303458, 28541965, 'N', 'N', null, null, 1236, 1, '02-07-2016'),
+			  (303455, 26548751, 'N', 'N', null, null, 1237, 1, '02-05-2018'),
+			  (303456, 35245784, 'N', 'N', null, null, 1238, 1, '02-02-2017'),
+			  (303457, 33658745, 'N', 'N', null, null, 1239, 1, '02-01-2016'),
+			  (303457, 31254785, 'N', 'N', null, null, 1240, 1, '02-01-2016'),
+			  (303458, 28548756, 'N', 'N', null, null, 1241, 1, '02-07-2016'),
+			  (303456, 26548754, 'N', 'N', null, null, 1242, 1, '02-02-2017'),
+			  (303458, 28457854, 'N', 'N', null, null, 1243, 1, '02-07-2016'),
+			  (303457, 32998101, 'N', 'N', null, null, 1244, 1, '02-07-2016')
 go
 
 /* 1) Participa del sorteo. Cuotas pagas = 31 */
@@ -3847,8 +3896,15 @@ insert into vehiculos (nro_chasis, id_marca, id_modelo, id_version, id_color, id
 values(1234, 1, 4, 1, 1, 1, 250000.000, 2018, 1, NULL),
 	  (1235, 3, 5, 1, 2, 1, 276000.000, 2017, 2, NULL),
 	  (1236, 3, 20, 1, 3, 1, 500000.000, 2018, 3, NULL),
-	  (1237, 12, 2, 1, 3, 1, 550000.000, 2018, 3, NULL)
-go
+	  (1237, 12, 2, 1, 3, 1, 550000.000, 2018, 3, NULL),
+	  (1238, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1239, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1240, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1241, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1242, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1243, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1244, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL),
+	  (1245, 1, 3, 1, 3, 1, 200.000, 2017, 1, NULL)
 
 
 
@@ -3862,17 +3918,17 @@ go
 SET DATEFORMAT dmy
 
 		insert into adquiridos(id_plan, dni_cliente, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, sucursal_suscripcion, fecha_compra_plan)
-		values(303456, 30245785, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 29485621, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303458, 28451987, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303455, 26451256, 'N', 'N', null, null, null, 1, '02-05-2018'),
-			  (303456, 35214523, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303457, 33415265, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303457, 31256485, 'N', 'N', null, null, null, 1, '02-01-2016'),
-			  (303458, 28456987, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303456, 26555222, 'N', 'N', null, null, null, 1, '02-02-2017'),
-			  (303458, 28451965, 'N', 'N', null, null, null, 1, '02-07-2016'),
-			  (303457, 32528978, 'N', 'N', null, null, null, 1, '02-07-2016')
+		values(303456, 30245785, 'N', 'N', null, null, 1234, 1, '02-07-2016'),
+			  (303457, 29485621, 'N', 'N', null, null, 1235, 1, '02-07-2016'),
+			  (303458, 28451987, 'N', 'N', null, null, 1236, 1, '02-07-2016'),
+			  (303455, 26451256, 'N', 'N', null, null, 1237, 1, '02-05-2018'),
+			  (303456, 35214523, 'N', 'N', null, null, 1238, 1, '02-02-2017'),
+			  (303457, 33415265, 'N', 'N', null, null, 1239, 1, '02-01-2016'),
+			  (303457, 31256485, 'N', 'N', null, null, 1240, 1, '02-01-2016'),
+			  (303458, 28456987, 'N', 'N', null, null, 1241, 1, '02-07-2016'),
+			  (303456, 26555222, 'N', 'N', null, null, 1242, 1, '02-02-2017'),
+			  (303458, 28451965, 'N', 'N', null, null, 1243, 1, '02-07-2016'),
+			  (303457, 32528978, 'N', 'N', null, null, 1244, 1, '02-07-2016')
 		go
 
 

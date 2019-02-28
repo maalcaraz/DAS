@@ -8,7 +8,7 @@ go
 ********************************/
 
 drop view	   dbo.ult_transaccion
-drop view dbo.posibles_participantes
+drop view 	   dbo.posibles_participantes
 drop procedure dbo.registrar_ganador
 drop procedure dbo.validar_usuarios
 drop procedure dbo.insertar_cliente
@@ -437,7 +437,8 @@ AS
 				p.financiacion = @financiacion,
 				p.dueño_plan = @dueño_plan
 			from planes p
-			where p.id_plan = @id_plan;
+			where p.id_plan = @id_plan
+			and p.id_concesionaria = @id_concesionaria;
 		ELSE
 			insert into planes
 			values(@id_plan, @descripcion, @cant_cuotas, @entrega_pactada, @financiacion, @dueño_plan, @id_concesionaria)
@@ -473,6 +474,8 @@ AS
 				ad.fecha_compra_plan = @fecha_compra_plan
 			from adquiridos ad
 			where ad.id_plan = @id_plan
+			and ad.dni_cliente = @dni_cliente
+			and ad.id_concesionaria = @id_concesionaria
 		ELSE
 		insert into adquiridos(id_plan, dni_cliente, id_concesionaria, cancelado, ganador_sorteo, fecha_sorteado, fecha_entrega, nro_chasis, fecha_compra_plan)
 		values(@id_plan, @dni_cliente,@id_concesionaria, @cancelado, @ganador_sorteo, @fecha_sorteado, @fecha_entrega, @nro_chasis, @fecha_compra_plan)
@@ -687,7 +690,7 @@ create procedure dbo.get_datos_clientes
 )
 AS 
 BEGIN
-	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, conc.nombre_concesionaria, ad.nro_chasis, ad.fecha_entrega, ad.cancelado,
+	Select cli.dni_cliente, cli.apellido_nombre, cli.edad, cli.domicilio, cli.email, ad.id_plan, conc.nombre_concesionaria, ad.nro_chasis, format(ad.fecha_entrega, 'dd-MM-yyyy') as fecha_entrega , ad.cancelado,
 	ad.ganador_sorteo, pla.cant_cuotas, cli1_cuo_pagas.cuotas_pagas, (pla.cant_cuotas - cli1_cuo_pagas.cuotas_pagas) as cuotas_sin_pagar, ult_transaccion.ult_transaccion_gc
 	from clientes cli 
 	join adquiridos ad
@@ -1069,9 +1072,3 @@ select * from concesionarias
 
 select * from ganadores
 
-execute dbo.get_ganadores
-
-select * from adquiridos
-
-select * from cuotas c
-where c.dni_cliente = ''

@@ -46,7 +46,7 @@ public class MailSender {
 		generateMailMessage = new MimeMessage(getMailSession);
 		try {
 			/*   Aca iria el mail de lo clientes   */
-			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("maralcaraz.13@gmail.com"));
+			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("sebastiancenzano@gmail.com"));
 		} catch (MessagingException e) {
 			System.out.println("[MailSender]Error: "+e.getMessage());
 		}

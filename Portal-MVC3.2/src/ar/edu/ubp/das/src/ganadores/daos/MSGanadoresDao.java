@@ -12,7 +12,6 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public DynaActionForm make(ResultSet result) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -50,6 +49,7 @@ public class MSGanadoresDao  extends DaoImpl {
 			ad.setItem("apellidoNombre", result.getString("apellido_nombre"));
 			ad.setItem("nombreConcesionaria", result.getString("nombre_concesionaria"));
 			ad.setItem("fechaSorteo", result.getString("fecha_sorteo"));
+			ad.setItem("idSorteo", result.getString("id_sorteo"));
 			ad.setItem("dni", result.getString("dni_cliente"));
 			ad.setItem("idSorteo", result.getString("id_sorteo"));
 			ganadores.add(ad);
@@ -61,7 +61,6 @@ public class MSGanadoresDao  extends DaoImpl {
 
 	@Override
 	public boolean valid(DynaActionForm form) throws SQLException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
